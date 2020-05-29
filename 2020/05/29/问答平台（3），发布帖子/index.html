@@ -16,7 +16,7 @@
 <meta property="og:description" content="AJAXAsynchronous JavaScript and XML异步的JavaScript与XML，不是一门新技术，只是一个新的术语。使用AJAX，网页能够将增量更新呈现在页面上，而不需要刷新整个页面。虽然X代表XML，但目前JSON的使用比XML更加普遍。https:&#x2F;&#x2F;developer.mozilla.org&#x2F;zh-CN&#x2F;docs&#x2F;Web&#x2F;Guide&#x2F;AJAX 封装Json工具：Com">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-29T10:40:02.000Z">
-<meta property="article:modified_time" content="2020-05-29T11:43:28.725Z">
+<meta property="article:modified_time" content="2020-05-29T14:00:22.102Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="问答平台项目">
 <meta name="twitter:card" content="summary">
@@ -185,7 +185,7 @@
 <h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>采用AJAX请求，实现发布帖子的功能。</p>
 <h3 id="dao层"><a href="#dao层" class="headerlink" title="dao层"></a>dao层</h3><p>DiscussPostMapper -&gt; insertDiscussPost()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insertDiscussPost</span><span class="params">(DiscussPost discussPost)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>discusspost-mapper里写sql。</p>
+<p>discusspost-mapper里写sql</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id="insertFields"&gt;</span><br><span class="line">    user_id, title, content, type, status, create_time, comment_count, score</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id"&gt;</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> discuss_post(&lt;<span class="keyword">include</span> refid=<span class="string">"insertFields"</span>&gt;&lt;/<span class="keyword">include</span>&gt;)</span><br><span class="line">    <span class="keyword">values</span>(<span class="comment">#&#123;userId&#125;,#&#123;title&#125;,#&#123;content&#125;,#&#123;type&#125;,#&#123;status&#125;,#&#123;createTime&#125;,#&#123;commentCount&#125;,#&#123;score&#125;)</span></span><br><span class="line">&lt;/<span class="keyword">insert</span>&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="service层"><a href="#service层" class="headerlink" title="service层"></a>service层</h3><p>DiscussPostService -&gt; addDiscussPost()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addDiscussPost</span><span class="params">(DiscussPost post)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (post == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转义HTML标记</span></span><br><span class="line">    post.setTitle(HtmlUtils.htmlEscape(post.getTitle()));</span><br><span class="line">    post.setContent(HtmlUtils.htmlEscape(post.getContent()));</span><br><span class="line">    <span class="comment">// 过滤敏感词</span></span><br><span class="line">    post.setTitle(sensitiveFilter.filter(post.getTitle()));</span><br><span class="line">    post.setContent(sensitiveFilter.filter(post.getContent()));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.insertDiscussPost(post);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -507,11 +507,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo博客</a>
+                <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
+                <a href="javascript:void(0)" class="js-tag color2">Hexo博客</a>
               </li>
              
               <li class="article-tag-list-item">
