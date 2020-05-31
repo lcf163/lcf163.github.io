@@ -144,6 +144,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（3），私信列表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%A7%81%E4%BF%A1%E5%88%97%E8%A1%A8/">问答平台（3），私信列表</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%A7%81%E4%BF%A1%E5%88%97%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2020-05-31T01:28:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="私信列表"><a href="#私信列表" class="headerlink" title="私信列表"></a>私信列表</h2><p>查询当前用户的会话列表，每个会话只显示一条最新的私信（支持分页显示）。</p>
+<h2 id="私信详情"><a href="#私信详情" class="headerlink" title="私信详情"></a>私信详情</h2><p>查询某个会话所包含的私信（支持分页显示）。</p>
+<h2 id="数据层"><a href="#数据层" class="headerlink" title="数据层"></a>数据层</h2><p>对照数据库写Message实体类<br>MessageMapper</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MessageMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询当前用户的会话列表，针对每个会话只返回一条最新的私信</span></span><br><span class="line">    <span class="function">List&lt;Message&gt; <span class="title">selectConversations</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> offset, <span class="keyword">int</span> limit)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询当前用户的会话数量</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">selectConversationCount</span><span class="params">(<span class="keyword">int</span> userId)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某个会话所包含的私信列表</span></span><br><span class="line">    <span class="function">List&lt;Message&gt; <span class="title">selectLetters</span><span class="params">(String conversationId, <span class="keyword">int</span> offset, <span class="keyword">int</span> limit)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某个会话所包含的私信数量</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">selectLetterCount</span><span class="params">(String conversationId)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询未读私信的数量</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">selectLetterUnreadCount</span><span class="params">(<span class="keyword">int</span> userId, String conversationId)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>message-mapper.xml里写sql<br> <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"selectFields"</span>&gt;</span></span><br><span class="line">    id, from_id, to_id, conversation_id, content, status, create_time</span><br><span class="line"><span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"insertFields"</span>&gt;</span></span><br><span class="line">    from_id, to_id, conversation_id, content, status, create_time</span><br><span class="line"><span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectConversations"</span> <span class="attr">resultType</span>=<span class="string">"Message"</span>&gt;</span></span><br><span class="line">    select</span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"selectFields"</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    from message</span><br><span class="line">    where id in (</span><br><span class="line">        select max(id) from message</span><br><span class="line">        where status != 2</span><br><span class="line">        and from_id != 1</span><br><span class="line">        and (from_id = #&#123;userId&#125; or to_id = #&#123;userId&#125;)</span><br><span class="line">        group by conversation_id</span><br><span class="line">    )</span><br><span class="line">    order by id desc</span><br><span class="line">    limit #&#123;offset&#125;, #&#123;limit&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectConversationCount"</span> <span class="attr">resultType</span>=<span class="string">"int"</span>&gt;</span></span><br><span class="line">    select count(m.maxid) from (</span><br><span class="line">        select max(id) as maxid from message</span><br><span class="line">        where status != 2</span><br><span class="line">        and from_id != 1</span><br><span class="line">        and (from_id = #&#123;userId&#125; or to_id = #&#123;userId&#125;)</span><br><span class="line">        group by conversation_id</span><br><span class="line">    ) as m</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectLetters"</span> <span class="attr">resultType</span>=<span class="string">"Message"</span>&gt;</span></span><br><span class="line">    select</span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"selectFields"</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    from message</span><br><span class="line">    where status != 2</span><br><span class="line">    and from_id != 1</span><br><span class="line">    and conversation_id = #&#123;conversationId&#125;</span><br><span class="line">    order by id desc</span><br><span class="line">    limit #&#123;offset&#125;, #&#123;limit&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectLetterCount"</span> <span class="attr">resultType</span>=<span class="string">"int"</span>&gt;</span></span><br><span class="line">    select count(id)</span><br><span class="line">    from message</span><br><span class="line">    where status != 2</span><br><span class="line">    and from_id != 1</span><br><span class="line">    and conversation_id = #&#123;conversationId&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectLetterUnreadCount"</span> <span class="attr">resultType</span>=<span class="string">"int"</span>&gt;</span></span><br><span class="line">    select count(id)</span><br><span class="line">    from message</span><br><span class="line">    where status = 0</span><br><span class="line">    and from_id != 1</span><br><span class="line">    and to_id = #&#123;userId&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"conversationId!=null"</span>&gt;</span></span><br><span class="line">        and conversation_id = #&#123;conversationId&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure><br> 测试类：MapperTests</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectLetters</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;Message&gt; messageList = messageMapper.selectConversations(<span class="number">111</span>, <span class="number">0</span>, <span class="number">20</span>);</span><br><span class="line">    <span class="keyword">for</span> (Message message : messageList) &#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> count = messageMapper.selectConversationCount(<span class="number">111</span>);</span><br><span class="line">    System.out.println(count);</span><br><span class="line"></span><br><span class="line">    messageList = messageMapper.selectLetters(<span class="string">"111_112"</span>, <span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">    <span class="keyword">for</span> (Message message : messageList) &#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    count = messageMapper.selectLetterCount(<span class="string">"111_112"</span>);</span><br><span class="line">    System.out.println(count);</span><br><span class="line"></span><br><span class="line">    count = messageMapper.selectLetterUnreadCount(<span class="number">131</span>, <span class="string">"111_131"</span>);</span><br><span class="line">    System.out.println(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><p>MessageService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MessageMapper messageMapper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Message&gt; <span class="title">findConversations</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> offset, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> messageMapper.selectConversations(userId, offset, limit);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findConversationCount</span><span class="params">(<span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> messageMapper.selectConversationCount(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Message&gt; <span class="title">findLetters</span><span class="params">(String conversationId, <span class="keyword">int</span> offset, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> messageMapper.selectLetters(conversationId, offset, limit);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findLetterCount</span><span class="params">(String conversationId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> messageMapper.selectLetterCount(conversationId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findLetterUnreadCount</span><span class="params">(<span class="keyword">int</span> userId, String conversationId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> messageMapper.selectLetterUnreadCount(userId, conversationId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><p>MessageController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MessageService messageService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 私信列表</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/letter/list"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLetterList</span><span class="params">(Model model, Page page)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line">        <span class="comment">// 分页信息</span></span><br><span class="line">        page.setLimit(<span class="number">5</span>);</span><br><span class="line">        page.setPath(<span class="string">"/letter/list"</span>);</span><br><span class="line">        page.setRows(messageService.findConversationCount(user.getId()));</span><br><span class="line">        <span class="comment">// 会话列表</span></span><br><span class="line">        List&lt;Message&gt; conversationList = messageService.findConversations(</span><br><span class="line">                user.getId(), page.getOffset(), page.getLimit());</span><br><span class="line">        List&lt;Map&lt;String, Object&gt;&gt; conversations = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (conversationList != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Message message : conversationList) &#123;</span><br><span class="line">                Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">                map.put(<span class="string">"conversation"</span>, message);</span><br><span class="line">                map.put(<span class="string">"letterCount"</span>, messageService.findLetterCount(message.getConversationId()));</span><br><span class="line">                map.put(<span class="string">"unreadCount"</span>, messageService.findLetterUnreadCount(user.getId(), message.getConversationId()));</span><br><span class="line">                <span class="keyword">int</span> targetId = user.getId() == message.getFromId() ? message.getToId() : message.getFromId();</span><br><span class="line">                map.put(<span class="string">"target"</span>, userService.findUserById(targetId));</span><br><span class="line">                conversations.add(map);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        model.addAttribute(<span class="string">"conversations"</span>, conversations);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 查询未读消息数量</span></span><br><span class="line">        <span class="keyword">int</span> letterUnreadCount = messageService.findLetterUnreadCount(user.getId(), <span class="keyword">null</span>);</span><br><span class="line">        model.addAttribute(<span class="string">"letterUnreadCount"</span>, letterUnreadCount);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"/site/letter"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>index.html：处理消息的链接<br>letter.html：处理选项、私信列表<br>letter-detail.html：处理私信列表、私信发送人、返回（js）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%A7%81%E4%BF%A1%E5%88%97%E8%A1%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（3），添加评论" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -904,84 +992,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Ubuntu16-04，web3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/">Ubuntu16.04，web3</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/" class="archive-article-date">
-  	<time datetime="2020-05-09T15:06:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="TypeError"><a href="#TypeError" class="headerlink" title="TypeError"></a>TypeError</h2><p>尚硅谷Dapp简单投票系统，运行在浏览器，出现如下问题：<br><code>web3.eth.contract is not a constructor</code></p>
-<h2 id="web3，版本问题"><a href="#web3，版本问题" class="headerlink" title="web3，版本问题"></a>web3，版本问题</h2><p>web3.js开发者在创建合约对象时容易发生错误，不同版本web3.js的API变化，检查自己的web3.js版本。<br><code>version &lt; 1.0.0</code>，web3.eth.contract(); // 注意contract大小写<br><code>version &gt; 1.0.0</code>，new web3.eth.Contract();</p>
-<h2 id="尚未解决"><a href="#尚未解决" class="headerlink" title="尚未解决"></a>尚未解决</h2><p>尚硅谷Dapp简单投票系统，无法运行。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/juehai/p/9734025.html" target="_blank" rel="noopener">https://www.cnblogs.com/juehai/p/9734025.html</a><br><a href="https://blog.csdn.net/qq_33829547/article/details/81938727" target="_blank" rel="noopener">https://blog.csdn.net/qq_33829547/article/details/81938727</a><br><a href="https://blog.csdn.net/weixin_34259232/article/details/91700969" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34259232/article/details/91700969</a><br><a href="https://www.dazhuanlan.com/2020/01/06/5e12df34e149a/" target="_blank" rel="noopener">https://www.dazhuanlan.com/2020/01/06/5e12df34e149a/</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/">展开全文 >></a>
         </p>
       
 
