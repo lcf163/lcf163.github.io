@@ -144,6 +144,98 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（4），点赞" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">问答平台（4），点赞</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/" class="archive-article-date">
+  	<time datetime="2020-06-02T05:38:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="点赞"><a href="#点赞" class="headerlink" title="点赞"></a>点赞</h2><p>支持对帖子、评论点赞。<br>第1次点赞，第2次取消点赞。<br>点赞功能需要考虑性能的问题：把点赞数据存到Redis里会提升性能。</p>
+<h3 id="首页点赞数量"><a href="#首页点赞数量" class="headerlink" title="首页点赞数量"></a>首页点赞数量</h3><p>统计帖子的点赞数量。</p>
+<h3 id="详情页点赞数量"><a href="#详情页点赞数量" class="headerlink" title="详情页点赞数量"></a>详情页点赞数量</h3><p>统计点赞数量。<br>显示点赞状态。</p>
+<h2 id="工具类：RedisKeyUtil"><a href="#工具类：RedisKeyUtil" class="headerlink" title="工具类：RedisKeyUtil"></a>工具类：RedisKeyUtil</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisKeyUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SPLIT = <span class="string">":"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_ENTITY_LIKE = <span class="string">"like:entity"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 某个实体的赞</span></span><br><span class="line">    <span class="comment">// like:entity:entityType:entityId -&gt; set(userId)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getEntityLikeKey</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><p>LikeService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LikeService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点赞</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">like</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId)</span> </span>&#123;</span><br><span class="line">        redisTemplate.execute(<span class="keyword">new</span> SessionCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(RedisOperations operations)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">boolean</span> isMember = operations.opsForSet().isMember(entityLikeKey, userId);</span><br><span class="line"></span><br><span class="line">                operations.multi();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (isMember) &#123;</span><br><span class="line">                    operations.opsForSet().remove(entityLikeKey, userId);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    operations.opsForSet().add(entityLikeKey, userId);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> operations.exec();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某实体点赞的数量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">findEntityLikeCount</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().size(entityLikeKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某人对某实体的点赞状态</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findEntityLikeStatus</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><p>LikeController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LikeController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LikeService likeService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/like"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">like</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId, <span class="keyword">int</span> postId)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 点赞</span></span><br><span class="line">        likeService.like(user.getId(), entityType, entityId, entityUserId);</span><br><span class="line">        <span class="comment">// 数量</span></span><br><span class="line">        <span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(entityType, entityId);</span><br><span class="line">        <span class="comment">// 状态</span></span><br><span class="line">        <span class="keyword">int</span> likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);</span><br><span class="line">        <span class="comment">// 返回的结果</span></span><br><span class="line">        Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line">        map.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="keyword">null</span>, map);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现首页的点赞数量的显示：<br>HomeController -&gt; getIndexPage()，加入查找点赞数量的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());</span><br><span class="line">map.put(<span class="string">"likeCount"</span>, likeCount);</span><br></pre></td></tr></table></figure>
+<p>实现帖子详情页面（帖子、评论、回复）的点赞数量和点赞状态的显示：<br>DiscussPostController -&gt; getDiscussPost()，加入如下逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line"><span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line"><span class="keyword">int</span> likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 评论VO列表</span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回复VO列表            </span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br></pre></td></tr></table></figure>
+
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>discuss-detail.html：内容-&gt;作者、回帖列表、回复列表<br>discuss.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">like</span>(<span class="params">btn, entityType, entityId</span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/like"</span>,</span><br><span class="line">        &#123;<span class="string">"entityType"</span>: entityType, <span class="string">"entityId"</span>: entityId&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                $(btn).children(<span class="string">"i"</span>).text(data.likeCount);</span><br><span class="line">                $(btn).children(<span class="string">"b"</span>).text(data.likeStatus == <span class="number">1</span> ? <span class="string">'已赞'</span> : <span class="string">'赞'</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>index.html：帖子列表</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（4），Spring整合Redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -926,95 +1018,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E8%AF%84%E8%AE%BA/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（3），事务管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">问答平台（3），事务管理</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-05-29T14:02:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><p>事务是由N步数据库操作序列组成的逻辑执行单元，这些操作要么全执行，要么全放弃执行。</p>
-<h2 id="事务的特性（ACID）"><a href="#事务的特性（ACID）" class="headerlink" title="事务的特性（ACID）"></a>事务的特性（ACID）</h2><p>原子性（Atomicity）：事务是应用中不可再分的最小执行体。<br>一致性（Consistency）：事务执行的结果，须使数据从一个一致性状态，变为另一个一致性状态。<br>隔离性（Isolation）：各个事务的执行互不干扰，任何事务的内部操作对其他的事务都是隔离的。<br>持久性（Durability）：事务一旦提交，对数据所做的任何改变都要记录到永久存储器中。</p>
-<h2 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h2><p>常见的并发异常：<br>第一类丢失更新、第二类丢失更新。<br>脏读、不可重复读、幻读。</p>
-<h3 id="第一类丢失更新"><a href="#第一类丢失更新" class="headerlink" title="第一类丢失更新"></a>第一类丢失更新</h3><p>某一个事务的（回滚），导致另外一个事务已更新的数据丢失了。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E7%AC%AC%E4%B8%80%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png" alt="第一类丢失更新-图示"></p>
-<h3 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h3><p>某一个事务的（提交），导致另外一个事务已更新的数据丢失了。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E7%AC%AC%E4%BA%8C%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png" alt="第二类丢失更新-图示"></p>
-<h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>某一个事务，读取了另外一个事务（未提交）的数据。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E8%84%8F%E8%AF%BB.png" alt="脏读-图示"></p>
-<h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>某一个事务，对同一个数据（前后读取的结果）不一致。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.png" alt="不可重复读-图示"></p>
-<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>某一个事务，对同一个表（前后查询到的行数）不一致。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E5%B9%BB%E8%AF%BB.png" alt="幻读-图示"></p>
-<h2 id="常见的隔离级别"><a href="#常见的隔离级别" class="headerlink" title="常见的隔离级别"></a>常见的隔离级别</h2><p>Read Uncommitted：读取未提交的数据。<br>Read Committed：读取已提交的数据。<br>Repeatable Read：可重复读。<br>Serializable：串行化。<br>![隔离级别-图示](问答平台（3） ，事务管理/隔离级别.png)</p>
-<h2 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h2><h3 id="悲观锁（数据库）"><a href="#悲观锁（数据库）" class="headerlink" title="悲观锁（数据库）"></a>悲观锁（数据库）</h3><p>共享锁（S锁）：事务A对某数据加了共享锁后，其他事务只能对该数据加共享锁，但不能加排他锁。<br>排他锁（X锁）：事务A对某数据加了排他锁后，其他事务对该数据既不能加共享锁，也不能加排他锁。</p>
-<h3 id="乐观锁（自定义）"><a href="#乐观锁（自定义）" class="headerlink" title="乐观锁（自定义）"></a>乐观锁（自定义）</h3><p>版本号、时间戳等：在更新数据前，检查版本号是否发生变化。若变化则取消本次更新，否则就更新数据（版本号+1）。</p>
-<h2 id="Spring事务管理"><a href="#Spring事务管理" class="headerlink" title="Spring事务管理"></a>Spring事务管理</h2><h3 id="声明式事务"><a href="#声明式事务" class="headerlink" title="声明式事务"></a>声明式事务</h3><p>（1）通过XML配置，声明某方法的事务特征。<br>（2）通过注解，声明某方法的事务特征。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事务的传播机制</span></span><br><span class="line"><span class="comment">// REQUIRED: 支持当前事务（外部事务），如果不存在则创建新事务</span></span><br><span class="line"><span class="comment">// REQUIRES_NEW: 创建一个新事务，并且暂停当前事务（外部事务）</span></span><br><span class="line"><span class="comment">// NESTED: 如果当前存在事务（外部事务），则嵌套在该事务中执行（独立的提交和回滚），否则和REQUIRED一样</span></span><br><span class="line"><span class="meta">@Transactional</span>(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">save1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 新增用户</span></span><br><span class="line">    User user = <span class="keyword">new</span> User();</span><br><span class="line">    user.setUsername(<span class="string">"alpha"</span>);</span><br><span class="line">    user.setSalt(CommunityUtil.generateUUID().substring(<span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line">    user.setPassword(CommunityUtil.md5(<span class="string">"123"</span> + user.getSalt()));</span><br><span class="line">    user.setEmail(<span class="string">"alpha@qq.com"</span>);</span><br><span class="line">    user.setHeaderUrl(<span class="string">"http://image.nowcoder.com/head/99t.png"</span>);</span><br><span class="line">    user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 新增帖子</span></span><br><span class="line">    DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">    post.setUserId(user.getId());</span><br><span class="line">    post.setTitle(<span class="string">"Hello"</span>);</span><br><span class="line">    post.setContent(<span class="string">"新人报道!"</span>);</span><br><span class="line">    post.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    discussPostMapper.insertDiscussPost(post);</span><br><span class="line"></span><br><span class="line">    Integer.valueOf(<span class="string">"abc"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"ok"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="编程式事务"><a href="#编程式事务" class="headerlink" title="编程式事务"></a>编程式事务</h3><p>通过TransactionTemplate管理事务， 并通过它执行数据库的操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="comment">//@Scope("prototype")</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlphaService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaDao alphaDao;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostMapper discussPostMapper;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> TransactionTemplate transactionTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">save2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);</span><br><span class="line">        transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> transactionTemplate.execute(<span class="keyword">new</span> TransactionCallback&lt;Object&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">doInTransaction</span><span class="params">(TransactionStatus transactionStatus)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 新增用户</span></span><br><span class="line">                User user = <span class="keyword">new</span> User();</span><br><span class="line">                user.setUsername(<span class="string">"beta"</span>);</span><br><span class="line">                user.setSalt(CommunityUtil.generateUUID().substring(<span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line">                user.setPassword(CommunityUtil.md5(<span class="string">"123"</span> + user.getSalt()));</span><br><span class="line">                user.setEmail(<span class="string">"beta@qq.com"</span>);</span><br><span class="line">                user.setHeaderUrl(<span class="string">"http://image.nowcoder.com/head/999t.png"</span>);</span><br><span class="line">                user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">                userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 新增帖子</span></span><br><span class="line">                DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">                post.setUserId(user.getId());</span><br><span class="line">                post.setTitle(<span class="string">"你好"</span>);</span><br><span class="line">                post.setContent(<span class="string">"我是新人!"</span>);</span><br><span class="line">                post.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">                discussPostMapper.insertDiscussPost(post);</span><br><span class="line"></span><br><span class="line">                Integer.valueOf(<span class="string">"abc"</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="string">"ok"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="测试类：TransactionTests"><a href="#测试类：TransactionTests" class="headerlink" title="测试类：TransactionTests"></a>测试类：TransactionTests</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">TransactionTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaService alphaService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = alphaService.save1();</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = alphaService.save1();</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">展开全文 >></a>
         </p>
       
 
