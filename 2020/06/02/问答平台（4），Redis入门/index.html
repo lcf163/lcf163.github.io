@@ -16,7 +16,7 @@
 <meta property="og:description" content="Redis数据类型Redis是一款基于键值对的NoSQL数据库，它的值支持多种数据结构：字符串（strings）、哈希（hashes）、列表（lists）、集合（sets）、有序集合（sorted sets）等。 Redis存储Redis将所有的数据都存放在内存中，所以它的读写性能高。同时，Redis还可以将内存中的数据以快照或日志的形式保存到硬盘上，以保证数据的安全性。 Redis应用场景Red">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-06-02T01:25:40.000Z">
-<meta property="article:modified_time" content="2020-06-02T02:01:51.386Z">
+<meta property="article:modified_time" content="2020-06-02T03:31:08.061Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="问答平台项目">
 <meta name="twitter:card" content="summary">
@@ -176,7 +176,7 @@
         <h2 id="Redis数据类型"><a href="#Redis数据类型" class="headerlink" title="Redis数据类型"></a>Redis数据类型</h2><p>Redis是一款基于键值对的NoSQL数据库，它的值支持多种数据结构：<br>字符串（strings）、哈希（hashes）、列表（lists）、集合（sets）、有序集合（sorted sets）等。</p>
 <h2 id="Redis存储"><a href="#Redis存储" class="headerlink" title="Redis存储"></a>Redis存储</h2><p>Redis将所有的数据都存放在内存中，所以它的读写性能高。<br>同时，Redis还可以将内存中的数据以快照或日志的形式保存到硬盘上，以保证数据的安全性。</p>
 <h2 id="Redis应用场景"><a href="#Redis应用场景" class="headerlink" title="Redis应用场景"></a>Redis应用场景</h2><p>Redis典型的应用场景包括：缓存、排行榜、计数器、社交网络、消息队列等。</p>
-<h2 id="Redis使用命令"><a href="#Redis使用命令" class="headerlink" title="Redis使用命令"></a>Redis使用命令</h2><p>数字</p>
+<h2 id="Redis使用命令"><a href="#Redis使用命令" class="headerlink" title="Redis使用命令"></a>Redis使用命令</h2><p>字符</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">select 1(0-15)</span><br><span class="line">flushdb</span><br><span class="line">set test:count 1</span><br><span class="line">get test:count</span><br><span class="line">incr test:count</span><br><span class="line">decr test:count</span><br></pre></td></tr></table></figure>
 <p>哈希</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hset test:user id 1</span><br><span class="line">hset test:user username zhangsan</span><br><span class="line">hget test:user id</span><br><span class="line">hget test:user username</span><br></pre></td></tr></table></figure>
@@ -293,6 +293,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          问答平台（4），Spring整合Redis
+        
+      </div>
+    </a>
   
   
     <a href="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/" id="article-nav-older" class="article-nav-link-wrap">

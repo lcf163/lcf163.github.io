@@ -144,6 +144,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（4），Spring整合Redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/">问答平台（4），Spring整合Redis</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" class="archive-article-date">
+  	<time datetime="2020-06-02T02:03:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>spring-boot-starter-data-redis</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置Redis"><a href="#配置Redis" class="headerlink" title="配置Redis"></a>配置Redis</h2><p>配置数据库参数<br>application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RedisProperties</span><br><span class="line">spring.redis.database&#x3D;11</span><br><span class="line">spring.redis.host&#x3D;localhost</span><br><span class="line">spring.redis.port&#x3D;6379</span><br></pre></td></tr></table></figure>
+<p>编写配置类，构造RedisTemplate<br>config包下，RedisConfig</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置key的序列化方式</span></span><br><span class="line">        template.setKeySerializer(RedisSerializer.string());</span><br><span class="line">        <span class="comment">// 设置value的序列化方式</span></span><br><span class="line">        template.setValueSerializer(RedisSerializer.json());</span><br><span class="line">        <span class="comment">// 设置hash的key的序列化方式</span></span><br><span class="line">        template.setHashKeySerializer(RedisSerializer.string());</span><br><span class="line">        <span class="comment">// 设置hash的value的序列化方式</span></span><br><span class="line">        template.setHashValueSerializer(RedisSerializer.json());</span><br><span class="line"></span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问Redis"><a href="#访问Redis" class="headerlink" title="访问Redis"></a>访问Redis</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue();</span><br><span class="line">redisTemplate.opsForHash();</span><br><span class="line">redisTemplate.opsForList();</span><br><span class="line">redisTemplate.opsForSet();</span><br><span class="line">redisTemplate.opsForZSet();</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试类：RedisTests"><a href="#测试类：RedisTests" class="headerlink" title="测试类：RedisTests"></a>测试类：RedisTests</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">RedisTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStrings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:count"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForValue().set(redisKey, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().increment(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().decrement(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHashes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:user"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForHash().put(redisKey, <span class="string">"id"</span>, <span class="number">1</span>);</span><br><span class="line">        redisTemplate.opsForHash().put(redisKey, <span class="string">"username"</span>, <span class="string">"zhangsan"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForHash().get(redisKey, <span class="string">"id"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForHash().get(redisKey, <span class="string">"username"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLists</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:ids"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">101</span>);</span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">102</span>);</span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">103</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForList().size(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().index(redisKey, <span class="number">0</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().range(redisKey, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:teachers"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForSet().add(redisKey, <span class="string">"刘备"</span>, <span class="string">"关羽"</span>, <span class="string">"张飞"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForSet().size(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForSet().pop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForSet().members(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSortedSets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:students"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"唐僧"</span>, <span class="number">80</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"悟空"</span>, <span class="number">90</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"八戒"</span>, <span class="number">50</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"沙僧"</span>, <span class="number">70</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"白龙马"</span>, <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().zCard(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().score(redisKey, <span class="string">"八戒"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().reverseRank(redisKey, <span class="string">"八戒"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().reverseRange(redisKey, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testKeys</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        redisTemplate.delete(<span class="string">"test:user"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.hasKey(<span class="string">"test:user"</span>));</span><br><span class="line"></span><br><span class="line">        redisTemplate.expire(<span class="string">"test:students"</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 多次访问同一个key</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBoundOperations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:count"</span>;</span><br><span class="line">        BoundValueOperations operations = redisTemplate.boundValueOps(redisKey);</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        System.out.println(operations.get());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 事务管理：编程式事务</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTransational</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = redisTemplate.execute(<span class="keyword">new</span> SessionCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(RedisOperations operations)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String redisKey = <span class="string">"test:tx"</span>;</span><br><span class="line"></span><br><span class="line">                operations.multi();</span><br><span class="line"></span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"zhangsan"</span>);</span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"lisi"</span>);</span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"wangwu"</span>);</span><br><span class="line"></span><br><span class="line">                System.out.println(operations.opsForSet().members(redisKey));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> operations.exec();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://mvnrepository.com/" target="_blank" rel="noopener">https://mvnrepository.com/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（4），Redis入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -168,7 +255,7 @@
         <h2 id="Redis数据类型"><a href="#Redis数据类型" class="headerlink" title="Redis数据类型"></a>Redis数据类型</h2><p>Redis是一款基于键值对的NoSQL数据库，它的值支持多种数据结构：<br>字符串（strings）、哈希（hashes）、列表（lists）、集合（sets）、有序集合（sorted sets）等。</p>
 <h2 id="Redis存储"><a href="#Redis存储" class="headerlink" title="Redis存储"></a>Redis存储</h2><p>Redis将所有的数据都存放在内存中，所以它的读写性能高。<br>同时，Redis还可以将内存中的数据以快照或日志的形式保存到硬盘上，以保证数据的安全性。</p>
 <h2 id="Redis应用场景"><a href="#Redis应用场景" class="headerlink" title="Redis应用场景"></a>Redis应用场景</h2><p>Redis典型的应用场景包括：缓存、排行榜、计数器、社交网络、消息队列等。</p>
-<h2 id="Redis使用命令"><a href="#Redis使用命令" class="headerlink" title="Redis使用命令"></a>Redis使用命令</h2><p>数字</p>
+<h2 id="Redis使用命令"><a href="#Redis使用命令" class="headerlink" title="Redis使用命令"></a>Redis使用命令</h2><p>字符</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">select 1(0-15)</span><br><span class="line">flushdb</span><br><span class="line">set test:count 1</span><br><span class="line">get test:count</span><br><span class="line">incr test:count</span><br><span class="line">decr test:count</span><br></pre></td></tr></table></figure>
 <p>哈希</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hset test:user id 1</span><br><span class="line">hset test:user username zhangsan</span><br><span class="line">hget test:user id</span><br><span class="line">hget test:user username</span><br></pre></td></tr></table></figure>
@@ -928,92 +1015,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（3），帖子详情" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/">问答平台（3），帖子详情</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/" class="archive-article-date">
-  	<time datetime="2020-05-29T13:35:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="dao层"><a href="#dao层" class="headerlink" title="dao层"></a>dao层</h2><p>DiscussPostMapper</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">DiscussPost <span class="title">selectDiscussPostById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>discusspost-mapper里写sql</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id="selectFields"&gt;</span><br><span class="line">    id, user_id, title, content, type, status, create_time, comment_count, score</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;select id="selectDiscussPostById" resultType="DiscussPost"&gt;</span><br><span class="line">    <span class="keyword">select</span></span><br><span class="line">    &lt;<span class="keyword">include</span> refid=<span class="string">"selectFields"</span>&gt;&lt;/<span class="keyword">include</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> discuss_post</span><br><span class="line">    <span class="keyword">where</span> <span class="keyword">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="service层"><a href="#service层" class="headerlink" title="service层"></a>service层</h2><p>DiscussPostService</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> DiscussPost <span class="title">findDiscussPostById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.selectDiscussPostById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="controller层"><a href="#controller层" class="headerlink" title="controller层"></a>controller层</h2><p>DiscussPostController</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/detail/&#123;discussPostId&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getDiscussPost</span><span class="params">(@PathVariable(<span class="string">"discussPostId"</span>)</span> <span class="keyword">int</span> discussPostId, Model model, Page page) </span>&#123;</span><br><span class="line">    <span class="comment">// 帖子</span></span><br><span class="line">    DiscussPost post = discussPostService.findDiscussPostById(discussPostId);</span><br><span class="line">    model.addAttribute(<span class="string">"post"</span>, post);</span><br><span class="line">    <span class="comment">// 作者</span></span><br><span class="line">    User user = userService.findUserById(post.getUserId());</span><br><span class="line">    model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/discuss-detail"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>index.html<br>在帖子标题上增加访问详情页面的链接<br>discuss-detail.html<br>处理静态资源的访问路径<br>复用index.html的header区域<br>显示标题、作者、发布时间、帖子正文等内容</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/">展开全文 >></a>
         </p>
       
 

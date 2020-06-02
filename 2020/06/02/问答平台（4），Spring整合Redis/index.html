@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>lcf Blog</title>
+  <title>问答平台（4），Spring整合Redis | lcf Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="lcf Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="引入依赖spring-boot-starter-data-redis 1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;&lt;&#x2F;dependen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="问答平台（4），Spring整合Redis">
+<meta property="og:url" content="http://yoursite.com/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/index.html">
 <meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="引入依赖spring-boot-starter-data-redis 1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;&lt;&#x2F;dependen">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-02T02:03:46.000Z">
+<meta property="article:modified_time" content="2020-06-02T03:51:39.052Z">
 <meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="问答平台项目">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="lcf Blog" type="application/atom+xml">
@@ -142,44 +147,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-问答平台（3），帖子详情" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-问答平台（4），Spring整合Redis" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/">问答平台（3），帖子详情</a>
+    <h1 class="article-title" itemprop="name">
+      问答平台（4），Spring整合Redis
     </h1>
   
 
         
         
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/" class="archive-article-date">
-  	<time datetime="2020-05-29T13:35:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" class="archive-article-date">
+  	<time datetime="2020-06-02T02:03:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="dao层"><a href="#dao层" class="headerlink" title="dao层"></a>dao层</h2><p>DiscussPostMapper</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">DiscussPost <span class="title">selectDiscussPostById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>discusspost-mapper里写sql</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id="selectFields"&gt;</span><br><span class="line">    id, user_id, title, content, type, status, create_time, comment_count, score</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;select id="selectDiscussPostById" resultType="DiscussPost"&gt;</span><br><span class="line">    <span class="keyword">select</span></span><br><span class="line">    &lt;<span class="keyword">include</span> refid=<span class="string">"selectFields"</span>&gt;&lt;/<span class="keyword">include</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> discuss_post</span><br><span class="line">    <span class="keyword">where</span> <span class="keyword">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+        <h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>spring-boot-starter-data-redis</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="service层"><a href="#service层" class="headerlink" title="service层"></a>service层</h2><p>DiscussPostService</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> DiscussPost <span class="title">findDiscussPostById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.selectDiscussPostById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="配置Redis"><a href="#配置Redis" class="headerlink" title="配置Redis"></a>配置Redis</h2><p>配置数据库参数<br>application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RedisProperties</span><br><span class="line">spring.redis.database&#x3D;11</span><br><span class="line">spring.redis.host&#x3D;localhost</span><br><span class="line">spring.redis.port&#x3D;6379</span><br></pre></td></tr></table></figure>
+<p>编写配置类，构造RedisTemplate<br>config包下，RedisConfig</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置key的序列化方式</span></span><br><span class="line">        template.setKeySerializer(RedisSerializer.string());</span><br><span class="line">        <span class="comment">// 设置value的序列化方式</span></span><br><span class="line">        template.setValueSerializer(RedisSerializer.json());</span><br><span class="line">        <span class="comment">// 设置hash的key的序列化方式</span></span><br><span class="line">        template.setHashKeySerializer(RedisSerializer.string());</span><br><span class="line">        <span class="comment">// 设置hash的value的序列化方式</span></span><br><span class="line">        template.setHashValueSerializer(RedisSerializer.json());</span><br><span class="line"></span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="controller层"><a href="#controller层" class="headerlink" title="controller层"></a>controller层</h2><p>DiscussPostController</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/detail/&#123;discussPostId&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getDiscussPost</span><span class="params">(@PathVariable(<span class="string">"discussPostId"</span>)</span> <span class="keyword">int</span> discussPostId, Model model, Page page) </span>&#123;</span><br><span class="line">    <span class="comment">// 帖子</span></span><br><span class="line">    DiscussPost post = discussPostService.findDiscussPostById(discussPostId);</span><br><span class="line">    model.addAttribute(<span class="string">"post"</span>, post);</span><br><span class="line">    <span class="comment">// 作者</span></span><br><span class="line">    User user = userService.findUserById(post.getUserId());</span><br><span class="line">    model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/discuss-detail"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="访问Redis"><a href="#访问Redis" class="headerlink" title="访问Redis"></a>访问Redis</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue();</span><br><span class="line">redisTemplate.opsForHash();</span><br><span class="line">redisTemplate.opsForList();</span><br><span class="line">redisTemplate.opsForSet();</span><br><span class="line">redisTemplate.opsForZSet();</span><br></pre></td></tr></table></figure>
 
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>index.html<br>在帖子标题上增加访问详情页面的链接<br>discuss-detail.html<br>处理静态资源的访问路径<br>复用index.html的header区域<br>显示标题、作者、发布时间、帖子正文等内容</p>
+<h2 id="测试类：RedisTests"><a href="#测试类：RedisTests" class="headerlink" title="测试类：RedisTests"></a>测试类：RedisTests</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">RedisTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStrings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:count"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForValue().set(redisKey, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().increment(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().decrement(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHashes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:user"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForHash().put(redisKey, <span class="string">"id"</span>, <span class="number">1</span>);</span><br><span class="line">        redisTemplate.opsForHash().put(redisKey, <span class="string">"username"</span>, <span class="string">"zhangsan"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForHash().get(redisKey, <span class="string">"id"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForHash().get(redisKey, <span class="string">"username"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLists</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:ids"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">101</span>);</span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">102</span>);</span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">103</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForList().size(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().index(redisKey, <span class="number">0</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().range(redisKey, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:teachers"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForSet().add(redisKey, <span class="string">"刘备"</span>, <span class="string">"关羽"</span>, <span class="string">"张飞"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForSet().size(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForSet().pop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForSet().members(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSortedSets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:students"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"唐僧"</span>, <span class="number">80</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"悟空"</span>, <span class="number">90</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"八戒"</span>, <span class="number">50</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"沙僧"</span>, <span class="number">70</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"白龙马"</span>, <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().zCard(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().score(redisKey, <span class="string">"八戒"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().reverseRank(redisKey, <span class="string">"八戒"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().reverseRange(redisKey, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testKeys</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        redisTemplate.delete(<span class="string">"test:user"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.hasKey(<span class="string">"test:user"</span>));</span><br><span class="line"></span><br><span class="line">        redisTemplate.expire(<span class="string">"test:students"</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 多次访问同一个key</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBoundOperations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:count"</span>;</span><br><span class="line">        BoundValueOperations operations = redisTemplate.boundValueOps(redisKey);</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        System.out.println(operations.get());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 事务管理：编程式事务</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTransational</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = redisTemplate.execute(<span class="keyword">new</span> SessionCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(RedisOperations operations)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String redisKey = <span class="string">"test:tx"</span>;</span><br><span class="line"></span><br><span class="line">                operations.multi();</span><br><span class="line"></span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"zhangsan"</span>);</span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"lisi"</span>);</span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"wangwu"</span>);</span><br><span class="line"></span><br><span class="line">                System.out.println(operations.opsForSet().members(redisKey));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> operations.exec();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://mvnrepository.com/" target="_blank" rel="noopener">https://mvnrepository.com/</a></p>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -199,16 +229,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">问答平台（4），Redis入门</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -228,766 +317,46 @@
 
 
 
-
-  
-    <article id="post-问答平台（3），发布帖子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90/">问答平台（3），发布帖子</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90/" class="archive-article-date">
-  	<time datetime="2020-05-29T10:40:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h2><p>Asynchronous JavaScript and XML<br>异步的JavaScript与XML，不是一门新技术，只是一个新的术语。<br>使用AJAX，网页能够将增量更新呈现在页面上，而不需要刷新整个页面。<br>虽然X代表XML，但目前JSON的使用比XML更加普遍。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX</a></p>
-<h2 id="封装Json工具：CommunityUtil"><a href="#封装Json工具：CommunityUtil" class="headerlink" title="封装Json工具：CommunityUtil"></a>封装Json工具：CommunityUtil</h2><p>使用阿里的fastjson，引入依赖。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.58<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJSONString</span><span class="params">(<span class="keyword">int</span> code, String msg, Map&lt;String, Object&gt; map)</span> </span>&#123;</span><br><span class="line">    JSONObject json = <span class="keyword">new</span> JSONObject();</span><br><span class="line">    json.put(<span class="string">"code"</span>, code);</span><br><span class="line">    json.put(<span class="string">"msg"</span>, msg);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (String key : map.keySet()) &#123;</span><br><span class="line">            json.put(key, map.get(key));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> json.toJSONString();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJSONString</span><span class="params">(<span class="keyword">int</span> code, String msg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getJSONString(code, msg, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJSONString</span><span class="params">(<span class="keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getJSONString(code, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="AJAX示例"><a href="#AJAX示例" class="headerlink" title="AJAX示例"></a>AJAX示例</h2><p>使用jQuery发送AJAX请求。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax示例</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/ajax"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testAjax</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">    System.out.println(name);</span><br><span class="line">    System.out.println(age);</span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"操作成功!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ajax<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"发送"</span> <span class="attr">onclick</span>=<span class="string">"send();"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-3.3.1.min.js"</span> <span class="attr">crossorigin</span>=<span class="string">"anonymous"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">send</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.post(</span></span><br><span class="line"><span class="actionscript">                <span class="string">"/community/alpha/ajax"</span>,</span></span><br><span class="line"><span class="actionscript">                &#123;<span class="string">"name"</span>: <span class="string">"张三"</span>, <span class="string">"age"</span>: <span class="number">23</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                <span class="function"><span class="keyword">function</span> <span class="params">(data)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> (data));</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(data);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">                    data = $.parseJSON(data);</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> (data));</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(data.code);</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(data.msg);</span></span><br><span class="line">                &#125;</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>采用AJAX请求，实现发布帖子的功能。</p>
-<h3 id="dao层"><a href="#dao层" class="headerlink" title="dao层"></a>dao层</h3><p>DiscussPostMapper -&gt; insertDiscussPost()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insertDiscussPost</span><span class="params">(DiscussPost discussPost)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>discusspost-mapper里写sql</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id="insertFields"&gt;</span><br><span class="line">    user_id, title, content, type, status, create_time, comment_count, score</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id"&gt;</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> discuss_post(&lt;<span class="keyword">include</span> refid=<span class="string">"insertFields"</span>&gt;&lt;/<span class="keyword">include</span>&gt;)</span><br><span class="line">    <span class="keyword">values</span>(<span class="comment">#&#123;userId&#125;,#&#123;title&#125;,#&#123;content&#125;,#&#123;type&#125;,#&#123;status&#125;,#&#123;createTime&#125;,#&#123;commentCount&#125;,#&#123;score&#125;)</span></span><br><span class="line">&lt;/<span class="keyword">insert</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="service层"><a href="#service层" class="headerlink" title="service层"></a>service层</h3><p>DiscussPostService -&gt; addDiscussPost()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addDiscussPost</span><span class="params">(DiscussPost post)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (post == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转义HTML标记</span></span><br><span class="line">    post.setTitle(HtmlUtils.htmlEscape(post.getTitle()));</span><br><span class="line">    post.setContent(HtmlUtils.htmlEscape(post.getContent()));</span><br><span class="line">    <span class="comment">// 过滤敏感词</span></span><br><span class="line">    post.setTitle(sensitiveFilter.filter(post.getTitle()));</span><br><span class="line">    post.setContent(sensitiveFilter.filter(post.getContent()));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.insertDiscussPost(post);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="controller层"><a href="#controller层" class="headerlink" title="controller层"></a>controller层</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/discuss"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DiscussPostController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostService discussPostService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/add"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addDiscussPost</span><span class="params">(String title, String content)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line">        <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">403</span>, <span class="string">"还没有登录!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">        post.setUserId(user.getId());</span><br><span class="line">        post.setTitle(title);</span><br><span class="line">        post.setContent(content);</span><br><span class="line">        post.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        discussPostService.addDiscussPost(post);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 报错的情况，将来统一处理</span></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"发布成功!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#publishBtn"</span>).click(publish);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">publish</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#publishModal"</span>).modal(<span class="string">"hide"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取标题和内容</span></span><br><span class="line">    <span class="keyword">var</span> title = $(<span class="string">"#recipient-name"</span>).val();</span><br><span class="line">    <span class="keyword">var</span> content = $(<span class="string">"#message-text"</span>).val();</span><br><span class="line">    <span class="comment">// 发送异步请求(POST)</span></span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/discuss/add"</span>,</span><br><span class="line">        &#123;<span class="string">"title"</span>: title, <span class="string">"content"</span>: content&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="comment">// 在提示框中显示返回消息</span></span><br><span class="line">            $(<span class="string">"#hintBody"</span>).text(data.msg);</span><br><span class="line">            <span class="comment">// 显示提示框</span></span><br><span class="line">            $(<span class="string">"#hintModal"</span>).modal(<span class="string">"show"</span>);</span><br><span class="line">            <span class="comment">// 2s后，自动隐藏提示框</span></span><br><span class="line">            setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                $(<span class="string">"#hintModal"</span>).modal(<span class="string">"hide"</span>);</span><br><span class="line">                <span class="comment">// 刷新页面</span></span><br><span class="line">                <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">window</span>.location.reload();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, <span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（3），过滤敏感词" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%95%8F%E6%84%9F%E8%AF%8D/">问答平台（3），过滤敏感词</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%95%8F%E6%84%9F%E8%AF%8D/" class="archive-article-date">
-  	<time datetime="2020-05-29T06:26:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前缀树"><a href="#前缀树" class="headerlink" title="前缀树"></a>前缀树</h2><p>名称：Trie、字典树、查找树<br>特点：查找效率高，消耗内存大<br>应用：字符串检索、词频统计、字符串排序等<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%95%8F%E6%84%9F%E8%AF%8D/%E5%89%8D%E7%BC%80%E6%A0%91%E6%90%9C%E7%B4%A2.png" alt="前缀树搜索-图示"></p>
-<h2 id="敏感词过滤器-SensitiveFilter"><a href="#敏感词过滤器-SensitiveFilter" class="headerlink" title="敏感词过滤器: SensitiveFilter"></a>敏感词过滤器: SensitiveFilter</h2><p>定义前缀树</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 替换符</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String REPLACEMENT = <span class="string">"***"</span>;</span><br><span class="line"><span class="comment">// 根节点</span></span><br><span class="line"><span class="keyword">private</span> TrieNode rootNode = <span class="keyword">new</span> TrieNode();</span><br><span class="line"><span class="comment">// 前缀树</span></span><br><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">TrieNode</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关键词结束标识</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isKeywordEnd = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 子节点(key是下级字符,value是下级节点)</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;Character, TrieNode&gt; subNodes = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isKeywordEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> isKeywordEnd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setKeywordEnd</span><span class="params">(<span class="keyword">boolean</span> keywordEnd)</span> </span>&#123;</span><br><span class="line">        isKeywordEnd = keywordEnd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加子节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSubNode</span><span class="params">(Character ch, TrieNode node)</span> </span>&#123;</span><br><span class="line">        subNodes.put(ch, node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取子节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TrieNode <span class="title">getSubNode</span><span class="params">(Character ch)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> subNodes.get(ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>根据敏感词，初始化前缀树</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (</span><br><span class="line">            InputStream is = <span class="keyword">this</span>.getClass().getClassLoader().getResourceAsStream(<span class="string">"sensitive-words.txt"</span>);</span><br><span class="line">            BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(is));</span><br><span class="line">    ) &#123;</span><br><span class="line">        String keyword;</span><br><span class="line">        <span class="keyword">while</span> ((keyword = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 添加到前缀树</span></span><br><span class="line">            <span class="keyword">this</span>.addKeyword(keyword);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        logger.error(<span class="string">"加载敏感词文件失败: "</span> + e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 将一个敏感词，添加到前缀树中</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addKeyword</span><span class="params">(String keyword)</span> </span>&#123;</span><br><span class="line">    TrieNode tempNode = rootNode;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; keyword.length(); i++) &#123;</span><br><span class="line">        <span class="keyword">char</span> ch = keyword.charAt(i);</span><br><span class="line">        TrieNode subNode = tempNode.getSubNode(ch);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (subNode == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 初始化子节点</span></span><br><span class="line">            subNode = <span class="keyword">new</span> TrieNode();</span><br><span class="line">            tempNode.addSubNode(ch, subNode);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 指向子节点，进入下一轮循环</span></span><br><span class="line">        tempNode = subNode;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置结束标识</span></span><br><span class="line">        <span class="keyword">if</span> (i == keyword.length() - <span class="number">1</span>) &#123;</span><br><span class="line">            tempNode.setKeywordEnd(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>编写过滤敏感词的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 过滤敏感词</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> text 待过滤的文本</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> 过滤后的文本</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">filter</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (StringUtils.isBlank(text)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指针1</span></span><br><span class="line">    TrieNode tempNode = rootNode;</span><br><span class="line">    <span class="comment">// 指针2</span></span><br><span class="line">    <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 指针3</span></span><br><span class="line">    <span class="keyword">int</span> position = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 结果</span></span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (position &lt; text.length()) &#123;</span><br><span class="line">        <span class="keyword">char</span> ch = text.charAt(position);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 跳过符号</span></span><br><span class="line">        <span class="keyword">if</span> (isSymbol(ch)) &#123;</span><br><span class="line">            <span class="comment">// 若指针1位于根节点，将此符号计入结果，让指针2向下走一步</span></span><br><span class="line">            <span class="keyword">if</span> (tempNode == rootNode) &#123;</span><br><span class="line">                sb.append(ch);</span><br><span class="line">                begin++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 无论符号在开头或中间，指针3都向下走一步</span></span><br><span class="line">            position++;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查下级节点</span></span><br><span class="line">        tempNode = tempNode.getSubNode(ch);</span><br><span class="line">        <span class="keyword">if</span> (tempNode == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 以beigin开头的字符串，不是敏感词</span></span><br><span class="line">            sb.append(text.charAt(begin));</span><br><span class="line">            <span class="comment">// 进入下一个位置</span></span><br><span class="line">            position = ++begin;</span><br><span class="line">            <span class="comment">// 重新指向根节点</span></span><br><span class="line">            tempNode = rootNode;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tempNode.isKeywordEnd()) &#123;</span><br><span class="line">            <span class="comment">// 发现敏感词，将begin-position字符串替换掉</span></span><br><span class="line">            sb.append(REPLACEMENT);</span><br><span class="line">            <span class="comment">// 进入下一个位置</span></span><br><span class="line">            begin = ++position;</span><br><span class="line">            <span class="comment">// 重新指向根节点</span></span><br><span class="line">            tempNode = rootNode;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 检查下一个字符</span></span><br><span class="line">            position++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将最后一批字符计入结果</span></span><br><span class="line">    sb.append(text.substring(begin));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 判断是否为符号</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSymbol</span><span class="params">(Character ch)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0x2e80~0x9fff，是东亚文字范围</span></span><br><span class="line">    <span class="keyword">return</span> !CharUtils.isAsciiAlphanumeric(ch) &amp;&amp; (ch &lt; <span class="number">0x2e80</span> || ch &gt; <span class="number">0x9fff</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%95%8F%E6%84%9F%E8%AF%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（2），发送邮件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">问答平台（2），发送邮件</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" class="archive-article-date">
-  	<time datetime="2020-05-29T05:43:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="邮箱设置"><a href="#邮箱设置" class="headerlink" title="邮箱设置"></a>邮箱设置</h2><p>启动客户端SMTP服务</p>
-<h2 id="Spring-Email"><a href="#Spring-Email" class="headerlink" title="Spring Email"></a>Spring Email</h2><p>导入jar包</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.5.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>邮箱参数配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># MailProperties</span><br><span class="line">spring.mail.host&#x3D;smtp.sina.com</span><br><span class="line">spring.mail.port&#x3D;465</span><br><span class="line">spring.mail.username&#x3D;liming163vip@sina.com</span><br><span class="line">spring.mail.password&#x3D;xxx...</span><br><span class="line">spring.mail.protocol&#x3D;smtps</span><br><span class="line">spring.mail.properties.mail.smtp.ssl.enable&#x3D;true</span><br></pre></td></tr></table></figure>
-<p>使用JavaMailSender发送邮件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">JavaMailSender</span> <span class="keyword">extends</span> <span class="title">MailSender</span> </span>&#123;</span><br><span class="line">    <span class="function">MimeMessage <span class="title">createMimeMessage</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">MimeMessage <span class="title">createMimeMessage</span><span class="params">(InputStream var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessage var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessage... var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessagePreparator var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessagePreparator... var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Util类-gt-CookieUtil"><a href="#Util类-gt-CookieUtil" class="headerlink" title="Util类 -&gt; CookieUtil"></a>Util类 -&gt; CookieUtil</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(MailClient<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JavaMailSender mailSender;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.mail.username&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String from;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String to, String subject, String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 通过createMimeMessage()对象构建一个模版，还需要往里面填充内容</span></span><br><span class="line">            MimeMessage message = mailSender.createMimeMessage();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// MimeMessageHelper对象填充邮件内容</span></span><br><span class="line">            MimeMessageHelper helper = <span class="keyword">new</span> MimeMessageHelper(message);</span><br><span class="line">            helper.setFrom(from);</span><br><span class="line">            helper.setTo(to);</span><br><span class="line">            helper.setSubject(subject);</span><br><span class="line">            helper.setText(content, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 发送邮件</span></span><br><span class="line">            mailSender.send(helper.getMimeMessage());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MessagingException e) &#123;</span><br><span class="line">            logger.error(<span class="string">"发送邮件失败:"</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h2><p>使用Thymeleaf发送HTML邮件,里面有动态参数</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>欢迎你，<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:red;"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;username&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span>!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>测试类：MailClient</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(MailClient<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JavaMailSender mailSender;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.mail.username&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String from;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String to, String subject, String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 通过createMimeMessage()对象构建一个模版，还需要往里面填充内容</span></span><br><span class="line">            MimeMessage message = mailSender.createMimeMessage();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// MimeMessageHelper对象填充邮件内容</span></span><br><span class="line">            MimeMessageHelper helper = <span class="keyword">new</span> MimeMessageHelper(message);</span><br><span class="line">            helper.setFrom(from);</span><br><span class="line">            helper.setTo(to);</span><br><span class="line">            helper.setSubject(subject);</span><br><span class="line">            helper.setText(content, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 发送邮件</span></span><br><span class="line">            mailSender.send(helper.getMimeMessage());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MessagingException e) &#123;</span><br><span class="line">            logger.error(<span class="string">"发送邮件失败:"</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-简单投票DApp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/">简单投票DApp</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/" class="archive-article-date">
-  	<time datetime="2020-05-11T15:07:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是一个简单的投票应用，包含完整的工作流程和交互页面。</p>
-<h2 id="主要步骤"><a href="#主要步骤" class="headerlink" title="主要步骤"></a>主要步骤</h2><p>1.安装ganache模拟区块链，让程序在开发环境中运行。<br>2.写一个合约，并部署到ganache上。<br>3.通过命令行和网页，与ganache进行交互。</p>
-<h2 id="web3js"><a href="#web3js" class="headerlink" title="web3js"></a>web3js</h2><p>与区块链进行通信的方式是通过RPC（Remote Procedure Call）。<br>web3js是一个JavaScript库，它抽象出了所有的RPC调用，可以通过JavaScript与区块链进行交互；<br>web3js能够使用JavaScript框架构建web应用。</p>
-<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> simple_voting_dapp</span><br><span class="line"><span class="keyword">cd</span> simple_voting_dapp</span><br><span class="line">npm init</span><br><span class="line">npm install ganache-cli web3@<span class="number">0.20</span>.<span class="number">1</span> solc</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动ganache-cli"><a href="#启动ganache-cli" class="headerlink" title="启动ganache-cli"></a>启动ganache-cli</h2><p><code>node_modules/.bin/ganache-cli</code><br>为了便于测试，ganache默认创建10个账户，每个账户有100个以太。</p>
-<h2 id="编写合约"><a href="#编写合约" class="headerlink" title="编写合约"></a>编写合约</h2><p>创建<code>Voting.sol</code>，写一个叫做Voting的合约，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;0.4.22;</span><br><span class="line"></span><br><span class="line">contract Voting &#123;</span><br><span class="line">    bytes32[] public candidateList;</span><br><span class="line">    mapping(bytes32 &#x3D;&gt; uint8) public votesReceived;</span><br><span class="line"></span><br><span class="line">    constructor(bytes32[] candidateListNames) public &#123;</span><br><span class="line">        candidateList &#x3D; candidateListNames;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function validCandidate(bytes32 candidate) view public returns(bool) &#123;</span><br><span class="line">        for(uint8 i &#x3D; 0; i &lt; candidateList.length; i++) &#123;</span><br><span class="line">            if(candidate &#x3D;&#x3D; candidateList[i])</span><br><span class="line">                return true;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function voteForCandidate(bytes32 candidate) public &#123;</span><br><span class="line">        require(validCandidate(candidate));</span><br><span class="line">        votesReceived[candidate] +&#x3D; 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function totalVotesFor(bytes32 candidate) public view returns(uint8) &#123;</span><br><span class="line">        require(validCandidate(candidate));</span><br><span class="line">        return votesReceived[candidate];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="编译合约"><a href="#编译合约" class="headerlink" title="编译合约"></a>编译合约</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Web3 &#x3D; require(&#39;web3&#39;)</span><br><span class="line">web3 &#x3D; new Web3(new Web3.providers.HttpProvider(&quot;http:&#x2F;&#x2F;localhost:8545&quot;))</span><br><span class="line">web3.eth.accounts</span><br><span class="line">code &#x3D; fs.readFileSync(&#39;Voting.sol&#39;).toString()</span><br><span class="line">solc &#x3D; require(&#39;solc&#39;)</span><br><span class="line">compiledCode &#x3D; solc.compile(code)</span><br></pre></td></tr></table></figure>
-
-<h2 id="部署合约"><a href="#部署合约" class="headerlink" title="部署合约"></a>部署合约</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abi &#x3D; compiledCode.contracts[&#39;:Voting&#39;].interface</span><br><span class="line">abi &#x3D; JSON.parse(compiledCode.contracts[&#39;:Voting&#39;].interface)</span><br><span class="line">VotingContract &#x3D; web3.eth.contract(abi)</span><br><span class="line">byteCode &#x3D; compiledCode.contracts[&#39;:Voting&#39;].bytecode</span><br><span class="line">deployedContract &#x3D; VotingContract.new([&#39;Alice&#39;, &#39;Bob&#39;, &#39;Cary&#39;],&#123;data: byteCode, from: web3.eth.accounts[0], gas: 4700000&#125;)</span><br><span class="line">deployedContract.address</span><br><span class="line">contractInstance &#x3D; VotingContract.at(deployedContract.address)</span><br></pre></td></tr></table></figure>
-<p>输入以上VotingContract.new()命令后，Ganache中看到合约被创建，如下图所示：<br><img src="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/%E5%90%88%E7%BA%A6%E5%88%9B%E5%BB%BA%EF%BC%8C%E4%BA%A7%E7%94%9F%E5%8C%BA%E5%9D%97.png" alt="合约创建-图示"><br>此时获取address记下，后面会用到。</p>
-<h2 id="网页交互"><a href="#网页交互" class="headerlink" title="网页交互"></a>网页交互</h2><h3 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h3><p>在根目录下创建index.html文件，里面有候选者姓名并调用投票命令，代码如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Voting DApp<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'</span> <span class="attr">rel</span>=<span class="string">'stylesheet'</span> <span class="attr">type</span>=<span class="string">'text/css'</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Simple Voting DApp<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"table-responsive"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table table-bordered"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Candidate<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Vote Count<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">td</span>&gt;</span>Alice<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">td</span> <span class="attr">id</span>=<span class="string">"candidate-1"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">td</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">td</span> <span class="attr">id</span>=<span class="string">"candidate-2"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">td</span>&gt;</span>Cary<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">td</span> <span class="attr">id</span>=<span class="string">"candidate-3"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"candidate"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">onclick</span>=<span class="string">"voteForCandidate()"</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>Vote<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"web3.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-3.1.1.slim.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./index.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>补充：下载web3.js文件，下载后放在工作根目录下，下载链接如下：<br><a href="mailto:web3.js@0.20.6">web3.js@0.20.6</a>: <a href="https://cdn.jsdelivr.net/gh/ethereum/web3.js@0.20.6/dist/" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/ethereum/web3.js@0.20.6/dist/</a><br>由于网络原因，web3.js可能无法获取，可自行下载到本地导入。<br>由于web3.js版本问题，导致一开始运行错误。(<a href="mailto:web3.js@1.2.x">web3.js@1.2.x</a> -&gt; <a href="mailto:web3.js@0.20.6">web3.js@0.20.6</a>)</p>
-<h3 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> web3 = <span class="keyword">new</span> Web3(<span class="keyword">new</span> Web3.providers.HttpProvider(<span class="string">"http://localhost:8545"</span>));</span><br><span class="line"><span class="keyword">var</span> abi = <span class="built_in">JSON</span>.parse(<span class="string">'[&#123;"constant":true,"inputs":[&#123;"name":"candidate","type":"bytes32"&#125;],"name":"totalVotesFor","outputs":[&#123;"name":"","type":"uint8"&#125;],"payable":false,"stateMutability":"view","type":"function"&#125;,&#123;"constant":true,"inputs":[&#123;"name":"candidate","type":"bytes32"&#125;],"name":"validCandidate","outputs":[&#123;"name":"","type":"bool"&#125;],"payable":false,"stateMutability":"view","type":"function"&#125;,&#123;"constant":true,"inputs":[&#123;"name":"","type":"bytes32"&#125;],"name":"votesReceived","outputs":[&#123;"name":"","type":"uint8"&#125;],"payable":false,"stateMutability":"view","type":"function"&#125;,&#123;"constant":true,"inputs":[&#123;"name":"","type":"uint256"&#125;],"name":"candidateList","outputs":[&#123;"name":"","type":"bytes32"&#125;],"payable":false,"stateMutability":"view","type":"function"&#125;,&#123;"constant":false,"inputs":[&#123;"name":"candidate","type":"bytes32"&#125;],"name":"voteForCandidate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"&#125;,&#123;"inputs":[&#123;"name":"candidateListNames","type":"bytes32[]"&#125;],"payable":false,"stateMutability":"nonpayable","type":"constructor"&#125;]'</span>);</span><br><span class="line"><span class="keyword">var</span> contractAddr = <span class="string">"0xa3e8d41faa84e87ca9065e8c637f50b0924856e6"</span>;</span><br><span class="line"><span class="keyword">var</span> VotingContract = <span class="keyword">new</span> web3.eth.Contract(abi);</span><br><span class="line">VotingContract.setProvider(web3.currentProvider);</span><br><span class="line"><span class="keyword">var</span> contractInstance = VotingContract.at(contractAddr);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> candidates = &#123;<span class="string">"Alice"</span>:<span class="string">"candidate-1"</span>, <span class="string">"Bob"</span>:<span class="string">"candidate-2"</span>, <span class="string">"Cary"</span>:<span class="string">"candidate-3"</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">voteForCandidate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> candidateName = $(<span class="string">"#candidate"</span>).val();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        contractInstance.vote(candidateName, &#123;<span class="attr">from</span>:web3.eth.accounts[<span class="number">0</span>]&#125;, (err,res) =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span>(err)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">"Error: "</span>, err);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> id = candidates[candidateName];</span><br><span class="line">                <span class="keyword">let</span> count = contractInstance.totalVotesFor(candidateName).toString();</span><br><span class="line">                $(<span class="string">"#"</span> + id).html(count);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> candidateList = <span class="built_in">Object</span>.keys(candidates);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; candidateList.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> name = candidateList[i];</span><br><span class="line">        <span class="keyword">let</span> count = contractInstance.totalVotesFor(name).toString();</span><br><span class="line">        $(<span class="string">"#"</span> + candidates[name]).html(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>补充：用自己的合约地址替换代码中的合约地址contractAddr。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以看到页面，为候选者投票，然后看到投票数增加，就已经成功。<br>所有的事情都是在一个模拟的区块链上（ganache）完成，后续会将这个合约部署到真正的公链上。<br><code>投票前，票数如下图所示：</code><br><img src="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/%E6%8A%95%E7%A5%A8Dapp.png" alt="投票前-图示"><br><code>给Cary连续投3票，如下图所示：</code><br><img src="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/%E6%AF%8F%E6%AC%A1%E6%8A%95%E7%A5%A8%EF%BC%8C%E4%BA%A7%E7%94%9F%E5%8C%BA%E5%9D%97.png" alt="投票-图示"><br><code>投票后，票数如下图所示：</code><br><img src="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/%E6%8A%95%E7%A5%A8Dapp2.png" alt="投票后-图示"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000020260198?utm_source=tag-newest" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020260198?utm_source=tag-newest</a><br><a href="https://www.jianshu.com/p/3076347c8a5a" target="_blank" rel="noopener">https://www.jianshu.com/p/3076347c8a5a</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链案例</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/11/%E7%AE%80%E5%8D%95%E6%8A%95%E7%A5%A8DApp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Hexo-yilia主题，添加Valine评论系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Hexo-yilia主题，添加Valine评论系统</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2020-05-11T04:49:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="LeanCloud账号注册"><a href="#LeanCloud账号注册" class="headerlink" title="LeanCloud账号注册"></a>LeanCloud账号注册</h2><p>首先需要注册一个LeanCloud账号，点击左下角创建应用，如下图所示：<br><img src="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/LeanCloud%E8%B4%A6%E5%8F%B7%E6%B3%A8%E5%86%8C.png" alt="LeanCloud账号注册-图示"><br>起个名字，选择开发版，然后创建。<br>创建完成后，进入刚刚创建的应用，选择设置-&gt;应用Key，找到<code>APP ID</code>和<code>APP Key</code>，如下图所示：<br><img src="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/LeanCloud%E8%AE%BE%E7%BD%AE.png" alt="LeanCloud设置-图示"></p>
-<h2 id="yilia主题，-config-yml文件内增加配置"><a href="#yilia主题，-config-yml文件内增加配置" class="headerlink" title="yilia主题，_config.yml文件内增加配置"></a>yilia主题，_config.yml文件内增加配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#Valine配置</span><br><span class="line">valine: </span><br><span class="line">  appid: xxx #Leancloud应用的appId</span><br><span class="line">  appkey: xxx #Leancloud应用的appKey</span><br><span class="line">  verify: false #验证码</span><br><span class="line">  notify: false #评论回复提醒</span><br><span class="line">  avatar: mm #评论列表头像样式：&#39;&#39;&#x2F;mm&#x2F;identicon&#x2F;monsterid&#x2F;wavatar&#x2F;retro&#x2F;hide</span><br><span class="line">  placeholder: 欢迎小伙伴们评论~ #评论框占位符</span><br></pre></td></tr></table></figure>
-
-<h2 id="添加调用代码，修改article-ejs"><a href="#添加调用代码，修改article-ejs" class="headerlink" title="添加调用代码，修改article.ejs"></a>添加调用代码，修改article.ejs</h2><p><code>yilia/layout/_partial/article.ejs</code>，找到评论区所在的位置，在文件中添加如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;% <span class="keyword">if</span> (theme.valine &amp;&amp; theme.valine.appid &amp;&amp; theme.valine.appkey)&#123; %&gt;</span><br><span class="line">  &lt;section id=<span class="string">"comments"</span> style=<span class="string">"margin:10px;padding:10px;background:#fff;"</span>&gt;</span><br><span class="line">    &lt;%- partial(<span class="string">'post/valine'</span>, &#123;</span><br><span class="line">      key: post.slug,</span><br><span class="line">      title: post.title,</span><br><span class="line">      url: config.url+url_for(post.path)</span><br><span class="line">      &#125;) %&gt;</span><br><span class="line">  &lt;<span class="regexp">/section&gt;</span></span><br><span class="line"><span class="regexp">&lt;% &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="新增valine-ejs"><a href="#新增valine-ejs" class="headerlink" title="新增valine.ejs"></a>新增valine.ejs</h2><p><code>yilia/layout/_partial/post</code>目录下新建valine.ejs，添加如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"vcomment"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"comment"</span>&gt;&lt;<span class="regexp">/div&gt; </span></span><br><span class="line"><span class="regexp">&lt;script src="/</span><span class="regexp">/cdn1.lncld.net/</span><span class="keyword">static</span>/js/<span class="number">3.0</span><span class="number">.4</span>/av-min.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;script src="</span><span class="comment">//unpkg.com/valine/dist/Valine.min.js"&gt;&lt;/script&gt;</span></span><br><span class="line">&lt;script&gt;</span><br><span class="line">   <span class="keyword">var</span> notify = <span class="string">'&lt;%= theme.valine.notify %&gt;'</span> == <span class="literal">true</span> ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">var</span> verify = <span class="string">'&lt;%= theme.valine.verify %&gt;'</span> == <span class="literal">true</span> ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Valine(&#123;</span><br><span class="line">            el: <span class="string">'.comment'</span>,</span><br><span class="line">            notify: notify,</span><br><span class="line">            verify: verify,</span><br><span class="line">            app_id: <span class="string">"&lt;%= theme.valine.appid %&gt;"</span>,</span><br><span class="line">            app_key: <span class="string">"&lt;%= theme.valine.appkey %&gt;"</span>,</span><br><span class="line">            placeholder: <span class="string">"&lt;%= theme.valine.placeholder %&gt;"</span>,</span><br><span class="line">            avatar:<span class="string">"&lt;%= theme.valine.avatar %&gt;"</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h2><p><img src="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95.png" alt="LeanCloud设置-图示"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://github.com/litten/hexo-theme-yilia/pull/646" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia/pull/646</a><br><a href="https://www.jianshu.com/p/15a100aa0efe" target="_blank" rel="noopener">https://www.jianshu.com/p/15a100aa0efe</a><br><a href="http://anata.me" target="_blank" rel="noopener">http://anata.me</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hexo博客</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/11/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0Valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Ubuntu16-04，web3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/">Ubuntu16.04，web3</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/" class="archive-article-date">
-  	<time datetime="2020-05-09T15:06:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="TypeError"><a href="#TypeError" class="headerlink" title="TypeError"></a>TypeError</h2><p>尚硅谷Dapp简单投票系统，运行在浏览器，出现如下问题：<br><code>web3.eth.contract is not a constructor</code></p>
-<h2 id="web3，版本问题"><a href="#web3，版本问题" class="headerlink" title="web3，版本问题"></a>web3，版本问题</h2><p>web3.js开发者在创建合约对象时容易发生错误，不同版本web3.js的API变化，检查自己的web3.js版本。<br><code>version &lt; 1.0.0</code>，web3.eth.contract(); // 注意contract大小写<br><code>version &gt; 1.0.0</code>，new web3.eth.Contract();</p>
-<h2 id="尚未解决"><a href="#尚未解决" class="headerlink" title="尚未解决"></a>尚未解决</h2><p>尚硅谷Dapp简单投票系统，无法运行。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/juehai/p/9734025.html" target="_blank" rel="noopener">https://www.cnblogs.com/juehai/p/9734025.html</a><br><a href="https://blog.csdn.net/qq_33829547/article/details/81938727" target="_blank" rel="noopener">https://blog.csdn.net/qq_33829547/article/details/81938727</a><br><a href="https://blog.csdn.net/weixin_34259232/article/details/91700969" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34259232/article/details/91700969</a><br><a href="https://www.dazhuanlan.com/2020/01/06/5e12df34e149a/" target="_blank" rel="noopener">https://www.dazhuanlan.com/2020/01/06/5e12df34e149a/</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Ubuntu16-04，solidity" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/">Ubuntu16.04，solidity</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/" class="archive-article-date">
-  	<time datetime="2020-05-09T14:56:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="编译合约报错，踩坑"><a href="#编译合约报错，踩坑" class="headerlink" title="编译合约报错，踩坑"></a>编译合约报错，踩坑</h2><p>编译合约报错，如下图所示：<br><img src="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/%E7%BC%96%E8%AF%91%E5%90%88%E7%BA%A6%E6%8A%A5%E9%94%99%EF%BC%8C%E8%B8%A9%E5%9D%91.png" alt="编译合约报错-图示"><br>solidity编译器版本是0.5.0，<br>代码编写按照0.4.25的规范来写的，<br>语言新特性，踩坑。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>改动合约如下，<br><code>address expected = address(this);</code>，即可通过编译。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/sinyusin/article/details/88558519" target="_blank" rel="noopener">https://blog.csdn.net/sinyusin/article/details/88558519</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Ubantu16-04，Atom" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/09/Ubantu16-04%EF%BC%8CAtom/">Ubuntu16.04，Atom</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/09/Ubantu16-04%EF%BC%8CAtom/" class="archive-article-date">
-  	<time datetime="2020-05-09T13:44:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Ubuntu16.04，安装Atom</p>
-<h2 id="命令方式"><a href="#命令方式" class="headerlink" title="命令方式"></a>命令方式</h2><p>使用如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:webupd8team&#x2F;atom  </span><br><span class="line">sudo apt-get update  </span><br><span class="line">sudo apt-get install atom</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装包方式"><a href="#安装包方式" class="headerlink" title="安装包方式"></a>安装包方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;atom&#x2F;atom&#x2F;releases&#x2F;download&#x2F;v1.7.4&#x2F;atom-amd64.deb</span><br><span class="line">sudo dpkg -i atom-amd64.deb</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/u010472607/article/details/78627509" target="_blank" rel="noopener">https://blog.csdn.net/u010472607/article/details/78627509</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/09/Ubantu16-04%EF%BC%8CAtom/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Ubuntu16-04，npm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/07/Ubuntu16-04%EF%BC%8Cnpm/">Ubuntu16.04，npm</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/07/Ubuntu16-04%EF%BC%8Cnpm/" class="archive-article-date">
-  	<time datetime="2020-05-07T10:54:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="npm，安装超时"><a href="#npm，安装超时" class="headerlink" title="npm，安装超时"></a>npm，安装超时</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https:&#x2F;&#x2F;registry.npm.taobao.org</span><br><span class="line">npm cache clean --force</span><br><span class="line">npm install -g</span><br></pre></td></tr></table></figure>
-
-<h2 id="npm-run-dev，踩坑"><a href="#npm-run-dev，踩坑" class="headerlink" title="npm run dev，踩坑"></a>npm run dev，踩坑</h2><p><code>npm run dev</code>，执行命令，出现如下问题：<br>Permission denied</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p><code>npm rebuild</code>，先执行；<br><code>npm run dev</code>，再执行。</p>
-<h2 id="npm-start，踩坑"><a href="#npm-start，踩坑" class="headerlink" title="npm start，踩坑"></a>npm start，踩坑</h2><p>Module not found: Can’t resolve ‘react’ in xxx</p>
-<h2 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h2><p><code>npm install react@next --save</code>，先执行；<br><code>npm start</code>，再执行。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/mrhaoxiaojun/article/details/93748410" target="_blank" rel="noopener">https://blog.csdn.net/mrhaoxiaojun/article/details/93748410</a><br><a href="https://blog.csdn.net/judyjie/article/details/92803512" target="_blank" rel="noopener">https://blog.csdn.net/judyjie/article/details/92803512</a><br><a href="https://stackoverflow.com/questions/39959900/npm-start-error-with-create-react-app" target="_blank" rel="noopener">https://stackoverflow.com/questions/39959900/npm-start-error-with-create-react-app</a><br><a href="https://www.jianshu.com/p/8727ff402bea" target="_blank" rel="noopener">https://www.jianshu.com/p/8727ff402bea</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/07/Ubuntu16-04%EF%BC%8Cnpm/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next</a>
-    </nav>
+  
+
+  
+
+  <!--  -->
+
+  
+    <section id="comments" style="margin:10px;padding:10px;background:#fff;">
+      <div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    // window.onload = function() {
+    //     new Valine({
+    //         el: '.comment',
+    //         notify: notify,
+    //         verify: verify,
+    //         app_id: "XWrXVLzrDieALcRDUeyWOxBF-gzGzoHsz",
+    //         app_key: "r4wd3PPkrk3AooJMbeX7FDzy",
+    //         placeholder: "欢迎小伙伴们评论~",
+    //         avatar:"mm"
+    //     });
+    // }
+    new Valine({
+        el: '#vcomment',
+        notify: notify,
+        verify: verify,
+        app_id: "XWrXVLzrDieALcRDUeyWOxBF-gzGzoHsz",
+        app_key: "r4wd3PPkrk3AooJMbeX7FDzy",
+        placeholder: "欢迎小伙伴们评论~",
+        avatar:"mm"
+    });
+</script>
+    </section>
+  
+
   
 
 
@@ -1054,8 +423,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
