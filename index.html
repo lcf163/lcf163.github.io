@@ -144,6 +144,90 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（6），Elasticsearch入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CElasticsearch%E5%85%A5%E9%97%A8/">问答平台（6），Elasticsearch入门</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CElasticsearch%E5%85%A5%E9%97%A8/" class="archive-article-date">
+  	<time datetime="2020-06-12T13:03:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Elasticsearch简介"><a href="#Elasticsearch简介" class="headerlink" title="Elasticsearch简介"></a>Elasticsearch简介</h2><p>一个分布式的、Restful风格的搜索引擎。<br>支持对各种类型的数据的检索。<br>搜索速度快，可以提供实时的搜索服务。<br>便于水平扩展，每秒可以处理PB级海量数据。</p>
+<h2 id="Elasticsearch术语"><a href="#Elasticsearch术语" class="headerlink" title="Elasticsearch术语"></a>Elasticsearch术语</h2><p>索引、类型（6.0以上废弃）、文档、字段。<br>集群、节点、分片、副本。</p>
+<h2 id="Elasticsearch配置"><a href="#Elasticsearch配置" class="headerlink" title="Elasticsearch配置"></a>Elasticsearch配置</h2><p>下载压缩包<code>elasticsearch-6.4.3</code>，解压缩即可。<br><code>elasticsearch-6.4.3\config</code>目录下，修改配置文件<code>elasticsearch.yml</code>：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cluster.name:</span> <span class="string">nowcoder</span></span><br><span class="line"><span class="attr">path.data:</span> <span class="string">D:\work\data\elasticsearch-6.4.3\data</span></span><br><span class="line"><span class="attr">path.logs:</span> <span class="string">D:\work\data\elasticsearch-6.4.3\logs</span></span><br></pre></td></tr></table></figure>
+<h2 id="Elasticsearch中文搜索插件"><a href="#Elasticsearch中文搜索插件" class="headerlink" title="Elasticsearch中文搜索插件"></a>Elasticsearch中文搜索插件</h2><p>下载对应版本的压缩包<code>elasticsearch-analysis-ik-6.4.3</code>，解压到<code>elasticsearch-6.4.3\plugins\ik</code>目录下。</p>
+<h2 id="命令行操作"><a href="#命令行操作" class="headerlink" title="命令行操作"></a>命令行操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET &quot;localhost:9200&#x2F;_cat&#x2F;health?v&quot;</span><br><span class="line">curl -X GET &quot;localhost:9200&#x2F;_cat&#x2F;nodes?v&quot;</span><br><span class="line">curl -X GET &quot;localhost:9200&#x2F;_cat&#x2F;indices?v&quot;</span><br><span class="line">curl -X PUT &quot;localhost:9200&#x2F;test&quot;</span><br><span class="line">curl -X DELETE &quot;localhost:9200&#x2F;test&quot;</span><br></pre></td></tr></table></figure>
+<p>postman执行命令更简洁，同上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT &quot;localhost:9200&#x2F;test&#x2F;_doc&#x2F;1&quot;</span><br><span class="line">GET &quot;localhost:9200&#x2F;test&#x2F;_doc&#x2F;1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CElasticsearch%E5%85%A5%E9%97%A8/%E6%A0%87%E9%A2%98%E5%92%8C%E5%86%85%E5%AE%B9.png" alt="标题和内容-图示"><br><img src="/2020/06/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CElasticsearch%E5%85%A5%E9%97%A8/%E6%A0%87%E9%A2%98%E5%92%8C%E5%86%85%E5%AE%B9-%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C.png" alt="查询结果-图示"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.elastic.co" target="_blank" rel="noopener">https://www.elastic.co</a><br><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a><br><a href="https://www.getpostman.com" target="_blank" rel="noopener">https://www.getpostman.com</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CElasticsearch%E5%85%A5%E9%97%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（5），显示系统通知" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -185,7 +269,8 @@
 <h3 id="注入拦截器"><a href="#注入拦截器" class="headerlink" title="注入拦截器"></a>注入拦截器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加拦截器</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将拦截器加入registry对象</span></span><br><span class="line">    registry.addInterceptor(alphaInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>)</span><br><span class="line">            .addPathPatterns(<span class="string">"/register"</span>, <span class="string">"/login"</span>);</span><br><span class="line"></span><br><span class="line">    registry.addInterceptor(loginTicketInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>);</span><br><span class="line"></span><br><span class="line">    registry.addInterceptor(messageInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>letter.html: 修改，内容（选项 -&gt; 朋友私信、系统通知）。<br>notice.html: 修改，内容（选项 -&gt; 朋友私信、系统通知），通知列表（评论类通知、点赞类通知、关注类通知）。<br>notice-detail.html: 修改，通知列表。<br>index.html: 修改，头部（导航 -&gt; 功能）。</p>
-<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2>
+<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="/2020/06/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/%E5%AF%BC%E8%88%AA%E6%A0%8F%E6%B6%88%E6%81%AF.png" alt="导航栏消息-图示"></p>
+
       
 
       
@@ -901,99 +986,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（4），点赞" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">问答平台（4），点赞</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/" class="archive-article-date">
-  	<time datetime="2020-06-02T05:38:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="点赞"><a href="#点赞" class="headerlink" title="点赞"></a>点赞</h2><p>支持对帖子、评论点赞。<br>第1次点赞，第2次取消点赞。<br>点赞功能需要考虑性能的问题：把点赞数据存到Redis里会提升性能。</p>
-<h3 id="首页点赞数量"><a href="#首页点赞数量" class="headerlink" title="首页点赞数量"></a>首页点赞数量</h3><p>统计帖子的点赞数量。</p>
-<h3 id="详情页点赞数量"><a href="#详情页点赞数量" class="headerlink" title="详情页点赞数量"></a>详情页点赞数量</h3><p>统计点赞数量。<br>显示点赞状态。</p>
-<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><p>RedisKeyUtil：新增</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisKeyUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SPLIT = <span class="string">":"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_ENTITY_LIKE = <span class="string">"like:entity"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 某个实体的赞</span></span><br><span class="line">    <span class="comment">// like:entity:entityType:entityId -&gt; set(userId)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getEntityLikeKey</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><p>LikeService：新增</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LikeService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点赞</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">like</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">boolean</span> isMember = operations.opsForSet().isMember(entityLikeKey, userId);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isMember) &#123;</span><br><span class="line">            operations.opsForSet().remove(entityLikeKey, userId);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            operations.opsForSet().add(entityLikeKey, userId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某实体点赞的数量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">findEntityLikeCount</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().size(entityLikeKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某人对某实体的点赞状态</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findEntityLikeStatus</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><p>LikeController：新增</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LikeController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LikeService likeService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/like"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">like</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId, <span class="keyword">int</span> postId)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 点赞</span></span><br><span class="line">        likeService.like(user.getId(), entityType, entityId, entityUserId);</span><br><span class="line">        <span class="comment">// 数量</span></span><br><span class="line">        <span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(entityType, entityId);</span><br><span class="line">        <span class="comment">// 状态</span></span><br><span class="line">        <span class="keyword">int</span> likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);</span><br><span class="line">        <span class="comment">// 返回的结果</span></span><br><span class="line">        Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line">        map.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="keyword">null</span>, map);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实现首页的点赞数量的显示：<br>HomeController -&gt; getIndexPage()，加入查找点赞数量的逻辑。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());</span><br><span class="line">map.put(<span class="string">"likeCount"</span>, likeCount);</span><br></pre></td></tr></table></figure>
-<p>实现帖子详情页面（帖子、评论、回复）的点赞数量和点赞状态的显示：<br>DiscussPostController -&gt; getDiscussPost()，加入如下逻辑。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line"><span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line"><span class="keyword">int</span> likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 评论VO列表</span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回复VO列表            </span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br></pre></td></tr></table></figure>
-
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>discuss-detail.html：内容-&gt;作者、回帖列表、回复列表<br>discuss.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">like</span>(<span class="params">btn, entityType, entityId</span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/like"</span>,</span><br><span class="line">        &#123;<span class="string">"entityType"</span>: entityType, <span class="string">"entityId"</span>: entityId&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                $(btn).children(<span class="string">"i"</span>).text(data.likeCount);</span><br><span class="line">                $(btn).children(<span class="string">"b"</span>).text(data.likeStatus == <span class="number">1</span> ? <span class="string">'已赞'</span> : <span class="string">'赞'</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>index.html：帖子列表</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">展开全文 >></a>
         </p>
       
 
