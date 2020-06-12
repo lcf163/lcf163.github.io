@@ -144,6 +144,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Dapp宠物商店" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/07/Dapp%E5%AE%A0%E7%89%A9%E5%95%86%E5%BA%97/">Dapp宠物商店</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/07/Dapp%E5%AE%A0%E7%89%A9%E5%95%86%E5%BA%97/" class="archive-article-date">
+  	<time datetime="2020-05-07T09:54:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>编写一个完整的去中心化的区块链应用（Dapps）</p>
+<h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>一个宠物店，有16只宠物，开发一个去中心化应用，让大家来领养宠物。<br>truffle box中，已经提供了 pet-shop 的网站部分的代码，我们只需要编写合约及交互部分。</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu16.04</span><br><span class="line">node v12.16.3(npm 6.14.4)</span><br><span class="line">truffle v5.1.24</span><br><span class="line">Solidity 0.5.0以上</span><br><span class="line">ganache-cli v6.9.1 (ganache-core: 2.10.2)</span><br><span class="line">MetaMask 7.7.9</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>1.创建项目目录，并进入<br><code>mkdir pet-shop-tutorial</code><br><code>cd pet-shop-tutorial</code><br>2.truffle unbox，创建项目<br><code>truffle unbox pet-shop</code><br>等待完成…</p>
+<h2 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">contracts&#x2F;: 智能合约的文件夹，包含一个重要的合约Migrations.sol。</span><br><span class="line">migrations&#x2F;: 用来处理部署（迁移）智能合约，一个额外特别的合约用来保存合约的变化。</span><br><span class="line">test&#x2F;: 智能合约测试用例文件夹</span><br><span class="line">truffle-config.js&#x2F;: 配置文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写智能合约"><a href="#编写智能合约" class="headerlink" title="编写智能合约"></a>编写智能合约</h2><p>contracts/，添加Adoption.sol</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.5.0;</span><br><span class="line"></span><br><span class="line">contract Adoption &#123;</span><br><span class="line"></span><br><span class="line">  address[16] public adopters;  &#x2F;&#x2F; 保存领养者的地址</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 领养宠物</span><br><span class="line">  function adopt(uint petId) public returns (uint) &#123;</span><br><span class="line">    require(petId &gt;&#x3D; 0 &amp;&amp; petId &lt;&#x3D; 15);  &#x2F;&#x2F; 确保id在数组长度内</span><br><span class="line"></span><br><span class="line">    adopters[petId] &#x3D; msg.sender;        &#x2F;&#x2F; 保存调用这地址</span><br><span class="line">    return petId;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 返回领养者</span><br><span class="line">  function getAdopters() public view returns (address[16] memory) &#123;</span><br><span class="line">    return adopters;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行编译命令"><a href="#执行编译命令" class="headerlink" title="执行编译命令"></a>执行编译命令</h2><p>dapp的根目录，pet-shop-tutorial/下<br><code>truffle compile</code></p>
+<h2 id="启动ganache-cli"><a href="#启动ganache-cli" class="headerlink" title="启动ganache-cli"></a>启动ganache-cli</h2><p><code>ganache-cli</code>，启动<br>原因：在执行部署之前，需要确保有一个区块链运行；<br>ganache开启一个私链来进行开发测试（此版本默认在8545端口运行）。</p>
+<h2 id="部署智能合约"><a href="#部署智能合约" class="headerlink" title="部署智能合约"></a>部署智能合约</h2><p><code>migrations/1_initial_migration.js</code>: 部署脚本，部署Migrations.sol合约。<br>创建一个自己的部署脚本，<code>migrations/2_deploy_contracts.js</code>，内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Adoption = artifacts.require(<span class="string">"Adoption"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">deployer</span>) </span>&#123;</span><br><span class="line">  deployer.deploy(Adoption);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行部署命令"><a href="#执行部署命令" class="headerlink" title="执行部署命令"></a>执行部署命令</h2><p><code>truffle migrate</code><br>在ganache中，可以看到区块链状态的变化，产生了4个区块；<br>至此，智能合约已经部署完成。</p>
+<h2 id="编写测试合约"><a href="#编写测试合约" class="headerlink" title="编写测试合约"></a>编写测试合约</h2><p>test目录下，新建TestAdoption.sol，编写测试合约</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.5.0;</span><br><span class="line"></span><br><span class="line">import &quot;truffle&#x2F;Assert.sol&quot;;   &#x2F;&#x2F; 引入的断言</span><br><span class="line">import &quot;truffle&#x2F;DeployedAddresses.sol&quot;;  &#x2F;&#x2F; 用来获取被测试合约的地址</span><br><span class="line">import &quot;..&#x2F;contracts&#x2F;Adoption.sol&quot;;      &#x2F;&#x2F; 被测试合约</span><br><span class="line"></span><br><span class="line">contract TestAdoption &#123;</span><br><span class="line">  Adoption adoption &#x3D; Adoption(DeployedAddresses.Adoption());</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 领养测试用例</span><br><span class="line">  function testUserCanAdoptPet() public &#123;</span><br><span class="line">    uint returnedId &#x3D; adoption.adopt(8);</span><br><span class="line"></span><br><span class="line">    uint expected &#x3D; 8;</span><br><span class="line">    Assert.equal(returnedId, expected, &quot;Adoption of pet ID 8 should be recorded.&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 宠物所有者测试用例</span><br><span class="line">  function testGetAdopterAddressByPetId() public &#123;</span><br><span class="line">    &#x2F;&#x2F; 期望领养者的地址就是本合约地址，因为交易是由测试合约发起交易</span><br><span class="line">    address expected &#x3D; address(this);</span><br><span class="line">    address adopter &#x3D; adoption.adopters(8);</span><br><span class="line">    Assert.equal(adopter, expected, &quot;Owner of pet ID 8 should be recorded.&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 测试所有领养者</span><br><span class="line">  function testGetAdopterAddressByPetIdInArray() public &#123;</span><br><span class="line">    &#x2F;&#x2F; 领养者的地址就是本合约地址</span><br><span class="line">    address expected &#x3D; address(this);</span><br><span class="line">    address[16] memory adopters &#x3D; adoption.getAdopters();</span><br><span class="line">    Assert.equal(adopters[8], expected, &quot;Owner of pet ID 8 should be recorded.&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行测试命令"><a href="#执行测试命令" class="headerlink" title="执行测试命令"></a>执行测试命令</h2><p><code>truffle test</code><br>没有问题，则通过</p>
+<h2 id="用户接口和智能合约交互"><a href="#用户接口和智能合约交互" class="headerlink" title="用户接口和智能合约交互"></a>用户接口和智能合约交互</h2><p>已经编写、部署和测试过合约，为合约编写UI，让合约真正可以用起来；<br>项目目录下，包含了应用的前端代码，在src/文件夹下。</p>
+<p>编辑器中打开<code>src/js/app.js</code><br>管理整个应用的App对象，init函数加载宠物信息，初始化web3<br>web3是一个实现了与以太坊节点通信的库，利用web3与合约进行交互。</p>
+<h2 id="初始化，web3"><a href="#初始化，web3" class="headerlink" title="初始化，web3"></a>初始化，web3</h2><p>app.js中，修改initWeb3()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">initWeb3: <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Modern dapp browsers...</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.ethereum) &#123;</span><br><span class="line">      App.web3Provider = <span class="built_in">window</span>.ethereum;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Request account access</span></span><br><span class="line">        <span class="keyword">await</span> <span class="built_in">window</span>.ethereum.enable();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="comment">// User denied account access...</span></span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">"User denied account access"</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Legacy dapp browsers...</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.web3) &#123;</span><br><span class="line">      App.web3Provider = <span class="built_in">window</span>.web3.currentProvider;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// If no injected web3 instance is detected, fall back to Ganache</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      App.web3Provider = <span class="keyword">new</span> Web3.providers.HttpProvider(<span class="string">'http://localhost:8545'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    web3 = <span class="keyword">new</span> Web3(App.web3Provider);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> App.initContract();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>MetaMask新版本，注入了一个ethereum对象到window对象中；<br>优先使用ethereum来构造web3，同时使用ethereum.enable()来请求用户授权访问链接账号。</p>
+<p>注：代码中优先使用MetaMask提供的web3实例，如果没有，则从本地环境创建一个。</p>
+<h2 id="实例化合约"><a href="#实例化合约" class="headerlink" title="实例化合约"></a>实例化合约</h2><p>app.js中，修改initContract()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">initContract: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 加载Adoption.json，保存了Adoption的ABI（接口说明）信息及部署后的网络(地址)信息，它在编译合约的时候生成ABI，在部署的时候追加网络信息</span></span><br><span class="line">    $.getJSON(<span class="string">'Adoption.json'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 用Adoption.json数据创建一个可交互的TruffleContract合约实例。</span></span><br><span class="line">      <span class="keyword">var</span> AdoptionArtifact = data;</span><br><span class="line">      App.contracts.Adoption = TruffleContract(AdoptionArtifact);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Set the provider for our contract</span></span><br><span class="line">      App.contracts.Adoption.setProvider(App.web3Provider);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Use our contract to retrieve and mark the adopted pets</span></span><br><span class="line">      <span class="keyword">return</span> App.markAdopted();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> App.bindEvents();</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理领养"><a href="#处理领养" class="headerlink" title="处理领养"></a>处理领养</h2><p>app.js中，修改markAdopted()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">markAdopted: <span class="function"><span class="keyword">function</span>(<span class="params">adopters, account</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> adoptionInstance;</span><br><span class="line"></span><br><span class="line">    App.contracts.Adoption.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      adoptionInstance = instance;</span><br><span class="line">      <span class="comment">// 调用合约的getAdopters(), 用call读取信息不用消耗gas</span></span><br><span class="line">      <span class="keyword">return</span> adoptionInstance.getAdopters.call();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">adopters</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; adopters.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (adopters[i] !== <span class="string">'0x0000000000000000000000000000000000000000'</span>) &#123;</span><br><span class="line">          $(<span class="string">'.panel-pet'</span>).eq(i).find(<span class="string">'button'</span>).text(<span class="string">'Success'</span>).attr(<span class="string">'disabled'</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(err.message);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>app.js中，修改handleAdopt()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">handleAdopt: <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">    <span class="keyword">var</span> petId = <span class="built_in">parseInt</span>($(event.target).data(<span class="string">'id'</span>));</span><br><span class="line">    <span class="keyword">var</span> adoptionInstance;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取用户账号.调用Web3</span></span><br><span class="line">    web3.eth.getAccounts(<span class="function"><span class="keyword">function</span>(<span class="params">error, accounts</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 出常的回调</span></span><br><span class="line">      <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(error);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> account = accounts[<span class="number">0</span>];</span><br><span class="line">    <span class="comment">// 创建合约实例       </span></span><br><span class="line">      App.contracts.Adoption.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">        adoptionInstance = instance;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送交易领养宠物</span></span><br><span class="line">        <span class="keyword">return</span> adoptionInstance.adopt(petId, &#123;<span class="attr">from</span>: account&#125;);</span><br><span class="line">      &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> App.markAdopted();   <span class="comment">// 标记所领养宠物</span></span><br><span class="line">      &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err.message);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="MetaMask"><a href="#MetaMask" class="headerlink" title="MetaMask"></a>MetaMask</h2><p>安装MetaMask，配置钱包，保存12个助记词；<br>连接开发区块链网络。</p>
+<h2 id="list-server，安装和配置"><a href="#list-server，安装和配置" class="headerlink" title="list-server，安装和配置"></a>list-server，安装和配置</h2><p>本地的Web服务器提供服务的访问，项目里提供了一个lite-server可以直接使用。<br><code>bs-config.json</code>，指示了lite-server的工作目录；<br><code>package.json</code>，scripts中添加了dev命令。</p>
+<h2 id="list-server，启动"><a href="#list-server，启动" class="headerlink" title="list-server，启动"></a>list-server，启动</h2><p><code>npm run dev</code></p>
+<h2 id="在浏览器中运行"><a href="#在浏览器中运行" class="headerlink" title="在浏览器中运行"></a>在浏览器中运行</h2><p>运行成功，如下图所示：<br><img src="/2020/05/07/Dapp%E5%AE%A0%E7%89%A9%E5%95%86%E5%BA%97/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C.png" alt="浏览器中运行成功-图示"><br><img src="/2020/05/07/Dapp%E5%AE%A0%E7%89%A9%E5%95%86%E5%BA%97/MeteMask%E4%BA%A4%E6%98%93.png" alt="MeteMask交易-图示"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>教程：<a href="https://learnblockchain.cn/2018/01/12/first-dapp/" target="_blank" rel="noopener">https://learnblockchain.cn/2018/01/12/first-dapp/</a><br>踩坑：<a href="https://www.jianshu.com/p/e3b4c190c781" target="_blank" rel="noopener">https://www.jianshu.com/p/e3b4c190c781</a><br><a href="https://www.jianshu.com/p/861501dc0b87" target="_blank" rel="noopener">https://www.jianshu.com/p/861501dc0b87</a><br><a href="https://www.jianshu.com/p/e3b4c190c781" target="_blank" rel="noopener">https://www.jianshu.com/p/e3b4c190c781</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链案例</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/07/Dapp%E5%AE%A0%E7%89%A9%E5%95%86%E5%BA%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Ubuntu16-04，ftp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -874,95 +987,6 @@
 
 
   
-    <article id="post-问答平台（2），登录和退出" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA/">问答平台（2），登录和退出</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA/" class="archive-article-date">
-  	<time datetime="2020-05-01T08:38:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="LoginTicket"><a href="#LoginTicket" class="headerlink" title="LoginTicket"></a>LoginTicket</h2><p>LoginTicket表保存用户的状态，核心字段为ticket；<br>登陆成功时，服务器将ticket字段发送给客户端；<br>客户端访问时，将ticket字段发送给服务器，然后服务器根据这个字段查询用户信息（id、用户状态、过期时间等）。</p>
-<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>验证账号、密码、验证码；<br>成功时，生成登录凭证，发放给客户端；<br>失败时，跳转回登录页面。</p>
-<h2 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h2><p>将登录凭证修改为失效状态；<br>跳转到网站首页。</p>
-<hr>
-<h2 id="Service层：UserService-gt-login"><a href="#Service层：UserService-gt-login" class="headerlink" title="Service层：UserService -&gt; login()"></a>Service层：UserService -&gt; login()</h2><p>1、空值判断<br>2、合法性验证：用户名不存在、密码错误、账号未激活<br>3、生成LoginTicket对象，调用Dao存入数据库<br>4、将ticket存入Map，返回给客户端保存</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">login</span><span class="params">(String username, String password, <span class="keyword">int</span> expiredSecond)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 空值处理</span></span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(username)) &#123;</span><br><span class="line">        map.put(<span class="string">"usernameMsg"</span>, <span class="string">"账号不能为空!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(password)) &#123;</span><br><span class="line">        map.put(<span class="string">"passwordMsg"</span>, <span class="string">"密码不能为空!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证账号</span></span><br><span class="line">    User user = userMapper.selectByName(username);</span><br><span class="line">    <span class="keyword">if</span>(user == <span class="keyword">null</span>) &#123;</span><br><span class="line">        map.put(<span class="string">"usernameMsg"</span>, <span class="string">"该账号不存在!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证状态（是否激活）</span></span><br><span class="line">    <span class="keyword">if</span>(user.getStatus() == <span class="number">0</span>) &#123;</span><br><span class="line">        map.put(<span class="string">"usernameMsg"</span>, <span class="string">"该账号未激活!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证密码</span></span><br><span class="line">    password = CommunityUtil.md5(password + user.getSalt());</span><br><span class="line">    <span class="keyword">if</span>(!user.getPassword().equals(password)) &#123;</span><br><span class="line">        map.put(<span class="string">"passwordMsg"</span>, <span class="string">"密码不正确!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成登录凭证</span></span><br><span class="line">    LoginTicket loginTicket = <span class="keyword">new</span> LoginTicket();</span><br><span class="line">    loginTicket.setUserId(user.getId());</span><br><span class="line">    loginTicket.setTicket(CommunityUtil.generateUUID());</span><br><span class="line">    loginTicket.setStatus(<span class="number">0</span>);</span><br><span class="line">    loginTicket.setExpired(<span class="keyword">new</span> Date(System.currentTimeMillis() + expiredSecond * <span class="number">1000</span>));</span><br><span class="line">    loginTicketMapper.insertLoginTicket(loginTicket);</span><br><span class="line"></span><br><span class="line">    map.put(<span class="string">"ticket"</span>, loginTicket.getTicket());</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Controller层：LoginController-gt-login"><a href="#Controller层：LoginController-gt-login" class="headerlink" title="Controller层：LoginController -&gt; login()"></a>Controller层：LoginController -&gt; login()</h2><p>1、验证码校验：session里面存了发送给客户端的验证码，直接取，然后与客户端传来的验证码做判断。<br>2、调用业务层，获取执行结果。<br>3、如果Map中返回的字段有ticket，则将其初始化cookie，设置cookie属性，将cookie加入response对象并返回给客户端。<br>4、如果失败则在model里面加入错误信息，跳转到登陆页面。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/login"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(String username, String password, String code, <span class="keyword">boolean</span> rememberme,</span></span></span><br><span class="line"><span class="function"><span class="params">                    Model model, <span class="comment">/*HttpSession session, */</span>HttpServletResponse response,</span></span></span><br><span class="line"><span class="function"><span class="params">                    @CookieValue(<span class="string">"kaptchaOwner"</span>)</span> String kaptchaOwner) </span>&#123;</span><br><span class="line">    <span class="comment">// 检查验证码</span></span><br><span class="line">    String kaptcha = (String) session.getAttribute(<span class="string">"kaptcha"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端、服务器任一方存的验证码为空、验证码不相等（表现层可先判断，不用交给业务层处理）</span></span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"codeMsg"</span>, <span class="string">"验证码不正确!"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"/site/login"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查账号，密码</span></span><br><span class="line">    <span class="keyword">int</span> expiredSeconds = rememberme ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;</span><br><span class="line">    Map&lt;String, Object&gt; map = userService.login(username, password, expiredSeconds);</span><br><span class="line">    <span class="keyword">if</span>(map.containsKey(<span class="string">"ticket"</span>)) &#123;</span><br><span class="line">        Cookie cookie = <span class="keyword">new</span> Cookie(<span class="string">"ticket"</span>, map.get(<span class="string">"ticket"</span>).toString());</span><br><span class="line">        cookie.setPath(contextPath);</span><br><span class="line">        cookie.setMaxAge(expiredSeconds);</span><br><span class="line">        response.addCookie(cookie);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"redirect:/index"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"usernameMsg"</span>, map.get(<span class="string">"usernameMsg"</span>));</span><br><span class="line">        model.addAttribute(<span class="string">"passwordMsg"</span>, map.get(<span class="string">"passwordMsg"</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"/site/login"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Service层：UserService-gt-logout"><a href="#Service层：UserService-gt-logout" class="headerlink" title="Service层：UserService -&gt; logout()"></a>Service层：UserService -&gt; logout()</h2><p>将登录凭证修改为失效状态：调用updateStatus方法，更新Ticket对象的状态码为1。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">logout</span><span class="params">(String ticket)</span> </span>&#123;</span><br><span class="line">    loginTicketMapper.updateStatus(ticket, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Controller层：LoginController-gt-logout"><a href="#Controller层：LoginController-gt-logout" class="headerlink" title="Controller层：LoginController -&gt; logout()"></a>Controller层：LoginController -&gt; logout()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/logout"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">logout</span><span class="params">(@CookieValue(<span class="string">"ticket"</span>)</span> String ticket) </span>&#123;</span><br><span class="line">    userService.logout(ticket);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"redirect:/login"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next</a>
@@ -1104,11 +1128,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo博客</a>
+                <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
+                <a href="javascript:void(0)" class="js-tag color2">Hexo博客</a>
               </li>
              
               <li class="article-tag-list-item">
