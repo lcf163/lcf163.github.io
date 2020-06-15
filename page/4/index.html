@@ -144,6 +144,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（3），添加评论" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/">问答平台（3），添加评论</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/" class="archive-article-date">
+  	<time datetime="2020-05-30T12:05:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据层"><a href="#数据层" class="headerlink" title="数据层"></a>数据层</h2><p>CommentMapper：增加评论数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insertComment</span><span class="params">(Comment comment)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>comment-mapper.xml里写sql</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"insertFields"</span>&gt;</span></span><br><span class="line">    user_id, entity_type, entity_id, target_id, content, status, create_time</span><br><span class="line"><span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertComment"</span> <span class="attr">parameterType</span>=<span class="string">"Comment"</span>&gt;</span></span><br><span class="line">    insert into comment(<span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"insertFields"</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span>)</span><br><span class="line">    values (#&#123;userId&#125;,#&#123;entityType&#125;,#&#123;entityId&#125;,#&#123;targetId&#125;,#&#123;content&#125;,#&#123;status&#125;,#&#123;createTime&#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>DiscussPostMapper：修改帖子的评论数量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">updateCommentCount</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> commentCount)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateCommentCount"</span>&gt;</span></span><br><span class="line">    update discuss_post set comment_count = #&#123;commentCount&#125; where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><p>处理添加评论的业务：先增加评论、再更新帖子的评论数量。<br>CommentService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span>(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addComment</span><span class="params">(Comment comment)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (comment == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加评论</span></span><br><span class="line">    comment.setContent(HtmlUtils.htmlEscape(comment.getContent()));</span><br><span class="line">    comment.setContent(sensitiveFilter.filter(comment.getContent()));</span><br><span class="line">    <span class="keyword">int</span> rows = commentMapper.insertComment(comment);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新帖子的评论数量</span></span><br><span class="line">    <span class="keyword">if</span> (comment.getEntityType() == ENTITY_TYPE_POST) &#123;</span><br><span class="line">        <span class="keyword">int</span> count = commentMapper.selectCountByEntity(comment.getEntityType(), comment.getEntityId());</span><br><span class="line">        discussPostMapper.updateCommentCount(comment.getEntityId(), count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> rows;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>DiscussPostService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateCommentCount</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> commentCount)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.updateCommentCount(id, commentCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><p>处理添加评论数据的请求。<br>设置添加评论的表单。<br>CommentController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/comment"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommentController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CommentService commentService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/add/&#123;discussPostId&#125;"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addComment</span><span class="params">(@PathVariable(<span class="string">"discussPostId"</span>)</span> <span class="keyword">int</span> discussPostId, Comment comment) </span>&#123;</span><br><span class="line">        comment.setUserId(hostHolder.getUser().getId());</span><br><span class="line">        comment.setStatus(<span class="number">0</span>);</span><br><span class="line">        comment.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        commentService.addComment(comment);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"redirect:/discuss/detail/"</span> + discussPostId;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>discuss-detail.html<br>处理回复列表、回复输入框。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（3），显示评论" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -920,86 +1011,9 @@
 
 
   
-    <article id="post-Ubuntu16-04，solidity" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/">Ubuntu16.04，solidity</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/" class="archive-article-date">
-  	<time datetime="2020-05-09T14:56:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="编译合约报错，踩坑"><a href="#编译合约报错，踩坑" class="headerlink" title="编译合约报错，踩坑"></a>编译合约报错，踩坑</h2><p>编译合约报错，如下图所示：<br><img src="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/%E7%BC%96%E8%AF%91%E5%90%88%E7%BA%A6%E6%8A%A5%E9%94%99%EF%BC%8C%E8%B8%A9%E5%9D%91.png" alt="编译合约报错-图示"><br>solidity编译器版本是0.5.0，<br>代码编写按照0.4.25的规范来写的，<br>语言新特性，踩坑。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>改动合约如下，<br><code>address expected = address(this);</code>，即可通过编译。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/sinyusin/article/details/88558519" target="_blank" rel="noopener">https://blog.csdn.net/sinyusin/article/details/88558519</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next</a>
+      <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next</a>
     </nav>
   
 
@@ -1138,11 +1152,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
+                <a href="javascript:void(0)" class="js-tag color2">Hexo博客</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo博客</a>
+                <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
               </li>
              
               <li class="article-tag-list-item">
