@@ -144,6 +144,277 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（4），点赞" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">问答平台（4），点赞</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/" class="archive-article-date">
+  	<time datetime="2020-06-02T05:38:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="点赞"><a href="#点赞" class="headerlink" title="点赞"></a>点赞</h2><p>支持对帖子、评论点赞。<br>第1次点赞，第2次取消点赞。<br>点赞功能需要考虑性能的问题：把点赞数据存到Redis里会提升性能。</p>
+<h3 id="首页点赞数量"><a href="#首页点赞数量" class="headerlink" title="首页点赞数量"></a>首页点赞数量</h3><p>统计帖子的点赞数量。</p>
+<h3 id="详情页点赞数量"><a href="#详情页点赞数量" class="headerlink" title="详情页点赞数量"></a>详情页点赞数量</h3><p>统计点赞数量。<br>显示点赞状态。</p>
+<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><p>RedisKeyUtil：新增</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisKeyUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SPLIT = <span class="string">":"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_ENTITY_LIKE = <span class="string">"like:entity"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 某个实体的赞</span></span><br><span class="line">    <span class="comment">// like:entity:entityType:entityId -&gt; set(userId)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getEntityLikeKey</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><p>LikeService：新增</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LikeService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点赞</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">like</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">boolean</span> isMember = operations.opsForSet().isMember(entityLikeKey, userId);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isMember) &#123;</span><br><span class="line">            operations.opsForSet().remove(entityLikeKey, userId);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            operations.opsForSet().add(entityLikeKey, userId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某实体点赞的数量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">findEntityLikeCount</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().size(entityLikeKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某人对某实体的点赞状态</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findEntityLikeStatus</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><p>LikeController：新增</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LikeController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LikeService likeService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/like"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">like</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId, <span class="keyword">int</span> postId)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 点赞</span></span><br><span class="line">        likeService.like(user.getId(), entityType, entityId, entityUserId);</span><br><span class="line">        <span class="comment">// 数量</span></span><br><span class="line">        <span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(entityType, entityId);</span><br><span class="line">        <span class="comment">// 状态</span></span><br><span class="line">        <span class="keyword">int</span> likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);</span><br><span class="line">        <span class="comment">// 返回的结果</span></span><br><span class="line">        Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line">        map.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="keyword">null</span>, map);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现首页的点赞数量的显示：<br>HomeController -&gt; getIndexPage()，加入查找点赞数量的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());</span><br><span class="line">map.put(<span class="string">"likeCount"</span>, likeCount);</span><br></pre></td></tr></table></figure>
+<p>实现帖子详情页面（帖子、评论、回复）的点赞数量和点赞状态的显示：<br>DiscussPostController -&gt; getDiscussPost()，加入如下逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line"><span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line"><span class="keyword">int</span> likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 评论VO列表</span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回复VO列表            </span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br></pre></td></tr></table></figure>
+
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>discuss-detail.html：内容-&gt;作者、回帖列表、回复列表<br>discuss.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">like</span>(<span class="params">btn, entityType, entityId</span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/like"</span>,</span><br><span class="line">        &#123;<span class="string">"entityType"</span>: entityType, <span class="string">"entityId"</span>: entityId&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                $(btn).children(<span class="string">"i"</span>).text(data.likeCount);</span><br><span class="line">                $(btn).children(<span class="string">"b"</span>).text(data.likeStatus == <span class="number">1</span> ? <span class="string">'已赞'</span> : <span class="string">'赞'</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>index.html：帖子列表</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（4），Spring整合Redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/">问答平台（4），Spring整合Redis</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" class="archive-article-date">
+  	<time datetime="2020-06-02T02:03:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>spring-boot-starter-data-redis</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置Redis"><a href="#配置Redis" class="headerlink" title="配置Redis"></a>配置Redis</h2><p>配置数据库参数<br>application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RedisProperties</span><br><span class="line">spring.redis.database&#x3D;11</span><br><span class="line">spring.redis.host&#x3D;localhost</span><br><span class="line">spring.redis.port&#x3D;6379</span><br></pre></td></tr></table></figure>
+<p>编写配置类，构造RedisTemplate<br>config包下，RedisConfig</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置key的序列化方式</span></span><br><span class="line">        template.setKeySerializer(RedisSerializer.string());</span><br><span class="line">        <span class="comment">// 设置value的序列化方式</span></span><br><span class="line">        template.setValueSerializer(RedisSerializer.json());</span><br><span class="line">        <span class="comment">// 设置hash的key的序列化方式</span></span><br><span class="line">        template.setHashKeySerializer(RedisSerializer.string());</span><br><span class="line">        <span class="comment">// 设置hash的value的序列化方式</span></span><br><span class="line">        template.setHashValueSerializer(RedisSerializer.json());</span><br><span class="line"></span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问Redis"><a href="#访问Redis" class="headerlink" title="访问Redis"></a>访问Redis</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue();</span><br><span class="line">redisTemplate.opsForHash();</span><br><span class="line">redisTemplate.opsForList();</span><br><span class="line">redisTemplate.opsForSet();</span><br><span class="line">redisTemplate.opsForZSet();</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试类：RedisTests"><a href="#测试类：RedisTests" class="headerlink" title="测试类：RedisTests"></a>测试类：RedisTests</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">RedisTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStrings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:count"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForValue().set(redisKey, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().increment(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().decrement(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHashes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:user"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForHash().put(redisKey, <span class="string">"id"</span>, <span class="number">1</span>);</span><br><span class="line">        redisTemplate.opsForHash().put(redisKey, <span class="string">"username"</span>, <span class="string">"zhangsan"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForHash().get(redisKey, <span class="string">"id"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForHash().get(redisKey, <span class="string">"username"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLists</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:ids"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">101</span>);</span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">102</span>);</span><br><span class="line">        redisTemplate.opsForList().leftPush(redisKey, <span class="number">103</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForList().size(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().index(redisKey, <span class="number">0</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().range(redisKey, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForList().leftPop(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:teachers"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForSet().add(redisKey, <span class="string">"刘备"</span>, <span class="string">"关羽"</span>, <span class="string">"张飞"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForSet().size(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForSet().pop(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForSet().members(redisKey));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSortedSets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:students"</span>;</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"唐僧"</span>, <span class="number">80</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"悟空"</span>, <span class="number">90</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"八戒"</span>, <span class="number">50</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"沙僧"</span>, <span class="number">70</span>);</span><br><span class="line">        redisTemplate.opsForZSet().add(redisKey, <span class="string">"白龙马"</span>, <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().zCard(redisKey));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().score(redisKey, <span class="string">"八戒"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().reverseRank(redisKey, <span class="string">"八戒"</span>));</span><br><span class="line">        System.out.println(redisTemplate.opsForZSet().reverseRange(redisKey, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testKeys</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        redisTemplate.delete(<span class="string">"test:user"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(redisTemplate.hasKey(<span class="string">"test:user"</span>));</span><br><span class="line"></span><br><span class="line">        redisTemplate.expire(<span class="string">"test:students"</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 多次访问同一个key</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBoundOperations</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String redisKey = <span class="string">"test:count"</span>;</span><br><span class="line">        BoundValueOperations operations = redisTemplate.boundValueOps(redisKey);</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        operations.increment();</span><br><span class="line">        System.out.println(operations.get());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 事务管理：编程式事务</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTransational</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = redisTemplate.execute(<span class="keyword">new</span> SessionCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(RedisOperations operations)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String redisKey = <span class="string">"test:tx"</span>;</span><br><span class="line"></span><br><span class="line">                operations.multi();</span><br><span class="line"></span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"zhangsan"</span>);</span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"lisi"</span>);</span><br><span class="line">                operations.opsForSet().add(redisKey, <span class="string">"wangwu"</span>);</span><br><span class="line"></span><br><span class="line">                System.out.println(operations.opsForSet().members(redisKey));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> operations.exec();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://mvnrepository.com/" target="_blank" rel="noopener">https://mvnrepository.com/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（4），Redis入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/">问答平台（4），Redis入门</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/" class="archive-article-date">
+  	<time datetime="2020-06-02T01:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Redis数据类型"><a href="#Redis数据类型" class="headerlink" title="Redis数据类型"></a>Redis数据类型</h2><p>Redis是一款基于键值对的NoSQL数据库，它的值支持多种数据结构：<br>字符串（strings）、哈希（hashes）、列表（lists）、集合（sets）、有序集合（sorted sets）等。</p>
+<h2 id="Redis存储"><a href="#Redis存储" class="headerlink" title="Redis存储"></a>Redis存储</h2><p>Redis将所有的数据都存放在内存中，所以它的读写性能高。<br>同时，Redis还可以将内存中的数据以快照或日志的形式保存到硬盘上，以保证数据的安全性。</p>
+<h2 id="Redis应用场景"><a href="#Redis应用场景" class="headerlink" title="Redis应用场景"></a>Redis应用场景</h2><p>Redis典型的应用场景包括：缓存、排行榜、计数器、社交网络、消息队列等。</p>
+<h2 id="Redis使用命令"><a href="#Redis使用命令" class="headerlink" title="Redis使用命令"></a>Redis使用命令</h2><p>字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">select 1(0-15)</span><br><span class="line">flushdb</span><br><span class="line">set test:count 1</span><br><span class="line">get test:count</span><br><span class="line">incr test:count</span><br><span class="line">decr test:count</span><br></pre></td></tr></table></figure>
+<p>哈希</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hset test:user id 1</span><br><span class="line">hset test:user username zhangsan</span><br><span class="line">hget test:user id</span><br><span class="line">hget test:user username</span><br></pre></td></tr></table></figure>
+<p>列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lpush test:ids 101 102 103</span><br><span class="line">llen test:ids</span><br><span class="line">lindex test:ids 0</span><br><span class="line">lindex test:ids 2</span><br><span class="line">lrange test:ids 0 2</span><br><span class="line">rpop test:ids</span><br></pre></td></tr></table></figure>
+<p>集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sadd test:teachers aaa bbb ccc ddd eee</span><br><span class="line">scard test:teachers</span><br><span class="line">spop test:teachers(从集合中随机弹出一个元素)</span><br><span class="line">smembers test:teachers</span><br></pre></td></tr></table></figure>
+<p>有序集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zadd test:students 10 aaa 20 bbb 30 ccc 40 ddd 50 eee</span><br><span class="line">zcard test:students</span><br><span class="line">zscore test:students ccc</span><br><span class="line">zrank test:students ccc </span><br><span class="line">zrange test:students 0 2</span><br></pre></td></tr></table></figure>
+<p>全局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">keys *</span><br><span class="line">keys test*</span><br><span class="line">type test:user</span><br><span class="line">exists test:user</span><br><span class="line">del test:user</span><br><span class="line">expire test:students 10(单位：s)</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://redis.io" target="_blank" rel="noopener">https://redis.io</a><br><a href="https://github.com/microsoftarchive/redis" target="_blank" rel="noopener">https://github.com/microsoftarchive/redis</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-docker，本地搭建Hadoop集群" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -777,272 +1048,6 @@
 
 
   
-    <article id="post-问答平台（3），事务管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">问答平台（3），事务管理</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-05-29T14:02:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><p>事务是由N步数据库操作序列组成的逻辑执行单元，这些操作要么全执行，要么全放弃执行。</p>
-<h2 id="事务的特性（ACID）"><a href="#事务的特性（ACID）" class="headerlink" title="事务的特性（ACID）"></a>事务的特性（ACID）</h2><p>原子性（Atomicity）：事务是应用中不可再分的最小执行体。<br>一致性（Consistency）：事务执行的结果，须使数据从一个一致性状态，变为另一个一致性状态。<br>隔离性（Isolation）：各个事务的执行互不干扰，任何事务的内部操作对其他的事务都是隔离的。<br>持久性（Durability）：事务一旦提交，对数据所做的任何改变都要记录到永久存储器中。</p>
-<h2 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h2><p>常见的并发异常：<br>第一类丢失更新、第二类丢失更新。<br>脏读、不可重复读、幻读。</p>
-<h3 id="第一类丢失更新"><a href="#第一类丢失更新" class="headerlink" title="第一类丢失更新"></a>第一类丢失更新</h3><p>某一个事务的（回滚），导致另外一个事务已更新的数据丢失了。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E7%AC%AC%E4%B8%80%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png" alt="第一类丢失更新-图示"></p>
-<h3 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h3><p>某一个事务的（提交），导致另外一个事务已更新的数据丢失了。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E7%AC%AC%E4%BA%8C%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png" alt="第二类丢失更新-图示"></p>
-<h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>某一个事务，读取了另外一个事务（未提交）的数据。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E8%84%8F%E8%AF%BB.png" alt="脏读-图示"></p>
-<h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>某一个事务，对同一个数据（前后读取的结果）不一致。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.png" alt="不可重复读-图示"></p>
-<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>某一个事务，对同一个表（前后查询到的行数）不一致。<br><img src="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/%E5%B9%BB%E8%AF%BB.png" alt="幻读-图示"></p>
-<h2 id="常见的隔离级别"><a href="#常见的隔离级别" class="headerlink" title="常见的隔离级别"></a>常见的隔离级别</h2><p>Read Uncommitted：读取未提交的数据。<br>Read Committed：读取已提交的数据。<br>Repeatable Read：可重复读。<br>Serializable：串行化。<br>![隔离级别-图示](问答平台（3） ，事务管理/隔离级别.png)</p>
-<h2 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h2><h3 id="悲观锁（数据库）"><a href="#悲观锁（数据库）" class="headerlink" title="悲观锁（数据库）"></a>悲观锁（数据库）</h3><p>共享锁（S锁）：事务A对某数据加了共享锁后，其他事务只能对该数据加共享锁，但不能加排他锁。<br>排他锁（X锁）：事务A对某数据加了排他锁后，其他事务对该数据既不能加共享锁，也不能加排他锁。</p>
-<h3 id="乐观锁（自定义）"><a href="#乐观锁（自定义）" class="headerlink" title="乐观锁（自定义）"></a>乐观锁（自定义）</h3><p>版本号、时间戳等：在更新数据前，检查版本号是否发生变化。若变化则取消本次更新，否则就更新数据（版本号+1）。</p>
-<h2 id="Spring事务管理"><a href="#Spring事务管理" class="headerlink" title="Spring事务管理"></a>Spring事务管理</h2><h3 id="声明式事务"><a href="#声明式事务" class="headerlink" title="声明式事务"></a>声明式事务</h3><p>（1）通过XML配置，声明某方法的事务特征。<br>（2）通过注解，声明某方法的事务特征。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事务的传播机制</span></span><br><span class="line"><span class="comment">// REQUIRED: 支持当前事务（外部事务），如果不存在则创建新事务</span></span><br><span class="line"><span class="comment">// REQUIRES_NEW: 创建一个新事务，并且暂停当前事务（外部事务）</span></span><br><span class="line"><span class="comment">// NESTED: 如果当前存在事务（外部事务），则嵌套在该事务中执行（独立的提交和回滚），否则和REQUIRED一样</span></span><br><span class="line"><span class="meta">@Transactional</span>(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">save1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 新增用户</span></span><br><span class="line">    User user = <span class="keyword">new</span> User();</span><br><span class="line">    user.setUsername(<span class="string">"alpha"</span>);</span><br><span class="line">    user.setSalt(CommunityUtil.generateUUID().substring(<span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line">    user.setPassword(CommunityUtil.md5(<span class="string">"123"</span> + user.getSalt()));</span><br><span class="line">    user.setEmail(<span class="string">"alpha@qq.com"</span>);</span><br><span class="line">    user.setHeaderUrl(<span class="string">"http://image.nowcoder.com/head/99t.png"</span>);</span><br><span class="line">    user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 新增帖子</span></span><br><span class="line">    DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">    post.setUserId(user.getId());</span><br><span class="line">    post.setTitle(<span class="string">"Hello"</span>);</span><br><span class="line">    post.setContent(<span class="string">"新人报道!"</span>);</span><br><span class="line">    post.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    discussPostMapper.insertDiscussPost(post);</span><br><span class="line"></span><br><span class="line">    Integer.valueOf(<span class="string">"abc"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"ok"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="编程式事务"><a href="#编程式事务" class="headerlink" title="编程式事务"></a>编程式事务</h3><p>通过TransactionTemplate管理事务， 并通过它执行数据库的操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="comment">//@Scope("prototype")</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlphaService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaDao alphaDao;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostMapper discussPostMapper;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> TransactionTemplate transactionTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">save2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);</span><br><span class="line">        transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> transactionTemplate.execute(<span class="keyword">new</span> TransactionCallback&lt;Object&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">doInTransaction</span><span class="params">(TransactionStatus transactionStatus)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 新增用户</span></span><br><span class="line">                User user = <span class="keyword">new</span> User();</span><br><span class="line">                user.setUsername(<span class="string">"beta"</span>);</span><br><span class="line">                user.setSalt(CommunityUtil.generateUUID().substring(<span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line">                user.setPassword(CommunityUtil.md5(<span class="string">"123"</span> + user.getSalt()));</span><br><span class="line">                user.setEmail(<span class="string">"beta@qq.com"</span>);</span><br><span class="line">                user.setHeaderUrl(<span class="string">"http://image.nowcoder.com/head/999t.png"</span>);</span><br><span class="line">                user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">                userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 新增帖子</span></span><br><span class="line">                DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">                post.setUserId(user.getId());</span><br><span class="line">                post.setTitle(<span class="string">"你好"</span>);</span><br><span class="line">                post.setContent(<span class="string">"我是新人!"</span>);</span><br><span class="line">                post.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">                discussPostMapper.insertDiscussPost(post);</span><br><span class="line"></span><br><span class="line">                Integer.valueOf(<span class="string">"abc"</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="string">"ok"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="测试类：TransactionTests"><a href="#测试类：TransactionTests" class="headerlink" title="测试类：TransactionTests"></a>测试类：TransactionTests</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">TransactionTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaService alphaService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = alphaService.save1();</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSave2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object obj = alphaService.save1();</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（3），帖子详情" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/">问答平台（3），帖子详情</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/" class="archive-article-date">
-  	<time datetime="2020-05-29T13:35:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="dao层"><a href="#dao层" class="headerlink" title="dao层"></a>dao层</h2><p>DiscussPostMapper</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">DiscussPost <span class="title">selectDiscussPostById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>discusspost-mapper里写sql</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id="selectFields"&gt;</span><br><span class="line">    id, user_id, title, content, type, status, create_time, comment_count, score</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;select id="selectDiscussPostById" resultType="DiscussPost"&gt;</span><br><span class="line">    <span class="keyword">select</span></span><br><span class="line">    &lt;<span class="keyword">include</span> refid=<span class="string">"selectFields"</span>&gt;&lt;/<span class="keyword">include</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> discuss_post</span><br><span class="line">    <span class="keyword">where</span> <span class="keyword">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="service层"><a href="#service层" class="headerlink" title="service层"></a>service层</h2><p>DiscussPostService</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> DiscussPost <span class="title">findDiscussPostById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.selectDiscussPostById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="controller层"><a href="#controller层" class="headerlink" title="controller层"></a>controller层</h2><p>DiscussPostController</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/detail/&#123;discussPostId&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getDiscussPost</span><span class="params">(@PathVariable(<span class="string">"discussPostId"</span>)</span> <span class="keyword">int</span> discussPostId, Model model, Page page) </span>&#123;</span><br><span class="line">    <span class="comment">// 帖子</span></span><br><span class="line">    DiscussPost post = discussPostService.findDiscussPostById(discussPostId);</span><br><span class="line">    model.addAttribute(<span class="string">"post"</span>, post);</span><br><span class="line">    <span class="comment">// 作者</span></span><br><span class="line">    User user = userService.findUserById(post.getUserId());</span><br><span class="line">    model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/discuss-detail"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><p>index.html<br>在帖子标题上增加访问详情页面的链接<br>discuss-detail.html<br>处理静态资源的访问路径<br>复用index.html的header区域<br>显示标题、作者、发布时间、帖子正文等内容</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（3），发布帖子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90/">问答平台（3），发布帖子</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90/" class="archive-article-date">
-  	<time datetime="2020-05-29T10:40:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h2><p>Asynchronous JavaScript and XML<br>异步的JavaScript与XML，不是一门新技术，只是一个新的术语。<br>使用AJAX，网页能够将增量更新呈现在页面上，而不需要刷新整个页面。<br>虽然X代表XML，但目前JSON的使用比XML更加普遍。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX</a></p>
-<h2 id="封装Json工具：CommunityUtil"><a href="#封装Json工具：CommunityUtil" class="headerlink" title="封装Json工具：CommunityUtil"></a>封装Json工具：CommunityUtil</h2><p>使用阿里的fastjson，引入依赖。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.58<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJSONString</span><span class="params">(<span class="keyword">int</span> code, String msg, Map&lt;String, Object&gt; map)</span> </span>&#123;</span><br><span class="line">    JSONObject json = <span class="keyword">new</span> JSONObject();</span><br><span class="line">    json.put(<span class="string">"code"</span>, code);</span><br><span class="line">    json.put(<span class="string">"msg"</span>, msg);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (String key : map.keySet()) &#123;</span><br><span class="line">            json.put(key, map.get(key));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> json.toJSONString();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJSONString</span><span class="params">(<span class="keyword">int</span> code, String msg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getJSONString(code, msg, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJSONString</span><span class="params">(<span class="keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getJSONString(code, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="AJAX示例"><a href="#AJAX示例" class="headerlink" title="AJAX示例"></a>AJAX示例</h2><p>使用jQuery发送AJAX请求。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax示例</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/ajax"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testAjax</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">    System.out.println(name);</span><br><span class="line">    System.out.println(age);</span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"操作成功!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ajax<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"发送"</span> <span class="attr">onclick</span>=<span class="string">"send();"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-3.3.1.min.js"</span> <span class="attr">crossorigin</span>=<span class="string">"anonymous"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">send</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.post(</span></span><br><span class="line"><span class="actionscript">                <span class="string">"/community/alpha/ajax"</span>,</span></span><br><span class="line"><span class="actionscript">                &#123;<span class="string">"name"</span>: <span class="string">"张三"</span>, <span class="string">"age"</span>: <span class="number">23</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                <span class="function"><span class="keyword">function</span> <span class="params">(data)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> (data));</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(data);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">                    data = $.parseJSON(data);</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> (data));</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(data.code);</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(data.msg);</span></span><br><span class="line">                &#125;</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>采用AJAX请求，实现发布帖子的功能。</p>
-<h3 id="dao层"><a href="#dao层" class="headerlink" title="dao层"></a>dao层</h3><p>DiscussPostMapper -&gt; insertDiscussPost()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insertDiscussPost</span><span class="params">(DiscussPost discussPost)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>discusspost-mapper里写sql</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id="insertFields"&gt;</span><br><span class="line">    user_id, title, content, type, status, create_time, comment_count, score</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id"&gt;</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> discuss_post(&lt;<span class="keyword">include</span> refid=<span class="string">"insertFields"</span>&gt;&lt;/<span class="keyword">include</span>&gt;)</span><br><span class="line">    <span class="keyword">values</span>(<span class="comment">#&#123;userId&#125;,#&#123;title&#125;,#&#123;content&#125;,#&#123;type&#125;,#&#123;status&#125;,#&#123;createTime&#125;,#&#123;commentCount&#125;,#&#123;score&#125;)</span></span><br><span class="line">&lt;/<span class="keyword">insert</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="service层"><a href="#service层" class="headerlink" title="service层"></a>service层</h3><p>DiscussPostService -&gt; addDiscussPost()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addDiscussPost</span><span class="params">(DiscussPost post)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (post == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转义HTML标记</span></span><br><span class="line">    post.setTitle(HtmlUtils.htmlEscape(post.getTitle()));</span><br><span class="line">    post.setContent(HtmlUtils.htmlEscape(post.getContent()));</span><br><span class="line">    <span class="comment">// 过滤敏感词</span></span><br><span class="line">    post.setTitle(sensitiveFilter.filter(post.getTitle()));</span><br><span class="line">    post.setContent(sensitiveFilter.filter(post.getContent()));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.insertDiscussPost(post);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="controller层"><a href="#controller层" class="headerlink" title="controller层"></a>controller层</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/discuss"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DiscussPostController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostService discussPostService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/add"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addDiscussPost</span><span class="params">(String title, String content)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line">        <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">403</span>, <span class="string">"还没有登录!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">        post.setUserId(user.getId());</span><br><span class="line">        post.setTitle(title);</span><br><span class="line">        post.setContent(content);</span><br><span class="line">        post.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        discussPostService.addDiscussPost(post);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 报错的情况，将来统一处理</span></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"发布成功!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#publishBtn"</span>).click(publish);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">publish</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#publishModal"</span>).modal(<span class="string">"hide"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取标题和内容</span></span><br><span class="line">    <span class="keyword">var</span> title = $(<span class="string">"#recipient-name"</span>).val();</span><br><span class="line">    <span class="keyword">var</span> content = $(<span class="string">"#message-text"</span>).val();</span><br><span class="line">    <span class="comment">// 发送异步请求(POST)</span></span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/discuss/add"</span>,</span><br><span class="line">        &#123;<span class="string">"title"</span>: title, <span class="string">"content"</span>: content&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="comment">// 在提示框中显示返回消息</span></span><br><span class="line">            $(<span class="string">"#hintBody"</span>).text(data.msg);</span><br><span class="line">            <span class="comment">// 显示提示框</span></span><br><span class="line">            $(<span class="string">"#hintModal"</span>).modal(<span class="string">"show"</span>);</span><br><span class="line">            <span class="comment">// 2s后，自动隐藏提示框</span></span><br><span class="line">            setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                $(<span class="string">"#hintModal"</span>).modal(<span class="string">"hide"</span>);</span><br><span class="line">                <span class="comment">// 刷新页面</span></span><br><span class="line">                <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">window</span>.location.reload();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, <span class="number">2000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/29/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next</a>
@@ -1205,6 +1210,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">问答平台项目</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">区块链基础</a>
               </li>
             
             <div class="clearfix"></div>
