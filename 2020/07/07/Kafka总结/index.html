@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | lcf Blog</title>
+  <title>Kafka总结 | lcf Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="lcf Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2020/page/4/index.html">
+  <meta name="description" content="KafkaKafka 是什么12345678Kafka 是一个分布式流式处理平台。流平台具有三个关键功能：消息队列：发布和订阅消息流，这个功能类似于消息队列，这也是 Kafka 也被归类为消息队列的原因。容错的持久方式存储记录消息流：Kafka 会把消息持久化到磁盘，有效避免了消息丢失的风险。流式处理平台：在消息发布的时候进行处理，Kafka 提供了一个完整的流式处理类库。 应用场景1234Kaf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka总结">
+<meta property="og:url" content="http://yoursite.com/2020/07/07/Kafka%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="KafkaKafka 是什么12345678Kafka 是一个分布式流式处理平台。流平台具有三个关键功能：消息队列：发布和订阅消息流，这个功能类似于消息队列，这也是 Kafka 也被归类为消息队列的原因。容错的持久方式存储记录消息流：Kafka 会把消息持久化到磁盘，有效避免了消息丢失的风险。流式处理平台：在消息发布的时候进行处理，Kafka 提供了一个完整的流式处理类库。 应用场景1234Kaf">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-07T07:18:53.000Z">
+<meta property="article:modified_time" content="2020-07-07T07:50:16.550Z">
 <meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="框架">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="lcf Blog" type="application/atom+xml">
@@ -142,415 +147,214 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Kafka总结" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kafka总结
+    </h1>
+  
+
+        
+        
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+<a href="/2020/07/07/Kafka%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-07T07:18:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-07</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><h3 id="Kafka-是什么"><a href="#Kafka-是什么" class="headerlink" title="Kafka 是什么"></a>Kafka 是什么</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Kafka 是一个分布式流式处理平台。</span><br><span class="line">流平台具有三个关键功能：</span><br><span class="line"></span><br><span class="line">消息队列：发布和订阅消息流，这个功能类似于消息队列，这也是 Kafka 也被归类为消息队列的原因。</span><br><span class="line"></span><br><span class="line">容错的持久方式存储记录消息流：Kafka 会把消息持久化到磁盘，有效避免了消息丢失的风险。</span><br><span class="line"></span><br><span class="line">流式处理平台：在消息发布的时候进行处理，Kafka 提供了一个完整的流式处理类库。</span><br></pre></td></tr></table></figure>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Kafka 主要有两大应用场景：</span><br><span class="line"></span><br><span class="line">消息队列：建立实时流数据管道，以可靠地在系统或应用程序之间获取数据。</span><br><span class="line">数据处理：构建实时的流数据处理程序来转换或处理数据流。</span><br></pre></td></tr></table></figure>
+<h3 id="和其他消息队列相比，Kafka的优势"><a href="#和其他消息队列相比，Kafka的优势" class="headerlink" title="和其他消息队列相比，Kafka的优势"></a>和其他消息队列相比，Kafka的优势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">经常提到 Kafka 的时候就已经默认它是一个非常优秀的消息队列了，也会经常拿它与 RocketMQ、RabbitMQ 对比。 </span><br><span class="line"></span><br><span class="line">Kafka 相比其他消息队列主要的优势如下：</span><br><span class="line"></span><br><span class="line">极致的性能：基于 Scala 和 Java 语言开发，设计中大量使用了批量处理和异步的思想，最高可以每秒处理千万级别的消息。</span><br><span class="line"></span><br><span class="line">生态系统兼容性无可匹敌：Kafka 与周边生态系统的兼容性是最好的没有之一，尤其在大数据和流计算领域。</span><br><span class="line"></span><br><span class="line">在早期的时候 Kafka 并不是一个合格的消息队列，早期的 Kafka 功能不完备并且有一些小问题，比如丢失消息、不保证消息可靠性等等。这也和 LinkedIn 最早开发 Kafka 用于处理海量的日志有很大关系，后面误打误撞在消息队列领域占据了一席之地。随着后续的发展，这些短板都被 Kafka 逐步修复完善。所以，Kafka 作为消息队列不可靠这个说法已经过时！</span><br></pre></td></tr></table></figure>
+<h3 id="队列模型：早期的消息模型"><a href="#队列模型：早期的消息模型" class="headerlink" title="队列模型：早期的消息模型"></a>队列模型：早期的消息模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用队列（Queue）作为消息通信载体，满足生产者与消费者模式，一条消息只能被一个消费者使用，未被消费的消息在队列中保留直到被消费或超时。</span><br><span class="line">比如：我们生产者发送 100 条消息的话，两个消费者来消费一般情况下两个消费者会按照消息发送的顺序各自消费一半（你一个我一个）。</span><br><span class="line"></span><br><span class="line">队列模型存在的问题：</span><br><span class="line"></span><br><span class="line">存在这样一种情况：我们需要将生产者产生的消息分发给多个消费者，并且每个消费者都能接收到完成的消息内容。这种情况，队列模型就不好解决了。杠精说：可以为每个消费者创建一个单独的队列，让生产者发送多份。这是一种非常愚蠢的做法，浪费资源不说，还违背了使用消息队列的目的。</span><br></pre></td></tr></table></figure>
+<h3 id="发布-订阅模型：Kafka-消息模型"><a href="#发布-订阅模型：Kafka-消息模型" class="headerlink" title="发布-订阅模型：Kafka 消息模型"></a>发布-订阅模型：Kafka 消息模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">发布-订阅模型主要是为了解决队列模型存在的问题。</span><br><span class="line"></span><br><span class="line">发布订阅模型（Pub-Sub）使用主题（Topic） 作为消息通信载体，类似于广播模式；</span><br><span class="line">发布者发布一条消息，该消息通过主题传递给所有的订阅者，在一条消息广播之后才订阅的用户则是收不到该条消息的。</span><br><span class="line"></span><br><span class="line">发布-订阅模型中，如果只有一个订阅者，那它和队列模型就是一样的。所以说，发布-订阅模型在功能层面上是可以兼容队列模型的。</span><br></pre></td></tr></table></figure>
+<h3 id="Producer、Consumer、Broker、Topic、Partition"><a href="#Producer、Consumer、Broker、Topic、Partition" class="headerlink" title="Producer、Consumer、Broker、Topic、Partition"></a>Producer、Consumer、Broker、Topic、Partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Kafka 重要的概念：</span><br><span class="line"></span><br><span class="line">Producer(生产者): 产生消息的一方。</span><br><span class="line">Consumer(消费者): 消费消息的一方。</span><br><span class="line">Broker(代理服务器): 一个独立的 Kafka 实例，多个 Kafka Broker 组成一个 Kafka Cluster。</span><br><span class="line">---</span><br><span class="line">每个 Broker 中又包含了 Topic 以及 Partition:</span><br><span class="line"></span><br><span class="line">Topic(主题): Producer 将消息发送到特定的主题，Consumer 通过订阅特定的 Topic 来消费消息。</span><br><span class="line"></span><br><span class="line">Partition(分区): Partition 属于 Topic 的一部分。一个 Topic 可以有多个 Partition，并且同一 Topic 下的 Partition 可以分布在不同的 Broker 上，这也就表明一个 Topic 可以横跨多个 Broker。</span><br></pre></td></tr></table></figure>
+<h3 id="Kafka-的多副本机制"><a href="#Kafka-的多副本机制" class="headerlink" title="Kafka 的多副本机制"></a>Kafka 的多副本机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Kafka 为分区（Partition）引入了多副本（Replica）机制。</span><br><span class="line"></span><br><span class="line">分区（Partition）中的多个副本之间会有一个 leader 副本，其他副本称为 follower。我们发送的消息会被发送到 leader 副本，然后 follower 副本才能从 leader 副本中拉取消息进行同步。</span><br><span class="line"></span><br><span class="line">生产者和消费者只与 leader 副本交互。可以理解为其他副本只是 leader 副本的拷贝，它们的存在只是为了保证消息存储的安全性。当 leader 副本发生故障时会从 follower 中选举出一个 leader，但是 follower 中如果有和 leader 同步程度达不到要求的参加不了 leader 的竞选。</span><br></pre></td></tr></table></figure>
+<h3 id="Kafka-多分区，多副本的好处"><a href="#Kafka-多分区，多副本的好处" class="headerlink" title="Kafka 多分区，多副本的好处"></a>Kafka 多分区，多副本的好处</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Kafka 给特定 Topic 指定多个 Partition, 而各个 Partition 可以分布在不同的 Broker 上, 这样能提供比较好的并发能力（负载均衡）。</span><br><span class="line"></span><br><span class="line">Partition 可以指定对应的 Replica 数，这也极大地提高了消息存储的安全性，提高了容错能力，不过也相应的增加了所需要的存储空间。</span><br></pre></td></tr></table></figure>
+<h3 id="Kafka-如何保证消息的消费顺序"><a href="#Kafka-如何保证消息的消费顺序" class="headerlink" title="Kafka 如何保证消息的消费顺序"></a>Kafka 如何保证消息的消费顺序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在使用消息队列的过程中经常有业务场景需要严格保证消息的消费顺序，比如我们同时发了 2 个消息，这 2 个消息对应的操作分别对应的数据库操作是：更改用户会员等级、根据会员等级计算订单价格。假如这两条消息的消费顺序不一样造成的最终结果就会截然不同。</span><br><span class="line"></span><br><span class="line">Kafka 中 Partition(分区)是真正保存消息的地方，我们发送的消息都被放在这里。而Partition(分区) 又存在于 Topic(主题) 这个概念中，并且我们可以给特定 Topic 指定多个 Partition。</span><br><span class="line"></span><br><span class="line">每次添加消息到 Partition(分区) 的时候都会采用尾加法。Kafka 只能为我们保证 Partition(分区) 中的消息有序，而不能保证 Topic(主题) 中 Partition(分区) 的有序。</span><br><span class="line"></span><br><span class="line">所以，有一种很简单的保证消息消费顺序的方法：1 个 Topic 只对应 1 个 Partition。这样当然可以解决问题，但是破坏了 Kafka 的设计初衷。</span><br><span class="line"></span><br><span class="line">Kafka 中发送 1 条消息的时候，可以指定 topic, partition, key, data（数据）4 个参数。如果你发送消息的时候指定了 Partition 的话，所有消息都会被发送到指定的Partition。并且，同一个 key 的消息可以保证只发送到同一个 partition，可以采用表&#x2F;对象的 id 来作为 key。</span><br><span class="line"></span><br><span class="line">总结，保证 Kafka 中消息消费的顺序，有了两种方法：</span><br><span class="line">    （1）1 个 Topic 只对应一个 Partition。</span><br><span class="line">    （2）发送消息的时候指定 key&#x2F;Partition (推荐)。</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://snailclimb.gitee.io/javaguide/" target="_blank" rel="noopener">https://snailclimb.gitee.io/javaguide/</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-06-11T11:13:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/">问答平台（5），阻塞队列</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">框架</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/07/Kafka%E6%80%BB%E7%BB%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E4%BC%98%E5%8C%96%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/" class="archive-article-date">
-  	<time datetime="2020-06-02T12:18:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/07/MyBatis%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MyBatis总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E4%BC%98%E5%8C%96%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/">问答平台（4），优化登录模块</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E5%88%97%E8%A1%A8%E3%80%81%E7%B2%89%E4%B8%9D%E5%88%97%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2020-06-02T11:28:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E5%88%97%E8%A1%A8%E3%80%81%E7%B2%89%E4%B8%9D%E5%88%97%E8%A1%A8/">问答平台（4），关注列表、粉丝列表</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  <!--  -->
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E3%80%81%E5%8F%96%E6%B6%88%E5%85%B3%E6%B3%A8/" class="archive-article-date">
-  	<time datetime="2020-06-02T08:12:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E3%80%81%E5%8F%96%E6%B6%88%E5%85%B3%E6%B3%A8/">问答平台（4），关注、取消关注</a>
-    </h1>
+    <section id="comments" style="margin:10px;padding:10px;background:#fff;">
+      <div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    // window.onload = function() {
+    //     new Valine({
+    //         el: '.comment',
+    //         notify: notify,
+    //         verify: verify,
+    //         app_id: "XWrXVLzrDieALcRDUeyWOxBF-gzGzoHsz",
+    //         app_key: "r4wd3PPkrk3AooJMbeX7FDzy",
+    //         placeholder: "欢迎小伙伴们评论~",
+    //         avatar:"mm"
+    //     });
+    // }
+    new Valine({
+        el: '#vcomment',
+        notify: notify,
+        verify: verify,
+        app_id: "XWrXVLzrDieALcRDUeyWOxBF-gzGzoHsz",
+        app_key: "r4wd3PPkrk3AooJMbeX7FDzy",
+        placeholder: "欢迎小伙伴们评论~",
+        avatar:"mm"
+    });
+</script>
+    </section>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/" class="archive-article-date">
-  	<time datetime="2020-06-02T07:04:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/">问答平台（4），收到的赞</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/" class="archive-article-date">
-  	<time datetime="2020-06-02T05:38:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/">问答平台（4），点赞</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" class="archive-article-date">
-  	<time datetime="2020-06-02T02:03:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/">问答平台（4），Spring整合Redis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2020-06-02T01:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/">问答平台（4），Redis入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/" class="archive-article-date">
-  	<time datetime="2020-06-01T12:48:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/">Docker，本地搭建Hadoop集群</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/" class="archive-article-date">
-  	<time datetime="2020-05-31T08:53:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/">问答平台（3），统一记录日志</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2020/page/3/">Prev</a><a class="page-number" href="/archives/2020/">1</a><a class="page-number" href="/archives/2020/page/2/">2</a><a class="page-number" href="/archives/2020/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2020/page/5/">5</a><a class="page-number" href="/archives/2020/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2020/page/8/">8</a><a class="extend next" rel="next" href="/archives/2020/page/5/">Next</a>
-    </nav>
   
 
 
@@ -618,8 +422,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
