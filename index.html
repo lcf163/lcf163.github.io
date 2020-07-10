@@ -462,120 +462,6 @@ discusspost-mapper.xml<figure class="highlight xml"><table><tr><td class="gutter
 
 
   
-    <article id="post-问答平台（1），开发环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">问答平台（1），开发环境</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="archive-article-date">
-  	<time datetime="2020-07-10T07:04:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Apache-Maven"><a href="#Apache-Maven" class="headerlink" title="Apache Maven"></a>Apache Maven</h2><ul>
-<li>构建项目、管理项目中的jar包</li>
-<li>Maven仓库：存放构件的位置<ul>
-<li>本地仓库：默认是 ~/.m2/repository</li>
-<li>远程仓库：中央仓库、镜像仓库、私服仓库</li>
-</ul>
-</li>
-<li>示例：安装、配置、常用命令<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3>/conf/settings.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://maven.aliyun.com/repository/central<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3>配置环境变量：/bin/mvn.cmd<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mvn -version</span><br><span class="line">cd d:/项目目录</span><br><span class="line">mvn archetype:generate -DgroupId=com.nowcoder.community -DartifactId=community -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false</span><br><span class="line">cd d:/项目目录 </span><br><span class="line">mvn compile(产生/target)</span><br><span class="line">mvn clean</span><br><span class="line">mvn compile</span><br><span class="line">mvn clean test</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h2><ul>
-<li>目前最流行的Java集成开发工具</li>
-<li>示例：安装、配置、创建项目</li>
-<li>修改Maven本地仓库配置</li>
-</ul>
-<h2 id="Spring-Initializr"><a href="#Spring-Initializr" class="headerlink" title="Spring Initializr"></a>Spring Initializr</h2><ul>
-<li>创建 Spring Boot 项目的引导工具</li>
-<li>示例：创建“牛客社区”项目</li>
-</ul>
-<h2 id="Spring-Boot-入门示例"><a href="#Spring-Boot-入门示例" class="headerlink" title="Spring Boot 入门示例"></a>Spring Boot 入门示例</h2><ul>
-<li>Spring Boot 核心作用<ul>
-<li>起步依赖、自动配置、端点监控</li>
-</ul>
-</li>
-<li>示例<ul>
-<li>一个简单的处理客户端请求案例<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AlphaController.java</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/alpha"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlphaController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaService alphaService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello Spring Boot."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="端口冲突"><a href="#端口冲突" class="headerlink" title="端口冲突"></a>端口冲突</h3></li>
-</ul>
-</li>
-<li>application.properties<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ServerProperties</span></span><br><span class="line"><span class="string">server.port=8080</span></span><br><span class="line"><span class="comment">#server.servlet.context-path=</span></span><br><span class="line"><span class="string">server.servlet.context-path=/community</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="http://maven.apache.org" target="_blank" rel="noopener">http://maven.apache.org</a></li>
-<li><a href="http://www.jetbrains.com/idea" target="_blank" rel="noopener">http://www.jetbrains.com/idea</a></li>
-<li><a href="https://start.spring.io" target="_blank" rel="noopener">https://start.spring.io</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-问答平台（1），Spirng入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -664,6 +550,120 @@ discusspost-mapper.xml<figure class="highlight xml"><table><tr><td class="gutter
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8CSpirng%E5%85%A5%E9%97%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（1），开发环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">问答平台（1），开发环境</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="archive-article-date">
+  	<time datetime="2020-07-10T07:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Apache-Maven"><a href="#Apache-Maven" class="headerlink" title="Apache Maven"></a>Apache Maven</h2><ul>
+<li>构建项目、管理项目中的jar包</li>
+<li>Maven仓库：存放构件的位置<ul>
+<li>本地仓库：默认是 ~/.m2/repository</li>
+<li>远程仓库：中央仓库、镜像仓库、私服仓库</li>
+</ul>
+</li>
+<li>示例：安装、配置、常用命令<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3>/conf/settings.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://maven.aliyun.com/repository/central<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3>配置环境变量：/bin/mvn.cmd<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mvn -version</span><br><span class="line">cd d:/项目目录</span><br><span class="line">mvn archetype:generate -DgroupId=com.nowcoder.community -DartifactId=community -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false</span><br><span class="line">cd d:/项目目录 </span><br><span class="line">mvn compile(产生/target)</span><br><span class="line">mvn clean</span><br><span class="line">mvn compile</span><br><span class="line">mvn clean test</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h2><ul>
+<li>目前最流行的Java集成开发工具</li>
+<li>示例：安装、配置、创建项目</li>
+<li>修改Maven本地仓库配置</li>
+</ul>
+<h2 id="Spring-Initializr"><a href="#Spring-Initializr" class="headerlink" title="Spring Initializr"></a>Spring Initializr</h2><ul>
+<li>创建 Spring Boot 项目的引导工具</li>
+<li>示例：创建“牛客社区”项目</li>
+</ul>
+<h2 id="Spring-Boot-入门示例"><a href="#Spring-Boot-入门示例" class="headerlink" title="Spring Boot 入门示例"></a>Spring Boot 入门示例</h2><ul>
+<li>Spring Boot 核心作用<ul>
+<li>起步依赖、自动配置、端点监控</li>
+</ul>
+</li>
+<li>示例<ul>
+<li>一个简单的处理客户端请求案例<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AlphaController.java</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/alpha"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlphaController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaService alphaService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello Spring Boot."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="端口冲突"><a href="#端口冲突" class="headerlink" title="端口冲突"></a>端口冲突</h3></li>
+</ul>
+</li>
+<li>application.properties<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ServerProperties</span></span><br><span class="line"><span class="string">server.port=8080</span></span><br><span class="line"><span class="comment">#server.servlet.context-path=</span></span><br><span class="line"><span class="string">server.servlet.context-path=/community</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://maven.apache.org" target="_blank" rel="noopener">http://maven.apache.org</a></li>
+<li><a href="http://www.jetbrains.com/idea" target="_blank" rel="noopener">http://www.jetbrains.com/idea</a></li>
+<li><a href="https://start.spring.io" target="_blank" rel="noopener">https://start.spring.io</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">展开全文 >></a>
         </p>
       
 
