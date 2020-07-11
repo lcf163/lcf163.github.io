@@ -144,6 +144,161 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Ubuntu16-04，web3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/">Ubuntu16.04，web3</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/" class="archive-article-date">
+  	<time datetime="2020-05-09T15:06:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="TypeError"><a href="#TypeError" class="headerlink" title="TypeError"></a>TypeError</h2><p>尚硅谷Dapp简单投票系统，运行在浏览器，出现如下问题：<br><code>web3.eth.contract is not a constructor</code></p>
+<h2 id="web3，版本问题"><a href="#web3，版本问题" class="headerlink" title="web3，版本问题"></a>web3，版本问题</h2><p>web3.js开发者在创建合约对象时容易发生错误，不同版本web3.js的API变化，检查自己的web3.js版本。<br><code>version &lt; 1.0.0</code>，web3.eth.contract(); // 注意contract大小写<br><code>version &gt; 1.0.0</code>，new web3.eth.Contract();</p>
+<h2 id="尚未解决"><a href="#尚未解决" class="headerlink" title="尚未解决"></a>尚未解决</h2><p>尚硅谷Dapp简单投票系统，无法运行。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/juehai/p/9734025.html" target="_blank" rel="noopener">https://www.cnblogs.com/juehai/p/9734025.html</a><br><a href="https://blog.csdn.net/qq_33829547/article/details/81938727" target="_blank" rel="noopener">https://blog.csdn.net/qq_33829547/article/details/81938727</a><br><a href="https://blog.csdn.net/weixin_34259232/article/details/91700969" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34259232/article/details/91700969</a><br><a href="https://www.dazhuanlan.com/2020/01/06/5e12df34e149a/" target="_blank" rel="noopener">https://www.dazhuanlan.com/2020/01/06/5e12df34e149a/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/09/Ubuntu16-04%EF%BC%8Cweb3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Ubuntu16-04，solidity" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/">Ubuntu16.04，solidity</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/" class="archive-article-date">
+  	<time datetime="2020-05-09T14:56:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="编译合约报错，踩坑"><a href="#编译合约报错，踩坑" class="headerlink" title="编译合约报错，踩坑"></a>编译合约报错，踩坑</h2><p>编译合约报错，如下图所示：<br><img src="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/%E7%BC%96%E8%AF%91%E5%90%88%E7%BA%A6%E6%8A%A5%E9%94%99%EF%BC%8C%E8%B8%A9%E5%9D%91.png" alt="编译合约报错-图示"><br>solidity编译器版本是0.5.0，<br>代码编写按照0.4.25的规范来写的，<br>语言新特性，踩坑。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>改动合约如下，<br><code>address expected = address(this);</code>，即可通过编译。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/sinyusin/article/details/88558519" target="_blank" rel="noopener">https://blog.csdn.net/sinyusin/article/details/88558519</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/09/Ubuntu16-04%EF%BC%8Csolidity/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Ubantu16-04，Atom" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -824,181 +979,9 @@
 
 
   
-    <article id="post-Hexo，翻页问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/">Hexo，翻页问题</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-05-02T04:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="翻页问题"><a href="#翻页问题" class="headerlink" title="翻页问题"></a>翻页问题</h2><p><code>blog\themes\yilia\layout\_partial\archive.ejs</code>，修改如下两处：<br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B51.png" alt="翻页1-图示"><br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B52.png" alt="翻页2-图示"></p>
-<p><code>blog\themes\yilia\layout\_partial\script.ejs</code>，ctrl + f，搜索 prev or next<br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B53.png" alt="翻页3-图示"><br>找到这两处， 去掉<code>&amp;laquo;和&amp;raquo;</code>，效果如下图所示：<br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B54.png" alt="翻页4-图示"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/weixin_43807244/article/details/105341605" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43807244/article/details/105341605</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hexo博客</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（2），检查登录状态" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%A3%80%E6%9F%A5%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81/">问答平台（2），检查登录状态</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%A3%80%E6%9F%A5%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81/" class="archive-article-date">
-  	<time datetime="2020-05-01T14:07:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>如果用户没登录，拒绝直接访问设置用户的URL，服务器端需要有判断机制。</p>
-<h2 id="使用拦截器"><a href="#使用拦截器" class="headerlink" title="使用拦截器"></a>使用拦截器</h2><ul>
-<li>在方法前标注自定义注解；</li>
-<li>拦截所有请求，只处理带有该注解的方法。</li>
-</ul>
-<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><h3 id="常用的元注解"><a href="#常用的元注解" class="headerlink" title="常用的元注解"></a>常用的元注解</h3><ul>
-<li>@Target: 声明自定义注解可以作用在哪个位置</li>
-<li>@Retention：声明自定义注解有效的时间（运行时有效 or 编译时有效）</li>
-<li>@Document：生成文档时是否带上注解</li>
-<li>@Inherited：用于继承，指定子类是否继承父类的注解<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LoginRequired.java</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> LoginRequired &#123; &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="如何读取注解（通过反射）"><a href="#如何读取注解（通过反射）" class="headerlink" title="如何读取注解（通过反射）"></a>如何读取注解（通过反射）</h3></li>
-<li>Method.getDeclareAnnotations()</li>
-<li>Method.getAnnotation(Class annotationClass)<h3 id="在方法前标注自定义注解"><a href="#在方法前标注自定义注解" class="headerlink" title="在方法前标注自定义注解"></a>在方法前标注自定义注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UserController.java</span></span><br><span class="line"><span class="meta">@LoginRequired</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/setting"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getSettingPage</span><span class="params">(Model model)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@LoginRequired</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/upload"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">uploadHeader</span><span class="params">(MultipartFile headerImage, Model model)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="拦截器的定义"><a href="#拦截器的定义" class="headerlink" title="拦截器的定义"></a>拦截器的定义</h2><p>只有访问的方法加注解（检查是否用户登录），避免在Config里面增加过多的拦截配置。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginRequiredInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 拦截到的是一个方法</span></span><br><span class="line">        <span class="keyword">if</span> (handler <span class="keyword">instanceof</span> HandlerMethod) &#123;</span><br><span class="line">            HandlerMethod handlerMethod = (HandlerMethod) handler;</span><br><span class="line">            Method method = handlerMethod.getMethod();</span><br><span class="line">            <span class="comment">// 读到注解，需要登录才能访问</span></span><br><span class="line">            LoginRequired loginRequired = method.getAnnotation(LoginRequired<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            <span class="comment">// 访问该方法，并且用户没登录</span></span><br><span class="line">            <span class="keyword">if</span> (loginRequired != <span class="keyword">null</span> &amp;&amp; hostHolder.getUser() == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 重定向到登录页面</span></span><br><span class="line">                response.sendRedirect(request.getContextPath() + <span class="string">"/login"</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="拦截器的配置"><a href="#拦截器的配置" class="headerlink" title="拦截器的配置"></a>拦截器的配置</h2><p>将拦截器loginRequiredInterceptor加入registry对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WebMvcConfig.java</span></span><br><span class="line">registry.addInterceptor(loginRequiredInterceptor)</span><br><span class="line">        .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>);</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%A3%80%E6%9F%A5%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next</a>
+      <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">Next</a>
     </nav>
   
 
