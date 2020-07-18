@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Spring总结 | lcf Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="列举一些Spring的重要模块12345678Spring Core: 基础，可以说 Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注⼊功能。Spring AOP: 提供了⾯向切⾯的编程实现。Spring ORM: ⽤于⽀持Hibernate等ORM⼯具。Spring Web: 为创建Web应⽤程序提供⽀持。Spring JMS: Java消息服务。Spring Aspec">
+  <meta name="description" content="列举一些Spring的重要模块12345678910Spring Core: 核心类库，Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注⼊功能。Spring AOP: 提供了⾯向切⾯的编程实现。Spring DAO：对JDBC进行了抽象，简化了数据访问异常等处理。Spring ORM: ⽤于⽀持Hibernate等ORM⼯具，对现有的ORM持久层框架进行了支持。Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring总结">
 <meta property="og:url" content="http://yoursite.com/2020/07/07/Spring%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="列举一些Spring的重要模块12345678Spring Core: 基础，可以说 Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注⼊功能。Spring AOP: 提供了⾯向切⾯的编程实现。Spring ORM: ⽤于⽀持Hibernate等ORM⼯具。Spring Web: 为创建Web应⽤程序提供⽀持。Spring JMS: Java消息服务。Spring Aspec">
+<meta property="og:description" content="列举一些Spring的重要模块12345678910Spring Core: 核心类库，Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注⼊功能。Spring AOP: 提供了⾯向切⾯的编程实现。Spring DAO：对JDBC进行了抽象，简化了数据访问异常等处理。Spring ORM: ⽤于⽀持Hibernate等ORM⼯具，对现有的ORM持久层框架进行了支持。Spring">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/07/07/Spring%E6%80%BB%E7%BB%93/Spring%E4%B8%ADbean%E7%9A%84%E2%BD%A3%E5%91%BD%E5%91%A8%E6%9C%9F.jpg">
 <meta property="article:published_time" content="2020-07-07T00:08:15.000Z">
-<meta property="article:modified_time" content="2020-07-07T06:40:39.063Z">
+<meta property="article:modified_time" content="2020-07-12T07:25:25.762Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="框架">
 <meta name="twitter:card" content="summary">
@@ -175,7 +175,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="列举一些Spring的重要模块"><a href="#列举一些Spring的重要模块" class="headerlink" title="列举一些Spring的重要模块"></a>列举一些Spring的重要模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Spring Core: 基础，可以说 Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注⼊功能。</span><br><span class="line">Spring AOP: 提供了⾯向切⾯的编程实现。</span><br><span class="line">Spring ORM: ⽤于⽀持Hibernate等ORM⼯具。</span><br><span class="line">Spring Web: 为创建Web应⽤程序提供⽀持。</span><br><span class="line">Spring JMS: Java消息服务。</span><br><span class="line">Spring Aspects: 为与AspectJ的集成提供⽀持。</span><br><span class="line">Spring JDBC: Java数据库连接。</span><br><span class="line">Spring Test: 提供了对 JUnit 和 TestNG 测试的⽀持。</span><br></pre></td></tr></table></figure>
+        <h2 id="列举一些Spring的重要模块"><a href="#列举一些Spring的重要模块" class="headerlink" title="列举一些Spring的重要模块"></a>列举一些Spring的重要模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Spring Core: 核心类库，Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注⼊功能。</span><br><span class="line">Spring AOP: 提供了⾯向切⾯的编程实现。</span><br><span class="line">Spring DAO：对JDBC进行了抽象，简化了数据访问异常等处理。</span><br><span class="line">Spring ORM: ⽤于⽀持Hibernate等ORM⼯具，对现有的ORM持久层框架进行了支持。</span><br><span class="line">Spring MVC：提供面向Web应用的Model-View-Controller实现。</span><br><span class="line">Spring Web：提供了基本的面向Web的综合特性。</span><br><span class="line">Spring JMS: Java消息服务。</span><br><span class="line">Spring Aspects: 为与AspectJ的集成提供⽀持。</span><br><span class="line">Spring JDBC: Java数据库连接。</span><br><span class="line">Spring Test: 提供了对 JUnit 和 TestNG 测试的⽀持。</span><br></pre></td></tr></table></figure>
 
 <h2 id="Controller-vs-RestController"><a href="#Controller-vs-RestController" class="headerlink" title="@Controller vs @RestController"></a>@Controller vs @RestController</h2><h3 id="Controller-返回一个页面"><a href="#Controller-返回一个页面" class="headerlink" title="@Controller 返回一个页面"></a>@Controller 返回一个页面</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">单独使⽤ @Controller 不加 @ResponseBody 的话⼀般使⽤在要返回⼀个视图的情况，</span><br><span class="line">这种情况属于传统的 Spring MVC 的应⽤，对应于前后端不分离的情况。</span><br></pre></td></tr></table></figure>
 <h3 id="Controller-ResponseBody，返回-JSON-或-XML-数据"><a href="#Controller-ResponseBody，返回-JSON-或-XML-数据" class="headerlink" title="@Controller + @ResponseBody，返回 JSON 或 XML 数据"></a>@Controller + @ResponseBody，返回 JSON 或 XML 数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在Spring4之前开发 RESTful Web 服务的话，需要使⽤ @Controller 并结合 @ResponseBody 注解，</span><br><span class="line">即， @Controller + @ResponseBody &#x3D; @RestController （Spring 4 之后新加的注解）。</span><br></pre></td></tr></table></figure>
@@ -549,6 +549,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">蘑菇博客项目</a>
               </li>
             
             <div class="clearfix"></div>
