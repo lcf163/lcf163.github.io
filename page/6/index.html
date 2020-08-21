@@ -144,6 +144,109 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（4），关注、取消关注" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E3%80%81%E5%8F%96%E6%B6%88%E5%85%B3%E6%B3%A8/">问答平台（4），关注、取消关注</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E3%80%81%E5%8F%96%E6%B6%88%E5%85%B3%E6%B3%A8/" class="archive-article-date">
+  	<time datetime="2020-06-02T08:12:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<li>开发关注、取消关注功能。</li>
+<li>统计用户的关注数、粉丝数。</li>
+</ul>
+<h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ul>
+<li>若A关注了B，则A是B的Follower(粉丝、关注者)，B是A的Followee(目标、被关注者)。</li>
+<li>关注的目标可以是用户、帖子等，实现时将这些目标抽象为实体。</li>
+</ul>
+<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><ul>
+<li>RedisKeyUtil：增加内容如下<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_FOLLOWEE = <span class="string">"followee"</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_FOLLOWER = <span class="string">"follower"</span>;</span><br><span class="line"><span class="comment">// 某个用户关注的实体</span></span><br><span class="line"><span class="comment">// followee:userId:entityType -&gt; zset(entityId, now)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getFolloweeKey</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PREFIX_FOLLOWEE + SPLIT + userId + SPLIT + entityType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 某个实体拥有的粉丝</span></span><br><span class="line"><span class="comment">// follower:entityType:entityId -&gt; zset(userId, now)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getFollowerKey</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>CommunityConstant：增加<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 实体类型：用户</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> ENTITY_TYPE_USER = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><ul>
+<li>FollowService：新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FollowService</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关注</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">follow</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        redisTemplate.execute(<span class="keyword">new</span> SessionCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(RedisOperations operations)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);</span><br><span class="line">                String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 启用事务</span></span><br><span class="line">                operations.multi();</span><br><span class="line"></span><br><span class="line">                operations.opsForZSet().add(followeeKey, entityId, System.currentTimeMillis());</span><br><span class="line">                operations.opsForZSet().add(followerKey, userId, System.currentTimeMillis());</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> operations.exec();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取消关注</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unfollow</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        redisTemplate.execute(<span class="keyword">new</span> SessionCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(RedisOperations operations)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);</span><br><span class="line">                String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 启用事务</span></span><br><span class="line">                operations.multi();</span><br><span class="line"></span><br><span class="line">                operations.opsForZSet().remove(followeeKey, entityId);</span><br><span class="line">                operations.opsForZSet().remove(followerKey, userId);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> operations.exec();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询关注实体的数量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">findFolloweeCount</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType)</span> </span>&#123;</span><br><span class="line">        String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForZSet().zCard(followeeKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询实体的粉丝数量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">findFollowerCount</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForZSet().zCard(followerKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询当前用户是否已关注该实体</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasFollowed</span><span class="params">(<span class="keyword">int</span> userId, <span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForZSet().score(followeeKey, entityId) != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><ul>
+<li>FollowController：新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FollowController</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> FollowService followService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/follow"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">follow</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">        followService.follow(user.getId(), entityType, entityId);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"已关注!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/unfollow"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">unfollow</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">        followService.unfollow(user.getId(), entityType, entityId);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"已取消关注!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>UserController：修改<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 个人主页</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/profile/&#123;userId&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getProfilePage</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> <span class="keyword">int</span> userId, Model model) </span>&#123;</span><br><span class="line">    User user = userService.findUserById(userId);</span><br><span class="line">    <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"该用户不存在!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用户</span></span><br><span class="line">    model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line">    <span class="comment">// 点赞数量</span></span><br><span class="line">    <span class="keyword">int</span> likeCount = likeService.findUserLikeCount(userId);</span><br><span class="line">    model.addAttribute(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关注数量</span></span><br><span class="line">    <span class="keyword">long</span> followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);</span><br><span class="line">    model.addAttribute(<span class="string">"followeeCount"</span>, followeeCount);</span><br><span class="line">    <span class="comment">// 粉丝数量</span></span><br><span class="line">    <span class="keyword">long</span> followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);</span><br><span class="line">    model.addAttribute(<span class="string">"followerCount"</span>, followerCount);</span><br><span class="line">    <span class="comment">// 是否已关注</span></span><br><span class="line">    <span class="keyword">boolean</span> hasFollowed = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (hostHolder.getUser() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);</span><br><span class="line">    &#125;</span><br><span class="line">    model.addAttribute(<span class="string">"hasFollowed"</span>, hasFollowed);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/profile"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><ul>
+<li>profile.html：内容-&gt;个人信息</li>
+<li>profile.js：添加<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">follow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> btn = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> ($(btn).hasClass(<span class="string">"btn-info"</span>)) &#123;</span><br><span class="line">        <span class="comment">// 关注TA</span></span><br><span class="line">        $.post(</span><br><span class="line">            CONTEXT_PATH + <span class="string">"/follow"</span>,</span><br><span class="line">            &#123;<span class="string">"entityType"</span>: <span class="number">3</span>, <span class="string">"entityId"</span>: $(btn).prev().val()&#125;,</span><br><span class="line">            <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">                data = $.parseJSON(data);</span><br><span class="line">                <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">window</span>.location.reload();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    alert(data.msg);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">        <span class="comment">// $(btn).text("已关注").removeClass("btn-info").addClass("btn-secondary");</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 取消关注</span></span><br><span class="line">        $.post(</span><br><span class="line">            CONTEXT_PATH + <span class="string">"/unfollow"</span>,</span><br><span class="line">            &#123;<span class="string">"entityType"</span>: <span class="number">3</span>, <span class="string">"entityId"</span>: $(btn).prev().val()&#125;,</span><br><span class="line">            <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">                data = $.parseJSON(data);</span><br><span class="line">                <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">window</span>.location.reload();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    alert(data.msg);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">        <span class="comment">// $(btn).text("关注TA").removeClass("btn-secondary").addClass("btn-info");</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E5%85%B3%E6%B3%A8%E3%80%81%E5%8F%96%E6%B6%88%E5%85%B3%E6%B3%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（4），收到的赞" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1024,106 +1127,9 @@
 
 
   
-    <article id="post-问答平台（3），添加评论" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/">问答平台（3），添加评论</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/" class="archive-article-date">
-  	<time datetime="2020-05-30T12:05:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="数据访问层"><a href="#数据访问层" class="headerlink" title="数据访问层"></a>数据访问层</h2><ul>
-<li>添加评论数据<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommentMapper.java</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insertComment</span><span class="params">(Comment comment)</span></span>;</span><br></pre></td></tr></table></figure>
-comment-mapper.xml里写sql<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"insertFields"</span>&gt;</span></span><br><span class="line">    user_id, entity_type, entity_id, target_id, content, status, create_time</span><br><span class="line"><span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertComment"</span> <span class="attr">parameterType</span>=<span class="string">"Comment"</span>&gt;</span></span><br><span class="line">    insert into comment(<span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"insertFields"</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span>)</span><br><span class="line">    values (#&#123;userId&#125;,#&#123;entityType&#125;,#&#123;entityId&#125;,#&#123;targetId&#125;,#&#123;content&#125;,#&#123;status&#125;,#&#123;createTime&#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateCommentCount"</span>&gt;</span></span><br><span class="line">    update discuss_post set comment_count = #&#123;commentCount&#125; where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li>修改帖子的评论数量<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DiscussPostMapper.java</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">updateCommentCount</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> commentCount)</span></span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateCommentCount"</span>&gt;</span></span><br><span class="line">    update discuss_post set comment_count = #&#123;commentCount&#125; where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><ul>
-<li>处理添加评论的业务：先增加评论、再更新帖子的评论数量。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommentService.java</span></span><br><span class="line"><span class="meta">@Transactional</span>(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addComment</span><span class="params">(Comment comment)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (comment == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加评论</span></span><br><span class="line">    comment.setContent(HtmlUtils.htmlEscape(comment.getContent()));</span><br><span class="line">    comment.setContent(sensitiveFilter.filter(comment.getContent()));</span><br><span class="line">    <span class="keyword">int</span> rows = commentMapper.insertComment(comment);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新帖子的评论数量</span></span><br><span class="line">    <span class="keyword">if</span> (comment.getEntityType() == ENTITY_TYPE_POST) &#123;</span><br><span class="line">        <span class="keyword">int</span> count = commentMapper.selectCountByEntity(comment.getEntityType(), comment.getEntityId());</span><br><span class="line">        discussPostMapper.updateCommentCount(comment.getEntityId(), count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> rows;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DiscussPostService.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateCommentCount</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> commentCount)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.updateCommentCount(id, commentCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><ul>
-<li>处理添加评论数据的请求</li>
-<li>设置添加评论的表单<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommentController.java</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/add/&#123;discussPostId&#125;"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">addComment</span><span class="params">(@PathVariable(<span class="string">"discussPostId"</span>)</span> <span class="keyword">int</span> discussPostId, Comment comment) </span>&#123;</span><br><span class="line">    comment.setUserId(hostHolder.getUser().getId());</span><br><span class="line">    comment.setStatus(<span class="number">0</span>);</span><br><span class="line">    comment.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    commentService.addComment(comment);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"redirect:/discuss/detail/"</span> + discussPostId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><ul>
-<li>discuss-detail.html<br>处理回复列表、回复输入框。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next</a>
+      <a class="extend prev" rel="prev" href="/page/5/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/">Next</a>
     </nav>
   
 
