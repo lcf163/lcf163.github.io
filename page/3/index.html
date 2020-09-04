@@ -144,6 +144,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringMVC总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/07/SpringMVC%E6%80%BB%E7%BB%93/">SpringMVC总结</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/07/07/SpringMVC%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-07T03:51:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h2><h3 id="Spring-MVC-的理解"><a href="#Spring-MVC-的理解" class="headerlink" title="Spring MVC 的理解"></a>Spring MVC 的理解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">谈到这个问题，提到之前 Model1 和 Model2 这两个没有 Spring MVC 的时代。</span><br><span class="line"></span><br><span class="line">Model1 时代: 学 Java 后端比较晚的人可能并没有接触过 Model1 模式下的 JavaWeb 应用开发。在 Model1 模式下，整个 Web 应用几乎全部用 JSP 页面组成，只用少量的 JavaBean 来处理数据库连接、访问等操作。这个模式下 JSP 即是控制层又是表现层。显而易见，这种模式存在很多问题。</span><br><span class="line">    （1）将控制逻辑和表现逻辑混杂在一起，导致代码重用率极低；</span><br><span class="line">    （2）前端和后端相互依赖，难以进行测试并且开发效率极低。</span><br><span class="line"></span><br><span class="line">Model2 时代：学过 Servlet 并做过相关 Demo 的朋友应该了解&quot;Java Bean(Model) + JSP(View) + Servlet(Controller)&quot;这种开发模式。这就是早期的 JavaWeb MVC 开发模式。</span><br><span class="line">    Model: 系统涉及的数据，也就是 dao 和 bean。</span><br><span class="line">    View：展示模型中的数据，只是用来展示。</span><br><span class="line">    Controller：处理用户请求都发送给 ，返回数据给 JSP 并展示给用户。</span><br><span class="line"></span><br><span class="line">Model2 模式下还存在很多问题，Model2的抽象和封装程度还远远不够，使用 Model2 进行开发时不可避免地会重复造轮子，这就大大降低了程序的可维护性和复用性。于是很多 JavaWeb 开发相关的 MVC 框架应运而生，比如Struts2，但是 Struts2 比较笨重。随着 Spring 轻量级开发框架的流行，Spring 生态圈出现了 Spring MVC 框架，Spring MVC 是当前最优秀的 MVC 框架。相比于 Struts2，Spring MVC 使用更加简单和方便，开发效率更高，并且 Spring MVC 运行速度更快。</span><br><span class="line"></span><br><span class="line">MVC 是一种设计模式，Spring MVC 是一款很优秀的 MVC 框架。Spring MVC 可以帮助我们进行更简洁的 Web 层的开发，并且它天生与 Spring 框架集成。Spring MVC 下我们一般把后端项目分为 Service层（处理业务）、Dao层（数据库操作）、Entity层（实体类）、Controller层(控制层，返回数据给前台页面)。</span><br></pre></td></tr></table></figure>
+<h3 id="Spring-MVC-的工作原理"><a href="#Spring-MVC-的工作原理" class="headerlink" title="Spring MVC 的工作原理"></a>Spring MVC 的工作原理</h3><p><img src="/2020/07/07/SpringMVC%E6%80%BB%E7%BB%93/SpringMVC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.jpg" alt="SpringMVC工作原理-图示"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">流程说明：</span><br><span class="line"></span><br><span class="line">（1）客户端（浏览器）发送请求，直接请求到 DispatcherServlet。</span><br><span class="line">（2）DispatcherServlet 根据请求信息调用 HandlerMapping，解析请求对应的 Handler。</span><br><span class="line">（3）解析到对应的 Handler(Controller)后，开始由 HandlerAdapter 适配器处理。</span><br><span class="line">（4）HandlerAdapter 会根据 Handler 来调用处理器处理请求，并处理相应的业务逻辑。</span><br><span class="line">（5）处理器处理完业务后，会返回一个 ModelAndView 对象，Model 是返回的数据对象，View 是个逻辑上的 View。</span><br><span class="line">（6）ViewResolver 会根据逻辑 View 查找实际的 View。</span><br><span class="line">（7）DispaterServlet 把返回的 Model 传给 View（视图渲染）。</span><br><span class="line">（8）把 View 返回给请求者（浏览器）。</span><br></pre></td></tr></table></figure>
+
+<h2 id="Spring-框架中用到的设计模式"><a href="#Spring-框架中用到的设计模式" class="headerlink" title="Spring 框架中用到的设计模式"></a>Spring 框架中用到的设计模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">工厂模式: Spring使用工厂模式通过 BeanFactory、ApplicationContext 创建 bean 对象。</span><br><span class="line"></span><br><span class="line">单例模式: Spring 中的 Bean 默认都是单例的。</span><br><span class="line"></span><br><span class="line">代理模式: Spring AOP 功能的实现。</span><br><span class="line"></span><br><span class="line">模板方法模式: Spring 中 jdbcTemplate、hibernateTemplate 等以 Template 结尾的对数据库操作的类，它们就使用到了模板模式。</span><br><span class="line"></span><br><span class="line">观察者模式: Spring 事件驱动模型就是观察者模式很经典的一个应用。</span><br><span class="line"></span><br><span class="line">适配器模式: Spring AOP 的增强或通知(Advice)使用到了适配器模式、</span><br><span class="line">            Spring MVC 中也用到了适配器模式适配Controller。</span><br><span class="line"></span><br><span class="line">装饰模式: 我们的项目需要连接多个数据库 DataSource，而且不同的客户在每次访问中根据需要访问不同的数据库。这种模式让我们可以根据客户的需求动态切换不同的数据源。</span><br></pre></td></tr></table></figure>
+
+<h2 id="Spring-事务"><a href="#Spring-事务" class="headerlink" title="Spring 事务"></a>Spring 事务</h2><h3 id="Spring-管理事务的方式"><a href="#Spring-管理事务的方式" class="headerlink" title="Spring 管理事务的方式"></a>Spring 管理事务的方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">声明式事务，在配置文件中配置（推荐使用）</span><br><span class="line">编程式事务，在代码中硬编码。(不推荐使用)</span><br><span class="line"></span><br><span class="line">声明式事务又分为两种：基于XML的声明式事务、基于注解的声明式事务</span><br></pre></td></tr></table></figure>
+<h3 id="Spring-事务的隔离级别"><a href="#Spring-事务的隔离级别" class="headerlink" title="Spring 事务的隔离级别"></a>Spring 事务的隔离级别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TransactionDefinition 接口中定义了五个常量（表示隔离级别）：</span><br><span class="line"></span><br><span class="line">TransactionDefinition.ISOLATION_DEFAULT: 使用后端数据库默认的隔离级别。Mysql 默认采用的 REPEATABLE_READ 隔离级别，Oracle 默认采用的 READ_COMMITTED 隔离级别。</span><br><span class="line"></span><br><span class="line">TransactionDefinition.ISOLATION_READ_UNCOMMITTED: 最低的隔离级别。允许读取未提交的数据，可能会导致脏读、不可重复读、幻读。</span><br><span class="line"></span><br><span class="line">TransactionDefinition.ISOLATION_READ_COMMITTED: 允许读取已经提交的数据，可以防止脏读，可能会导致不可重复读、幻读。</span><br><span class="line"></span><br><span class="line">TransactionDefinition.ISOLATION_REPEATABLE_READ: 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以防止脏读、不可重复读，但可能会导致幻读。</span><br><span class="line"></span><br><span class="line">TransactionDefinition.ISOLATION_SERIALIZABLE: 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，可以防止脏读、不可重复读、幻读。但是这将严重影响程序的性能。通常也不会用到该级别。</span><br></pre></td></tr></table></figure>
+<h3 id="Spring-事务的传播行为"><a href="#Spring-事务的传播行为" class="headerlink" title="Spring 事务的传播行为"></a>Spring 事务的传播行为</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">支持当前事务的情况：</span><br><span class="line">TransactionDefinition.PROPAGATION_REQUIRED: 如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。</span><br><span class="line">TransactionDefinition.PROPAGATION_SUPPORTS: 如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。</span><br><span class="line">TransactionDefinition.PROPAGATION_MANDATORY: 如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）</span><br><span class="line"></span><br><span class="line">不支持当前事务的情况：</span><br><span class="line">TransactionDefinition.PROPAGATION_REQUIRES_NEW: 创建一个新的事务，如果当前存在事务，则把当前事务挂起。</span><br><span class="line">TransactionDefinition.PROPAGATION_NOT_SUPPORTED: 以非事务方式运行，如果当前存在事务，则把当前事务挂起。</span><br><span class="line">TransactionDefinition.PROPAGATION_NEVER: 以非事务方式运行，如果当前存在事务，则抛出异常。</span><br><span class="line"></span><br><span class="line">其他情况：</span><br><span class="line">TransactionDefinition.PROPAGATION_NESTED: </span><br><span class="line">如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；</span><br><span class="line">如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。</span><br></pre></td></tr></table></figure>
+<h3 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">JPA是Java Persistence API的简称，中文名Java持久层API。</span><br><span class="line"></span><br><span class="line">让secrect 这个字段不被持久化，以采用下面几种方法：</span><br><span class="line"></span><br><span class="line">static String transient1; &#x2F;&#x2F; not persistent because of static</span><br><span class="line">final String transient2 &#x3D; “Satish”; &#x2F;&#x2F; not persistent because of final</span><br><span class="line">transient String transient3; &#x2F;&#x2F; not persistent because of transient</span><br><span class="line">@Transient </span><br><span class="line">String transient4; &#x2F;&#x2F; not persistent because of @Transient</span><br><span class="line"></span><br><span class="line">一般使用后面两种方式比较多。</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://snailclimb.gitee.io/javaguide/" target="_blank" rel="noopener">https://snailclimb.gitee.io/javaguide/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">框架</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/07/SpringMVC%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Spring总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1052,96 +1138,6 @@ settings.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><sp
 
 
   
-    <article id="post-问答平台（8），单元测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">问答平台（8），单元测试</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  	<time datetime="2020-06-16T03:26:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Spring-Boot-Testing"><a href="#Spring-Boot-Testing" class="headerlink" title="Spring Boot Testing"></a>Spring Boot Testing</h2><ul>
-<li>依赖：spring-boot-starter-test</li>
-<li>包括：Junit、Spring Test、AssertJ、…</li>
-</ul>
-<h2 id="Test-Case"><a href="#Test-Case" class="headerlink" title="Test Case"></a>Test Case</h2><ul>
-<li>要求：保证测试方法的独立性。</li>
-<li>步骤：初始化数据、执行测试代码、验证测试结果、清理测试数据。</li>
-<li>常用注解：@BeforeClass、@AfterClass、@Before、@After</li>
-</ul>
-<h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><ul>
-<li>SpringBootTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostService discussPostService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DiscussPost data;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BeforeClass</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">beforeClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"beforeClass"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AfterClass</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">afterClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"afterClass"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化测试数据</span></span><br><span class="line">        data = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">        data.setUserId(<span class="number">111</span>);</span><br><span class="line">        data.setTitle(<span class="string">"Test title"</span>);</span><br><span class="line">        data.setContent(<span class="string">"Test content"</span>);</span><br><span class="line">        data.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        discussPostService.addDiscussPost(data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@After</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 删除测试数据（拉黑帖子）</span></span><br><span class="line">        discussPostService.updateStatus(data.getId(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFindById</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DiscussPost post = discussPostService.findDiscussPostById(data.getId());</span><br><span class="line">        Assert.assertNotNull(post);</span><br><span class="line">        Assert.assertEquals(data.getTitle(), post.getTitle());</span><br><span class="line">        Assert.assertEquals(data.getContent(), post.getContent());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdateScore</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> rows = discussPostService.updateScore(data.getId(), <span class="number">2000.00</span>);</span><br><span class="line">        Assert.assertEquals(<span class="number">1</span>, rows);</span><br><span class="line"></span><br><span class="line">        DiscussPost post = discussPostService.findDiscussPostById(data.getId());</span><br><span class="line">        Assert.assertEquals(<span class="number">2000.00</span>, post.getScore(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.png" alt="单元测试-图示"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/qq_37892718/article/details/85226104" target="_blank" rel="noopener">https://blog.csdn.net/qq_37892718/article/details/85226104</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">Next</a>
@@ -1299,10 +1295,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Linux虚拟机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
              
@@ -1328,6 +1320,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

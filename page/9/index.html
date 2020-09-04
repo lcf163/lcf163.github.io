@@ -144,6 +144,83 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Hexo，翻页问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/">Hexo，翻页问题</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2020-05-02T04:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="翻页问题"><a href="#翻页问题" class="headerlink" title="翻页问题"></a>翻页问题</h2><p><code>blog\themes\yilia\layout\_partial\archive.ejs</code>，修改如下两处：<br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B51.png" alt="翻页1-图示"><br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B52.png" alt="翻页2-图示"></p>
+<p><code>blog\themes\yilia\layout\_partial\script.ejs</code>，ctrl + f，搜索 prev or next<br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B53.png" alt="翻页3-图示"><br>找到这两处， 去掉<code>&amp;laquo;和&amp;raquo;</code>，效果如下图所示：<br><img src="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/%E7%BF%BB%E9%A1%B54.png" alt="翻页4-图示"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/weixin_43807244/article/details/105341605" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43807244/article/details/105341605</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hexo博客</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/02/Hexo%EF%BC%8C%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（2），检查登录状态" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -956,84 +1033,6 @@ response header里有一个set-cookie。<br><img src="/2020/05/01/%E9%97%AE%E7%A
 
 
   
-    <article id="post-Hexo，踩坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/30/Hexo%EF%BC%8C%E8%B8%A9%E5%9D%91/">Hexo，踩坑</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/03/30/Hexo%EF%BC%8C%E8%B8%A9%E5%9D%91/" class="archive-article-date">
-  	<time datetime="2020-03-30T06:57:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="本地图片不显示"><a href="#本地图片不显示" class="headerlink" title="本地图片不显示"></a>本地图片不显示</h2><p>1.修改文件_config.yml，post_asset_folder: 设置为true。</p>
-<p>2.输入<code>hexo n &quot;md文件名&quot;</code>，生成一个与md文件同名的文件夹。</p>
-<p>3.安装hexo-asset-image，可以上传本地图片的插件，<br>输入<code>npm install https://github.com/CodeFalling/hexo-asset-image --save</code>。<br>(不使用npm install hexo-asset-image –save这个命令安装，版本号不对)</p>
-<p>4.md用如下形式引用图片，<code>![描述](md同名的文件夹/图片.jpg)</code>。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hexo博客</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/30/Hexo%EF%BC%8C%E8%B8%A9%E5%9D%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/10/">Next</a>
@@ -1191,10 +1190,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Linux虚拟机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
              
@@ -1220,6 +1215,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
