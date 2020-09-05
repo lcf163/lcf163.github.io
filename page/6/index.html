@@ -144,6 +144,292 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（5），发送系统通知" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/">问答平台（5），发送系统通知</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/" class="archive-article-date">
+  	<time datetime="2020-06-11T13:39:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/%E8%A7%A6%E5%8F%91%E4%BA%8B%E4%BB%B6.png" alt="触发事件-图示"><br>在项目中，有一些不需要实时执行但是非常频繁的操作。为了提升网站的性能，可以使用异步消息的形式进行发送，使用消息队列服务器kafka来实现。</p>
+<h2 id="发送系统通知"><a href="#发送系统通知" class="headerlink" title="发送系统通知"></a>发送系统通知</h2><p>评论，点赞，关注等事件频繁发生，发送系统通知是不需要立刻执行的。</p>
+<h3 id="触发事件"><a href="#触发事件" class="headerlink" title="触发事件"></a>触发事件</h3><ul>
+<li>评论后，发布通知<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommentController.java</span></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> EventProducer eventProducer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/add/&#123;discussPostId&#125;"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">addComment</span><span class="params">(@PathVariable(<span class="string">"discussPostId"</span>)</span> <span class="keyword">int</span> discussPostId, Comment comment) </span>&#123;</span><br><span class="line">    comment.setUserId(hostHolder.getUser().getId());</span><br><span class="line">    comment.setStatus(<span class="number">0</span>);</span><br><span class="line">    comment.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    commentService.addComment(comment);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发评论事件</span></span><br><span class="line">    Event event = <span class="keyword">new</span> Event()</span><br><span class="line">            .setTopic(TOPIC_COMMENT)</span><br><span class="line">            .setUserId(hostHolder.getUser().getId())</span><br><span class="line">            .setEntityType(comment.getEntityType())</span><br><span class="line">            .setEntityId(comment.getEntityId())</span><br><span class="line">            .setData(<span class="string">"postId"</span>, discussPostId);</span><br><span class="line">    <span class="keyword">if</span> (comment.getEntityType() == ENTITY_TYPE_POST) &#123;</span><br><span class="line">        DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());</span><br><span class="line">        event.setEntityUserId(target.getUserId());</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (comment.getEntityType() == ENTITY_TYPE_COMMENT) &#123;</span><br><span class="line">        Comment target = commentService.findCommentById(comment.getEntityId());</span><br><span class="line">        event.setEntityUserId(target.getUserId());</span><br><span class="line">    &#125;</span><br><span class="line">    eventProducer.fireEvent(event);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"redirect:/discuss/detail/"</span> + discussPostId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>点赞后，发布通知<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/like"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">like</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId, <span class="keyword">int</span> entityUserId, <span class="keyword">int</span> postId)</span> </span>&#123;</span><br><span class="line">    User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点赞</span></span><br><span class="line">    likeService.like(user.getId(), entityType, entityId, entityUserId);</span><br><span class="line">    <span class="comment">// 数量</span></span><br><span class="line">    <span class="keyword">long</span> likeCount = likeService.findEntityLikeCount(entityType, entityId);</span><br><span class="line">    <span class="comment">// 状态</span></span><br><span class="line">    <span class="keyword">int</span> likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);</span><br><span class="line">    <span class="comment">// 返回的结果</span></span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    map.put(<span class="string">"likeCount"</span>, likeCount);</span><br><span class="line">    map.put(<span class="string">"likeStatus"</span>, likeStatus);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发点赞事件</span></span><br><span class="line">    <span class="keyword">if</span> (likeStatus == <span class="number">1</span>) &#123;</span><br><span class="line">        Event event = <span class="keyword">new</span> Event()</span><br><span class="line">                .setTopic(TOPIC_LIKE)</span><br><span class="line">                .setUserId(hostHolder.getUser().getId())</span><br><span class="line">                .setEntityType(entityType)</span><br><span class="line">                .setEntityId(entityId)</span><br><span class="line">                .setEntityUserId(entityUserId)</span><br><span class="line">                .setData(<span class="string">"postId"</span>, postId);</span><br><span class="line">        eventProducer.fireEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="keyword">null</span>, map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>关注后，发布通知<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/follow"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">follow</span><span class="params">(<span class="keyword">int</span> entityType, <span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">    User user = hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">    followService.follow(user.getId(), entityType, entityId);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发关注事件</span></span><br><span class="line">    Event event = <span class="keyword">new</span> Event()</span><br><span class="line">            .setTopic(TOPIC_FOLLOW)</span><br><span class="line">            .setUserId(hostHolder.getUser().getId())</span><br><span class="line">            .setEntityType(entityType)</span><br><span class="line">            .setEntityId(entityId)</span><br><span class="line">            .setEntityUserId(entityId);</span><br><span class="line">    eventProducer.fireEvent(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">"已关注!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="处理事件"><a href="#处理事件" class="headerlink" title="处理事件"></a>处理事件</h3></li>
+<li>封装事件对象<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Event.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Event</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String topic;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> userId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> entityType;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> entityId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> entityUserId;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; data = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTopic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> topic;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Event <span class="title">setTopic</span><span class="params">(String topic)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.topic = topic;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getUserId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Event <span class="title">setUserId</span><span class="params">(<span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userId = userId;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getEntityType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> entityType;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Event <span class="title">setEntityType</span><span class="params">(<span class="keyword">int</span> entityType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.entityType = entityType;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getEntityId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> entityId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Event <span class="title">setEntityId</span><span class="params">(<span class="keyword">int</span> entityId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.entityId = entityId;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getEntityUserId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> entityUserId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Event <span class="title">setEntityUserId</span><span class="params">(<span class="keyword">int</span> entityUserId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.entityUserId = entityUserId;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Event <span class="title">setData</span><span class="params">(String key, Object value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data.put(key, value);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>开发事件的生产者<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EventProducer.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EventProducer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> KafkaTemplate kafkaTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理事件</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fireEvent</span><span class="params">(Event event)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 将事件发布到指定的主题</span></span><br><span class="line">        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>开发事件的消费者<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EventConsumer.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EventConsumer</span> <span class="keyword">implements</span> <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(EventConsumer<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MessageService messageService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@KafkaListener</span>(topics = &#123;TOPIC_COMMENT, TOPIC_LIKE, TOPIC_FOLLOW&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleCommentMessage</span><span class="params">(ConsumerRecord record)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (record == <span class="keyword">null</span> || record.value() == <span class="keyword">null</span>) &#123;</span><br><span class="line">            logger.error(<span class="string">"消息的内容为空!"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Event event = JSONObject.parseObject(record.value().toString(), Event<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span> (event == <span class="keyword">null</span>) &#123;</span><br><span class="line">            logger.error(<span class="string">"消息格式错误!"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送站内通知</span></span><br><span class="line">        Message message = <span class="keyword">new</span> Message();</span><br><span class="line">        message.setFromId(SYSTEM_USER_ID);</span><br><span class="line">        message.setToId(event.getEntityUserId());</span><br><span class="line">        message.setConversationId(event.getTopic());</span><br><span class="line">        message.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; content = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        content.put(<span class="string">"userId"</span>, event.getUserId());</span><br><span class="line">        content.put(<span class="string">"entityType"</span>, event.getEntityType());</span><br><span class="line">        content.put(<span class="string">"entityId"</span>, event.getEntityId());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!event.getData().isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;String, Object&gt; entry : event.getData().entrySet()) &#123;</span><br><span class="line">                content.put(entry.getKey(), entry.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        message.setContent(JSONObject.toJSONString(content));</span><br><span class="line">        messageService.addMessage(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h3></li>
+<li>discuss-detail.html: 修改，回复列表（第一条回复 -&gt; 点赞）。</li>
+<li>discuss.js: 修改，like()。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">like</span>(<span class="params">btn, entityType, entityId, entityUserId, postId</span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/like"</span>,</span><br><span class="line">        &#123;<span class="string">"entityType"</span>: entityType, <span class="string">"entityId"</span>: entityId, <span class="string">"entityUserId"</span>: entityUserId, <span class="string">"postId"</span>: postId&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                $(btn).children(<span class="string">"i"</span>).text(data.likeCount);</span><br><span class="line">                $(btn).children(<span class="string">"b"</span>).text(data.likeStatus == <span class="number">1</span> ? <span class="string">'已赞'</span> : <span class="string">'赞'</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3>NullPointerException <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ServiceLogAspect.java</span></span><br><span class="line"><span class="meta">@Before</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 用户[1,2,3,4]，在[xxx]，访问了[com.nowcoder.community.service.xxx]</span></span><br><span class="line">    ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">    <span class="keyword">if</span> (attributes == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    HttpServletRequest request = attributes.getRequest();</span><br><span class="line">    String ip = request.getRemoteHost();</span><br><span class="line">    String now = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>).format(<span class="keyword">new</span> Date());</span><br><span class="line">    String target = joinPoint.getSignature().getDeclaringTypeName() + <span class="string">"."</span> + joinPoint.getSignature().getName();</span><br><span class="line">    logger.info(String.format(<span class="string">"用户[%s], 在[%s], 访问了[%s]."</span>, ip, now, target));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/%E5%8F%91%E9%80%81%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5.png" alt="发送系统通知-图示"><h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3>Kafka在windows启动后，可能出现<code>kafka-logs</code>文件夹被锁死，删除后重启即可。<br>Kafka在Linux系统很稳定。</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>github ssh denied: <a href="https://blog.csdn.net/qq_43768946/article/details/90411154" target="_blank" rel="noopener">https://blog.csdn.net/qq_43768946/article/details/90411154</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（5），Spring整合Kafka" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Kafka/">问答平台（5），Spring整合Kafka</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Kafka/" class="archive-article-date">
+  	<time datetime="2020-06-11T13:24:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- ![Spring整合Kafka-图示](问答平台（5），Spring整合Kafka/Spring整合Kafka.png) -->
+
+<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.kafka<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-kafka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置Kafka"><a href="#配置Kafka" class="headerlink" title="配置Kafka"></a>配置Kafka</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># KafkaProperties</span><br><span class="line">spring.kafka.bootstrap-servers&#x3D;localhost:9092</span><br><span class="line">spring.kafka.consumer.group-id&#x3D;community-consumer-group</span><br><span class="line">spring.kafka.consumer.enable-auto-commit&#x3D;true</span><br><span class="line">spring.kafka.consumer.auto-commit-interval&#x3D;3000</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问Kafka"><a href="#访问Kafka" class="headerlink" title="访问Kafka"></a>访问Kafka</h2><ul>
+<li>生产者：kafkaTemplate.send(topic, data);</li>
+<li>消费者：@KafkaListener(topics = {“test”}) public void handleMessage(ConsumerRecord record) {}</li>
+</ul>
+<h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// KafkaTests.java</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">KafkaTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> KafkaProducer kafkaProducer;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testKafka</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        kafkaProducer.sendMessage(<span class="string">"test"</span>, <span class="string">"你好"</span>);</span><br><span class="line">        kafkaProducer.sendMessage(<span class="string">"test"</span>, <span class="string">"在吗"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span> * <span class="number">10</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KafkaProducer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> KafkaTemplate kafkaTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String topic, String content)</span> </span>&#123;</span><br><span class="line">        kafkaTemplate.send(topic, content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KafkaConsumer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@KafkaListener</span>(topics = &#123;<span class="string">"test"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(ConsumerRecord record)</span> </span>&#123;</span><br><span class="line">        System.out.println(record.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Kafka/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（5），Kafka入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/">问答平台（5），Kafka入门</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/" class="archive-article-date">
+  	<time datetime="2020-06-11T11:47:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Kafka简介"><a href="#Kafka简介" class="headerlink" title="Kafka简介"></a>Kafka简介</h2><ul>
+<li>Kafka是一个分布式的流媒体平台。</li>
+<li>应用：消息系统、日志收集、用户行为追踪、流式处理。<br><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/Kafka.png" alt="Kafka-图示"></li>
+</ul>
+<h2 id="Kafka特点"><a href="#Kafka特点" class="headerlink" title="Kafka特点"></a>Kafka特点</h2><ul>
+<li>消息持久化：把数据存到硬盘上，而不是简单地存到内存。</li>
+<li>高吞吐量：硬盘价格低、存储量大，是存储海量数据的前提。硬盘的顺序读取甚至高于对内存的随机读取，Kafka对硬盘的读取都是顺序进行的，所以对硬盘进行IO不一定性能低。</li>
+<li>高可靠性：分布式环境，可以做集群部署，有容错能力。</li>
+<li>高扩展性：集群不够用时，增加服务器方便。</li>
+</ul>
+<h2 id="Kafka术语"><a href="#Kafka术语" class="headerlink" title="Kafka术语"></a>Kafka术语</h2><ul>
+<li>Broker：服务器。</li>
+<li>Zookeeper：独立的软件，管理集群。</li>
+<li>Topic：（点对点模式：一个数据被一个消费者读取）、（发布订阅模式：多个消费者关注一个位置，可以同时/先后读到这个位置的数据，Kafka采用这种模式）</li>
+<li>Partition：对主题位置的分区，可以同时向多个分区写数据，提高了并发能力。</li>
+<li>Offset：消息在分区内存放的索引。</li>
+<li>Replica：备份、副本。（Leader：主副本、Follower：从副本）</li>
+</ul>
+<h2 id="Kafka应用场景"><a href="#Kafka应用场景" class="headerlink" title="Kafka应用场景"></a>Kafka应用场景</h2><ul>
+<li>消息队列。建立实时流数据管道，可靠地在系统之间获取数据。</li>
+<li>数据处理。构建实时的流数据处理程序来转换或处理数据。</li>
+</ul>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><ul>
+<li>zookeeper.properties</li>
+<li>server.properties</li>
+</ul>
+<h2 id="命令行操作"><a href="#命令行操作" class="headerlink" title="命令行操作"></a>命令行操作</h2><h3 id="启动Zookeeper"><a href="#启动Zookeeper" class="headerlink" title="启动Zookeeper"></a>启动Zookeeper</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin\windows\zookeeper-server-start.bat config\zookeeper.properties</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E5%90%AF%E5%8A%A8zookeeper.png" alt="启动zookeeper-图示"></p>
+<h3 id="启动Kafka"><a href="#启动Kafka" class="headerlink" title="启动Kafka"></a>启动Kafka</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin\windows\kafka-server-start.bat config\server.properties</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E5%90%AF%E5%8A%A8kafka.png" alt="启动kafka-图示"></p>
+<h3 id="创建并查看主题"><a href="#创建并查看主题" class="headerlink" title="创建并查看主题"></a>创建并查看主题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test</span><br><span class="line">kafka-topics.bat --list --bootstrap-server localhost:9092</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E5%88%9B%E5%BB%BA%E5%B9%B6%E6%9F%A5%E7%9C%8Btopic.png" alt="创建并查看topic-图示"></p>
+<h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-console-producer.bat --broker-list localhost:9092 --topic test</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E7%94%9F%E4%BA%A7%E8%80%85.png" alt="生产者-图示"></p>
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E6%B6%88%E8%B4%B9%E8%80%85.png" alt="消费者-图示"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://kafka.apache.org" target="_blank" rel="noopener">http://kafka.apache.org</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（5），阻塞队列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -801,307 +1087,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（4），Redis入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/">问答平台（4），Redis入门</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2020-06-02T01:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Redis数据类型"><a href="#Redis数据类型" class="headerlink" title="Redis数据类型"></a>Redis数据类型</h2><ul>
-<li>Redis是一款基于键值对的NoSQL数据库，它的值支持多种数据结构：<br>字符串（strings）、哈希（hashes）、列表（lists）、集合（sets）、有序集合（sorted sets）等。</li>
-</ul>
-<h2 id="Redis存储"><a href="#Redis存储" class="headerlink" title="Redis存储"></a>Redis存储</h2><ul>
-<li>Redis将所有的数据都存放在内存中，所以它的读写性能高。同时，Redis还可以将内存中的数据以快照或日志的形式保存到硬盘上，以保证数据的安全性。</li>
-</ul>
-<h2 id="Redis应用场景"><a href="#Redis应用场景" class="headerlink" title="Redis应用场景"></a>Redis应用场景</h2><ul>
-<li>典型的应用场景包括：缓存、排行榜、计数器、社交网络、消息队列等。</li>
-</ul>
-<h2 id="Redis使用命令"><a href="#Redis使用命令" class="headerlink" title="Redis使用命令"></a>Redis使用命令</h2><ul>
-<li>字符<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">select 1(0-15)</span><br><span class="line">flushdb</span><br><span class="line">set test:count 1</span><br><span class="line">get test:count</span><br><span class="line">incr test:count</span><br><span class="line">decr test:count</span><br></pre></td></tr></table></figure></li>
-<li>哈希<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hset test:user id 1</span><br><span class="line">hset test:user username zhangsan</span><br><span class="line">hget test:user id</span><br><span class="line">hget test:user username</span><br></pre></td></tr></table></figure></li>
-<li>列表<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lpush test:ids 101 102 103</span><br><span class="line">llen test:ids</span><br><span class="line">lindex test:ids 0</span><br><span class="line">lindex test:ids 2</span><br><span class="line">lrange test:ids 0 2</span><br><span class="line">rpop test:ids</span><br></pre></td></tr></table></figure></li>
-<li>集合<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sadd test:teachers aaa bbb ccc ddd eee</span><br><span class="line">scard test:teachers</span><br><span class="line">spop test:teachers(从集合中随机弹出一个元素)</span><br><span class="line">smembers test:teachers</span><br></pre></td></tr></table></figure></li>
-<li>有序集合<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zadd test:students 10 aaa 20 bbb 30 ccc 40 ddd 50 eee</span><br><span class="line">zcard test:students</span><br><span class="line">zscore test:students ccc</span><br><span class="line">zrank test:students ccc </span><br><span class="line">zrange test:students 0 2</span><br></pre></td></tr></table></figure></li>
-<li>全局<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">keys *</span><br><span class="line">keys test*</span><br><span class="line">type test:user</span><br><span class="line">exists test:user</span><br><span class="line">del test:user</span><br><span class="line">expire test:students 10(单位：s)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://redis.io" target="_blank" rel="noopener">https://redis.io</a><br><a href="https://github.com/microsoftarchive/redis" target="_blank" rel="noopener">https://github.com/microsoftarchive/redis</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/02/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CRedis%E5%85%A5%E9%97%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-docker，本地搭建Hadoop集群" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/">Docker，本地搭建Hadoop集群</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/" class="archive-article-date">
-  	<time datetime="2020-06-01T12:48:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><p>Ubuntu16.04</p>
-<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install docker</span><br><span class="line">apt-get install docker.io</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p><code>docker pull ubuntu:16.04</code></p>
-<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><p><code>docker run -ti ubuntu:16.04</code><br>不要关闭这个终端</p>
-<h2 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h2><p><code>tar -zxvf jdk-8u11-linux-x64.tar.gz -C /opt</code><br>配置Java环境变量</p>
-<h2 id="安装Hadoop"><a href="#安装Hadoop" class="headerlink" title="安装Hadoop"></a>安装Hadoop</h2><p><code>tar -zxvf hadoop-2.9.2.tar.gz -C /opt</code><br>在/opt/hadoop-2.9.2/etc/hadoop目录下，修改如下配置：<br>core-site.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://master:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/opt/hadoop-2.9.2/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>hdfs-site.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:50090<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/opt/hadoop-2.9.2/tmp/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/opt/hadoop-2.9.2/tmp/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>yarn-site.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>master<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.memory-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>20480<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.minimum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>2048<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-pmem-ratio<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>2.1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>mapred-site.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:10021<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.webapp.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>master:19889<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="安装SSH服务，设置免密登录"><a href="#安装SSH服务，设置免密登录" class="headerlink" title="安装SSH服务，设置免密登录"></a>安装SSH服务，设置免密登录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get install openssh-server</span><br><span class="line">service ssh start</span><br><span class="line">service ssh status</span><br><span class="line">ssh-keygen -t rsa</span><br><span class="line">cat ~&#x2F;.ssh&#x2F;id_rsa.pub &gt;&gt; ~&#x2F;.ssh&#x2F;authorized_keys</span><br></pre></td></tr></table></figure>
-<p>三个节点的authorized_keys文件都写上。</p>
-<h2 id="提交安装完毕的容器"><a href="#提交安装完毕的容器" class="headerlink" title="提交安装完毕的容器"></a>提交安装完毕的容器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker commit &#123;开启的容器ID号&#125; hadoop&#x2F;master</span><br><span class="line">docker commit &#123;开启的容器ID号&#125; hadoop&#x2F;slave1</span><br><span class="line">docker commit &#123;开启的容器ID号&#125; hadoop&#x2F;slave2</span><br></pre></td></tr></table></figure>
-<p><code>docker images</code>，查看提交的image是否存在。</p>
-<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -ti -h master hadoop&#x2F;master</span><br><span class="line">docker run -ti -h slave1 hadoop&#x2F;slave1</span><br><span class="line">docker run -ti -h slave2 hadoop&#x2F;slave2</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置hosts"><a href="#配置hosts" class="headerlink" title="配置hosts"></a>配置hosts</h3><p>ifconfig命令获取各节点ip，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">master:10.0.0.5</span><br><span class="line">slave1:10.0.0.6</span><br><span class="line">slave2:10.0.0.7</span><br></pre></td></tr></table></figure>
-<p><code>vim /etc/hosts</code>，将如下配置写入各节点的hosts文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10.0.0.5  master</span><br><span class="line">10.0.0.6  slave1</span><br><span class="line">10.0.0.7  slave2</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h2><p>各节点上执行<code>start-all.sh</code>，启动Hadoop。</p>
-<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><p>matser<br><img src="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/master.png" alt="master-图示"><br>slave1<br><img src="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/slave1.png" alt="slave1-图示"><br>slave2<br><img src="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/slave2.png" alt="slave2-图示"></p>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="下载镜像失败"><a href="#下载镜像失败" class="headerlink" title="下载镜像失败"></a>下载镜像失败</h3><p><code>docker pull ubuntu:16.04</code>，失败<br>解决方法：配置国内镜像加速，/etc/docker/daemon.json中写入如下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;:[&quot;https:&#x2F;&#x2F;docker.mirrors.ustc.edu.cn&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启docker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-<h3 id="jps命令找不到"><a href="#jps命令找不到" class="headerlink" title="jps命令找不到"></a>jps命令找不到</h3><p><img src="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/jps.png" alt="jps-图示"><br>解决方法：Java的路径设置有问题，<br><code>/opt/hadoop-2.9.2/etc/hadoop</code>目录下，修改hadoop-env.sh：<br>export JAVA_HOME=/opt/jdk1.8.0_11</p>
-<h3 id="安装的容器没有ifconfig命令"><a href="#安装的容器没有ifconfig命令" class="headerlink" title="安装的容器没有ifconfig命令"></a>安装的容器没有ifconfig命令</h3><p>解决方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt install net-tools</span><br></pre></td></tr></table></figure>
-<h3 id="Hadoop的镜像，保存为副本"><a href="#Hadoop的镜像，保存为副本" class="headerlink" title="Hadoop的镜像，保存为副本"></a>Hadoop的镜像，保存为副本</h3><p>将安装好Hadoop的镜像保存为一个副本。<br><code>docker commit -m &quot;hadoop install&quot; {开启的容器ID号}  ubuntu:hadoop</code><br>docker启动容器，使用run命令：<br><code>docker run -ti ubuntu:hadoop</code><br>启动master、slave1、slave2容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -ti -h master ubuntu:hadoop</span><br><span class="line">docker run -ti -h slave1 ubuntu:hadoop</span><br><span class="line">docker run -ti -h slave2 ubuntu:hadoop</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/onetwo/p/6419925.html" target="_blank" rel="noopener">https://www.cnblogs.com/onetwo/p/6419925.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/01/docker%EF%BC%8C%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAHadoop%E9%9B%86%E7%BE%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（3），统一记录日志" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/">问答平台（3），统一记录日志</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/" class="archive-article-date">
-  	<time datetime="2020-05-31T08:53:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><ul>
-<li>记录日志，不是业务需求，是系统需求，需要分离。<br><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97.png" alt="记录日志-图示"></li>
-</ul>
-<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
-<li>Aspect Oriented Programing, 即面向切面编程。</li>
-<li>AOP是一种编程思想，是对OOP的补充，可以提高编程的效率。<br><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/AOP%E7%9A%84%E6%9C%AF%E8%AF%AD.png" alt="AOP的术语-图示"></li>
-</ul>
-<h2 id="AOP的实现"><a href="#AOP的实现" class="headerlink" title="AOP的实现"></a>AOP的实现</h2><h3 id="AspectJ"><a href="#AspectJ" class="headerlink" title="AspectJ"></a>AspectJ</h3><ul>
-<li>AspectJ是语言级的实现，它扩展了Java语言，定义了AOP语法。</li>
-<li>AspectJ在编译时织入代码，它有一个专门的编译器，用来生成遵循Java字节码规范的class文件。<h3 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h3></li>
-<li>Spring AOP使用纯Java实现，它不需要专门的编译过程，也不需要特殊的类装载器。</li>
-<li>Spring AOP在运行时通过（代理）的方式织入代码，只支持方法类型的连接点。</li>
-<li>Spring支持对AspectJ的集成。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Spring AOP追求的是高性价比，不是一个全面的解决方案。</span><br><span class="line">（1）JDK动态代理</span><br><span class="line">Java提供的动态代理技术，可以在运行时创建接口的代理实例。</span><br><span class="line">Spring AOP默认采用此种方式，在接口的代理实例中织入代码。</span><br><span class="line">（2）CGLib动态代理</span><br><span class="line">采用底层的字节码技术，在运行时创建子类代理实例。</span><br><span class="line">当目标对象不存在接口时，Spring AOP会采用此种方式，在子类实例中织入代码。</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="aspect包"><a href="#aspect包" class="headerlink" title="aspect包"></a>aspect包</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AlphaAspect.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlphaAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut</span>(<span class="string">"execution(* com.nowcoder.community.service.*.*(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pointcut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@After</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AfterReturning</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterReturning</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"afterReturning"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AfterThrowing</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterThrowing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"afterThrowing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"around before"</span>);</span><br><span class="line">        Object obj = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">"around after"</span>);</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>正式的业务逻辑<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ServiceLogAspect.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceLogAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(ServiceLogAspect<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut</span>(<span class="string">"execution(* com.nowcoder.community.service.*.*(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pointcut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span>(<span class="string">"pointcut()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 用户[1,2,3,4]，在[xxx]，访问了[com.nowcoder.community.service.xxx]</span></span><br><span class="line">        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        <span class="keyword">if</span> (attributes == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        HttpServletRequest request = attributes.getRequest();</span><br><span class="line">        String ip = request.getRemoteHost();</span><br><span class="line">        String now = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>).format(<span class="keyword">new</span> Date());</span><br><span class="line">        String target = joinPoint.getSignature().getDeclaringTypeName() + <span class="string">"."</span> + joinPoint.getSignature().getName();</span><br><span class="line">        logger.info(String.format(<span class="string">"用户[%s], 在[%s], 访问了[%s]."</span>, ip, now, target));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%883%EF%BC%89%EF%BC%8C%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/">展开全文 >></a>
         </p>
       
 

@@ -144,6 +144,300 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-共识机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/19/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/">共识机制</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/19/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2020-06-19T02:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="非许可类区块链"><a href="#非许可类区块链" class="headerlink" title="非许可类区块链"></a>非许可类区块链</h2><p>这种证明机制的优势在于其避免了节点管理，使区块链系统的服务可以延伸至整个网络空间，这样的特点使得区块链系统的可扩展性大大加强。<br>然而，在今天互联网所呈现的海量交易需求下，由不同节点收集交易记录打包的方式使得单位时间内可确认的交易数量得到了限制。<br>在现今比特币的交易中，交易产生数量已经远大于系统中单位时间内可装载的记录的容量，这使得非许可类区块链的吞吐量也受到了共识协议的限制。</p>
+<h2 id="许可类区块链"><a href="#许可类区块链" class="headerlink" title="许可类区块链"></a>许可类区块链</h2><p>许可类区块链提出了面向一个非全公开，节点需审核加入的合作场景来提供区块链的多方可信服务。<br>许可类区块链是一个由共识算法所引导的分布式数据库，在拜占庭容错的情况下，恶意节点会表现出任意行为（随机错误）。<br>例如，恶意节点可以发布虚假消息，也可能停止工作，也可以伪装成正常节点工作。<br>相比于非许可类区块链，许可类区块链一定程度上牺牲了系统的可扩展性，但大大提高了系统的交易吞吐量，降低了交易确认延迟。</p>
+<h2 id="共识机制"><a href="#共识机制" class="headerlink" title="共识机制"></a>共识机制</h2><p>区块链的共识机制是区块链系统中各个节点达成一致的策略和方法。<br>共识机制应按照区块链系统所提供服务的不同应用场景灵活选择。<br>区块链的类别不同，其使用的共识机制也有本质上工作原理的不同。<br>在非许可类区块链中，共识机制是以工作量证明为基础的类证明协议。<br>在许可类区块链中，共识机制是依托分布式系统中的共识算法所构建的。<br>总的来说，共识机制是区块链系统的灵魂。</p>
+<h3 id="基于证明机制的非许可类区块链共识协议"><a href="#基于证明机制的非许可类区块链共识协议" class="headerlink" title="基于证明机制的非许可类区块链共识协议"></a>基于证明机制的非许可类区块链共识协议</h3><p>非许可类区块链(Permissionless blockchain)，例如比特币(Bitcoin)和以太坊(Ethereum)，是一个向全网公开的，无全局地址记录的区块链系统。<br>在非许可类的区块链中，任何加入系统的节点均可进行记账权的“证明式”计算与区块验证。<br>非许可类区块链的这个特点也使得系统中的节点可以任意的加入和退出。<br>基于证明方式的共识机制有工作量证明(Proof-of-Work，PoW)，权益证明(Proof-of-Stake, PoS)，活动证明(Proof-of-Activity, PoA)等。</p>
+<h3 id="基于复制状态机理论的许可类区块链共识协议"><a href="#基于复制状态机理论的许可类区块链共识协议" class="headerlink" title="基于复制状态机理论的许可类区块链共识协议"></a>基于复制状态机理论的许可类区块链共识协议</h3><p>在非拜占庭错误的情况下，常见的许可类区块链共识机制使用的算法有：Paxos，Raft，Viewstamped Replication等。<br>拜占庭容错的区块链共识算法有 PBFT，XFT等，使用这些拜占庭容错共识算法的区块链应用有 Hyperledger  Fabric, Tendermint, Symbiont BFT-SMaRt, Sumeragi/ Iroha (BChain)等。</p>
+<h4 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h4><p>Paxos中，选值的过程由 Proposer 和 Acceptor 共同参与，这使得一些如活锁现象的出现影响系统的应用性能。<br>尽管一些工程实现在 Paxos 的后期版本Multi-Paxos中使用了主从模式进行改进，但同时也使得 Paxos 变得越来越复杂，不能够使开发者易于理解。<br>斯坦福大学的 Diego Ongaro 设计了更为易于理解和工程使用的新共识算法 Raft。<br>Paxos Made Simple:<a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf" target="_blank" rel="noopener">https://lamport.azurewebsites.net/pubs/paxos-simple.pdf</a><br>Raft 作者的讲解（youtube , pdf): <a href="https://ongardie.net/static/raft/userstudy/paxos.pdf" target="_blank" rel="noopener">https://ongardie.net/static/raft/userstudy/paxos.pdf</a></p>
+<h4 id="拜占庭容错"><a href="#拜占庭容错" class="headerlink" title="拜占庭容错"></a>拜占庭容错</h4><p>信道安全的情况下，Paxos 和 Raft 这类算法可以允许系统在出现消息丢失、延迟或宕机情况下形成共识。<br>但是如果进程以随机方式出现故障，也就意味着出错的进程可以向其他进程发送任何数据。<br>这时，例如 Paxos，Raft，Viewtamped Replication 等算法便无法就行共识的决策。<br>在区块链的应用背景下，如果系统中的节点被非法控制，那么拜占庭错误可以被理解为在此场景下的内部攻击。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h4 id="Paxos-Raft"><a href="#Paxos-Raft" class="headerlink" title="Paxos, Raft"></a>Paxos, Raft</h4><p><a href="https://www.zhihu.com/question/19787937、" target="_blank" rel="noopener">https://www.zhihu.com/question/19787937、</a><br><a href="https://blog.csdn.net/chen77716/article/details/6166675" target="_blank" rel="noopener">https://blog.csdn.net/chen77716/article/details/6166675</a></p>
+<h5 id="拜占庭容错-1"><a href="#拜占庭容错-1" class="headerlink" title="拜占庭容错"></a>拜占庭容错</h5><p><a href="https://www.cnblogs.com/jxd283465/p/11753340.html" target="_blank" rel="noopener">https://www.cnblogs.com/jxd283465/p/11753340.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/19/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（8），阿里云部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/">问答平台（8），阿里云部署</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/" class="archive-article-date">
+  	<time datetime="2020-06-16T13:37:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h2><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="部署环境-图示"></p>
+<h3 id="centos版本"><a href="#centos版本" class="headerlink" title="centos版本"></a>centos版本</h3><p>cat /etc/redhat-release</p>
+<h3 id="阿里云服务器控制台"><a href="#阿里云服务器控制台" class="headerlink" title="阿里云服务器控制台"></a>阿里云服务器控制台</h3><p>重置实例密码（智慧校园）</p>
+<h3 id="Xshell"><a href="#Xshell" class="headerlink" title="Xshell"></a>Xshell</h3><p>连接到云服务器</p>
+<h3 id="Xftp"><a href="#Xftp" class="headerlink" title="Xftp"></a>Xftp</h3><p>连接到云服务器</p>
+<h3 id="unzip"><a href="#unzip" class="headerlink" title="unzip"></a>unzip</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum list unzip*</span><br><span class="line">yum install -y unzip.x86_64</span><br></pre></td></tr></table></figure>
+<h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list java*</span><br><span class="line">yum install -y java-1.8.0-openjdk.x86_64(JRE)</span><br><span class="line">yum install -y java-1.8.0-openjdk-devel(JDK)</span><br></pre></td></tr></table></figure>
+<h3 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tar -zvxf apache-maven-3.6.3-bin.tar.gz -C &#x2F;opt</span><br><span class="line">vim &#x2F;etc&#x2F;profile</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;opt&#x2F;apache-maven-3.6.3&#x2F;bin</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br><span class="line">echo $PATH</span><br><span class="line">mvn -version</span><br><span class="line">cd conf&#x2F;</span><br><span class="line">vim settings.xml</span><br></pre></td></tr></table></figure>
+<h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;</span><br><span class="line">yum list mysql*</span><br><span class="line">cd &#x2F;root</span><br><span class="line">ll</span><br><span class="line">yum install -y mysql80-community-release-el7-3.noarch.rpm</span><br><span class="line">cd &#x2F;</span><br><span class="line">yum list mysql*</span><br><span class="line">yum install -y mysql-community-server.x86_64</span><br></pre></td></tr></table></figure>
+<h4 id="修改root用户密码"><a href="#修改root用户密码" class="headerlink" title="修改root用户密码"></a>修改root用户密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br><span class="line">systemctl status mysqld</span><br><span class="line">grep &#39;password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">mysql -u root -p</span><br><span class="line">alter user root@localhost identified by &#39;xxx&#39;;</span><br></pre></td></tr></table></figure>
+<h4 id="数据库文件初始化"><a href="#数据库文件初始化" class="headerlink" title="数据库文件初始化"></a>数据库文件初始化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root</span><br><span class="line">ll</span><br><span class="line">unzip -d &#x2F;root community-init-sql.zip</span><br><span class="line">mysql -u root -p</span><br><span class="line">create database community;</span><br><span class="line">use community;</span><br><span class="line">source &#x2F;root&#x2F;community-init-sql&#x2F;init_schema.sql</span><br><span class="line">source &#x2F;root&#x2F;community-init-sql&#x2F;init_data.sql</span><br><span class="line">source &#x2F;root&#x2F;community-init-sql&#x2F;tables_mysql_innodb.sql</span><br><span class="line">show tables;</span><br><span class="line">select id, username, header_url from user;</span><br></pre></td></tr></table></figure>
+<h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;</span><br><span class="line">yum list redis*</span><br><span class="line">yum install -y redis.x86_64</span><br></pre></td></tr></table></figure>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start redis</span><br><span class="line">systemctl status redis</span><br></pre></td></tr></table></figure>
+<h3 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h3><h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;</span><br><span class="line">ll</span><br><span class="line">tar -zvxf kafka_2.12-2.2.0.tgz -C &#x2F;opt</span><br></pre></td></tr></table></figure>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt&#x2F;kafka_2.12-2.2.0&#x2F;</span><br><span class="line">ll</span><br><span class="line">cd config&#x2F;</span><br><span class="line">vim zookeeper.properties</span><br><span class="line">vim server.properties</span><br></pre></td></tr></table></figure>
+<h4 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br><span class="line">cd ..</span><br><span class="line">bin&#x2F;zookeeper-server-start.sh -daemon config&#x2F;zookeeper.properties </span><br><span class="line">nohup bin&#x2F;kafka-server-start.sh config&#x2F;server.properties 1&gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;</span><br><span class="line">bin&#x2F;kafka-topics.sh --list --bootstrap-server localhost:9092</span><br></pre></td></tr></table></figure>
+<h3 id="elasticsearch"><a href="#elasticsearch" class="headerlink" title="elasticsearch"></a>elasticsearch</h3><h4 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;</span><br><span class="line">ll</span><br><span class="line">tar -zvxf elasticsearch-6.4.3.tar.gz -C &#x2F;opt</span><br><span class="line">unzip -d &#x2F;opt&#x2F;elasticsearch-6.4.3&#x2F;plugins&#x2F;ik elasticsearch-analysis-ik-6.4.3.zip</span><br></pre></td></tr></table></figure>
+<h4 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt&#x2F;elasticsearch-6.4.3</span><br><span class="line">cd config&#x2F;</span><br></pre></td></tr></table></figure>
+<p>elasticsearch.yml</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cluster.name:</span> <span class="string">nowcoder</span></span><br><span class="line"><span class="attr">path.data:</span> <span class="string">/tmp/elasticsearch/data</span></span><br><span class="line"><span class="attr">path.logs:</span> <span class="string">/tmp/elasticsearch/logs</span></span><br></pre></td></tr></table></figure>
+<p>vim jvm.options</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Xms256m</span><br><span class="line">-Xmx512m</span><br></pre></td></tr></table></figure>
+<h4 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">groupadd nowcoder</span><br><span class="line">useradd nowcoder1 -p 123456 -g nowcoder</span><br><span class="line">cd &#x2F;opt</span><br><span class="line">chown -R nowcoder1:nowcoder *</span><br><span class="line">cd &#x2F;tmp</span><br><span class="line">chown -R nowcoder1:nowcoder *</span><br><span class="line">su - nowcoder1</span><br><span class="line">clear</span><br><span class="line">cd &#x2F;opt&#x2F;elasticsearch-6.4.3&#x2F;</span><br><span class="line">bin&#x2F;elasticsearch -d(后台启动)</span><br><span class="line">su -</span><br><span class="line">curl -X GET &quot;localhost:9200&#x2F;_cat&#x2F;health?v&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/elasticsearch%E6%AD%A3%E5%B8%B8.png" alt="elasticsearch正常-图示"></p>
+<h3 id="wkhtmltopdf"><a href="#wkhtmltopdf" class="headerlink" title="wkhtmltopdf"></a>wkhtmltopdf</h3><h4 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;</span><br><span class="line">yum list wkhtmltopdf*</span><br><span class="line">yum install -y wkhtmltopdf.x86_64</span><br><span class="line">yum list *xvfb*</span><br><span class="line">yum install -y xorg-x11-server-Xvfb.x86_64</span><br></pre></td></tr></table></figure>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;test&#x2F;</span><br><span class="line">ll</span><br><span class="line">xvfb-run --server-args&#x3D;&quot;-screen 0, 1024x768x24&quot; wkhtmltopdf http:&#x2F;&#x2F;www.aliyun.com 1.png</span><br><span class="line">ll</span><br><span class="line">cd &#x2F;opt</span><br><span class="line">vim wkhtmltoimage.sh</span><br><span class="line">xvfb-run --server-args&#x3D;&quot;-screen 0, 1024x768x24&quot; wkhtmltoimage &quot;$@&quot;</span><br><span class="line">ll</span><br><span class="line">chmod +x wkhtmltoimage.sh</span><br><span class="line">ll</span><br><span class="line">cd &#x2F;root&#x2F;test&#x2F;</span><br><span class="line">&#x2F;opt&#x2F;wkhtmltoimage.sh http:&#x2F;&#x2F;www.aliyun.com 2.png</span><br></pre></td></tr></table></figure>
+<h3 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h3><h4 id="安装-4"><a href="#安装-4" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root</span><br><span class="line">ll</span><br><span class="line">tar -zvxf apache-tomcat-9.0.31.tar.gz -C &#x2F;opt</span><br></pre></td></tr></table></figure>
+<h4 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt&#x2F;apache-tomcat-9.0.31&#x2F;</span><br><span class="line">cd bin&#x2F;</span><br><span class="line">pwd</span><br><span class="line">vim &#x2F;etc&#x2F;profile</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br><span class="line">echo $PATH</span><br></pre></td></tr></table></figure>
+<p>/etc/profile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;$PATH:&#x2F;opt&#x2F;apache-tomcat-9.0.31&#x2F;bin</span><br></pre></td></tr></table></figure>
+<h4 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">startup.sh</span><br><span class="line">cd &#x2F;opt&#x2F;apache-tomcat-9.0.31&#x2F;</span><br><span class="line">ll</span><br><span class="line">cd webapps&#x2F;</span><br><span class="line">ll</span><br></pre></td></tr></table></figure>
+<h4 id="安全组问题"><a href="#安全组问题" class="headerlink" title="安全组问题"></a>安全组问题</h4><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E5%AE%89%E5%85%A8%E7%BB%84.png" alt="安全组-图示"><br><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E9%98%BF%E9%87%8C%E4%BA%91Tomcat.png" alt="阿里云Tomcat-图示"></p>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><h4 id="安装-5"><a href="#安装-5" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;</span><br><span class="line">yum list nginx*</span><br><span class="line">yum install -y nginx.x86_64</span><br></pre></td></tr></table></figure>
+<h4 id="配置-3"><a href="#配置-3" class="headerlink" title="配置"></a>配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+<p>nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">        server 127.0.0.1:8080 max_fails&#x3D;3 fail_timeout&#x3D;30s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 47.93.84.81&#x2F;;            </span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">                proxy_pass http:&#x2F;&#x2F;myserver;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="启动-3"><a href="#启动-3" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br><span class="line">systemctl status nginx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="部署原理"><a href="#部署原理" class="headerlink" title="部署原理"></a>部署原理</h2><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E9%83%A8%E7%BD%B2%E5%8E%9F%E7%90%86.png" alt="部署原理-图示"></p>
+<h3 id="tomcat-1"><a href="#tomcat-1" class="headerlink" title="tomcat"></a>tomcat</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shutdown.sh</span><br><span class="line">cd &#x2F;opt&#x2F;apache-tomcat-9.0.31&#x2F;</span><br><span class="line">ll</span><br><span class="line">rm -rf *(删除所有示例)</span><br><span class="line">ll</span><br></pre></td></tr></table></figure>
+<h3 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h3><p>application-develop.properties<br>global.js<br>HomeController<br>pom.xml<br>application.properties<br>application-produce.properties<br>logback-spring-produce.xml<br>CommunityServletInitializer</p>
+<h3 id="正式部署"><a href="#正式部署" class="headerlink" title="正式部署"></a>正式部署</h3><h4 id="mvn打包"><a href="#mvn打包" class="headerlink" title="mvn打包"></a>mvn打包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root</span><br><span class="line">unzip -d &#x2F;root community-deploy-Aliyun.zip </span><br><span class="line">cd community</span><br><span class="line">mvn clean package -Dmaven.test.skip&#x3D;true(忽略测试，第一次会下载比较慢)</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/mvn%E6%89%93%E5%8C%85%E6%88%90%E5%8A%9F.png" alt="mvn打包成功-图示"></p>
+<h4 id="tomcat部署项目"><a href="#tomcat部署项目" class="headerlink" title="tomcat部署项目"></a>tomcat部署项目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ll</span><br><span class="line">cd target&#x2F;</span><br><span class="line">ll</span><br><span class="line">mv ROOT.war &#x2F;opt&#x2F;apache-tomcat-9.0.31&#x2F;webapps&#x2F;</span><br><span class="line">ll</span><br><span class="line">cd &#x2F;opt&#x2F;apache-tomcat-9.0.31&#x2F;webapps&#x2F;</span><br><span class="line">ll</span><br><span class="line">startup.sh</span><br><span class="line">cd ..</span><br><span class="line">ll</span><br><span class="line">cd logs&#x2F;</span><br><span class="line">vim catalina.2020-06-16.log </span><br><span class="line">cd &#x2F;tmp</span><br><span class="line">cd &#x2F;community</span><br><span class="line">ll</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/tmp%E7%9B%AE%E5%BD%95.png" alt="tmp目录-图示"></p>
+<h4 id="项目部署日志"><a href="#项目部署日志" class="headerlink" title="项目部署日志"></a>项目部署日志</h4><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E6%97%A5%E5%BF%97.png" alt="项目部署日志-图示"><br><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E9%83%A8%E7%BD%B2%E6%97%A5%E5%BF%97%E6%8A%A5%E9%94%99.png" alt="部署日志报错-图示"></p>
+<h4 id="云服务器访问异常"><a href="#云服务器访问异常" class="headerlink" title="云服务器访问异常"></a>云服务器访问异常</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;47.93.84.81:8080&#x2F;(正常访问)</span><br><span class="line">http:&#x2F;&#x2F;47.93.84.81&#x2F;</span><br></pre></td></tr></table></figure>
+<p>安全组重新设置后，生效时间问题？<br>解决方法：<br>云服务器重启后，nginx没启动…</p>
+<h4 id="发帖测试"><a href="#发帖测试" class="headerlink" title="发帖测试"></a>发帖测试</h4><p>能点赞，redis正常。<br><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E5%8F%91%E5%B8%96%E6%B5%8B%E8%AF%95.png" alt="发帖测试-图示"></p>
+<h4 id="消息测试"><a href="#消息测试" class="headerlink" title="消息测试"></a>消息测试</h4><p>能收发消息，kafka正常。<br><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E6%B6%88%E6%81%AF%E6%B5%8B%E8%AF%95.png" alt="消息测试-图示"></p>
+<h4 id="搜索测试"><a href="#搜索测试" class="headerlink" title="搜索测试"></a>搜索测试</h4><p>elasticsearch异常，后来证明是内存不够（交换区、jvm调参），搜索测试卡住了，待解决。<br>热帖排行，使用elasticsearch，也异常。</p>
+<!-- 搜索关键词，elasticsearch正常。 -->
+<!-- ![搜索测试-图示](问答平台（8），阿里云部署/搜索测试.png) -->
+<h4 id="修改头像"><a href="#修改头像" class="headerlink" title="修改头像"></a>修改头像</h4><p>修改头像成功，wkhtmltoimage、七牛云正常。<br><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/%E4%BF%AE%E6%94%B9%E5%A4%B4%E5%83%8F.png" alt="修改头像-图示"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/pporyy/article/details/87523828" target="_blank" rel="noopener">https://blog.csdn.net/pporyy/article/details/87523828</a><br><a href="https://yq.aliyun.com/articles/700003" target="_blank" rel="noopener">https://yq.aliyun.com/articles/700003</a><br><a href="https://blog.csdn.net/yuanmomoya/article/details/84664382" target="_blank" rel="noopener">https://blog.csdn.net/yuanmomoya/article/details/84664382</a><br><a href="https://blog.csdn.net/qq_31674359/article/details/80671749" target="_blank" rel="noopener">https://blog.csdn.net/qq_31674359/article/details/80671749</a><br><a href="https://blog.csdn.net/weixin_30270889/article/details/99631532" target="_blank" rel="noopener">https://blog.csdn.net/weixin_30270889/article/details/99631532</a><br><a href="https://blog.csdn.net/pbrlovejava/article/details/103451302" target="_blank" rel="noopener">https://blog.csdn.net/pbrlovejava/article/details/103451302</a><br><a href="https://blog.csdn.net/weixin_44714808/article/details/90049315" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44714808/article/details/90049315</a><br><a href="https://blog.csdn.net/yunfeishiye/article/details/51894513" target="_blank" rel="noopener">https://blog.csdn.net/yunfeishiye/article/details/51894513</a><br><a href="http://www.voidcn.com/article/p-tefxbmrz-bsb.html" target="_blank" rel="noopener">http://www.voidcn.com/article/p-tefxbmrz-bsb.html</a><br><a href="https://www.cnblogs.com/lisi2016/p/6863891.html" target="_blank" rel="noopener">https://www.cnblogs.com/lisi2016/p/6863891.html</a><br><a href="https://blog.csdn.net/xin93/article/details/80753677" target="_blank" rel="noopener">https://blog.csdn.net/xin93/article/details/80753677</a><br><a href="https://elasticsearch.cn/question/2772" target="_blank" rel="noopener">https://elasticsearch.cn/question/2772</a><br><a href="https://www.lovecto.cn/20181102/392.html" target="_blank" rel="noopener">https://www.lovecto.cn/20181102/392.html</a><br><a href="https://www.cnblogs.com/yijialong/p/9707238.html" target="_blank" rel="noopener">https://www.cnblogs.com/yijialong/p/9707238.html</a><br><a href="https://blog.csdn.net/qq_21387171/article/details/53577115" target="_blank" rel="noopener">https://blog.csdn.net/qq_21387171/article/details/53577115</a><br><a href="https://blog.csdn.net/yongpole/article/details/82795215" target="_blank" rel="noopener">https://blog.csdn.net/yongpole/article/details/82795215</a><br><a href="https://blog.csdn.net/qq_22211217/article/details/94998037" target="_blank" rel="noopener">https://blog.csdn.net/qq_22211217/article/details/94998037</a><br><a href="https://segmentfault.com/a/1190000018816790?utm_source=tag-newest" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018816790?utm_source=tag-newest</a><br><a href="https://blog.csdn.net/qq_38293564/article/details/80395389" target="_blank" rel="noopener">https://blog.csdn.net/qq_38293564/article/details/80395389</a><br><a href="https://blog.csdn.net/CSDN_LYY/article/details/62423821" target="_blank" rel="noopener">https://blog.csdn.net/CSDN_LYY/article/details/62423821</a><br><a href="https://blog.csdn.net/byg184244735/article/details/79832217" target="_blank" rel="noopener">https://blog.csdn.net/byg184244735/article/details/79832217</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-问答平台（8），版本控制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">问答平台（8），版本控制</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2020-06-16T07:29:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="项目版本管理"><a href="#项目版本管理" class="headerlink" title="项目版本管理"></a>项目版本管理</h2><p>community项目使用<code>git</code>，上传到<code>github</code>和<code>gitee</code>。</p>
+<h3 id="github新建仓库"><a href="#github新建仓库" class="headerlink" title="github新建仓库"></a>github新建仓库</h3><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/github%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93.png" alt="github新建仓库-图示"></p>
+<h3 id="github上传已有项目"><a href="#github上传已有项目" class="headerlink" title="github上传已有项目"></a>github上传已有项目</h3><p><img src="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/github%E4%B8%8A%E4%BC%A0%E5%B7%B2%E6%9C%89%E9%A1%B9%E7%9B%AE.png" alt="github上传已有项目-图示"></p>
+<h3 id="git命令"><a href="#git命令" class="headerlink" title="git命令"></a>git命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd 项目目录下</span><br><span class="line">git status: 查看状态</span><br><span class="line">git add . : 添加所有变更文件</span><br><span class="line">git commit -m &quot;&quot; : 提交</span><br><span class="line">git remote add github https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;nowcoder-community.git </span><br><span class="line">git push -u github master</span><br></pre></td></tr></table></figure>
+<p>至此，上传已有项目到github成功。</p>
+<h3 id="gitee"><a href="#gitee" class="headerlink" title="gitee"></a>gitee</h3><p><code>gitee</code>同理。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.bilibili.com/video/BV1r4411r7au" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1r4411r7au</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（8），项目部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -859,318 +1153,6 @@ settings.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><sp
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/06/15/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%83%AD%E5%B8%96%E6%8E%92%E8%A1%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（7），任务执行和调度" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%92%8C%E8%B0%83%E5%BA%A6/">问答平台（7），任务执行和调度</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%92%8C%E8%B0%83%E5%BA%A6/" class="archive-article-date">
-  	<time datetime="2020-06-14T12:58:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="JDK线程池"><a href="#JDK线程池" class="headerlink" title="JDK线程池"></a>JDK线程池</h2><ul>
-<li>ExecutorService: JDK普通线程池</li>
-<li>ScheduledExecutorService: JDK定时任务线程池<h2 id="Spring线程池"><a href="#Spring线程池" class="headerlink" title="Spring线程池"></a>Spring线程池</h2></li>
-<li>ThreadPoolTaskExecutor: Spring普通线程池</li>
-<li>ThreadPoolTaskScheduler: Spring定时任务线程池<h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2></li>
-<li>ThreadPoolTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">ThreadPoolTests</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(ThreadPoolTests<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// JDK普通线程池</span></span><br><span class="line">    <span class="keyword">private</span> ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// JDK可执行定时任务的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Spring普通线程池</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolTaskExecutor taskExecutor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Spring可执行定时任务的线程池</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolTaskScheduler taskScheduler;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaService alphaService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(<span class="keyword">long</span> m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(m);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.JDK普通线程池</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testExecutorService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Runnable task = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                logger.debug(<span class="string">"Hello ExecutorService"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            executorService.submit(task);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sleep(<span class="number">10000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.JDK定时任务线程池</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testScheduledExecutorService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Runnable task = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                logger.debug(<span class="string">"Hello ScheduledExecutorService"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        scheduledExecutorService.scheduleAtFixedRate(task, <span class="number">10000</span>, <span class="number">1000</span>, TimeUnit.MILLISECONDS);</span><br><span class="line"></span><br><span class="line">        sleep(<span class="number">30000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.Spring普通线程池</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPoolTaskExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Runnable task = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                logger.debug(<span class="string">"Hello ThreadPoolTaskExecutor"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            taskExecutor.submit(task);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sleep(<span class="number">10000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4.Spring定时任务线程池</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPoolTaskScheduler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Runnable task = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                logger.debug(<span class="string">"Hello ThreadPoolTaskScheduler"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Date startTime = <span class="keyword">new</span> Date(System.currentTimeMillis() + <span class="number">10000</span>);</span><br><span class="line">        taskScheduler.scheduleAtFixedRate(task, startTime, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">        sleep(<span class="number">30000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5.Spring普通线程池(简化)</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPoolTaskExecutorSimple</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            alphaService.execute1();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        sleep(<span class="number">10000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6.Spring定时任务线程池(简化)</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPoolTaskSchedulerSimple</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        sleep(<span class="number">30000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h3></li>
-<li>application-develop.properties: 修改<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TaskExecutionProperties</span></span><br><span class="line"><span class="string">spring.task.execution.pool.core-size=5</span></span><br><span class="line"><span class="string">spring.task.execution.pool.max-size=15</span></span><br><span class="line"><span class="string">spring.task.execution.pool.queue-capacity=100</span></span><br><span class="line"><span class="comment"># TaskSchedulingProperties</span></span><br><span class="line"><span class="string">spring.task.scheduling.pool.size=5</span></span><br></pre></td></tr></table></figure>
-<h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3></li>
-<li>ThreadPoolConfig: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableScheduling</span></span><br><span class="line"><span class="meta">@EnableAsync</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolConfig</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h3></li>
-<li>AlphaService: 修改<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(AlphaService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 让该方法在多线程环境下，被异步地调用</span></span><br><span class="line"><span class="meta">@Async</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    logger.debug(<span class="string">"execute1"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Scheduled</span>(initialDelay = <span class="number">10000</span>, fixedRate = <span class="number">1000</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    logger.debug(<span class="string">"execute2"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="分布式定时任务"><a href="#分布式定时任务" class="headerlink" title="分布式定时任务"></a>分布式定时任务</h2><p>Spring Quartz<br><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%92%8C%E8%B0%83%E5%BA%A6/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1.png" alt="分布式定时任务-图示"></p>
-<h3 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-quartz<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="参数配置-1"><a href="#参数配置-1" class="headerlink" title="参数配置"></a>参数配置</h3><ul>
-<li>application-develop.properties: 修改<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># QuartzProperties</span></span><br><span class="line"><span class="string">spring.quartz.job-store-type=jdbc</span></span><br><span class="line"><span class="string">spring.quartz.scheduler-name=communityScheduler</span></span><br><span class="line"><span class="string">spring.quartz.properties.org.quartz.scheduler.instanceId=AUTO</span></span><br><span class="line"><span class="string">spring.quartz.properties.org.quartz.jobStore.class=org.quartz.impl.jdbcjobstore.JobStoreTX</span></span><br><span class="line"><span class="string">spring.quartz.properties.org.quartz.jobStore.driverDelegateClass=org.quartz.impl.jdbcjobstore.StdJDBCDelegate</span></span><br><span class="line"><span class="string">spring.quartz.properties.org.quartz.jobStore.isClustered=true</span></span><br><span class="line"><span class="string">spring.quartz.properties.org.quartz.threadPool.class=org.quartz.simpl.SimpleThreadPool</span></span><br><span class="line"><span class="string">spring.quartz.properties.org.quartz.threadPool.threadCount=5</span></span><br></pre></td></tr></table></figure>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3>一旦任务初始化完成就会存到数据库的qrtz_triggers表中。</li>
-<li>Scheduler: 核心调度接口</li>
-<li>Job: 定义任务</li>
-<li>JobDetail: 任务的配置</li>
-<li>Trigger: 任务的配置<h3 id="quartz"><a href="#quartz" class="headerlink" title="quartz"></a>quartz</h3></li>
-<li>AlphaJob: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlphaJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">": execute a quartz job."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="config-1"><a href="#config-1" class="headerlink" title="config"></a>config</h3></li>
-<li>QuartzConfig: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置 -&gt; 数据库 -&gt; 调用</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// FactoryBean可简化Bean的实例化过程:</span></span><br><span class="line">    <span class="comment">// 1.通过FactoryBean封装Bean的实例化过程</span></span><br><span class="line">    <span class="comment">// 2.将FactoryBean装配到Spring容器里</span></span><br><span class="line">    <span class="comment">// 3.将FactoryBean注入给其他的Bean</span></span><br><span class="line">    <span class="comment">// 4.该Bean得到的是FactoryBean所管理的对象实例</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 配置JobDetail</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JobDetailFactoryBean <span class="title">alphaJobDetail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        JobDetailFactoryBean factoryBean = <span class="keyword">new</span> JobDetailFactoryBean();</span><br><span class="line">        factoryBean.setJobClass(AlphaJob<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        factoryBean.setName(<span class="string">"alphaJob"</span>);</span><br><span class="line">        factoryBean.setGroup(<span class="string">"alphaJobGroup"</span>);</span><br><span class="line">        factoryBean.setDurability(<span class="keyword">true</span>);</span><br><span class="line">        factoryBean.setRequestsRecovery(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span> factoryBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 配置Trigger(SimpleTriggerFactoryBean, CronTriggerFactoryBean)</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SimpleTriggerFactoryBean <span class="title">alphaTrigger</span><span class="params">(JobDetail alphaJobDetail)</span> </span>&#123;</span><br><span class="line">        SimpleTriggerFactoryBean factoryBean = <span class="keyword">new</span> SimpleTriggerFactoryBean();</span><br><span class="line">        factoryBean.setJobDetail(alphaJobDetail);</span><br><span class="line">        factoryBean.setName(<span class="string">"alphaTrigger"</span>);</span><br><span class="line">        factoryBean.setGroup(<span class="string">"alphaTriggerGroup"</span>);</span><br><span class="line">        factoryBean.setRepeatInterval(<span class="number">3000</span>);</span><br><span class="line">        factoryBean.setJobDataMap(<span class="keyword">new</span> JobDataMap());</span><br><span class="line">        <span class="keyword">return</span> factoryBean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="测试类-1"><a href="#测试类-1" class="headerlink" title="测试类"></a>测试类</h3></li>
-<li>QuartzTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">QuartzTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeleteJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">boolean</span> result = scheduler.deleteJob(<span class="keyword">new</span> JobKey(<span class="string">"alphaJob"</span>, <span class="string">"alphaJobGroup"</span>));</span><br><span class="line">            System.out.println(result);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SchedulerException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="http://www.quartz-scheduler.org" target="_blank" rel="noopener">http://www.quartz-scheduler.org</a></li>
-<li><a href="https://tool.lu/timestamp/" target="_blank" rel="noopener">https://tool.lu/timestamp/</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%92%8C%E8%B0%83%E5%BA%A6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（7），网站数据统计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/">问答平台（7），网站数据统计</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2020-06-14T08:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1.png" alt="网站数据统计-图示"></p>
-<h2 id="UV"><a href="#UV" class="headerlink" title="UV"></a>UV</h2><ul>
-<li>独立访客（Unique Visitor），需通过用户IP去重统计数据。</li>
-<li>每次访问都要进行统计。</li>
-<li>HyperLogLog，性能好，且存储空间小。</li>
-</ul>
-<h2 id="DAU"><a href="#DAU" class="headerlink" title="DAU"></a>DAU</h2><ul>
-<li>日活跃用户（Daliy Active User），需通过用户ID去重统计数据。</li>
-<li>网站定义的规则：访问过一次，则认为其活跃。</li>
-<li>Bitmap，性能好，且可以统计精确结果。</li>
-</ul>
-<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><ul>
-<li>RedisKeyUtil: 修改<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_UV = <span class="string">"uv"</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX_DAU = <span class="string">"dau"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 单日UV</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getUVKey</span><span class="params">(String date)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PREFIX_UV + SPLIT + date;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 区间UV</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getUVKey</span><span class="params">(String startDate, String endDate)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PREFIX_UV + SPLIT + startDate + SPLIT + endDate;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 单日活跃用户</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDAUKey</span><span class="params">(String date)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PREFIX_DAU + SPLIT + date;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 区间活跃用户</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDAUKey</span><span class="params">(String startDate, String endDate)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PREFIX_DAU + SPLIT + startDate + SPLIT + endDate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><ul>
-<li>DataService: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SimpleDateFormat df = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将指定的IP计入UV</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">recordUV</span><span class="params">(String ip)</span> </span>&#123;</span><br><span class="line">        String redisKey = RedisKeyUtil.getUVKey(df.format(<span class="keyword">new</span> Date()));</span><br><span class="line">        redisTemplate.opsForHyperLogLog().add(redisKey, ip);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计指定日期范围内的UV</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">calculateUV</span><span class="params">(Date start, Date end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (start == <span class="keyword">null</span> || end == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 整理该日期范围内的key</span></span><br><span class="line">        List&lt;String&gt; keyList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Calendar calendar = Calendar.getInstance();</span><br><span class="line">        calendar.setTime(start);</span><br><span class="line">        <span class="keyword">while</span> (!calendar.getTime().after(end)) &#123;</span><br><span class="line">            String key = RedisKeyUtil.getUVKey(df.format(calendar.getTime()));</span><br><span class="line">            keyList.add(key);</span><br><span class="line">            calendar.add(Calendar.DATE, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 合并这些数据</span></span><br><span class="line">        String redisKey = RedisKeyUtil.getUVKey(df.format(start), df.format(end));</span><br><span class="line">        redisTemplate.opsForHyperLogLog().union(redisKey, keyList.toArray());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回统计的结果</span></span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForHyperLogLog().size(redisKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将指定用户计入DAU</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">recordDAU</span><span class="params">(<span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        String redisKey = RedisKeyUtil.getDAUKey(df.format(<span class="keyword">new</span> Date()));</span><br><span class="line">        redisTemplate.opsForValue().setBit(redisKey, userId, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计指定日期范围内的DAU</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">calculateDAU</span><span class="params">(Date start, Date end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (start == <span class="keyword">null</span> || end == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 整理该日期范围内的key</span></span><br><span class="line">        List&lt;<span class="keyword">byte</span>[]&gt; keyList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Calendar calendar = Calendar.getInstance();</span><br><span class="line">        calendar.setTime(start);</span><br><span class="line">        <span class="keyword">while</span> (!calendar.getTime().after(end)) &#123;</span><br><span class="line">            String key = RedisKeyUtil.getDAUKey(df.format(calendar.getTime()));</span><br><span class="line">            keyList.add(key.getBytes());</span><br><span class="line">            calendar.add(Calendar.DATE, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 进行OR运算</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">long</span>) redisTemplate.execute(<span class="keyword">new</span> RedisCallback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">doInRedis</span><span class="params">(RedisConnection redisConnection)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">                String redisKey = RedisKeyUtil.getDAUKey(df.format(start), df.format(end));</span><br><span class="line">                redisConnection.bitOp(RedisStringCommands.BitOperation.OR,</span><br><span class="line">                        redisKey.getBytes(), keyList.toArray(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>][<span class="number">0</span>]));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> redisConnection.bitCount(redisKey.getBytes());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h3></li>
-<li>DataInterceptor: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DataService dataService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 统计UV</span></span><br><span class="line">        String ip = request.getRemoteHost();</span><br><span class="line">        dataService.recordUV(ip);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 统计DAU</span></span><br><span class="line">        User user = hostHolder.getUser();</span><br><span class="line">        <span class="keyword">if</span> (user != <span class="keyword">null</span>) &#123;</span><br><span class="line">            dataService.recordDAU(user.getId());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3></li>
-<li>WebMvcConfig: 修改<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> DataInterceptor dataInterceptor;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加拦截器</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将拦截器加入registry对象</span></span><br><span class="line">    registry.addInterceptor(alphaInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>)</span><br><span class="line">            .addPathPatterns(<span class="string">"/register"</span>, <span class="string">"/login"</span>);</span><br><span class="line"></span><br><span class="line">    registry.addInterceptor(loginTicketInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// registry.addInterceptor(loginRequiredInterceptor)</span></span><br><span class="line">    <span class="comment">//         .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");</span></span><br><span class="line"></span><br><span class="line">    registry.addInterceptor(messageInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>);</span><br><span class="line"></span><br><span class="line">    registry.addInterceptor(dataInterceptor)</span><br><span class="line">            .excludePathPatterns(<span class="string">"/**/*.css"</span>, <span class="string">"/**/*.js"</span>, <span class="string">"/**/*.png"</span>, <span class="string">"/**/*.jpg"</span>, <span class="string">"/**/*.jpeg"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><ul>
-<li>DataController: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DataService dataService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计页面</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/data"</span>, method = &#123; RequestMethod.GET, RequestMethod.POST &#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDataPage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"/site/admin/data"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计网站UV</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/data/uv"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUV</span><span class="params">(@DateTimeFormat(pattern = <span class="string">"yyyy-MM-dd"</span>)</span> Date start,</span></span><br><span class="line"><span class="function">                        @<span class="title">DateTimeFormat</span><span class="params">(pattern = <span class="string">"yyyy-MM-dd"</span>)</span> Date end, Model model) </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> uv = dataService.calculateUV(start, end);</span><br><span class="line">        model.addAttribute(<span class="string">"uvResult"</span>, uv);</span><br><span class="line">        model.addAttribute(<span class="string">"uvStartDate"</span>, start);</span><br><span class="line">        model.addAttribute(<span class="string">"uvEndDate"</span>, end);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"forward:/data"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计活跃用户</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/data/dau"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDAU</span><span class="params">(@DateTimeFormat(pattern = <span class="string">"yyyy-MM-dd"</span>)</span> Date start,</span></span><br><span class="line"><span class="function">                         @<span class="title">DateTimeFormat</span><span class="params">(pattern = <span class="string">"yyyy-MM-dd"</span>)</span> Date end, Model model) </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> dau = dataService.calculateDAU(start, end);</span><br><span class="line">        model.addAttribute(<span class="string">"dauResult"</span>, dau);</span><br><span class="line">        model.addAttribute(<span class="string">"dauStartDate"</span>, start);</span><br><span class="line">        model.addAttribute(<span class="string">"dauEndDate"</span>, end);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"forward:/data"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h3></li>
-<li>SecurityConfig: 修改，<code>&quot;/data/**&quot;</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 授权</span></span><br><span class="line">        http.authorizeRequests()</span><br><span class="line">                .antMatchers(</span><br><span class="line">                        <span class="string">"/discuss/delete"</span>,</span><br><span class="line">                        <span class="string">"/data/**"</span></span><br><span class="line">                )</span><br><span class="line">                .hasAnyAuthority(</span><br><span class="line">                        AUTHORITY_ADMIN</span><br><span class="line">                )</span><br><span class="line">                .anyRequest().permitAll()</span><br><span class="line">                .and().csrf().disable();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 权限不够时的处理(略)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><ul>
-<li>data.html: 修改（内容）</li>
-</ul>
-<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1%E7%BB%93%E6%9E%9C.png" alt="网站数据统计结果-图示"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（7），Redis高级数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">问答平台（7），Redis高级数据类型</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="archive-article-date">
-  	<time datetime="2020-06-14T06:45:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><ul>
-<li>采用一种基数算法，用于完成独立总数的统计。</li>
-<li>占据空间小，无论统计多少个数据，只占12K的内存空间。</li>
-<li>不精确的统计算法，标准误差为0.81%。<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3></li>
-<li>统计网站的PV、UV<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3></li>
-<li>RedisTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 统计20万个重复数据的独立总数.</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHyperLogLog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String redisKey = <span class="string">"test:hll:01"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">100000</span>; i++) &#123;</span><br><span class="line">        redisTemplate.opsForHyperLogLog().add(redisKey, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">100000</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> random = (<span class="keyword">int</span>) (Math.random() * <span class="number">100000</span> + <span class="number">1</span>);</span><br><span class="line">        redisTemplate.opsForHyperLogLog().add(redisKey, random);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Long size = redisTemplate.opsForHyperLogLog().size(redisKey);</span><br><span class="line">    System.out.println(size);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将3组数据合并，再统计合并后的重复数据的独立总数</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHyperLogLogUnion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String redisKey2 = <span class="string">"test:hll:02"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10000</span>; i++) &#123;</span><br><span class="line">        redisTemplate.opsForHyperLogLog().add(redisKey2, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String redisKey3 = <span class="string">"test:hll:03"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">5001</span>; i &lt;= <span class="number">15000</span>; i++) &#123;</span><br><span class="line">        redisTemplate.opsForHyperLogLog().add(redisKey3, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String redisKey4 = <span class="string">"test:hll:04"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">10001</span>; i &lt;= <span class="number">20000</span>; i++) &#123;</span><br><span class="line">        redisTemplate.opsForHyperLogLog().add(redisKey4, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String unionKey = <span class="string">"test:hll:union"</span>;</span><br><span class="line">    redisTemplate.opsForHyperLogLog().union(unionKey, redisKey2, redisKey3, redisKey4);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> size = redisTemplate.opsForHyperLogLog().size(unionKey);</span><br><span class="line">    System.out.println(size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/HyperLogLog%E6%B5%8B%E8%AF%95%E7%B1%BB.png" alt="HyperLogLog测试类-图示"><br><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/HyperLogLog%E6%B5%8B%E8%AF%95%E7%B1%BB2.png" alt="HyperLogLog测试类2-图示"></li>
-</ul>
-<hr>
-<h2 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h2><ul>
-<li>不是一种独立的数据结构，实际上就是字符串。</li>
-<li>支持按位存取数据，可以将其看成是byte数组。</li>
-<li>适合存储大量的连续的数据的布尔值。<h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3></li>
-<li>统计用户的签到<h3 id="测试类-1"><a href="#测试类-1" class="headerlink" title="测试类"></a>测试类</h3></li>
-<li>RedisTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBitMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String redisKey = <span class="string">"test:bm:01"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录</span></span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey, <span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey, <span class="number">4</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey, <span class="number">7</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询</span></span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">0</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">1</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计</span></span><br><span class="line">    Object obj = redisTemplate.execute(<span class="keyword">new</span> RedisCallback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">doInRedis</span><span class="params">(RedisConnection redisConnection)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> redisConnection.bitCount(redisKey.getBytes());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    System.out.println(obj);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 统计3组数据的布尔值，并对这3组数据做OR运算</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBitMapOperation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String redisKey2 = <span class="string">"test:bm:02"</span>;</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey2, <span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey2, <span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey2, <span class="number">2</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    String redisKey3 = <span class="string">"test:bm:03"</span>;</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey3, <span class="number">2</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey3, <span class="number">3</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey3, <span class="number">4</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    String redisKey4 = <span class="string">"test:bm:04"</span>;</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey4, <span class="number">4</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey4, <span class="number">5</span>, <span class="keyword">true</span>);</span><br><span class="line">    redisTemplate.opsForValue().setBit(redisKey4, <span class="number">6</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    String redisKey = <span class="string">"test:bm:or"</span>;</span><br><span class="line">    Object obj = redisTemplate.execute(<span class="keyword">new</span> RedisCallback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">doInRedis</span><span class="params">(RedisConnection redisConnection)</span> <span class="keyword">throws</span> DataAccessException </span>&#123;</span><br><span class="line">            redisConnection.bitOp(RedisStringCommands.BitOperation.OR,</span><br><span class="line">                    redisKey.getBytes(), redisKey2.getBytes(), redisKey3.getBytes(), redisKey4.getBytes());</span><br><span class="line">            <span class="keyword">return</span> redisConnection.bitCount(redisKey.getBytes());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    System.out.println(obj);</span><br><span class="line"></span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">0</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">1</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">2</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">3</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">4</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">5</span>));</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().getBit(redisKey, <span class="number">6</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="结果展示-1"><a href="#结果展示-1" class="headerlink" title="结果展示"></a>结果展示</h3><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/BitMap%E6%B5%8B%E8%AF%95%E7%B1%BB.png" alt="BitMap测试类-图示"><br><img src="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/BitMap%E6%B5%8B%E8%AF%95%E7%B1%BB2.png" alt="BitMap测试类2-图示"></li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/shang_0122/article/details/106340489" target="_blank" rel="noopener">https://blog.csdn.net/shang_0122/article/details/106340489</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8CRedis%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">展开全文 >></a>
         </p>
       
 

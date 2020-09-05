@@ -144,6 +144,298 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-centos7，git" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/05/centos7%EF%BC%8Cgit/">centos7，git</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/09/05/centos7%EF%BC%8Cgit/" class="archive-article-date">
+  	<time datetime="2020-09-05T04:32:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="git-clone-速度慢"><a href="#git-clone-速度慢" class="headerlink" title="git clone 速度慢"></a>git clone 速度慢</h2><h3 id="查找域名对应的-ip"><a href="#查找域名对应的-ip" class="headerlink" title="查找域名对应的 ip"></a>查找域名对应的 ip</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nslookup github.global.ssl.fastly.Net</span><br><span class="line">nslookup github.com</span><br></pre></td></tr></table></figure>
+<h3 id="修改-hosts"><a href="#修改-hosts" class="headerlink" title="修改 hosts"></a>修改 hosts</h3><p>vim /etc/hosts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x.x.x.x github.global.ssl.fastly.net</span><br><span class="line">x.x.x.x github.com</span><br></pre></td></tr></table></figure>
+<h3 id="重启网络"><a href="#重启网络" class="headerlink" title="重启网络"></a>重启网络</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/rxbook/p/11869835.html" target="_blank" rel="noopener">https://www.cnblogs.com/rxbook/p/11869835.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/09/05/centos7%EF%BC%8Cgit/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Fabric，Solo测试环境部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/05/Fabric%EF%BC%8CSolo%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/">Fabric，Solo测试环境部署</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/09/05/Fabric%EF%BC%8CSolo%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/" class="archive-article-date">
+  	<time datetime="2020-09-05T03:12:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>单机单节点指在一台电脑上部署一个排序（Orderer）服务、一个组织（Org1），一个节点（Peer，属于 Org1），然后运行官方案例中的 example02 智能合约例子，实现转财交易和查询功能。<br>本案例所需的源文件通过访问 <a href="https://github.com/dragon-lin/bookfile" target="_blank" rel="noopener">https://github.com/dragon-lin/bookfile</a> 网址，从网页中的“书籍对应源码/第九章 Fabric Solo测试环境部署/单机单节点部署”目录中获取。</p>
+<h2 id="单机单节点部署"><a href="#单机单节点部署" class="headerlink" title="单机单节点部署"></a>单机单节点部署</h2><h3 id="创建-singlepeer-目录"><a href="#创建-singlepeer-目录" class="headerlink" title="创建 singlepeer 目录"></a>创建 singlepeer 目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH&#x2F;src&#x2F;github.com&#x2F;hyperledger&#x2F;fabric</span><br><span class="line">mkdir singlepeer</span><br><span class="line">cd singlepeer</span><br></pre></td></tr></table></figure>
+<h3 id="获取生成工具"><a href="#获取生成工具" class="headerlink" title="获取生成工具"></a>获取生成工具</h3><p>把下载的 bin 目录拷贝到 singlepeer 目录下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777 .&#x2F;bin</span><br></pre></td></tr></table></figure>
+<h3 id="准备生成证书和区块配置文件"><a href="#准备生成证书和区块配置文件" class="headerlink" title="准备生成证书和区块配置文件"></a>准备生成证书和区块配置文件</h3><p>配置 crypto-config.yaml 和 configtx.yaml 文件，拷贝到 singlepeer 目录下。<br>（1）crypto-config.yaml：生成证书配置文件<br>（2）configtx.yaml：生成区块及通道配置文件</p>
+<h3 id="生成公私钥和证书"><a href="#生成公私钥和证书" class="headerlink" title="生成公私钥和证书"></a>生成公私钥和证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;bin&#x2F;cryptogen generate --config&#x3D;.&#x2F;crypto-config.yaml</span><br></pre></td></tr></table></figure>
+<h3 id="生成创世区块"><a href="#生成创世区块" class="headerlink" title="生成创世区块"></a>生成创世区块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir channel-artifacts</span><br><span class="line">.&#x2F;bin&#x2F;configtxgen -profile OneOrgsOrdererGenesis -outputBlock .&#x2F;channel-artifacts&#x2F;genesis.block</span><br></pre></td></tr></table></figure>
+<h3 id="生成通道配置区块"><a href="#生成通道配置区块" class="headerlink" title="生成通道配置区块"></a>生成通道配置区块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;bin&#x2F;configtxgen -profile OneOrgsChannel -outputCreateChannelTx .&#x2F;channel-artifacts&#x2F;mychannel.tx -channelID mychannel</span><br></pre></td></tr></table></figure>
+<h3 id="准备-docker-配置文件"><a href="#准备-docker-配置文件" class="headerlink" title="准备 docker 配置文件"></a>准备 docker 配置文件</h3><p>配置 docker-compose-cli.yaml 启动服务配置文件文件，拷贝到 singlepeer 目录下。</p>
+<h3 id="准备部署智能合约"><a href="#准备部署智能合约" class="headerlink" title="准备部署智能合约"></a>准备部署智能合约</h3><p>拷贝 examples/chaincode/go/example02 目录下的文件到 singlepeer/chaincode/go/example02 目录下。</p>
+<h3 id="启动-Fabric-网络"><a href="#启动-Fabric-网络" class="headerlink" title="启动 Fabric 网络"></a>启动 Fabric 网络</h3><p>启动 orderer 和 peer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7050&#x2F;tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br><span class="line">docker-compose -f docker-compose-cli.yaml up -d</span><br></pre></td></tr></table></figure>
+<p>启动 cli 容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it cli bash</span><br></pre></td></tr></table></figure>
+<p>创建 Channel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel create -o orderer.example.com:7050 -c mychannel -f .&#x2F;channel-artifacts&#x2F;mychannel.tx</span><br></pre></td></tr></table></figure>
+<p>Peer 加入 Channel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer channel join -b mychannel.block</span><br></pre></td></tr></table></figure>
+<h3 id="安装与运行智能合约"><a href="#安装与运行智能合约" class="headerlink" title="安装与运行智能合约"></a>安装与运行智能合约</h3><p>安装智能合约</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode install -n mycc -p github.com&#x2F;hyperledger&#x2F;fabric&#x2F;singlepeer&#x2F;chaincode&#x2F;go&#x2F;example02&#x2F;cmd&#x2F; -v 1.0</span><br></pre></td></tr></table></figure>
+<p>实例化智能合约</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode instantiate -o orderer.example.com:7050 -C mychannel -n mycc -v 1.0 -c &#39;&#123;&quot;Args&quot;:[&quot;init&quot;,&quot;a&quot;,&quot;100&quot;,&quot;b&quot;,&quot;200&quot;]&#125;&#39; -P &quot;AND (&#39;Org1MSP.peer&#39;)&quot;</span><br></pre></td></tr></table></figure>
+<p>Peer 上查询 a，显示 100</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C mychannel -n mycc -c &#39;&#123;&quot;Args&quot;:[&quot;query&quot;,&quot;a&quot;]&#125;&#39;</span><br></pre></td></tr></table></figure>
+<p>Peer 上进行 a 向 b 转 10 交易</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -C mychannel -n mycc -c &#39;&#123;&quot;Args&quot;:[&quot;invoke&quot;,&quot;a&quot;,&quot;b&quot;,&quot;10&quot;]&#125;&#39;</span><br></pre></td></tr></table></figure>
+<p>Peer 上查询 b，显示 210</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C mychannel -n mycc -c &#39;&#123;&quot;Args&quot;:[&quot;query&quot;,&quot;b&quot;]&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/09/05/Fabric%EF%BC%8CSolo%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Fabric，基础环境搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/05/Fabric%EF%BC%8C%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">Fabric，基础环境搭建</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/09/05/Fabric%EF%BC%8C%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="archive-article-date">
+  	<time datetime="2020-09-05T02:53:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h2><h3 id="设备映射存储驱动"><a href="#设备映射存储驱动" class="headerlink" title="设备映射存储驱动"></a>设备映射存储驱动</h3><p>yum-utils 提供 yum-config-manager 工具，设备映射存储驱动需要 device-mapper-persistent-data 和 lvm2 工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc gcc-c++</span><br><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
+<h3 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine</span><br></pre></td></tr></table></figure>
+<h3 id="设置稳定存储库"><a href="#设置稳定存储库" class="headerlink" title="设置稳定存储库"></a>设置稳定存储库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --add-repo https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br></pre></td></tr></table></figure>
+<h3 id="开启-edge"><a href="#开启-edge" class="headerlink" title="开启 edge"></a>开启 edge</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --enable docker-ce-edge</span><br></pre></td></tr></table></figure>
+<h3 id="开启-test"><a href="#开启-test" class="headerlink" title="开启 test"></a>开启 test</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --enable docker-ce-test</span><br></pre></td></tr></table></figure>
+<h3 id="安装-docker-ce"><a href="#安装-docker-ce" class="headerlink" title="安装 docker-ce"></a>安装 docker-ce</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-ce-18.05.0.ce</span><br></pre></td></tr></table></figure>
+<h3 id="运行-docker"><a href="#运行-docker" class="headerlink" title="运行 docker"></a>运行 docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+<h3 id="查看-docker-版本"><a href="#查看-docker-版本" class="headerlink" title="查看 docker 版本"></a>查看 docker 版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker --version</span><br></pre></td></tr></table></figure>
+<h3 id="设置开机自启动"><a href="#设置开机自启动" class="headerlink" title="设置开机自启动"></a>设置开机自启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig docker on</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Docker-Compose-安装"><a href="#Docker-Compose-安装" class="headerlink" title="Docker-Compose 安装"></a>Docker-Compose 安装</h2><p>Docker-Compose 是用来定义和运行复杂应用的 Docker 工具。在一个文件中定义一个多容器应用和容器依赖，并且使用一条命令来启动你的应用，完成一切准备工作。</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>下载 docker-compose 到/usr/local/bin/docker-compose 目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.22.0&#x2F;docker-compose-$(uname -s)-$(uname -m) -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><p>设置/usr/local/bin/docker-compose 目录为可执行权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="测试-docker-compose-安装是否成功"><a href="#测试-docker-compose-安装是否成功" class="headerlink" title="测试 docker-compose 安装是否成功"></a>测试 docker-compose 安装是否成功</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -version</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Go-语言环境安装"><a href="#Go-语言环境安装" class="headerlink" title="Go 语言环境安装"></a>Go 语言环境安装</h2><p>Go 语言专门针对多处理器系统应用程序的编程进行了优化，使用 Go 编译的程序可以媲美 C 或 C++代码的速度，而且更加安全、支持并行进程。</p>
+<h3 id="下载并安装-Go-语言环境"><a href="#下载并安装-Go-语言环境" class="headerlink" title="下载并安装 Go 语言环境"></a>下载并安装 Go 语言环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt</span><br><span class="line">mkdir golang</span><br><span class="line">cd golang</span><br><span class="line">yum install wget</span><br><span class="line">wget https:&#x2F;&#x2F;studygolang.com&#x2F;dl&#x2F;golang&#x2F;go1.10.3.linux-amd64.tar.gz</span><br><span class="line">tar -zxvf go1.10.3.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="配置-Go-语言环境变量"><a href="#配置-Go-语言环境变量" class="headerlink" title="配置 Go 语言环境变量"></a>配置 Go 语言环境变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">export GOPATH&#x3D;&#x2F;opt&#x2F;gopath</span><br><span class="line">export GOROOT&#x3D;&#x2F;opt&#x2F;golang&#x2F;go</span><br><span class="line">export PATH&#x3D;$GOROOT&#x2F;bin:$PATH</span><br><span class="line"></span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+<h3 id="查看-Go-语言版本"><a href="#查看-Go-语言版本" class="headerlink" title="查看 Go 语言版本"></a>查看 Go 语言版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go version</span><br></pre></td></tr></table></figure>
+<h3 id="查看-Go-语言环境变量"><a href="#查看-Go-语言环境变量" class="headerlink" title="查看 Go 语言环境变量"></a>查看 Go 语言环境变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go env</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Git-安装"><a href="#Git-安装" class="headerlink" title="Git 安装"></a>Git 安装</h2><p>Git 是一个开源的分布式版本控制系统，可以有效、高速的处理各类大小项目版本管理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Fabric-安装"><a href="#Fabric-安装" class="headerlink" title="Fabric 安装"></a>Fabric 安装</h2><h3 id="生成目录"><a href="#生成目录" class="headerlink" title="生成目录"></a>生成目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $GOPATH&#x2F;src&#x2F;github.com&#x2F;hyperledger&#x2F;</span><br><span class="line">cd $GOPATH&#x2F;src&#x2F;github.com&#x2F;hyperledger&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="Git-克隆源码"><a href="#Git-克隆源码" class="headerlink" title="Git 克隆源码"></a>Git 克隆源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;hyperledger&#x2F;fabric.git</span><br><span class="line">cd fabric</span><br></pre></td></tr></table></figure>
+<h3 id="切换-Fabric-版本"><a href="#切换-Fabric-版本" class="headerlink" title="切换 Fabric 版本"></a>切换 Fabric 版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout v1.4.0</span><br></pre></td></tr></table></figure>
+<h3 id="Fabric-镜像下载"><a href="#Fabric-镜像下载" class="headerlink" title="Fabric 镜像下载"></a>Fabric 镜像下载</h3><p>Dockek 镜像地址：<a href="https://hub.docker.com/r/hyperledger/" target="_blank" rel="noopener">https://hub.docker.com/r/hyperledger/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker pull hyperledger&#x2F;fabric-peer:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-orderer:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-tools:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-ccenv:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-baseos:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-kafka:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-zookeeper:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-couchdb:latest</span><br><span class="line">docker pull hyperledger&#x2F;fabric-ca:latest</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/09/05/Fabric%EF%BC%8C%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-centos7，切换源" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -248,8 +540,9 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line"><span class="attr">"registry-mirrors"</span>: [<span class="string">"https://alzgoonw.mirror.aliyuncs.com"</span>] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>更换不同的镜像地址，直接替换掉“<a href="https://alzgoonw.mirror.aliyuncs.com”" target="_blank" rel="noopener">https://alzgoonw.mirror.aliyuncs.com”</a></p>
 <h3 id="重载docker生效"><a href="#重载docker生效" class="headerlink" title="重载docker生效"></a>重载docker生效</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+<h3 id="国内源"><a href="#国内源" class="headerlink" title="国内源"></a>国内源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Docker中国官方</span><br><span class="line">https:&#x2F;&#x2F;registry.docker-cn.com</span><br><span class="line">网易163</span><br><span class="line">http:&#x2F;&#x2F;hub-mirror.c.163.com</span><br><span class="line">中科大</span><br><span class="line">https:&#x2F;&#x2F;docker.mirrors.ustc.edu.cn</span><br><span class="line">阿里云</span><br><span class="line">https:&#x2F;&#x2F;&#123;your_id&#125;.mirror.aliyuncs.com</span><br><span class="line">daocloud</span><br><span class="line">http:&#x2F;&#x2F;&#123;your_id&#125;.m.daocloud.io</span><br></pre></td></tr></table></figure>
 
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/hhyihquk1/article/details/84099336" target="_blank" rel="noopener">https://blog.csdn.net/hhyihquk1/article/details/84099336</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/hhyihquk1/article/details/84099336" target="_blank" rel="noopener">https://blog.csdn.net/hhyihquk1/article/details/84099336</a><br><a href="https://blog.csdn.net/lazycheerup/article/details/104909075" target="_blank" rel="noopener">https://blog.csdn.net/lazycheerup/article/details/104909075</a></p>
 
       
 
@@ -774,278 +1067,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/08/19/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-工厂模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/19/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">工厂模式</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/19/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-08-19T12:13:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工厂模式（Factory Pattern）是 Java 中最常用的设计模式之一。<br>这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。<br>在工厂模式中，我们在创建对象时不会对客户端暴露创建逻辑，通过使用一个共同的接口来指向新创建的对象。</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
-<li>目的：定义一个创建对象的接口，让其子类自己决定实例化哪一个工厂类，工厂模式使其创建过程延迟到子类进行。</li>
-<li>解决问题：解决接口选择的问题。</li>
-<li>何时使用：不同条件下创建不同实例。</li>
-<li>如何解决：让其子类实现工厂接口，返回的也是一个抽象的产品。</li>
-<li>关键代码：创建过程在其子类执行。</li>
-<li>优点： 1、调用者创建一个对象，知道其名称就可以。2、扩展性高，如果增加一个产品，扩展一个工厂类就可以。3、屏蔽产品的具体实现，调用者只关注产品的接口。</li>
-<li>缺点：每次增加一个产品时，需要增加一个具体类和对象实现工厂，使得系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。</li>
-<li>使用场景： 1、日志记录器。 2、数据库访问，当用户不知道最后系统采用哪一类数据库，以及数据库可能有变化时。</li>
-<li>注意事项：作为一种创建类模式，在任何需要生成复杂对象的地方，都可以使用工厂方法模式。<br>复杂对象适合使用工厂模式，而简单对象只需要通过 new 就可以完成创建的对象，无需使用工厂模式。如果使用工厂模式，就需要引入一个工厂类，会增加系统的复杂度。</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>创建一个 Shape 接口和实现 Shape 接口的实体类。<br>下一步是定义工厂类 ShapeFactory，使用 ShapeFactory 来获取 Shape 对象。<br><img src="/2020/08/19/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0.jpg" alt="工厂模式的实现-图示"></p>
-<h3 id="创建一个接口"><a href="#创建一个接口" class="headerlink" title="创建一个接口"></a>创建一个接口</h3><p>Shape.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建实现接口的实体类"><a href="#创建实现接口的实体类" class="headerlink" title="创建实现接口的实体类"></a>创建实现接口的实体类</h3><p>Rectangle.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Rectangle: draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Square.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Square: draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Circle.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Circle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Circle: draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建一个工厂"><a href="#创建一个工厂" class="headerlink" title="创建一个工厂"></a>创建一个工厂</h3><p>生成基于给定信息的实体类的对象<br>ShapeFactory.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShapeFactory</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 使用 getShape 方法获取形状类型的对象</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Shape <span class="title">getShape</span><span class="params">(String shapeType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(shapeType == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;        </span><br><span class="line">        <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"circle"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Circle();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"rectangle"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Rectangle();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"square"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Square();</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="使用该工厂"><a href="#使用该工厂" class="headerlink" title="使用该工厂"></a>使用该工厂</h3><p>传递类型信息来获取实体类的对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryPatternDemo</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      ShapeFactory shapeFactory = <span class="keyword">new</span> ShapeFactory();</span><br><span class="line"> </span><br><span class="line">      <span class="comment">// 获取 Circle 的对象，并调用它的 draw 方法</span></span><br><span class="line">      Shape shape1 = shapeFactory.getShape(<span class="string">"CIRCLE"</span>);</span><br><span class="line">      <span class="comment">// 调用 Circle 的 draw 方法</span></span><br><span class="line">      shape1.draw();</span><br><span class="line"> </span><br><span class="line">      <span class="comment">// 获取 Rectangle 的对象，并调用它的 draw 方法</span></span><br><span class="line">      Shape shape2 = shapeFactory.getShape(<span class="string">"RECTANGLE"</span>);</span><br><span class="line">      <span class="comment">// 调用 Rectangle 的 draw 方法</span></span><br><span class="line">      shape2.draw();</span><br><span class="line"> </span><br><span class="line">      <span class="comment">// 获取 Square 的对象，并调用它的 draw 方法</span></span><br><span class="line">      Shape shape3 = shapeFactory.getShape(<span class="string">"SQUARE"</span>);</span><br><span class="line">      <span class="comment">// 调用 Square 的 draw 方法</span></span><br><span class="line">      shape3.draw();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.runoob.com/design-pattern/factory-pattern.html" target="_blank" rel="noopener">https://www.runoob.com/design-pattern/factory-pattern.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/19/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring中用到的设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/19/Spring%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">Spring中用到的设计模式</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/19/Spring%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-08-19T12:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="控制反转-IoC-和依赖注入-DI"><a href="#控制反转-IoC-和依赖注入-DI" class="headerlink" title="控制反转(IoC)和依赖注入(DI)"></a>控制反转(IoC)和依赖注入(DI)</h2><p>IoC(Inversion of Control,控制翻转) 是 Spring 中一个非常重要的概念，它不是什么技术，而是一种解耦的设计思想。<br>它的主要目的是借助于“第三方”(Spring 中的 IOC 容器) 实现具有依赖关系的对象之间的解耦，从而降低代码之间的耦合度。<br>IOC 是一个原则，而不是一个模式。</p>
-<p>Spring IOC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置文件/注解即可，完全不用考虑对象是如何被创建出来的。<br>IOC 容器负责创建对象，将对象连接在一起，配置这些对象，并从创建中处理这些对象的整个生命周期，直到它们被完全销毁。</p>
-<p>在实际项目中一个 Service 类如果有几百甚至上千个类作为它的底层，我们需要实例化这个 Service，要搞清这个 Service 所有底层类的构造函数。<br>如果利用 IOC 的话，你只需要配置好，然后在需要的地方引用，这大大增加了项目的可维护性且降低了开发难度。</p>
-<p>控制翻转的理解。举个例子：对象 a 依赖了对象b，当对象 a 需要使用 对象 b的时候必须自己去创建。<br>当系统引入了 IOC 容器后， 对象 a 和对象 b 之间失去了直接的联系。<br>这时候，当对象 a 需要使用对象 b 的时候，我们可以指定 IOC 容器去创建一个对象b注入到对象 a 中。<br>对象 a 获得依赖对象 b 的过程，由主动行为变为了被动行为，控制权反转。</p>
-<p>DI(Dependecy Inject,依赖注入)是实现控制反转的一种设计模式，是指将实例变量传入到一个对象中去。</p>
-<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>Spring 使用工厂模式可以通过 BeanFactory 或 ApplicationContext 创建 bean 对象。</p>
-<h3 id="两者对比"><a href="#两者对比" class="headerlink" title="两者对比"></a>两者对比</h3><p>BeanFactory：延迟注入(使用到某个 bean 的时候才会注入)，相比于 ApplicationContext 占用更少的内存，程序启动速度更快。<br>ApplicationContext：容器启动的时候，一次性创建所有 bean。BeanFactory 仅提供了最基本的依赖注入支持，ApplicationContext 扩展了 BeanFactory，所以一般开发人员使用ApplicationContext会更多。</p>
-<h3 id="ApplicationContext的三个实现类"><a href="#ApplicationContext的三个实现类" class="headerlink" title="ApplicationContext的三个实现类"></a>ApplicationContext的三个实现类</h3><p>ClassPathXmlApplication：上下文文件作为类路径资源。<br>FileSystemXmlApplication：从文件系统中的 XML 文件载入上下文定义信息。<br>XmlWebApplicationContext：从 Web 系统中的 XML 文件载入上下文定义信息。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.FileSystemXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ApplicationContext context = <span class="keyword">new</span> FileSystemXmlApplicationContext(</span><br><span class="line">                <span class="string">"C:/work/IOC Containers/springframework.applicationcontext/src/main/resources/bean-factory-config.xml"</span>);</span><br><span class="line"></span><br><span class="line">        HelloApplicationContext obj = (HelloApplicationContext) context.getBean(<span class="string">"helloApplicationContext"</span>);</span><br><span class="line">        obj.getMsg();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>在系统中，有些对象其实我们只需要一个，比如说：线程池、缓存、对话框、注册表、日志对象等对象。<br>事实上，这一类对象只能有一个实例，如果制造出多个实例就可能会导致一些问题的产生，比如：程序的行为异常、资源使用过量。</p>
-<h3 id="使用单例模式的好处"><a href="#使用单例模式的好处" class="headerlink" title="使用单例模式的好处"></a>使用单例模式的好处</h3><p>对于频繁使用的对象，可以省略创建对象所花费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销。<br>由于 new 操作的次数减少，因而对系统内存的使用频率也会降低，这将减轻 GC 压力，缩短 GC 停顿时间。</p>
-<h3 id="Spring-中-bean-的几种作用域"><a href="#Spring-中-bean-的几种作用域" class="headerlink" title="Spring 中 bean 的几种作用域"></a>Spring 中 bean 的几种作用域</h3><p>Spring 中 bean 的默认作用域就是 singleton(单例)的。<br>prototype: 每次请求都会创建一个新的 bean 实例。<br>request: 每一次 HTTP 请求都会产生一个新的 bean，该bean仅在当前 HTTP request 内有效。<br>session: 每一次 HTTP 请求都会产生一个新的 bean，该bean仅在当前 HTTP session 内有效。<br>global-session： 全局 session 作用域，仅仅在基于 portlet 的web应用中才有意义，Spring5已经没有了。Portlet是能够生成语义代码(如：HTML)的小型Java Web插件。它们基于portlet容器，可以像servlet一样处理HTTP请求。但是，与 servlet 不同，每个 portlet 都有不同的会话。</p>
-<h3 id="Spring-实现单例的方式"><a href="#Spring-实现单例的方式" class="headerlink" title="Spring 实现单例的方式"></a>Spring 实现单例的方式</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- xml --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userService"</span> <span class="attr">class</span>=<span class="string">"top.snailclimb.UserService"</span> <span class="attr">scope</span>=<span class="string">"singleton"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注解</span></span><br><span class="line"><span class="meta">@Scope</span>(value = <span class="string">"singleton"</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>Spring 通过 ConcurrentHashMap 实现单例注册表的特殊方式，实现单例模式。</p>
-<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><h3 id="代理模式在-AOP-中的应用"><a href="#代理模式在-AOP-中的应用" class="headerlink" title="代理模式在 AOP 中的应用"></a>代理模式在 AOP 中的应用</h3><p>AOP(Aspect-Oriented Programming，面向切面编程)。<br>将与业务无关，却为业务模块所共同调用的逻辑（如：事务处理、日志管理、权限控制等）封装起来，减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。<br>Spring AOP 是基于动态代理的。如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 JDK Proxy，去创建代理对象；<br>而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理，这时候 Spring AOP 会使用Cglib，这时候 Spring AOP 会使用 Cglib 生成一个被代理对象的子类来作为代理。<br>使用 AOP 后可以把一些通用功能抽象出来，在需要用到的地方直接使用即可，这样大大简化了代码量。需要增加新功能时也方便，提高了系统扩展性。<br>日志功能、事务管理等等场景都用到了 AOP。</p>
-<h3 id="Spring-AOP-和-AspectJ-AOP-的区别"><a href="#Spring-AOP-和-AspectJ-AOP-的区别" class="headerlink" title="Spring AOP 和 AspectJ AOP 的区别"></a>Spring AOP 和 AspectJ AOP 的区别</h3><p>Spring AOP 属于运行时增强，而 AspectJ 是编译时增强。<br>Spring AOP 基于代理(Proxying)，而 AspectJ 基于字节码操作(Bytecode Manipulation)。<br>Spring AOP 已经集成了 AspectJ ，AspectJ 是 Java 生态系统中最完整的 AOP 框架。<br>AspectJ 相比于 Spring AOP 功能更加强大，但是 Spring AOP 相对来说更简单，如果切面比较少，那么两者性能差异不大。但是，当切面太多的话，最好选择 AspectJ，它比Spring AOP 快很多。</p>
-<h2 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h2><p>模板方法模式是一种行为设计模式，它定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。<br>模板方法使得子类可以不改变一个算法的结构，即可重定义该算法的某些特定步骤的实现方式。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Template</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 模板方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">TemplateMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        PrimitiveOperation1();  </span><br><span class="line">        PrimitiveOperation2();</span><br><span class="line">        PrimitiveOperation3();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span>  <span class="title">PrimitiveOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 当前类实现</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 被子类实现的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">PrimitiveOperation2</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">PrimitiveOperation3</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TemplateImpl</span> <span class="keyword">extends</span> <span class="title">Template</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PrimitiveOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 当前类实现</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PrimitiveOperation3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 当前类实现</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Spring 中 jdbcTemplate、hibernateTemplate 等以 Template 结尾的对数据库操作的类，它们就使用到了模板模式。<br>一般情况下，都是使用继承的方式来实现模板模式，但是 Spring 并没有使用这种方式，而是使用Callback 模式与模板方法模式配合，既达到了代码复用的效果，同时增加了灵活性。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://snailclimb.gitee.io/javaguide/#/docs/system-design/framework/spring/Spring-Design-Patterns" target="_blank" rel="noopener">https://snailclimb.gitee.io/javaguide/#/docs/system-design/framework/spring/Spring-Design-Patterns</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">框架</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/19/Spring%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-C语言输入输出总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/20/C%E8%AF%AD%E8%A8%80%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%80%BB%E7%BB%93/">C语言输入输出总结</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/07/20/C%E8%AF%AD%E8%A8%80%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-07-20T03:41:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/a375849201893857/article/details/46624445" target="_blank" rel="noopener">https://blog.csdn.net/a375849201893857/article/details/46624445</a><br><a href="https://www.acwing.com/blog/content/151/" target="_blank" rel="noopener">https://www.acwing.com/blog/content/151/</a><br><a href="https://www.acwing.com/blog/content/1896/" target="_blank" rel="noopener">https://www.acwing.com/blog/content/1896/</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/20/C%E8%AF%AD%E8%A8%80%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%80%BB%E7%BB%93/">展开全文 >></a>
         </p>
       
 
