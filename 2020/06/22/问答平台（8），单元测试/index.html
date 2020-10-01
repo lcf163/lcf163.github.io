@@ -6,28 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>问答平台（8），常见面试题 | lcf Blog</title>
+  <title>问答平台（8），单元测试 | lcf Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="MySQL存储引擎MyISAM、Memory、InnoDB、Archive和NDB。InnoDB和NDB支持事务，但NDB支持集群。 事务事务的特性（ACID）原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。 事务的隔离性并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读隔离级别：Read Uncommit">
+  <meta name="description" content="Spring Boot Testing 依赖：spring-boot-starter-test 包括：Junit、Spring Test、AssertJ、…  Test Case 要求：保证测试方法的独立性。 步骤：初始化数据、执行测试代码、验证测试结果、清理测试数据。 常用注解：@BeforeClass、@AfterClass、@Before、@After  测试类 SpringBootTest">
 <meta property="og:type" content="article">
-<meta property="og:title" content="问答平台（8），常见面试题">
-<meta property="og:url" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:title" content="问答平台（8），单元测试">
+<meta property="og:url" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="MySQL存储引擎MyISAM、Memory、InnoDB、Archive和NDB。InnoDB和NDB支持事务，但NDB支持集群。 事务事务的特性（ACID）原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。 事务的隔离性并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读隔离级别：Read Uncommit">
+<meta property="og:description" content="Spring Boot Testing 依赖：spring-boot-starter-test 包括：Junit、Spring Test、AssertJ、…  Test Case 要求：保证测试方法的独立性。 步骤：初始化数据、执行测试代码、验证测试结果、清理测试数据。 常用注解：@BeforeClass、@AfterClass、@Before、@After  测试类 SpringBootTest">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/B+Tree.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/LRU%E7%AE%97%E6%B3%95.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringIoC.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringAOP.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringMVC.png">
-<meta property="article:published_time" content="2020-06-22T09:27:05.000Z">
-<meta property="article:modified_time" content="2020-07-10T05:28:30.763Z">
+<meta property="og:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.png">
+<meta property="article:published_time" content="2020-06-22T03:26:07.000Z">
+<meta property="article:modified_time" content="2020-10-01T04:15:59.203Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="问答平台项目">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/B+Tree.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.png">
   
     <link rel="alternative" href="/atom.xml" title="lcf Blog" type="application/atom+xml">
   
@@ -155,14 +149,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-问答平台（8），常见面试题" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-问答平台（8），单元测试" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      问答平台（8），常见面试题
+      问答平台（8），单元测试
     </h1>
   
 
@@ -173,44 +167,30 @@
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-06-22T09:27:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-22</time>
+<a href="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
+  	<time datetime="2020-06-22T03:26:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><p>MyISAM、Memory、InnoDB、Archive和NDB。<br>InnoDB和NDB支持事务，但NDB支持集群。</p>
-<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h4 id="事务的特性（ACID）"><a href="#事务的特性（ACID）" class="headerlink" title="事务的特性（ACID）"></a>事务的特性（ACID）</h4><p>原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。</p>
-<h4 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h4><p>并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读<br>隔离级别：Read Uncommitted、Read Committed、Repeatable Read、Serializable<br>Spirng 事务管理：<br>1.声明式事务（通过xml配置、通过注解@Transactional）<br>2.编程式事务（通过TransactionTemplate管理事务，并通过它执行数据库的操作）</p>
-<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><h4 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h4><p>表级锁：开销小、加锁快，发生锁冲突的概率高、并发度低，不会出现死锁。<br>行级锁：开销大、加锁慢，发生锁冲突的概率低、并发度高，会出现死锁。<br>MyISAM默认表级锁，InnoDB支持行级锁。</p>
-<h4 id="类型（InnoDB）"><a href="#类型（InnoDB）" class="headerlink" title="类型（InnoDB）"></a>类型（InnoDB）</h4><p>共享锁（S）：行级，读取一行。<br>排他锁（X）：行级，更新一行。<br>意向共享锁（IS）：表级，准备加共享锁。<br>意向排他锁（IX）：表级，准备加排他锁。<br>间隙锁（NK）：行级，使用范围条件时，对范围内不存在的记录加锁。一是为了防止幻读，二是为了满足恢复和复制的需要。</p>
-<h4 id="加锁"><a href="#加锁" class="headerlink" title="加锁"></a>加锁</h4><p>增加行级锁之前，InnoDB会自动给表加意向锁。<br>执行DML语句时，InnoDB会自动给数据加排他锁。<br>执行DQL语句时：<br>共享锁（S）：SELECT … FROM … WHERE … LOCK IN SHARE MODE;<br>排他锁（X）：SELECT … FROM … WHERE … FOR UPDATE;<br>间隙锁（NK）：上述SQL采用范围条件时，InnoDB对不存在的记录自动加间隙锁。</p>
-<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>避免死锁：<br>1.不同的业务并发访问多个表时，约定以相同的顺序来访问这些表。<br>2.以批量的方式处理数据时，事先对数据排序，保证线程按固定的顺序来处据。<br>3.在事务中，如果要更新记录，直接申请足够级别的锁，即排他锁。</p>
-<h4 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h4><p>悲观锁（数据库）：针对更新数据频繁的情况。<br>乐观锁（自定义）：针对查询数据频繁的情况（版本号机制、CAS算法）。</p>
-<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h4 id="B-Tree-InnoDB"><a href="#B-Tree-InnoDB" class="headerlink" title="B+Tree(InnoDB)"></a>B+Tree(InnoDB)</h4><p>数据分块存储，每一块称为一页。<br>所有的值按顺序存储，每一个叶子到根的距离相同。<br>非叶节点存储数据的边界，叶子节点存储指向数据行的指针。<br>通过边界缩小数据的范围，避免全表扫描，加快查找速度。<br><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/B+Tree.png" alt="B+Tree-图示"></p>
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt="Redis数据类型-图示"></p>
-<h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><p>Redis会把设置了过期时间的key放入一个独立的字典里，在key过期时不会立刻删除它。<br>Redis会通过如下两种策略，来删除过期的key：<br>1.惰性删除：客户端访问某个key时，Redis会检查该key是否过期，若过期则删除。<br>2.定期扫描：Redis默认每秒执行10次过期扫描（配置hz选项），扫描策略如下<br>（1）从过期字典中随机选择20个key；<br>（2）删除这20个key中已过期的key；<br>（3）如果过期的key的比例超过25%，则重复步骤（1）。</p>
-<h3 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h3><p>当Redis占用内存超出最大限制（maxmemory）时，让Redis淘汰一些数据，腾出空间继续提供读写服务，可采用如下策略（maxmemory-policy）：<br>volatile-lru: 在设置了过期时间的key中，选择最少使用的key(LRU)，将其淘汰。<br>volatile-ttl: 在设置了过期时间的key中，选择剩余寿命（TTL）最短的key，将其淘汰。<br>volatile-lru: 在设置了过期时间的key中，选择最少使用的key(LRU)，将其淘汰。<br>allkeys-lru: 在所有的key中，选择最少使用的key(LRU)，将其淘汰。<br>allkeys-random: 在所有的key中，随机选择一些key，将其淘汰。<br>no-eviction: 禁⽌驱逐数据，当内存不⾜以容纳新写⼊数据时，新写⼊操作会报错。对可能导致增大内存的命令返回错误。<br><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/LRU%E7%AE%97%E6%B3%95.png" alt="LRU算法-图示"></p>
-<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" alt="缓存穿透-图示"></p>
-<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><p>查询不存在的数据，使请求直达存储层，导致负载过大，甚至宕机。</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.缓存空对象。存储层未命中后，仍然将空值存入缓存层；再次访问该数据时，缓存层会直接返回空值。<br>2.布隆过滤器。将所有存在的key提前存入布隆过滤器，在访问缓存层之前，先通过过滤器拦截，若请求的是不存在的key，直接返回空值。</p>
-<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h4 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h4><p>热点数据，它的访问量非常大。在其缓存失效瞬间，大量请求直达存储层，导致服务崩溃。</p>
-<h4 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.加互斥锁。对数据的访问加互斥锁，当一个线程访问该数据时，其他线程只能等待。这个线程访问过后，缓存中的数据将被重建，届时其他线程直接从缓存取值。<br>2.永不过期。不设置过期时间，所以不会出现上述问题，这是“物理”上的不过期。为每个value设置逻辑过期时间，当发现该值逻辑过期时，使用单独的线程重建缓存。</p>
-<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h4 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h4><p>缓存同一时间大面积失效，所以后面的请求都会落到数据库上，造成数据库短时间内承受大量请求而崩溃。<br>（缓存层不能提供服务，导致所有的请求直达存储层，造成存储层宕机）</p>
-<h4 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.避免同时过期。设置过期时间时，附加一个随机数，避免大量的key同时过期。<br>2.构建高可用的Redis缓存。部署多个Redis实例，个别节点宕机，依然可以保持服务的整体可用。<br>3.构建多级缓存。增加本地缓存，在存储层前面多加一级屏障，降低请求直达存储层的几率。<br>4.启动限流和降级措施。对存储层增加限流措施（限流框架），当请求超出限制时，对其提供降级服务（降级自定义）。</p>
-<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><p>修改时，经常需要先将数据读取到内存，在内存中修改后再存回去。<br>在分布式应用中，可能多个进程同时执行上述操作，而读取和修改非原子操作，所以会产生冲突。<br>增加分布式锁，可以解决此类问题。</p>
-<h4 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h4><p>同步锁：多个（线程）都能访问到的地方，做一个标记，标识该数据的访问权限。<br>分布式锁：多个（进程）都能访问到的地方，做一个标记，标识该数据的访问权限。</p>
-<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><p>1.基于数据库实现分布式锁。<br>2.基于Redis实现分布式锁。<br>3.基于Zookeeper实现分布式锁。</p>
-<h4 id="Redis实现分布式锁的原则"><a href="#Redis实现分布式锁的原则" class="headerlink" title="Redis实现分布式锁的原则"></a>Redis实现分布式锁的原则</h4><p>1.安全属性：独享。在任一时刻，只有一个客户端持有锁。<br>2.活性A：无死锁。即使持有锁的客户端崩溃或网络被分裂，锁仍然可以被获取。<br>3.活性B：容错。只要大部分Redis节点都活着，客户端就可以获取和释放锁。</p>
-<h4 id="单Redis实例实现分布式锁"><a href="#单Redis实例实现分布式锁" class="headerlink" title="单Redis实例实现分布式锁"></a>单Redis实例实现分布式锁</h4><p>1.获取锁使用命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
-<p>NX: 仅在key不存在时才执行成功。<br>PX: 设置锁的自动过期时间。<br>2.通过Lua脚本释放锁，避免删除别的客户端获取成功的锁。</p>
-<h4 id="多Redis实例实现分布式锁"><a href="#多Redis实例实现分布式锁" class="headerlink" title="多Redis实例实现分布式锁"></a>多Redis实例实现分布式锁</h4><p>Redlock算法，该算法有现成的实现，Java版本的库为Redisson。<br>算法流程：<br>1.获取当前Unix时间，以毫秒为单位。<br>2.依次尝试N个实例，使用相同的key和随机值获取锁，并设置响应超时时间。如果服务器没有在规定时间内响应，客户端应该尽快尝试另一个Redis实例。<br>3.客户端使用当前时间减去开始获取锁的时间，得到获取锁使用的时间。仅当大多数的Redis节点都取到锁，并且使用的时间小于锁失效的时间，锁才算取得成功。<br>4.如果取到了锁，key的真正有效时间等于有效时间减去获取锁使用的时间。<br>5.如果获取锁失败，客户端应该在所有的Redis实例上进行解锁。</p>
-<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h3><p><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringIoC.png" alt="SpringIoC-图示"></p>
-<h3 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h3><p><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringAOP.png" alt="SpringAOP-图示"></p>
-<h3 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h3><p>Spring MVC处理请求的过程<br><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringMVC.png" alt="SpringMVC-图示"></p>
+        <h2 id="Spring-Boot-Testing"><a href="#Spring-Boot-Testing" class="headerlink" title="Spring Boot Testing"></a>Spring Boot Testing</h2><ul>
+<li>依赖：spring-boot-starter-test</li>
+<li>包括：Junit、Spring Test、AssertJ、…</li>
+</ul>
+<h2 id="Test-Case"><a href="#Test-Case" class="headerlink" title="Test Case"></a>Test Case</h2><ul>
+<li>要求：保证测试方法的独立性。</li>
+<li>步骤：初始化数据、执行测试代码、验证测试结果、清理测试数据。</li>
+<li>常用注解：@BeforeClass、@AfterClass、@Before、@After</li>
+</ul>
+<h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><ul>
+<li>SpringBootTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">SpringBootTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostService discussPostService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DiscussPost data;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BeforeClass</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">beforeClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"beforeClass"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AfterClass</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">afterClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"afterClass"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化测试数据</span></span><br><span class="line">        data = <span class="keyword">new</span> DiscussPost();</span><br><span class="line">        data.setUserId(<span class="number">111</span>);</span><br><span class="line">        data.setTitle(<span class="string">"Test title"</span>);</span><br><span class="line">        data.setContent(<span class="string">"Test content"</span>);</span><br><span class="line">        data.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        discussPostService.addDiscussPost(data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@After</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 删除测试数据（拉黑帖子）</span></span><br><span class="line">        discussPostService.updateStatus(data.getId(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFindById</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DiscussPost post = discussPostService.findDiscussPostById(data.getId());</span><br><span class="line">        Assert.assertNotNull(post);</span><br><span class="line">        Assert.assertEquals(data.getTitle(), post.getTitle());</span><br><span class="line">        Assert.assertEquals(data.getContent(), post.getContent());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdateScore</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> rows = discussPostService.updateScore(data.getId(), <span class="number">2000.00</span>);</span><br><span class="line">        Assert.assertEquals(<span class="number">1</span>, rows);</span><br><span class="line"></span><br><span class="line">        DiscussPost post = discussPostService.findDiscussPostById(data.getId());</span><br><span class="line">        Assert.assertEquals(<span class="number">2000.00</span>, post.getScore(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.png" alt="单元测试-图示"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/qq_37892718/article/details/85226104" target="_blank" rel="noopener">https://blog.csdn.net/qq_37892718/article/details/85226104</a></p>
 
       
 
@@ -301,7 +281,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -315,18 +295,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/07/06/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/06/23/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%A1%B9%E7%9B%AE%E7%9B%91%E6%8E%A7/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          排序算法总结
+          问答平台（8），项目监控
         
       </div>
     </a>
   
   
-    <a href="/2020/06/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">问答平台（8），项目总结</div>
+    <a href="/2020/06/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E4%BC%98%E5%8C%96%E7%BD%91%E7%AB%99%E7%9A%84%E6%80%A7%E8%83%BD/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">问答平台（7），优化网站的性能</div>
       <i class="icon-circle-right"></i>
     </a>
   
