@@ -144,89 +144,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-共识机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/19/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/">共识机制</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/06/19/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-  	<time datetime="2020-06-19T02:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="非许可类区块链"><a href="#非许可类区块链" class="headerlink" title="非许可类区块链"></a>非许可类区块链</h2><p>这种证明机制的优势在于其避免了节点管理，使区块链系统的服务可以延伸至整个网络空间，这样的特点使得区块链系统的可扩展性大大加强。<br>然而，在今天互联网所呈现的海量交易需求下，由不同节点收集交易记录打包的方式使得单位时间内可确认的交易数量得到了限制。<br>在现今比特币的交易中，交易产生数量已经远大于系统中单位时间内可装载的记录的容量，这使得非许可类区块链的吞吐量也受到了共识协议的限制。</p>
-<h2 id="许可类区块链"><a href="#许可类区块链" class="headerlink" title="许可类区块链"></a>许可类区块链</h2><p>许可类区块链提出了面向一个非全公开，节点需审核加入的合作场景来提供区块链的多方可信服务。<br>许可类区块链是一个由共识算法所引导的分布式数据库，在拜占庭容错的情况下，恶意节点会表现出任意行为（随机错误）。<br>例如，恶意节点可以发布虚假消息，也可能停止工作，也可以伪装成正常节点工作。<br>相比于非许可类区块链，许可类区块链一定程度上牺牲了系统的可扩展性，但大大提高了系统的交易吞吐量，降低了交易确认延迟。</p>
-<h2 id="共识机制"><a href="#共识机制" class="headerlink" title="共识机制"></a>共识机制</h2><p>区块链的共识机制是区块链系统中各个节点达成一致的策略和方法。<br>共识机制应按照区块链系统所提供服务的不同应用场景灵活选择。<br>区块链的类别不同，其使用的共识机制也有本质上工作原理的不同。<br>在非许可类区块链中，共识机制是以工作量证明为基础的类证明协议。<br>在许可类区块链中，共识机制是依托分布式系统中的共识算法所构建的。<br>总的来说，共识机制是区块链系统的灵魂。</p>
-<h3 id="基于证明机制的非许可类区块链共识协议"><a href="#基于证明机制的非许可类区块链共识协议" class="headerlink" title="基于证明机制的非许可类区块链共识协议"></a>基于证明机制的非许可类区块链共识协议</h3><p>非许可类区块链(Permissionless blockchain)，例如比特币(Bitcoin)和以太坊(Ethereum)，是一个向全网公开的，无全局地址记录的区块链系统。<br>在非许可类的区块链中，任何加入系统的节点均可进行记账权的“证明式”计算与区块验证。<br>非许可类区块链的这个特点也使得系统中的节点可以任意的加入和退出。<br>基于证明方式的共识机制有工作量证明(Proof-of-Work，PoW)，权益证明(Proof-of-Stake, PoS)，活动证明(Proof-of-Activity, PoA)等。</p>
-<h3 id="基于复制状态机理论的许可类区块链共识协议"><a href="#基于复制状态机理论的许可类区块链共识协议" class="headerlink" title="基于复制状态机理论的许可类区块链共识协议"></a>基于复制状态机理论的许可类区块链共识协议</h3><p>在非拜占庭错误的情况下，常见的许可类区块链共识机制使用的算法有：Paxos，Raft，Viewstamped Replication等。<br>拜占庭容错的区块链共识算法有 PBFT，XFT等，使用这些拜占庭容错共识算法的区块链应用有 Hyperledger  Fabric, Tendermint, Symbiont BFT-SMaRt, Sumeragi/ Iroha (BChain)等。</p>
-<h4 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h4><p>Paxos中，选值的过程由 Proposer 和 Acceptor 共同参与，这使得一些如活锁现象的出现影响系统的应用性能。<br>尽管一些工程实现在 Paxos 的后期版本Multi-Paxos中使用了主从模式进行改进，但同时也使得 Paxos 变得越来越复杂，不能够使开发者易于理解。<br>斯坦福大学的 Diego Ongaro 设计了更为易于理解和工程使用的新共识算法 Raft。<br>Paxos Made Simple:<a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf" target="_blank" rel="noopener">https://lamport.azurewebsites.net/pubs/paxos-simple.pdf</a><br>Raft 作者的讲解（youtube , pdf): <a href="https://ongardie.net/static/raft/userstudy/paxos.pdf" target="_blank" rel="noopener">https://ongardie.net/static/raft/userstudy/paxos.pdf</a></p>
-<h4 id="拜占庭容错"><a href="#拜占庭容错" class="headerlink" title="拜占庭容错"></a>拜占庭容错</h4><p>信道安全的情况下，Paxos 和 Raft 这类算法可以允许系统在出现消息丢失、延迟或宕机情况下形成共识。<br>但是如果进程以随机方式出现故障，也就意味着出错的进程可以向其他进程发送任何数据。<br>这时，例如 Paxos，Raft，Viewtamped Replication 等算法便无法就行共识的决策。<br>在区块链的应用背景下，如果系统中的节点被非法控制，那么拜占庭错误可以被理解为在此场景下的内部攻击。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h4 id="Paxos-Raft"><a href="#Paxos-Raft" class="headerlink" title="Paxos, Raft"></a>Paxos, Raft</h4><p><a href="https://www.zhihu.com/question/19787937、" target="_blank" rel="noopener">https://www.zhihu.com/question/19787937、</a><br><a href="https://blog.csdn.net/chen77716/article/details/6166675" target="_blank" rel="noopener">https://blog.csdn.net/chen77716/article/details/6166675</a></p>
-<h5 id="拜占庭容错-1"><a href="#拜占庭容错-1" class="headerlink" title="拜占庭容错"></a>拜占庭容错</h5><p><a href="https://www.cnblogs.com/jxd283465/p/11753340.html" target="_blank" rel="noopener">https://www.cnblogs.com/jxd283465/p/11753340.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/19/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-问答平台（7），生成长图" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1169,6 +1086,99 @@
 
 
   
+    <article id="post-问答平台（6），Spring整合Elasticsearch" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/07/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Elasticsearch/">问答平台（6），Spring整合Elasticsearch</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/07/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Elasticsearch/" class="archive-article-date">
+  	<time datetime="2020-06-07T14:17:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-Elasticsearch"><a href="#配置-Elasticsearch" class="headerlink" title="配置 Elasticsearch"></a>配置 Elasticsearch</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ElasticsearchProperties</span><br><span class="line">spring.data.elasticsearch.cluster-name&#x3D;nowcoder</span><br><span class="line">spring.data.elasticsearch.cluster-nodes&#x3D;127.0.0.1:9300（TCP）</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="解决-netty-启动冲突问题"><a href="#解决-netty-启动冲突问题" class="headerlink" title="解决 netty 启动冲突问题"></a>解决 netty 启动冲突问题</h3><ul>
+<li>CommunityApplication: 修改<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommunityApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 解决netty启动冲突问题</span></span><br><span class="line">        <span class="comment">// see Netty4Utils.setAvailableProcessors()</span></span><br><span class="line">        System.setProperty(<span class="string">"es.set.netty.runtime.available.processors"</span>, <span class="string">"false"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(CommunityApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="Spring-Data-Elasticsearch"><a href="#Spring-Data-Elasticsearch" class="headerlink" title="Spring Data Elasticsearch"></a>Spring Data Elasticsearch</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- ElasticsearchTemplate</span><br><span class="line">- ElasticsearchRepository</span><br></pre></td></tr></table></figure>
+<h3 id="实体类与ES映射（自动）"><a href="#实体类与ES映射（自动）" class="headerlink" title="实体类与ES映射（自动）"></a>实体类与ES映射（自动）</h3><ul>
+<li>entity -&gt; DiscussPost<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Document</span>(indexName = <span class="string">"discusspost"</span>, type = <span class="string">"_doc"</span>, shards = <span class="number">6</span>, replicas = <span class="number">3</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DiscussPost</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Integer)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> userId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 互联网校招</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Text, analyzer = <span class="string">"ik_max_word"</span>, searchAnalyzer = <span class="string">"ik_smart"</span>)</span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Text, analyzer = <span class="string">"ik_max_word"</span>, searchAnalyzer = <span class="string">"ik_smart"</span>)</span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Integer)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Integer)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> status;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Date)</span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Integer)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> commentCount;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Double)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>dao -&gt; elasticsearch -&gt; DiscussPostRepository<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DiscussPostRepository</span> <span class="keyword">extends</span> <span class="title">ElasticsearchRepository</span>&lt;<span class="title">DiscussPost</span>, <span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3></li>
+<li>ElasticsearchTests: 新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">ElasticsearchTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostMapper discussPostMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DiscussPostRepository discussPostRepository;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ElasticsearchTemplate elasticsearchTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInsert</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        discussPostRepository.save(discussPostMapper.selectDiscussPostById(<span class="number">241</span>));</span><br><span class="line">        discussPostRepository.save(discussPostMapper.selectDiscussPostById(<span class="number">242</span>));</span><br><span class="line">        discussPostRepository.save(discussPostMapper.selectDiscussPostById(<span class="number">243</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInsertList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">101</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">102</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">103</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">111</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">112</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">131</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">132</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">133</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(<span class="number">134</span>, <span class="number">0</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DiscussPost post = discussPostMapper.selectDiscussPostById(<span class="number">231</span>);</span><br><span class="line">        post.setContent(<span class="string">"我是新人,使劲灌水."</span>);</span><br><span class="line">        discussPostRepository.save(post);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// discussPostRepository.deleteById(231);</span></span><br><span class="line">        discussPostRepository.deleteAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSearchByRepository</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        SearchQuery searchQuery = <span class="keyword">new</span> NativeSearchQueryBuilder()</span><br><span class="line">                .withQuery(QueryBuilders.multiMatchQuery(<span class="string">"互联网寒冬"</span>, <span class="string">"title"</span>, <span class="string">"content"</span>))</span><br><span class="line">                .withSort(SortBuilders.fieldSort(<span class="string">"type"</span>).order(SortOrder.DESC))</span><br><span class="line">                .withSort(SortBuilders.fieldSort(<span class="string">"score"</span>).order(SortOrder.DESC))</span><br><span class="line">                .withSort(SortBuilders.fieldSort(<span class="string">"createTime"</span>).order(SortOrder.DESC))</span><br><span class="line">                .withPageable(PageRequest.of(<span class="number">0</span>, <span class="number">10</span>))</span><br><span class="line">                .withHighlightFields(</span><br><span class="line">                        <span class="keyword">new</span> HighlightBuilder.Field(<span class="string">"title"</span>).preTags(<span class="string">"&lt;em&gt;"</span>).postTags(<span class="string">"&lt;/em&gt;"</span>),</span><br><span class="line">                        <span class="keyword">new</span> HighlightBuilder.Field(<span class="string">"content"</span>).preTags(<span class="string">"&lt;em&gt;"</span>).postTags(<span class="string">"&lt;/em&gt;"</span>)</span><br><span class="line">                ).build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// elasticsearchTemplate.queryForPage(searchQuery, class, SearchResultMapper);</span></span><br><span class="line">        <span class="comment">// 底层获取得到了高亮显示的值，但是没有返回.</span></span><br><span class="line"></span><br><span class="line">        Page&lt;DiscussPost&gt; page = discussPostRepository.search(searchQuery);</span><br><span class="line">        System.out.println(page.getTotalElements());</span><br><span class="line">        System.out.println(page.getTotalPages());</span><br><span class="line">        System.out.println(page.getNumber());</span><br><span class="line">        System.out.println(page.getSize());</span><br><span class="line">        <span class="keyword">for</span> (DiscussPost post : page) &#123;</span><br><span class="line">            System.out.println(post);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSearchByTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        SearchQuery searchQuery = <span class="keyword">new</span> NativeSearchQueryBuilder()</span><br><span class="line">                .withQuery(QueryBuilders.multiMatchQuery(<span class="string">"互联网寒冬"</span>, <span class="string">"title"</span>, <span class="string">"content"</span>))</span><br><span class="line">                .withSort(SortBuilders.fieldSort(<span class="string">"type"</span>).order(SortOrder.DESC))</span><br><span class="line">                .withSort(SortBuilders.fieldSort(<span class="string">"score"</span>).order(SortOrder.DESC))</span><br><span class="line">                .withSort(SortBuilders.fieldSort(<span class="string">"createTime"</span>).order(SortOrder.DESC))</span><br><span class="line">                .withPageable(PageRequest.of(<span class="number">0</span>, <span class="number">10</span>))</span><br><span class="line">                .withHighlightFields(</span><br><span class="line">                        <span class="keyword">new</span> HighlightBuilder.Field(<span class="string">"title"</span>).preTags(<span class="string">"&lt;em&gt;"</span>).postTags(<span class="string">"&lt;/em&gt;"</span>),</span><br><span class="line">                        <span class="keyword">new</span> HighlightBuilder.Field(<span class="string">"content"</span>).preTags(<span class="string">"&lt;em&gt;"</span>).postTags(<span class="string">"&lt;/em&gt;"</span>)</span><br><span class="line">                ).build();</span><br><span class="line"></span><br><span class="line">        Page&lt;DiscussPost&gt; page = elasticsearchTemplate.queryForPage(searchQuery, DiscussPost<span class="class">.<span class="keyword">class</span>, <span class="title">new</span> <span class="title">SearchResultMapper</span>() </span>&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> &lt;T&gt; <span class="function">AggregatedPage&lt;T&gt; <span class="title">mapResults</span><span class="params">(SearchResponse response, Class&lt;T&gt; aClass, Pageable pageable)</span> </span>&#123;</span><br><span class="line">                SearchHits hits = response.getHits();</span><br><span class="line">                <span class="keyword">if</span> (hits.getTotalHits() &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                List&lt;DiscussPost&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">                <span class="keyword">for</span> (SearchHit hit : hits) &#123;</span><br><span class="line">                    DiscussPost post = <span class="keyword">new</span> DiscussPost();</span><br><span class="line"></span><br><span class="line">                    String id = hit.getSourceAsMap().get(<span class="string">"id"</span>).toString();</span><br><span class="line">                    post.setId(Integer.valueOf(id));</span><br><span class="line"></span><br><span class="line">                    String userId = hit.getSourceAsMap().get(<span class="string">"userId"</span>).toString();</span><br><span class="line">                    post.setUserId(Integer.valueOf(userId));</span><br><span class="line"></span><br><span class="line">                    String title = hit.getSourceAsMap().get(<span class="string">"title"</span>).toString();</span><br><span class="line">                    post.setTitle(title);</span><br><span class="line"></span><br><span class="line">                    String content = hit.getSourceAsMap().get(<span class="string">"content"</span>).toString();</span><br><span class="line">                    post.setContent(content);</span><br><span class="line"></span><br><span class="line">                    String status = hit.getSourceAsMap().get(<span class="string">"status"</span>).toString();</span><br><span class="line">                    post.setStatus(Integer.valueOf(status));</span><br><span class="line"></span><br><span class="line">                    String createTime = hit.getSourceAsMap().get(<span class="string">"createTime"</span>).toString();</span><br><span class="line">                    post.setCreateTime(<span class="keyword">new</span> Date(Long.valueOf(createTime)));</span><br><span class="line"></span><br><span class="line">                    String commentCount = hit.getSourceAsMap().get(<span class="string">"commentCount"</span>).toString();</span><br><span class="line">                    post.setCommentCount(Integer.valueOf(commentCount));</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 处理高亮显示的结果</span></span><br><span class="line">                    HighlightField titleField = hit.getHighlightFields().get(<span class="string">"title"</span>);</span><br><span class="line">                    <span class="keyword">if</span> (titleField != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        post.setTitle(titleField.getFragments()[<span class="number">0</span>].toString());</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    HighlightField contentField = hit.getHighlightFields().get(<span class="string">"content"</span>);</span><br><span class="line">                    <span class="keyword">if</span> (contentField != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        post.setContent(contentField.getFragments()[<span class="number">0</span>].toString());</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    list.add(post);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> AggregatedPageImpl(list, pageable,</span><br><span class="line">                        hits.getTotalHits() , response.getAggregations(), response.getScrollId(), hits.getMaxScore());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        System.out.println(page.getTotalElements());</span><br><span class="line">        System.out.println(page.getTotalPages());</span><br><span class="line">        System.out.println(page.getNumber());</span><br><span class="line">        System.out.println(page.getSize());</span><br><span class="line">        <span class="keyword">for</span> (DiscussPost post : page) &#123;</span><br><span class="line">            System.out.println(post);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><p><img src="/2020/06/07/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Elasticsearch/%E5%88%86%E8%AF%8D%E5%8A%A0%E6%A0%87%E7%AD%BE.png" alt="分词加标签-图示"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/07/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%886%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Elasticsearch/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next</a>
@@ -1355,10 +1365,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">问答平台项目</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">社区项目</a>
               </li>
             
             <div class="clearfix"></div>
