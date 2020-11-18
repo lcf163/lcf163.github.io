@@ -144,6 +144,112 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-问答平台（7），置顶、加精、删除" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/13/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%AE%E9%A1%B6%E3%80%81%E5%8A%A0%E7%B2%BE%E3%80%81%E5%88%A0%E9%99%A4/">问答平台（7），置顶、加精、删除</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/06/13/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%AE%E9%A1%B6%E3%80%81%E5%8A%A0%E7%B2%BE%E3%80%81%E5%88%A0%E9%99%A4/" class="archive-article-date">
+  	<time datetime="2020-06-13T06:01:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 点击“置顶”，修改帖子的类型。</span><br><span class="line">- 点击“加精”、“删除”，修改帖子的状态。</span><br></pre></td></tr></table></figure>
+<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.thymeleaf.extras<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-extras-springsecurity5<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="数据访问层"><a href="#数据访问层" class="headerlink" title="数据访问层"></a>数据访问层</h3><ul>
+<li>DiscussPostMapper: 增加内容<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">updateType</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> type)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">updateStatus</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> status)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li>discusspost-mapper.xml: 增加内容<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateType"</span>&gt;</span></span><br><span class="line">    update discuss_post set type = #&#123;type&#125; where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateStatus"</span>&gt;</span></span><br><span class="line">    update discuss_post set status = #&#123;status&#125; where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h3></li>
+<li>DiscussPostService: 增加内容<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateType</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.updateType(id, type);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateStatus</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> status)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discussPostMapper.updateStatus(id, status);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h3></li>
+<li>DiscussPostController: 增加内容<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 置顶</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/top"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">setTop</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    discussPostService.updateType(id, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发发帖事件</span></span><br><span class="line">    Event event = <span class="keyword">new</span> Event()</span><br><span class="line">            .setTopic(TOPIC_PUBLISH)</span><br><span class="line">            .setUserId(hostHolder.getUser().getId())</span><br><span class="line">            .setEntityType(ENTITY_TYPE_POST)</span><br><span class="line">            .setEntityId(id);</span><br><span class="line">    eventProducer.fireEvent(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加精</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/wonderful"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">setWonderful</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    discussPostService.updateStatus(id, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发发帖事件</span></span><br><span class="line">    Event event = <span class="keyword">new</span> Event()</span><br><span class="line">            .setTopic(TOPIC_PUBLISH)</span><br><span class="line">            .setUserId(hostHolder.getUser().getId())</span><br><span class="line">            .setEntityType(ENTITY_TYPE_POST)</span><br><span class="line">            .setEntityId(id);</span><br><span class="line">    eventProducer.fireEvent(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/delete"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">setDelete</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    discussPostService.updateStatus(id, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发删帖事件</span></span><br><span class="line">    Event event = <span class="keyword">new</span> Event()</span><br><span class="line">            .setTopic(TOPIC_DELETE)</span><br><span class="line">            .setUserId(hostHolder.getUser().getId())</span><br><span class="line">            .setEntityType(ENTITY_TYPE_POST)</span><br><span class="line">            .setEntityId(id);</span><br><span class="line">    eventProducer.fireEvent(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="消费删帖事件"><a href="#消费删帖事件" class="headerlink" title="消费删帖事件"></a>消费删帖事件</h3></li>
+<li>EventConsumer: 增加内容<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 消费删帖事件</span></span><br><span class="line"><span class="meta">@KafkaListener</span>(topics = &#123;TOPIC_DELETE&#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleDeleteMessage</span><span class="params">(ConsumerRecord record)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (record == <span class="keyword">null</span> || record.value() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        logger.error(<span class="string">"消息的内容为空!"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Event event = JSONObject.parseObject(record.value().toString(), Event<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    <span class="keyword">if</span> (event == <span class="keyword">null</span>) &#123;</span><br><span class="line">        logger.error(<span class="string">"消息格式错误!"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    elasticsearchService.deleteDiscussPost(event.getEntityId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h3></li>
+<li>discuss-detail.html: 修改（置顶、加精、删除）<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 声明：命名空间 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span> <span class="attr">xmlns:sec</span>=<span class="string">"http://www.thymeleaf.org/extras/spring-security"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 内容 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 标题 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"float-right"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">id</span>=<span class="string">"postId"</span> <span class="attr">th:value</span>=<span class="string">"$&#123;post.id&#125;"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-danger btn-sm"</span> <span class="attr">id</span>=<span class="string">"topBtn"</span> <span class="attr">th:disabled</span>=<span class="string">"$&#123;post.type==1&#125;"</span>&gt;</span>置顶<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-danger btn-sm"</span> <span class="attr">id</span>=<span class="string">"wonderfulBtn"</span> <span class="attr">th:disabled</span>=<span class="string">"$&#123;post.status==1&#125;"</span>&gt;</span>加精<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-danger btn-sm"</span> <span class="attr">id</span>=<span class="string">"deleteBtn"</span> <span class="attr">th:disabled</span>=<span class="string">"$&#123;post.status==2&#125;"</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>discuss.js: 修改<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#topBtn"</span>).click(setTop);</span><br><span class="line">    $(<span class="string">"#wonderfulBtn"</span>).click(setWonderful);</span><br><span class="line">    $(<span class="string">"#deleteBtn"</span>).click(setDelete);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 置顶</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setTop</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/discuss/top"</span>,</span><br><span class="line">        &#123;<span class="string">"id"</span>: $(<span class="string">"#postId"</span>).val()&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                $(<span class="string">"#topBtn"</span>).attr(<span class="string">"disabled"</span>, <span class="string">"disabled"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加精</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setWonderful</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/discuss/wonderful"</span>,</span><br><span class="line">        &#123;<span class="string">"id"</span>: $(<span class="string">"#postId"</span>).val()&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                $(<span class="string">"#wonderfulBtn"</span>).attr(<span class="string">"disabled"</span>, <span class="string">"disabled"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setDelete</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.post(</span><br><span class="line">        CONTEXT_PATH + <span class="string">"/discuss/delete"</span>,</span><br><span class="line">        &#123;<span class="string">"id"</span>: $(<span class="string">"#postId"</span>).val()&#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            data = $.parseJSON(data);</span><br><span class="line">            <span class="keyword">if</span> (data.code == <span class="number">0</span>) &#123;</span><br><span class="line">                location.href = CONTEXT_PATH + <span class="string">"/index"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(data.msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 版主：可以执行“置顶”、“加精”操作。</span><br><span class="line">- 管理员：可以执行“删除”操作。</span><br></pre></td></tr></table></figure>
+<h3 id="权限配置"><a href="#权限配置" class="headerlink" title="权限配置"></a>权限配置</h3><ul>
+<li>SecurityConfig: 修改<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 授权</span></span><br><span class="line">    http.authorizeRequests()</span><br><span class="line">            .antMatchers(</span><br><span class="line">                    <span class="string">"/discuss/top"</span>,</span><br><span class="line">                    <span class="string">"/discuss/wonderful"</span></span><br><span class="line">            )</span><br><span class="line">            .hasAnyAuthority(</span><br><span class="line">                    AUTHORITY_MODERATOR</span><br><span class="line">            )</span><br><span class="line">            .antMatchers(</span><br><span class="line">                    <span class="string">"/discuss/delete"</span></span><br><span class="line">            )</span><br><span class="line">            .hasAnyAuthority(</span><br><span class="line">                    AUTHORITY_ADMIN</span><br><span class="line">            )</span><br><span class="line">            .anyRequest().permitAll()</span><br><span class="line">            .and().csrf().disable();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 权限不够时的处理（略）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="按钮显示"><a href="#按钮显示" class="headerlink" title="按钮显示"></a>按钮显示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 版主：可以看到“置顶”、“加精”按钮。</span><br><span class="line">- 管理员：可以看到“删除”按钮。</span><br></pre></td></tr></table></figure>
+<h3 id="页面-1"><a href="#页面-1" class="headerlink" title="页面"></a>页面</h3><ul>
+<li>discuss-detail.html: 修改<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 标题 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h6</span> <span class="attr">class</span>=<span class="string">"mb-4"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://static.nowcoder.com/images/img/icons/ico-discuss.png"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:utext</span>=<span class="string">"$&#123;post.title&#125;"</span>&gt;</span>备战春招，面试刷题跟他复习，一个月全搞定！<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"float-right"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">id</span>=<span class="string">"postId"</span> <span class="attr">th:value</span>=<span class="string">"$&#123;post.id&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-danger btn-sm"</span> <span class="attr">id</span>=<span class="string">"topBtn"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">th:disabled</span>=<span class="string">"$&#123;post.type==1&#125;"</span> <span class="attr">sec:authorize</span>=<span class="string">"hasAnyAuthority('moderator')"</span>&gt;</span>置顶</span><br><span class="line">        <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-danger btn-sm"</span> <span class="attr">id</span>=<span class="string">"wonderfulBtn"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">th:disabled</span>=<span class="string">"$&#123;post.status==1&#125;"</span> <span class="attr">sec:authorize</span>=<span class="string">"hasAnyAuthority('moderator')"</span>&gt;</span>加精</span><br><span class="line">        <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-danger btn-sm"</span> <span class="attr">id</span>=<span class="string">"deleteBtn"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">th:disabled</span>=<span class="string">"$&#123;post.status==2&#125;"</span> <span class="attr">sec:authorize</span>=<span class="string">"hasAnyAuthority('admin')"</span>&gt;</span>删除</span><br><span class="line">        <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">h6</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity" target="_blank" rel="noopener">https://github.com/thymeleaf/thymeleaf-extras-springsecurity</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/13/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%887%EF%BC%89%EF%BC%8C%E7%BD%AE%E9%A1%B6%E3%80%81%E5%8A%A0%E7%B2%BE%E3%80%81%E5%88%A0%E9%99%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（7），权限控制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1061,112 +1167,9 @@
 
 
   
-    <article id="post-问答平台（5），Kafka入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/">问答平台（5），Kafka入门</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2020-05-31T11:47:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Kafka-简介"><a href="#Kafka-简介" class="headerlink" title="Kafka 简介"></a>Kafka 简介</h2><p><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/Kafka.png" alt="Kafka-图示"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- Kafka 是一个分布式的流媒体平台。</span><br><span class="line">- 应用：消息系统、日志收集、用户行为追踪、流式处理。</span><br></pre></td></tr></table></figure>
-
-<h2 id="Kafka-特点"><a href="#Kafka-特点" class="headerlink" title="Kafka 特点"></a>Kafka 特点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 消息持久化：把数据存到硬盘上，而不是简单地存到内存。</span><br><span class="line">- 高吞吐量：硬盘价格低、存储量大，是存储海量数据的前提。硬盘的顺序读取甚至高于对内存的随机读取，Kafka对硬盘的读取都是顺序进行的，所以对硬盘进行IO不一定性能低。</span><br><span class="line">- 高可靠性：分布式环境，可以做集群部署，有容错能力。</span><br><span class="line">- 高扩展性：集群不够用时，增加服务器方便。</span><br></pre></td></tr></table></figure>
-
-<h2 id="Kafka-术语"><a href="#Kafka-术语" class="headerlink" title="Kafka 术语"></a>Kafka 术语</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- Broker：服务器。</span><br><span class="line">- Zookeeper：独立的软件，管理集群。</span><br><span class="line">- Topic：（点对点模式：一个数据被一个消费者读取）、（发布订阅模式：多个消费者关注一个位置，可以同时&#x2F;先后读到这个位置的数据，Kafka 采用这种模式）。</span><br><span class="line">- Partition：对主题位置的分区，可以同时向多个分区写数据，提高了并发能力。</span><br><span class="line">- Offset：消息在分区内存放的索引。</span><br><span class="line">- Replica：备份、副本（Leader：主副本、Follower：从副本）。</span><br></pre></td></tr></table></figure>
-
-<h2 id="Kafka-应用场景"><a href="#Kafka-应用场景" class="headerlink" title="Kafka 应用场景"></a>Kafka 应用场景</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 消息队列。建立实时流数据管道，可靠地在系统之间获取数据。</span><br><span class="line">- 数据处理。构建实时的流数据处理程序来转换或处理数据。</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><ul>
-<li>zookeeper.properties<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dataDir</span>=<span class="string">D:/work/data/zookeeper</span></span><br><span class="line"><span class="attr">clientPort</span>=<span class="string">2181</span></span><br><span class="line"><span class="attr">maxClientCnxns</span>=<span class="string">0</span></span><br></pre></td></tr></table></figure></li>
-<li>server.properties<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">log.dirs</span>=<span class="string">D:/work/data/kafka-logs</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="命令行操作"><a href="#命令行操作" class="headerlink" title="命令行操作"></a>命令行操作</h2><h3 id="启动-Zookeeper"><a href="#启动-Zookeeper" class="headerlink" title="启动 Zookeeper"></a>启动 Zookeeper</h3><p><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E5%90%AF%E5%8A%A8zookeeper.png" alt="启动zookeeper-图示"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin\windows\zookeeper-server-start.bat config\zookeeper.properties</span><br></pre></td></tr></table></figure>
-<h3 id="启动-Kafka"><a href="#启动-Kafka" class="headerlink" title="启动 Kafka"></a>启动 Kafka</h3><p><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E5%90%AF%E5%8A%A8kafka.png" alt="启动kafka-图示"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin\windows\kafka-server-start.bat config\server.properties</span><br></pre></td></tr></table></figure>
-<h3 id="创建并查看主题"><a href="#创建并查看主题" class="headerlink" title="创建并查看主题"></a>创建并查看主题</h3><p><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E5%88%9B%E5%BB%BA%E5%B9%B6%E6%9F%A5%E7%9C%8Btopic.png" alt="创建并查看topic-图示"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test</span><br><span class="line">kafka-topics.bat --list --bootstrap-server localhost:9092</span><br></pre></td></tr></table></figure>
-<h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><p><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E7%94%9F%E4%BA%A7%E8%80%85.png" alt="生产者-图示"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-console-producer.bat --broker-list localhost:9092 --topic test</span><br></pre></td></tr></table></figure>
-<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><p><img src="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/%E6%B6%88%E8%B4%B9%E8%80%85.png" alt="消费者-图示"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="http://kafka.apache.org" target="_blank" rel="noopener">http://kafka.apache.org</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/31/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%885%EF%BC%89%EF%BC%8CKafka%E5%85%A5%E9%97%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/">Next</a>
+      <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/">Next</a>
     </nav>
   
 
