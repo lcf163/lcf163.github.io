@@ -144,6 +144,179 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Ubuntu16-04，安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/06/Ubuntu16-04%EF%BC%8C%E5%AE%89%E8%A3%85/">Ubuntu16.04，安装</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/06/Ubuntu16-04%EF%BC%8C%E5%AE%89%E8%A3%85/" class="archive-article-date">
+  	<time datetime="2020-05-06T12:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Ubuntu16-04镜像"><a href="#Ubuntu16-04镜像" class="headerlink" title="Ubuntu16.04镜像"></a>Ubuntu16.04镜像</h1><p>阿里云开源镜像站（推荐）<br><code>http://mirrors.aliyun.com/ubuntu-releases/16.04/</code><br>网易开源镜像站（推荐）<br><code>http://mirrors.163.com/ubuntu-releases/</code><br>浙江大学<br><code>http://mirrors.zju.edu.cn/ubuntu-releases/16.04/</code><br>中科大<br><code>http://mirrors.ustc.edu.cn/ubuntu-releases/16.04/</code> </p>
+<h1 id="VMware安装Ubuntu，黑屏"><a href="#VMware安装Ubuntu，黑屏" class="headerlink" title="VMware安装Ubuntu，黑屏"></a>VMware安装Ubuntu，黑屏</h1><p>虚拟机设置 -&gt; 显示器，3d图形加速，去掉勾选。<br>VMware版本升级到15.5（VMware9.0 -&gt; VMware12.0 -&gt; VMware15.5，多次踩坑！！！）。</p>
+<h1 id="Ubuntu虚拟机，网络配置"><a href="#Ubuntu虚拟机，网络配置" class="headerlink" title="Ubuntu虚拟机，网络配置"></a>Ubuntu虚拟机，网络配置</h1><h2 id="更新下载源"><a href="#更新下载源" class="headerlink" title="更新下载源"></a>更新下载源</h2><p><code>http://mirrors.aliyun.com/unbantu</code></p>
+<h2 id="安装vim"><a href="#安装vim" class="headerlink" title="安装vim"></a>安装vim</h2><p><code>sudo apt-get install vim-gtk</code></p>
+<h2 id="静态IP"><a href="#静态IP" class="headerlink" title="静态IP"></a>静态IP</h2><p><code>vim /etc/network/interfaces</code><br>VMnet8 -&gt; DHCP设置 -&gt; NAT设置，获取相关信息，修改该文件参数。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">address <span class="number">192.168</span>.<span class="number">3.192</span>　　　　//修改的ip地址</span><br><span class="line">netmask <span class="number">255.255</span>.<span class="number">255.0</span>　　　　//设置子网掩码</span><br><span class="line">gateway <span class="number">192.168</span>.<span class="number">3.2</span>　　　　  //设置网关</span><br></pre></td></tr></table></figure>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p><code>vim /etc/resolvconf/resolv.conf.d/base</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 223.5.5.5    &#x2F;&#x2F;阿里DNS</span><br><span class="line">nameserver 119.29.29.29 &#x2F;&#x2F;腾讯DNS</span><br></pre></td></tr></table></figure>
+<h2 id="网络服务，重启"><a href="#网络服务，重启" class="headerlink" title="网络服务，重启"></a>网络服务，重启</h2><p><code>/etc/init.d/networking restart</code></p>
+<h2 id="防火墙，关闭"><a href="#防火墙，关闭" class="headerlink" title="防火墙，关闭"></a>防火墙，关闭</h2><p><code>ufw disable</code></p>
+<h1 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h1><h2 id="安装ssh服务"><a href="#安装ssh服务" class="headerlink" title="安装ssh服务"></a>安装ssh服务</h2><p><code>sudo apt-get install openssh-server</code></p>
+<h2 id="启动ssh服务"><a href="#启动ssh服务" class="headerlink" title="启动ssh服务"></a>启动ssh服务</h2><p><code>sudo /etc/init.d/ssh start</code></p>
+<h2 id="Xftp5，root登录被拒绝"><a href="#Xftp5，root登录被拒绝" class="headerlink" title="Xftp5，root登录被拒绝"></a>Xftp5，root登录被拒绝</h2><p><code>vim /etc/ssh/sshd_config</code><br>PermitRootLogin，改为yes<br><code>PermitRootLogin yes</code></p>
+<h2 id="重启ssh服务"><a href="#重启ssh服务" class="headerlink" title="重启ssh服务"></a>重启ssh服务</h2><p><code>service ssh restart</code></p>
+<h1 id="快照备份，方便克隆"><a href="#快照备份，方便克隆" class="headerlink" title="快照备份，方便克隆"></a>快照备份，方便克隆</h1><p>Unbantu16_64_2，备份环境下做实验</p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>vim: <a href="https://blog.csdn.net/zht741322694/article/details/78959338" target="_blank" rel="noopener">https://blog.csdn.net/zht741322694/article/details/78959338</a><br>Ubuntu，网络配置: <a href="https://blog.csdn.net/renzheng12/article/details/105132977" target="_blank" rel="noopener">https://blog.csdn.net/renzheng12/article/details/105132977</a><br>DNS: <a href="https://www.zhihu.com/question/48438173" target="_blank" rel="noopener">https://www.zhihu.com/question/48438173</a><br>ssh: <a href="https://blog.csdn.net/metheir/article/details/80203416" target="_blank" rel="noopener">https://blog.csdn.net/metheir/article/details/80203416</a><br>ssh: <a href="https://blog.csdn.net/lcr_happy/article/details/88217936" target="_blank" rel="noopener">https://blog.csdn.net/lcr_happy/article/details/88217936</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/06/Ubuntu16-04%EF%BC%8C%E5%AE%89%E8%A3%85/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-centos7，truffle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/06/centos7%EF%BC%8Ctruffle/">centos7，truffle</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/05/06/centos7%EF%BC%8Ctruffle/" class="archive-article-date">
+  	<time datetime="2020-05-06T12:21:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>centos7，安装truffle</p>
+<h2 id="安装命令"><a href="#安装命令" class="headerlink" title="安装命令"></a>安装命令</h2><p><code>npm install -g truffle</code></p>
+<h2 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h2><p><code>truffle version</code></p>
+<h2 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h2><p><code>truffle init</code><br>truffle5 + solodity5 + node10，测试可行；<br>truffle6 + solodity6 + node12，应该可行。</p>
+<h2 id="创建项目模板"><a href="#创建项目模板" class="headerlink" title="创建项目模板"></a>创建项目模板</h2><p><code>truffle unbox react</code></p>
+<h3 id="下载，踩坑"><a href="#下载，踩坑" class="headerlink" title="下载，踩坑"></a>下载，踩坑</h3><p>Downloading出错，网络访问github问题（修改/etc/hosts文件）；<br>踩坑N次，于是转至Ubantu。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>重新安装centos7虚拟机，转到Ubantu16.04搭建区块链环境。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://github.com/googlehosts/hosts" target="_blank" rel="noopener">https://github.com/googlehosts/hosts</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">区块链工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/06/centos7%EF%BC%8Ctruffle/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-问答平台（3），过滤敏感词" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -860,186 +1033,6 @@
 
 
   
-    <article id="post-问答平台（2），注册功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD/">问答平台（2），注册功能</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/04/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD/" class="archive-article-date">
-  	<time datetime="2020-04-22T01:47:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="访问注册页面"><a href="#访问注册页面" class="headerlink" title="访问注册页面"></a>访问注册页面</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 点击顶部区域内的链接，打开注册页面。</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="提交注册数据"><a href="#提交注册数据" class="headerlink" title="提交注册数据"></a>提交注册数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 通过表单提交数据；</span><br><span class="line">- 服务端验证账号是否已经存在，邮箱是否已经注册；</span><br><span class="line">- 服务端发送激活邮件。</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="激活注册账号"><a href="#激活注册账号" class="headerlink" title="激活注册账号"></a>激活注册账号</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 点击邮件中的链接，访问服务端的激活服务。</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommunityUtil.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommunityUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  生成随机字符串</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">generateUUID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> UUID.randomUUID().toString().replaceAll(<span class="string">"-"</span>, <span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MD5加密</span></span><br><span class="line">    <span class="comment">// hello -&gt; 5d41402abc4b2a76b9719d911017c592</span></span><br><span class="line">    <span class="comment">// hello + salt -&gt; xxx</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">md5</span><span class="params">(String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isBlank(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> DigestUtils.md5DigestAsHex(key.getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommunityConstant.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span>  <span class="title">CommunityConstant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 激活成功</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> ACTIVATION_SUCCESS = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重复激活</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> ACTIVATION_REPEAT = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 激活失败</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> ACTIVATION_FAILURE = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UserService.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findUserById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userMapper.selectById(id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">register</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 空值处理</span></span><br><span class="line">    <span class="keyword">if</span>(user == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"参数不能为空!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(user.getUsername())) &#123;</span><br><span class="line">        map.put(<span class="string">"usernameMsg"</span>, <span class="string">"账号不能为空!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(user.getPassword())) &#123;</span><br><span class="line">        map.put(<span class="string">"passwordMsg"</span>, <span class="string">"密码不能为空!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(user.getEmail())) &#123;</span><br><span class="line">        map.put(<span class="string">"emailMsg"</span>, <span class="string">"邮箱不能为空!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证账号</span></span><br><span class="line">    User u = userMapper.selectByName(user.getUsername());</span><br><span class="line">    <span class="keyword">if</span>(u != <span class="keyword">null</span>) &#123;</span><br><span class="line">        map.put(<span class="string">"usernameMsg"</span>, <span class="string">"该账号已存在!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证邮箱</span></span><br><span class="line">    u = userMapper.selectByEmail(user.getEmail());</span><br><span class="line">    <span class="keyword">if</span>(u != <span class="keyword">null</span>) &#123;</span><br><span class="line">        map.put(<span class="string">"emailMsg"</span>, <span class="string">"该邮箱已被注册!"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注册用户</span></span><br><span class="line">    user.setSalt(CommunityUtil.generateUUID().substring(<span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line">    user.setPassword(CommunityUtil.md5(user.getPassword() + user.getSalt()));</span><br><span class="line">    user.setType(<span class="number">0</span>);</span><br><span class="line">    user.setStatus(<span class="number">0</span>);</span><br><span class="line">    user.setActivationCode(CommunityUtil.generateUUID());</span><br><span class="line">    user.setHeaderUrl(String.format(<span class="string">"http://images.nowcoder.com/head/%dt.png"</span>, <span class="keyword">new</span> Random().nextInt(<span class="number">1001</span>)));</span><br><span class="line">    user.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 激活邮件</span></span><br><span class="line">    Context context = <span class="keyword">new</span> Context();</span><br><span class="line">    context.setVariable(<span class="string">"email"</span>, user.getEmail());</span><br><span class="line">    <span class="comment">// http://localhost:8080/community/activation/101/code</span></span><br><span class="line">    String url = domain + contextPath + <span class="string">"/activation/"</span> + user.getId() + <span class="string">"/"</span> + user.getActivationCode();</span><br><span class="line">    context.setVariable(<span class="string">"url"</span>, url);</span><br><span class="line">    String content = templateEngine.process(<span class="string">"/mail/activation"</span>, context);</span><br><span class="line">    mailClient.sendMail(user.getEmail(), <span class="string">"激活账号"</span>, content);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">activation</span><span class="params">(<span class="keyword">int</span> userId, String code)</span> </span>&#123;</span><br><span class="line">    User user = userMapper.selectById(userId);</span><br><span class="line">    <span class="keyword">if</span>(user.getStatus() == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_REPEAT;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(user.getActivationCode().equals(code)) &#123;</span><br><span class="line">        userMapper.updateStatus(userId, <span class="number">1</span>);</span><br><span class="line">        clearCache(userId);</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_SUCCESS;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_FAILURE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LoginController.java</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/register"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getRegisterPage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/register"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/login"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getLoginPage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/login"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/register"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">register</span><span class="params">(Model model, User user)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = userService.register(user);</span><br><span class="line">    <span class="keyword">if</span>(map == <span class="keyword">null</span> || map.isEmpty()) &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"msg"</span>, <span class="string">"注册成功，我们已经向您的邮箱发送了一封激活邮件，请尽快激活！"</span>);</span><br><span class="line">        model.addAttribute(<span class="string">"target"</span>, <span class="string">"/index"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"/site/operate-result"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"usernameMsg"</span>, map.get(<span class="string">"usernameMsg"</span>));</span><br><span class="line">        model.addAttribute(<span class="string">"passwordMsg"</span>, map.get(<span class="string">"passwordMsg"</span>));</span><br><span class="line">        model.addAttribute(<span class="string">"emailMsg"</span>, map.get(<span class="string">"emailMsg"</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"/site/register"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://localhost:8080/community/activation/101/code</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(path = <span class="string">"/activation/&#123;userId&#125;/&#123;code&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">activation</span><span class="params">(Model model, @PathVariable(<span class="string">"userId"</span>)</span> <span class="keyword">int</span> userId, @<span class="title">PathVariable</span><span class="params">(<span class="string">"code"</span>)</span> String code) </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = userService.activation(userId, code);</span><br><span class="line">    <span class="keyword">if</span> (result == ACTIVATION_SUCCESS) &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"msg"</span>, <span class="string">"激活成功，您的账号已经可以正常使用了！"</span>);</span><br><span class="line">        model.addAttribute(<span class="string">"target"</span>, <span class="string">"/login"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (result == ACTIVATION_REPEAT) &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"msg"</span>, <span class="string">"无效操作，该账号已经激活过了！"</span>);</span><br><span class="line">        model.addAttribute(<span class="string">"target"</span>, <span class="string">"/index"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">"msg"</span>, <span class="string">"激活失败，您提供的激活码不正确！"</span>);</span><br><span class="line">        model.addAttribute(<span class="string">"target"</span>, <span class="string">"/index"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"/site/operate-result"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- operate-result.html --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container mt-5"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"jumbotron"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"lead"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;msg&#125;"</span>&gt;</span>您的账号已经激活成功,可以正常使用了!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">hr</span> <span class="attr">class</span>=<span class="string">"my-4"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">                系统会在 <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"seconds"</span> <span class="attr">class</span>=<span class="string">"text-danger"</span>&gt;</span>8<span class="tag">&lt;/<span class="name">span</span>&gt;</span> 秒后自动跳转,</span><br><span class="line">                您也可以点此 <span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"target"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;$&#123;target&#125;&#125;"</span> <span class="attr">class</span>=<span class="string">"text-primary"</span>&gt;</span>链接<span class="tag">&lt;/<span class="name">a</span>&gt;</span>, 手动跳转!</span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- register.html --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 头部 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item ml-3 btn-group-vertical"</span> <span class="attr">th:if</span>=<span class="string">"$&#123;loginUser==null&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/register&#125;"</span>&gt;</span>注册<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">"text-center text-info border-bottom pb-3"</span>&gt;</span>注<span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span>册<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"mt-5"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">th:action</span>=<span class="string">"@&#123;/register&#125;"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group row"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"username"</span> <span class="attr">class</span>=<span class="string">"col-sm-2 col-form-label text-right"</span>&gt;</span>账号:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-10"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:class</span>=<span class="string">"|form-control $&#123;usernameMsg!=null?'is-invalid':''&#125;|"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:value</span>=<span class="string">"$&#123;user!=null?user.username:''&#125;"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">placeholder</span>=<span class="string">"请输入您的账号!"</span> <span class="attr">required</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"invalid-feedback"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;usernameMsg&#125;"</span>&gt;</span></span><br><span class="line">                        该账号已存在!</span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group row mt-4"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"password"</span> <span class="attr">class</span>=<span class="string">"col-sm-2 col-form-label text-right"</span>&gt;</span>密码:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-10"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:class</span>=<span class="string">"|form-control $&#123;passwordMsg!=null?'is-invalid':''&#125;|"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:value</span>=<span class="string">"$&#123;user!=null?user.password:''&#125;"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">id</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">placeholder</span>=<span class="string">"请输入您的密码!"</span> <span class="attr">required</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"invalid-feedback"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;passwordMsg&#125;"</span>&gt;</span></span><br><span class="line">                        密码长度不能小于8位!</span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group row mt-4"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"confirm-password"</span> <span class="attr">class</span>=<span class="string">"col-sm-2 col-form-label text-right"</span>&gt;</span>确认密码:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-10"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">class</span>=<span class="string">"form-control"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:value</span>=<span class="string">"$&#123;user!=null?user.password:''&#125;"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">id</span>=<span class="string">"confirm-password"</span> <span class="attr">placeholder</span>=<span class="string">"请再次输入密码!"</span> <span class="attr">required</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"invalid-feedback"</span>&gt;</span></span><br><span class="line">                        两次输入的密码不一致!</span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group row"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"email"</span> <span class="attr">class</span>=<span class="string">"col-sm-2 col-form-label text-right"</span>&gt;</span>邮箱:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-10"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:class</span>=<span class="string">"|form-control $&#123;emailMsg!=null?'is-invalid':''&#125;|"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">th:value</span>=<span class="string">"$&#123;user!=null?user.email:''&#125;"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"请输入您的邮箱!"</span> <span class="attr">required</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"invalid-feedback"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;emailMsg&#125;"</span>&gt;</span></span><br><span class="line">                        该邮箱已注册!</span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group row mt-4"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-10 text-center"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-info text-white form-control"</span>&gt;</span>立即注册<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- login.html --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 内容 --&gt;</span></span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问答平台（2），发送邮件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">问答平台（2），发送邮件</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/04/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" class="archive-article-date">
-  	<time datetime="2020-04-20T01:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="邮箱设置"><a href="#邮箱设置" class="headerlink" title="邮箱设置"></a>邮箱设置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 启动客户端SMTP服务</span><br></pre></td></tr></table></figure>
-<h3 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h3><p><img src="/2020/04/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/SMTP%E6%9C%8D%E5%8A%A1.png" alt="SMTP服务-图示"></p>
-<hr>
-<h2 id="Spring-Email"><a href="#Spring-Email" class="headerlink" title="Spring Email"></a>Spring Email</h2><ul>
-<li>导入jar包<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.5.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li>邮箱参数配置<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># MailProperties</span></span><br><span class="line"><span class="string">spring.mail.host=smtp.sina.com</span></span><br><span class="line"><span class="string">spring.mail.port=465</span></span><br><span class="line"><span class="string">spring.mail.username=liming163vip@sina.com</span></span><br><span class="line"><span class="string">spring.mail.password=xxx...</span></span><br><span class="line"><span class="string">spring.mail.protocol=smtps</span></span><br><span class="line"><span class="string">spring.mail.properties.mail.smtp.ssl.enable=true</span></span><br></pre></td></tr></table></figure></li>
-<li>JavaMailSender 发送邮件<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// JavaMailSender.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">JavaMailSender</span> <span class="keyword">extends</span> <span class="title">MailSender</span> </span>&#123;</span><br><span class="line">    <span class="function">MimeMessage <span class="title">createMimeMessage</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">MimeMessage <span class="title">createMimeMessage</span><span class="params">(InputStream var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessage var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessage... var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessagePreparator var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(MimeMessagePreparator... var1)</span> <span class="keyword">throws</span> MailException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MailClient.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(MailClient<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JavaMailSender mailSender;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.mail.username&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String from;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String to, String subject, String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 通过createMimeMessage()对象构建一个模版，还需要往里面填充内容</span></span><br><span class="line">            MimeMessage message = mailSender.createMimeMessage();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// MimeMessageHelper对象填充邮件内容</span></span><br><span class="line">            MimeMessageHelper helper = <span class="keyword">new</span> MimeMessageHelper(message);</span><br><span class="line">            helper.setFrom(from);</span><br><span class="line">            helper.setTo(to);</span><br><span class="line">            helper.setSubject(subject);</span><br><span class="line">            helper.setText(content, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 发送邮件</span></span><br><span class="line">            mailSender.send(helper.getMimeMessage());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MessagingException e) &#123;</span><br><span class="line">            logger.error(<span class="string">"发送邮件失败:"</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h2><ul>
-<li>使用Thymeleaf发送HTML邮件，里面有动态参数<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>欢迎你，<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:red;"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;username&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span>!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MailTests.java</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootTest</span></span></span><br><span class="line"><span class="class">@<span class="title">ContextConfiguration</span>(<span class="title">classes</span> </span>= CommunityApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">MailTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MailClient mailClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> TemplateEngine templateEngine;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTextMail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mailClient.sendMail(<span class="string">"liming163vip@163.com"</span>, <span class="string">"Test"</span>, <span class="string">"Welcome"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHtmlMail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 构建参数,传入网页</span></span><br><span class="line">        Context context = <span class="keyword">new</span> Context();</span><br><span class="line">        context.setVariable(<span class="string">"username"</span>, <span class="string">"Saturday"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用模版引擎</span></span><br><span class="line">        String content = templateEngine.process(<span class="string">"/mail/demo"</span>, context);</span><br><span class="line">        System.out.println(content);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送邮件,将HTML作为内容</span></span><br><span class="line">        mailClient.sendMail(<span class="string">"liming163vip@163.com"</span>, <span class="string">"HTML"</span>, content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">问答平台项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/10/">Next</a>
@@ -1054,7 +1047,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 乘风的小站
+    		&copy; 2021 乘风的小站
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1213,10 +1206,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">区块链基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
@@ -1226,6 +1215,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">问答平台项目</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">《剑指》</a>
               </li>
             
             <div class="clearfix"></div>
