@@ -144,6 +144,391 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-剑指28：对称的二叉树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8728%EF%BC%9A%E5%AF%B9%E7%A7%B0%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91/">剑指28：对称的二叉树</a>
+    </h1>
+  
+
+        
+        
+<a href="/2021/01/30/%E5%89%91%E6%8C%8728%EF%BC%9A%E5%AF%B9%E7%A7%B0%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2021-01-30T10:44:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>请实现一个函数，用来判断一棵二叉树是不是对称的。<br>注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    递归：简洁好写</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isSymmetrical</span><span class="params">(TreeNode* pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">true</span>; </span><br><span class="line">    <span class="keyword">return</span> isSymmetricalCore(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isSymmetricalCore</span><span class="params">(TreeNode* node1, TreeNode* node2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node1 == <span class="literal">nullptr</span> &amp;&amp; node2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (node1 == <span class="literal">nullptr</span> || node2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (node1-&gt;val != node2-&gt;val) <span class="keyword">return</span> <span class="literal">false</span>; </span><br><span class="line">    <span class="keyword">return</span> isSymmetricalCore(node1-&gt;left, node2-&gt;right) </span><br><span class="line">        &amp;&amp; isSymmetricalCore(node1-&gt;right, node2-&gt;left); <span class="comment">// 这里是右左，左右</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8728%EF%BC%9A%E5%AF%B9%E7%A7%B0%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-剑指27：二叉树的镜像" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8727%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%95%9C%E5%83%8F/">剑指27：二叉树的镜像</a>
+    </h1>
+  
+
+        
+        
+<a href="/2021/01/30/%E5%89%91%E6%8C%8727%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%95%9C%E5%83%8F/" class="archive-article-date">
+  	<time datetime="2021-01-30T10:42:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>操作给定的二叉树，将其变换为源二叉树的镜像。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    迭代版本，使用队列，类似于层次遍历。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot == <span class="literal">nullptr</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    TreeNode *node = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt; q;</span><br><span class="line">    q.push(pRoot);</span><br><span class="line">    <span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">        node = q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="keyword">if</span> (node != <span class="literal">nullptr</span>) &#123;   </span><br><span class="line">            q.push(node-&gt;left);</span><br><span class="line">            q.push(node-&gt;right);               </span><br><span class="line">            swap(node-&gt;left, node-&gt;right);</span><br><span class="line">            <span class="comment">// TreeNode* temp = node-&gt;left;</span></span><br><span class="line">            <span class="comment">// node-&gt;left = node-&gt;right;</span></span><br><span class="line">            <span class="comment">// node-&gt;right = temp;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    递归</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot == <span class="literal">nullptr</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot-&gt;left == <span class="literal">nullptr</span> &amp;&amp; pRoot-&gt;right == <span class="literal">nullptr</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">    <span class="comment">// TreeNode* temp = pRoot-&gt;left;</span></span><br><span class="line">    <span class="comment">// pRoot-&gt;left = pRoot-&gt;right;</span></span><br><span class="line">    <span class="comment">// pRoot-&gt;right = temp;</span></span><br><span class="line">    Mirror(pRoot-&gt;left);</span><br><span class="line">    Mirror(pRoot-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8727%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%95%9C%E5%83%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-剑指26：树的子结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8726%EF%BC%9A%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/">剑指26：树的子结构</a>
+    </h1>
+  
+
+        
+        
+<a href="/2021/01/30/%E5%89%91%E6%8C%8726%EF%BC%9A%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/" class="archive-article-date">
+  	<time datetime="2021-01-30T10:37:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入两棵二叉树A，B，判断 B 是不是 A 的子结构。<br>（ps：我们约定空树不是任意一个树的子结构）</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    树的题目，常用到递归。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtree</span><span class="params">(TreeNode* pRoot1, TreeNode* pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">nullptr</span> || pRoot2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> HasSubtree(pRoot1-&gt;left, pRoot2) </span><br><span class="line">        || HasSubtree(pRoot1-&gt;right, pRoot2) </span><br><span class="line">        || HasSubtreeCore(pRoot1, pRoot2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtreeCore</span><span class="params">(TreeNode* pRoot1, TreeNode* pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1-&gt;val != pRoot2-&gt;val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> HasSubtreeCore(pRoot1-&gt;left, pRoot2-&gt;left) </span><br><span class="line">        &amp;&amp; HasSubtreeCore(pRoot1-&gt;right, pRoot2-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8726%EF%BC%9A%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-剑指25：合并两个排序的链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8725%EF%BC%9A%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E7%9A%84%E9%93%BE%E8%A1%A8/">剑指25：合并两个排序的链表</a>
+    </h1>
+  
+
+        
+        
+<a href="/2021/01/30/%E5%89%91%E6%8C%8725%EF%BC%9A%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E7%9A%84%E9%93%BE%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2021-01-30T10:34:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入两个单调递增的链表，输出两个链表合成后的链表。<br>合成后的链表满足单调不减规则。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    迭代，非递归。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">next</span>;</span></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) :</span><br><span class="line">        val(x), next(<span class="literal">NULL</span>) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pHead1 == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead2;</span><br><span class="line">    <span class="keyword">if</span> (pHead2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead1;</span><br><span class="line">    ListNode* newHead = <span class="keyword">new</span> ListNode(<span class="number">-1</span>);</span><br><span class="line">    ListNode* cur = newHead;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 != <span class="literal">nullptr</span> &amp;&amp; pHead2 != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &gt; pHead2-&gt;val) swap(pHead1, pHead2);</span><br><span class="line">        cur-&gt;next = pHead1;</span><br><span class="line">        pHead1 = pHead1-&gt;next;</span><br><span class="line">        cur = cur-&gt;next;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123;</span></span><br><span class="line">        <span class="comment">//     cur-&gt;next = pHead1;</span></span><br><span class="line">        <span class="comment">//     pHead1 = pHead1-&gt;next;</span></span><br><span class="line">        <span class="comment">// &#125; else &#123;</span></span><br><span class="line">        <span class="comment">//     cur-&gt;next = pHead2;</span></span><br><span class="line">        <span class="comment">//     pHead2 = pHead2-&gt;next;</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        <span class="comment">// cur = cur-&gt;next;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cur-&gt;next = (pHead1 ? pHead1 : pHead2);</span><br><span class="line">    <span class="keyword">return</span> newHead-&gt;next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    递归</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pHead1 == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead2;</span><br><span class="line">    <span class="keyword">if</span> (pHead2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead1;</span><br><span class="line">    <span class="keyword">if</span> (pHead1-&gt;val &gt; pHead2-&gt;val) swap(pHead1, pHead2);</span><br><span class="line">    pHead1-&gt;next = Merge(pHead1-&gt;next, pHead2);</span><br><span class="line">    <span class="keyword">return</span> pHead1;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123;</span></span><br><span class="line">    <span class="comment">//     pHead1-&gt;next = Merge(pHead1-&gt;next, pHead2);</span></span><br><span class="line">    <span class="comment">//     return pHead1;</span></span><br><span class="line">    <span class="comment">// &#125; else &#123;</span></span><br><span class="line">    <span class="comment">//     pHead2-&gt;next = Merge(pHead1, pHead2-&gt;next);</span></span><br><span class="line">    <span class="comment">//     return pHead2;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8725%EF%BC%9A%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E7%9A%84%E9%93%BE%E8%A1%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-剑指24：反转链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8724%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">剑指24：反转链表</a>
+    </h1>
+  
+
+        
+        
+<a href="/2021/01/30/%E5%89%91%E6%8C%8724%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2021-01-30T09:57:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入一个链表，反转链表后，输出新链表的表头。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    头插法：开辟一个虚拟头节点</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pHead == <span class="literal">nullptr</span> || pHead-&gt;next == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead;</span><br><span class="line"></span><br><span class="line">    ListNode* dummyNode = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummyNode-&gt;next = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* cur = pHead;</span><br><span class="line">    ListNode* temp = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        temp = cur;</span><br><span class="line">        cur = cur-&gt;next;</span><br><span class="line">        temp-&gt;next = dummyNode-&gt;next;</span><br><span class="line">        dummyNode-&gt;next = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyNode-&gt;next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    迭代：三个指针</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pHead == <span class="literal">nullptr</span> || pHead-&gt;next == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead;</span><br><span class="line"></span><br><span class="line">    ListNode* pPre = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode* pNode = pHead;</span><br><span class="line">    ListNode* pNext = pHead-&gt;next;</span><br><span class="line">    <span class="keyword">while</span> (pNode != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        pNext = pNode-&gt;next;</span><br><span class="line">        pNode-&gt;next = pPre;</span><br><span class="line">        pPre = pNode;</span><br><span class="line">        pNode = pNext;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pPre;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8724%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-剑指23：链表中环的入口节点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -529,391 +914,6 @@
 
 
   
-    <article id="post-剑指18：删除链表中的节点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8718%EF%BC%9A%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/">剑指18：删除链表中的节点</a>
-    </h1>
-  
-
-        
-        
-<a href="/2021/01/30/%E5%89%91%E6%8C%8718%EF%BC%9A%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/" class="archive-article-date">
-  	<time datetime="2021-01-30T08:47:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/fc533c45b73a41b0b44ccba763f866ef?tpId=13" target="_blank" rel="noopener">牛客网</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。<br>例如，链表 1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5 处理后为 1-&gt;2-&gt;5 。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    三指针法，取到原来指针的前一个指针</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">deleteDuplication</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pHead == <span class="literal">nullptr</span> || pHead-&gt;next == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead;</span><br><span class="line"></span><br><span class="line">    ListNode* dummyNode = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummyNode-&gt;next = pHead;</span><br><span class="line">    ListNode* pre = dummyNode;</span><br><span class="line">    ListNode* cur = dummyNode-&gt;next; <span class="comment">// cur 是工作的节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (cur-&gt;next != <span class="literal">nullptr</span> &amp;&amp; cur-&gt;val == cur-&gt;next-&gt;val)&#123;</span><br><span class="line">          <span class="keyword">while</span> (cur-&gt;next != <span class="literal">nullptr</span> &amp;&amp; cur-&gt;val == cur-&gt;next-&gt;val)</span><br><span class="line">          &#123;</span><br><span class="line">              cur = cur-&gt;next;</span><br><span class="line">          &#125;</span><br><span class="line">          pre-&gt;next = cur-&gt;next; <span class="comment">// pre 赋值过来</span></span><br><span class="line">          cur = cur-&gt;next;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          pre = pre-&gt;next;</span><br><span class="line">          cur = cur-&gt;next;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyNode-&gt;next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    变形：删除链表中的重复结点，保留一个重复点</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">deleteDuplication</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pHead == <span class="literal">nullptr</span> || pHead-&gt;next == <span class="literal">nullptr</span>) <span class="keyword">return</span> pHead;</span><br><span class="line"></span><br><span class="line">    ListNode* dummyNode = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummyNode-&gt;next = pHead;</span><br><span class="line">    ListNode* pre = dummyNode;</span><br><span class="line">    ListNode* cur = dummyNode-&gt;next; <span class="comment">// cur 是工作的节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (cur-&gt;next != <span class="literal">nullptr</span> &amp;&amp; cur-&gt;val == cur-&gt;next-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">while</span> (cur-&gt;next != <span class="literal">nullptr</span> &amp;&amp; cur-&gt;val == cur-&gt;next-&gt;val)</span><br><span class="line">            &#123;</span><br><span class="line">                cur = cur-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            pre-&gt;next = cur-&gt;next;</span><br><span class="line">            cur = cur-&gt;next;    </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            pre = pre-&gt;next;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyNode-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8718%EF%BC%9A%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-剑指17：打印从1到最大的n位数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8717%EF%BC%9A%E6%89%93%E5%8D%B0%E4%BB%8E1%E5%88%B0%E6%9C%80%E5%A4%A7%E7%9A%84n%E4%BD%8D%E6%95%B0/">剑指17：打印从1到最大的n位数</a>
-    </h1>
-  
-
-        
-        
-<a href="/2021/01/30/%E5%89%91%E6%8C%8717%EF%BC%9A%E6%89%93%E5%8D%B0%E4%BB%8E1%E5%88%B0%E6%9C%80%E5%A4%A7%E7%9A%84n%E4%BD%8D%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2021-01-30T07:51:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/" target="_blank" rel="noopener">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。<br>比如，输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    常规思路：使用 pow 函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">printNumbers</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;    </span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>, max = <span class="built_in">pow</span>(<span class="number">10</span>, n); i &lt; max; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    转换为大数问题求解。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    使用 string</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">printNumbers</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (n &lt;= <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="built_in">string</span> <span class="title">number</span><span class="params">(n, <span class="string">'0'</span>)</span></span>;</span><br><span class="line">		<span class="keyword">while</span> (!Increment(number))</span><br><span class="line">		&#123;</span><br><span class="line">			saveNumber(number);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">Increment</span><span class="params">(<span class="built_in">string</span>&amp; number)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">bool</span> isOverflow = <span class="literal">false</span>; <span class="comment">// 检测是否越界</span></span><br><span class="line">		<span class="keyword">int</span> nTakeOver = <span class="number">0</span>; <span class="comment">// 存储进位</span></span><br><span class="line">		<span class="keyword">int</span> nLength = number.size();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = nLength - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> nSum = number[i] - <span class="string">'0'</span> + nTakeOver;</span><br><span class="line">			<span class="keyword">if</span> (i == nLength - <span class="number">1</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				nSum++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (nSum &gt;= <span class="number">10</span>) <span class="comment">// 有进位</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (i == <span class="number">0</span>) <span class="comment">// 最高位有进位，超过了给定得到最大值，越界</span></span><br><span class="line">				&#123;</span><br><span class="line">					isOverflow = <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					nTakeOver = <span class="number">1</span>;</span><br><span class="line">					number[i] = nSum - <span class="number">10</span> + <span class="string">'0'</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="comment">// 没有进位</span></span><br><span class="line">			&#123;</span><br><span class="line">				number[i] = nSum + <span class="string">'0'</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> isOverflow;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">saveNumber</span><span class="params">(<span class="built_in">string</span> number)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">string</span> s = <span class="string">""</span>;</span><br><span class="line">		<span class="keyword">bool</span> isBegin0 = <span class="literal">true</span>;</span><br><span class="line">		<span class="built_in">string</span>::iterator it = number.begin();</span><br><span class="line">		<span class="keyword">while</span> (it != number.end())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (isBegin0 &amp;&amp; *it != <span class="string">'0'</span>) isBegin0 = <span class="literal">false</span>;</span><br><span class="line">			<span class="keyword">if</span> (!isBegin0)</span><br><span class="line">			&#123;</span><br><span class="line">				s += *it;</span><br><span class="line">			&#125;</span><br><span class="line">			it++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> num = stoi(s);</span><br><span class="line">		res.push_back(num);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    递归，把问题转换成数字排列的解法。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">printNumbers</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (n &lt;= <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="built_in">string</span> <span class="title">number</span><span class="params">(n, <span class="string">'0'</span>)</span></span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">9</span>; i++) <span class="comment">// 从高位到低位进行全排列</span></span><br><span class="line">		&#123;</span><br><span class="line">			number[<span class="number">0</span>] = i + <span class="string">'0'</span>;</span><br><span class="line">			permutationNumbers(number, n, <span class="number">1</span>); <span class="comment">// 设置下一位</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 对数字全排列</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">permutationNumbers</span><span class="params">(<span class="built_in">string</span>&amp; number, <span class="keyword">int</span> length, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (index == length) &#123;</span><br><span class="line">			saveNumber(number); <span class="comment">// 存储结果</span></span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">9</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            number[index] = i + <span class="string">'0'</span>; <span class="comment">// 设置第 index 位的字符</span></span><br><span class="line">            permutationNumbers(number, length, index + <span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 存储结果：只能存储前导非0的排列</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">saveNumber</span><span class="params">(<span class="built_in">string</span> number)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> tempStr = <span class="string">""</span>;</span><br><span class="line">		<span class="keyword">bool</span> isBegin0 = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; number.length(); i++) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (isBegin0 &amp;&amp; number[i] != <span class="string">'0'</span>) isBegin0 = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (!isBegin0) tempStr += number[i];</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="comment">// 首字符为 0 时，tempStr 为空，不能执行 stoi</span></span><br><span class="line">		<span class="keyword">if</span> (tempStr != <span class="string">""</span>) &#123;</span><br><span class="line">			<span class="keyword">int</span> tempNum = stoi(tempStr);</span><br><span class="line">			res.push_back(stoi(tempStr));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8717%EF%BC%9A%E6%89%93%E5%8D%B0%E4%BB%8E1%E5%88%B0%E6%9C%80%E5%A4%A7%E7%9A%84n%E4%BD%8D%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-剑指16：数值的整数次方" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/%E5%89%91%E6%8C%8716%EF%BC%9A%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/">剑指16：数值的整数次方</a>
-    </h1>
-  
-
-        
-        
-<a href="/2021/01/30/%E5%89%91%E6%8C%8716%EF%BC%9A%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/" class="archive-article-date">
-  	<time datetime="2021-01-30T07:39:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/1a834e5e3e1a4b7ba251417554e07c00?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/" target="_blank" rel="noopener">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>实现函数 double Power(double base, int exponent)，求 base 的 exponent 次方。<br>不得使用库函数，同时不需要考虑大数问题。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    分情况处理：正数和负数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> base, <span class="keyword">int</span> exponent)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (exponent == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1.0</span>;</span><br><span class="line">    <span class="keyword">if</span> (base == <span class="number">0.0</span>) <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">bool</span> isNegative = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (exponent &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        isNegative = <span class="literal">true</span>;</span><br><span class="line">        exponent *= <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> res = base;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= exponent; i++) &#123;</span><br><span class="line">        res *= base;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> isNegative ? <span class="number">1</span> / res : res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    递归</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> b, <span class="keyword">int</span> <span class="built_in">exp</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">exp</span> == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">exp</span> == <span class="number">1</span>) <span class="keyword">return</span> b;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">bool</span> isNegative = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">exp</span> &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">exp</span> = -<span class="built_in">exp</span>;</span><br><span class="line">        isNegative = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> <span class="built_in">pow</span> = Power(b * b, <span class="built_in">exp</span> / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> ((<span class="built_in">exp</span> &amp; <span class="number">1</span>) == <span class="number">1</span>) <span class="built_in">pow</span> *= b;</span><br><span class="line">    <span class="keyword">return</span> isNegative ? <span class="number">1</span> / <span class="built_in">pow</span> : <span class="built_in">pow</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    快速幂算法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (x == <span class="number">0.0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> <span class="built_in">exp</span> = n;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span>) <span class="built_in">exp</span> = n * (<span class="number">-1.0</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">double</span> res = <span class="number">1.0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">exp</span> != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="built_in">exp</span> &amp; <span class="number">1</span>) == <span class="number">1</span>) &#123;</span><br><span class="line">            res *= x;</span><br><span class="line">        &#125;</span><br><span class="line">        x *= x;</span><br><span class="line">        <span class="built_in">exp</span> &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> n &lt; <span class="number">0</span> ? <span class="number">1</span> / res: res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/%E5%89%91%E6%8C%8716%EF%BC%9A%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-剑指15：二进制中1的个数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/29/%E5%89%91%E6%8C%8715%EF%BC%9A%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%AD1%E7%9A%84%E4%B8%AA%E6%95%B0/">剑指15：二进制中1的个数</a>
-    </h1>
-  
-
-        
-        
-<a href="/2021/01/29/%E5%89%91%E6%8C%8715%EF%BC%9A%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%AD1%E7%9A%84%E4%B8%AA%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2021-01-29T08:51:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/" target="_blank" rel="noopener">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入一个整数，输出该数32位二进制表示中1的个数。其中负数用补码表示。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    bitset 的用法：</span></span><br><span class="line"><span class="comment">        将 n 转化为 32位表示，int 最大是 2^32次方。</span></span><br><span class="line"><span class="comment">        然后利用 bitset.count（）函数，返回其中 1 的数量。</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    bitset&lt;4&gt; bitset1; // 无参构造，长度为４，默认每一位为０</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bitset</span>&lt;<span class="number">32</span>&gt;(n).count();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    n &amp; (n-1)：位运算去掉 n 的二进制位中最低位的 1。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(n!= <span class="number">0</span>) &#123;</span><br><span class="line">        count++;</span><br><span class="line">        n = n &amp; (n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/29/%E5%89%91%E6%8C%8715%EF%BC%9A%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%AD1%E7%9A%84%E4%B8%AA%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-剑指14-II：剪绳子II" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/29/%E5%89%91%E6%8C%8714-II%EF%BC%9A%E5%89%AA%E7%BB%B3%E5%AD%90II/">剑指14-II：剪绳子II</a>
-    </h1>
-  
-
-        
-        
-<a href="/2021/01/29/%E5%89%91%E6%8C%8714-II%EF%BC%9A%E5%89%AA%E7%BB%B3%E5%AD%90II/" class="archive-article-date">
-  	<time datetime="2021-01-29T08:49:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://leetcode-cn.com/problems/jian-sheng-zi-ii-lcof/" target="_blank" rel="noopener">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），<br>每段绳子的长度记为 k[1], …, k[m]。k[1]<em>…</em>k[m] 可能的最大乘积是多少？<br>例如，当绳子的长度是 8 时，我们把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。<br>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">cuttingRope</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">3</span>) <span class="keyword">return</span> n<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">long</span> res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt; <span class="number">4</span>) &#123;</span><br><span class="line">            <span class="comment">// 3最优</span></span><br><span class="line">            res *= <span class="number">3</span>;</span><br><span class="line">            res %= MOD;</span><br><span class="line">            n -= <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 循环结束 n只剩下1, 2 ,3,4</span></span><br><span class="line">        <span class="comment">// 1不能再分</span></span><br><span class="line">        <span class="comment">// 2，3再分会标小</span></span><br><span class="line">        <span class="comment">// 4 可以分成1 * 3  2 * 2,所以还是4最优</span></span><br><span class="line">        <span class="comment">// 所以 剩下的1 2 3 4 都不能再分了</span></span><br><span class="line">        <span class="keyword">return</span> (res * n) % MOD;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> MOD = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/29/%E5%89%91%E6%8C%8714-II%EF%BC%9A%E5%89%AA%E7%BB%B3%E5%AD%90II/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/7/">Next</a>
@@ -1055,15 +1055,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">区块链工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">总结</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">区块链案例</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">区块链工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1083,6 +1083,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">剑指</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
@@ -1096,10 +1100,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">问答平台项目</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">剑指</a>
               </li>
             
             <div class="clearfix"></div>
