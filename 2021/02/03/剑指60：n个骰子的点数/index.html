@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>剑指64：求1+2+...+n | lcf Blog</title>
+  <title>剑指60：n个骰子的点数 | lcf Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="传送门牛客网leetcode 题目描述求 1 + 2 + 3 + … + n，要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句（A ? B:C）。 C++ 代码123456789101112131415161718&#x2F;*    1.逻辑与的短路特性实现递归终止。    2.当 n &#x3D;&#x3D; 0 时，(n &gt; 0) &amp;&amp; ((su">
+  <meta name="description" content="传送门leetcode 题目描述把 n 个骰子仍在地上，求点数和为 s 的概率。 C++ 代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374&#x2F;*    使用一个二维数组">
 <meta property="og:type" content="article">
-<meta property="og:title" content="剑指64：求1+2+...+n">
-<meta property="og:url" content="http://yoursite.com/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821-2-n/index.html">
+<meta property="og:title" content="剑指60：n个骰子的点数">
+<meta property="og:url" content="http://yoursite.com/2021/02/03/%E5%89%91%E6%8C%8760%EF%BC%9An%E4%B8%AA%E9%AA%B0%E5%AD%90%E7%9A%84%E7%82%B9%E6%95%B0/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="传送门牛客网leetcode 题目描述求 1 + 2 + 3 + … + n，要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句（A ? B:C）。 C++ 代码123456789101112131415161718&#x2F;*    1.逻辑与的短路特性实现递归终止。    2.当 n &#x3D;&#x3D; 0 时，(n &gt; 0) &amp;&amp; ((su">
+<meta property="og:description" content="传送门leetcode 题目描述把 n 个骰子仍在地上，求点数和为 s 的概率。 C++ 代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374&#x2F;*    使用一个二维数组">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-03T14:46:37.000Z">
-<meta property="article:modified_time" content="2021-02-03T14:48:58.188Z">
+<meta property="article:published_time" content="2021-02-03T14:12:39.000Z">
+<meta property="article:modified_time" content="2021-02-04T02:54:28.101Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="剑指">
 <meta name="twitter:card" content="summary">
@@ -147,14 +147,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-剑指64：求1-2-n" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-剑指60：n个骰子的点数" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      剑指64：求1+2+...+n
+      剑指60：n个骰子的点数
     </h1>
   
 
@@ -165,17 +165,17 @@
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821-2-n/" class="archive-article-date">
-  	<time datetime="2021-02-03T14:46:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
+<a href="/2021/02/03/%E5%89%91%E6%8C%8760%EF%BC%9An%E4%B8%AA%E9%AA%B0%E5%AD%90%E7%9A%84%E7%82%B9%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2021-02-03T14:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/7a0da8fc483247ff8800059e12d7caf1?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/qiu-12n-lcof/" target="_blank" rel="noopener">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>求 1 + 2 + 3 + … + n，<br>要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句（A ? B:C）。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    1.逻辑与的短路特性实现递归终止。</span></span><br><span class="line"><span class="comment">    2.当 n == 0 时，(n &gt; 0) &amp;&amp; ((sum += Sum_Solution(n - 1)) &gt; 0)只执行前面的判断，为 false，然后直接返回 0；</span></span><br><span class="line"><span class="comment">    3.当 n &gt; 0 时，执行sum += Sum_Solution(n - 1)，实现递归计算Sum_Solution(n)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Sum_Solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = n;</span><br><span class="line">    <span class="keyword">bool</span> ans = (n &gt; <span class="number">0</span>) &amp;&amp; ((sum += Sum_Solution(n - <span class="number">1</span>)) &gt; <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    bool类型大小为 1 个字节，换为 char 也行，它们都是一个字节。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Sum_Solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> a[n][n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">sizeof</span>(a) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://leetcode-cn.com/problems/nge-tou-zi-de-dian-shu-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>把 n 个骰子仍在地上，求点数和为 s 的概率。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    使用一个二维数组 dp 存储点数出现的次数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    状态表示：</span></span><br><span class="line"><span class="comment">        dp[i][j] 表示投掷完 i 枚骰子后，点数 j 的出现次数。</span></span><br><span class="line"><span class="comment">    状态计算：</span></span><br><span class="line"><span class="comment">        for (第n枚骰子的点数 i = 1; i &lt;= 6; i ++)</span></span><br><span class="line"><span class="comment">            dp[n][j] += dp[n - 1][j - i]</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    空间复杂度：O(n^2)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; <span class="title">dicesProbability</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> face = <span class="number">6</span>; <span class="comment">// 一个骰子的点数</span></span><br><span class="line">        <span class="keyword">int</span> pointNum = face * n; <span class="comment">// n 个骰子的点数</span></span><br><span class="line">        <span class="keyword">int</span> dp[n + <span class="number">1</span>][pointNum + <span class="number">1</span>];</span><br><span class="line">        <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= face; i++) &#123;</span><br><span class="line">            dp[<span class="number">1</span>][i] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt;= pointNum; j++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt;= face; k++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (j - k &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    dp[i][j] += dp[i - <span class="number">1</span>][j - k];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> totalNum = <span class="built_in">pow</span>(face, n);</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; res;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = n; i &lt;= pointNum; i++) &#123;</span><br><span class="line">            res.push_back(dp[n][i] * <span class="number">1.0</span> / totalNum);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    空间优化：一维</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    空间复杂度：O(n)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; <span class="title">twoSum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> face = <span class="number">6</span>;</span><br><span class="line">        <span class="keyword">int</span> pointNum = face * n;</span><br><span class="line">        <span class="keyword">int</span> dp[pointNum + <span class="number">1</span>];</span><br><span class="line">        <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= face; i++) &#123;</span><br><span class="line">            dp[i] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = face*i; j &gt;= i; j--) &#123;</span><br><span class="line">                dp[j] = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt;= face; k++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (j - k &lt; i - <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    dp[j] += dp[j - k];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> totalNum = <span class="built_in">pow</span>(<span class="number">6</span>, n);</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; res;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = n; i &lt;= pointNum; i ++) &#123;</span><br><span class="line">            ret.push_back(dp[i] * <span class="number">1.0</span> / totalNum);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -266,7 +266,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821-2-n/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/02/03/%E5%89%91%E6%8C%8760%EF%BC%9An%E4%B8%AA%E9%AA%B0%E5%AD%90%E7%9A%84%E7%82%B9%E6%95%B0/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,18 +280,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/02/03/%E5%89%91%E6%8C%8765%EF%BC%9A%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/03/%E5%89%91%E6%8C%8761%EF%BC%9A%E6%89%91%E5%85%8B%E7%89%8C%E4%B8%AD%E7%9A%84%E9%A1%BA%E5%AD%90/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          剑指65：不用加减乘除做加法
+          剑指61：扑克牌中的顺子
         
       </div>
     </a>
   
   
-    <a href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821+2+...+n/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">剑指64：求1+2+...+n</div>
+    <a href="/2021/02/03/%E5%89%91%E6%8C%8759-II%EF%BC%9A%E9%98%9F%E5%88%97%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">剑指59-II：队列的最大值</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -521,11 +521,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">剑指</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">剑指</a>
               </li>
              
               <li class="article-tag-list-item">
