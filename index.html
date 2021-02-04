@@ -835,30 +835,30 @@
 
 
   
-    <article id="post-剑指62：圆圈中最后剩下的数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-剑指64：求1+2+...+n" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/03/%E5%89%91%E6%8C%8762%EF%BC%9A%E5%9C%86%E5%9C%88%E4%B8%AD%E6%9C%80%E5%90%8E%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/">剑指62：圆圈中最后剩下的数字</a>
+      <a class="article-title" href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821+2+...+n/">剑指64：求1+2+...+n</a>
     </h1>
   
 
         
         
-<a href="/2021/02/03/%E5%89%91%E6%8C%8762%EF%BC%9A%E5%9C%86%E5%9C%88%E4%B8%AD%E6%9C%80%E5%90%8E%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2021-02-03T14:38:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
+<a href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821+2+...+n/" class="archive-article-date">
+  	<time datetime="2021-02-03T14:46:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/f78a359491e64a50bce2d89cff857eb6?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/" target="_blank" rel="noopener">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>首先，让人们围成一个大圈。<br>然后，他随机指定一个数 m，让编号为 0 的人开始报数。<br>每次喊到 m-1 的那个人出列唱首歌，然后可以在礼品箱中任意的挑选礼物，并且不再回到圈中。<br>从他的下一个人开始，继续 0…m-1 报数。这样下去，直到剩下最后一个人，可以不用表演，并且拿到典藏版的礼物。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    约瑟夫环</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    总结反推的过程：(当前index + m) % 上一轮剩余数字的个数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lastRemaining</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">0</span> || m &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 最后一轮剩下2个人，所以从2开始反推</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        ans = (ans + m) % i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    递归</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    约瑟夫环，圆圈长度为 n 的解可以看成长度为 n-1 的解再加上报数的长度 m。</span></span><br><span class="line"><span class="comment">    因为是圆圈，所以最后需要对 n 取余</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">LastRemaining_Solution</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> (LastRemaining_Solution(n<span class="number">-1</span>, m) + m) % n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a href="https://www.nowcoder.com/practice/7a0da8fc483247ff8800059e12d7caf1?tpId=13" target="_blank" rel="noopener">牛客网</a><br><a href="https://leetcode-cn.com/problems/qiu-12n-lcof/" target="_blank" rel="noopener">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>求 1 + 2 + 3 + … + n，<br>要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句（A ? B:C）。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    1.逻辑与的短路特性实现递归终止。</span></span><br><span class="line"><span class="comment">    2.当 n == 0 时，(n &gt; 0) &amp;&amp; ((sum += Sum_Solution(n - 1)) &gt; 0)只执行前面的判断，为 false，然后直接返回 0；</span></span><br><span class="line"><span class="comment">    3.当 n &gt; 0 时，执行sum += Sum_Solution(n - 1)，实现递归计算Sum_Solution(n)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Sum_Solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = n;</span><br><span class="line">    <span class="keyword">bool</span> ans = (n &gt; <span class="number">0</span>) &amp;&amp; ((sum += Sum_Solution(n - <span class="number">1</span>)) &gt; <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    bool类型大小为 1 个字节，换为 char 也行，它们都是一个字节。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Sum_Solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> a[n][n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">sizeof</span>(a) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -882,7 +882,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/03/%E5%89%91%E6%8C%8762%EF%BC%9A%E5%9C%86%E5%9C%88%E4%B8%AD%E6%9C%80%E5%90%8E%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821+2+...+n/">展开全文 >></a>
         </p>
       
 
