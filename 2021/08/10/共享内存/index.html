@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="共享内存不同于内存映射区，它不属于任何进程，并且不受进程生命周期的影响，通过调用 Linux 提供的系统函数可以得到这块共享内存。使用之前需要让进程和共享内存进行关联，得到共享内存的起始地址之后就可以直接进行读写操作；进程也可以和这块共享内存解除关联，解除关联之后就不能操作这块共享内存了。在所有进程间通信的方式中，共享内存的效率是最高的。 共享内存操作默认不阻塞，如果多个进程同时读写共享内存，可能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="共享内存">
+<meta property="og:url" content="http://example.com/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="共享内存不同于内存映射区，它不属于任何进程，并且不受进程生命周期的影响，通过调用 Linux 提供的系统函数可以得到这块共享内存。使用之前需要让进程和共享内存进行关联，得到共享内存的起始地址之后就可以直接进行读写操作；进程也可以和这块共享内存解除关联，解除关联之后就不能操作这块共享内存了。在所有进程间通信的方式中，共享内存的效率是最高的。 共享内存操作默认不阻塞，如果多个进程同时读写共享内存，可能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png">
+<meta property="article:published_time" content="2021-08-10T14:21:30.000Z">
+<meta property="article:modified_time" content="2021-09-16T15:11:16.214Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="进程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/.com//%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png">
+  
+  
+  
+  <title>共享内存 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="共享内存"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-10 22:21" pubdate>
+          2021年8月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">共享内存</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>共享内存</strong>不同于<strong>内存映射区</strong>，它不属于任何进程，并且不受进程生命周期的影响，通过调用 Linux 提供的系统函数可以得到这块共享内存。使用之前需要让进程和共享内存进行关联，得到共享内存的起始地址之后就可以直接进行读写操作；进程也可以和这块共享内存解除关联，解除关联之后就不能操作这块共享内存了。在所有进程间通信的方式中，共享内存的效率是最高的。</p>
+<p>共享内存操作默认不阻塞，如果多个进程同时读写共享内存，可能出现数据混乱。共享内存需要借助其他机制（比如：信号量）来保证进程间的数据同步，共享内存内部没有提供这种机制。</p>
+<h2 id="创建-x2F-打开共享内存"><a href="#创建-x2F-打开共享内存" class="headerlink" title="创建&#x2F;打开共享内存"></a>创建&#x2F;打开共享内存</h2><p>在使用共享内存之前必须要先做一些准备工作，如果共享内存不存在就需要先创建出来，如果已经存在就需要先打开这块共享内存。不管是创建还是打开共享内存使用的函数是同一个，函数原型如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">shmget</span><span class="params">(<span class="type">key_t</span> key, <span class="type">size_t</span> size, <span class="type">int</span> shmflg)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数:</span></span><br><span class="line"><span class="comment">    key: </span></span><br><span class="line"><span class="comment">        类型 key_t 是个整形数，通过这个 key 可以创建或者打开一块共享内存，该参数的值一定要大于 0</span></span><br><span class="line"><span class="comment">    size: </span></span><br><span class="line"><span class="comment">        创建共享内存的时候，指定共享内存的大小。如果是打开一块已存在的共享内存，size 是没有意义的</span></span><br><span class="line"><span class="comment">    shmflg：</span></span><br><span class="line"><span class="comment">        创建共享内存的时候指定的属性</span></span><br><span class="line"><span class="comment">        IPC_CREAT: 创建新的共享内存。如果创建共享内存，需要指定对共享内存的操作权限，比如：IPC_CREAT | 0664</span></span><br><span class="line"><span class="comment">        IPC_EXCL: 检测共享内存是否已经存在，必须和 IPC_CREAT 一起使用</span></span><br><span class="line"><span class="comment">返回值：</span></span><br><span class="line"><span class="comment">    共享内存创建或者打开成功。返回标识共享内存的唯一的 ID</span></span><br><span class="line"><span class="comment">    失败，返回 -1</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>场景：创建一块大小为 4k 的共享内存</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shmget</span>(<span class="number">100</span>, <span class="number">4096</span>, IPC_CREAT | <span class="number">0664</span>);</span><br></pre></td></tr></table></figure>
+
+<p>场景：创建一块大小为 4k 的共享内存，并且检测是否存在</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果共享内存已经存在，共享内存创建失败，返回 -1，perror() 打印错误信息</span></span><br><span class="line"><span class="built_in">shmget</span>(<span class="number">100</span>, <span class="number">4096</span>, IPC_CREAT | <span class="number">0664</span> | IPC_EXCL);</span><br></pre></td></tr></table></figure>
+
+<p>场景：打开一块已经存在的共享内存</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数参数虽然指定了大小和 IPC_CREAT，但是都不起作用</span></span><br><span class="line"><span class="built_in">shmget</span>(<span class="number">100</span>, <span class="number">4096</span>, IPC_CREAT|<span class="number">0664</span>);</span><br><span class="line"><span class="comment">// 因为共享内存已经存在，只能打开，参数 4096 也没有意义</span></span><br><span class="line"><span class="built_in">shmget</span>(<span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>场景：打开一块共享内存，如果不存在就创建</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shmget</span>(<span class="number">100</span>, <span class="number">4096</span>, IPC_CREAT | <span class="number">0664</span>);</span><br></pre></td></tr></table></figure>
+
+<p>补充：<code>shmget()</code> 函数的第一个参数是一个大于 0 的正整数，如果不想自己指定可以通过 <code>ftok()</code> 函数直接生成这个 key 值。<br>该函数的函数原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ftok 函数原型</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将两个参数作为种子，生成一个 key_t 类型的数值</span></span><br><span class="line"><span class="function"><span class="type">key_t</span> <span class="title">ftok</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname, <span class="type">int</span> proj_id)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数:</span></span><br><span class="line"><span class="comment">    pathname: </span></span><br><span class="line"><span class="comment">        当前操作系统中一个存在的路径</span></span><br><span class="line"><span class="comment">    proj_id: </span></span><br><span class="line"><span class="comment">        这个参数只用到了 int 中的一个字节，传参的时候要将其作为 char 进行操作，取值范围 1~255</span></span><br><span class="line"><span class="comment">返回值：</span></span><br><span class="line"><span class="comment">    成功，返回一个可用于创建、打开共享内存的 key 值</span></span><br><span class="line"><span class="comment">    失败，返回 -1</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line"><span class="comment">// 根据路径生成一个key_t</span></span><br><span class="line"><span class="type">key_t</span> key = <span class="built_in">ftok</span>(<span class="string">&quot;/home/robin&quot;</span>, <span class="string">&#x27;a&#x27;</span>);</span><br><span class="line"><span class="comment">// 创建或打开共享内存</span></span><br><span class="line"><span class="built_in">shmget</span>(key, <span class="number">4096</span>, IPC_CREATE | <span class="number">0664</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="关联和解除关联"><a href="#关联和解除关联" class="headerlink" title="关联和解除关联"></a>关联和解除关联</h2><p>创建&#x2F;打开共享内存之后还必须和共享内存进行关联，这样才能得到共享内存的起始地址，通过内存地址进行数据的读写操作。<br>函数的原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> *<span class="title">shmat</span><span class="params">(<span class="type">int</span> shmid, <span class="type">const</span> <span class="type">void</span> *shmaddr, <span class="type">int</span> shmflg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数:</span></span><br><span class="line"><span class="comment">    shmid: </span></span><br><span class="line"><span class="comment">        要操作的共享内存的 ID, 是 shmget () 函数的返回值</span></span><br><span class="line"><span class="comment">    shmaddr: </span></span><br><span class="line"><span class="comment">        共享内存的起始地址，用户不知道，需要让内核指定，写 NULL</span></span><br><span class="line"><span class="comment">    shmflg: </span></span><br><span class="line"><span class="comment">        和共享内存关联的对共享内存的操作权限</span></span><br><span class="line"><span class="comment">        SHM_RDONLY: 读权限，只能读共享内存中的数据</span></span><br><span class="line"><span class="comment">        0: 读写权限，可以读写共享内存数据</span></span><br><span class="line"><span class="comment">返回值：</span></span><br><span class="line"><span class="comment">    关联成功，返回值共享内存的起始地址</span></span><br><span class="line"><span class="comment">    关联失败，返回 (void*) -1</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>当进程不需要再操作共享内存，可以让进程和共享内存解除关联。另外如果没有执行该操作，进程退出之后，结束的进程和共享内存的关联就自动解除了。<br>函数的原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">shmdt</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *shmaddr)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">    shmat() 函数的返回值，共享内存的起始地址</span></span><br><span class="line"><span class="comment">返回值：</span></span><br><span class="line"><span class="comment">    关联解除成功返回 0，失败返回 - 1</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="删除共享内存"><a href="#删除共享内存" class="headerlink" title="删除共享内存"></a>删除共享内存</h2><p><code>shmctl()</code> 函数是一个多功能函数，可以设置、获取共享内存的状态，也可以将共享内存标记为删除状态。当共享内存被标记为删除状态之后，并不会马上被删除，直到所有的进程全部和共享内存解除关联，共享内存才会被删除。通过 <code>shmctl()</code> 函数只是能够标记删除共享内存，在程序中多次调用该操作是没有关系的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 共享内存控制函数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">shmctl</span><span class="params">(<span class="type">int</span> shmid, <span class="type">int</span> cmd, <span class="keyword">struct</span> shmid_ds *buf)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 参数 struct shmid_ds 结构体原型          </span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">shmid_ds</span> &#123;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">ipc_perm</span> shm_perm;    <span class="comment">/* Ownership and permissions */</span></span><br><span class="line">	<span class="type">size_t</span>          shm_segsz;   <span class="comment">/* Size of segment (bytes) */</span></span><br><span class="line">	<span class="type">time_t</span>          shm_atime;   <span class="comment">/* Last attach time */</span></span><br><span class="line">	<span class="type">time_t</span>          shm_dtime;   <span class="comment">/* Last detach time */</span></span><br><span class="line">	<span class="type">time_t</span>          shm_ctime;   <span class="comment">/* Last change time */</span></span><br><span class="line">	<span class="type">pid_t</span>           shm_cpid;    <span class="comment">/* PID of creator */</span></span><br><span class="line">	<span class="type">pid_t</span>           shm_lpid;    <span class="comment">/* PID of last shmat(2)/shmdt(2) */</span></span><br><span class="line">	<span class="type">shmatt_t</span>        shm_nattch;  <span class="comment">/* 引用计数，记录了有多少个进程和当前共享内存进行了关联 */</span></span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数:</span></span><br><span class="line"><span class="comment">    shmid: </span></span><br><span class="line"><span class="comment">        需要操作的共享内存的 ID，shmget() 函数的返回值</span></span><br><span class="line"><span class="comment">    cmd: </span></span><br><span class="line"><span class="comment">        需要做的操作</span></span><br><span class="line"><span class="comment">        IPC_STAT: 得到当前共享内存的状态</span></span><br><span class="line"><span class="comment">        IPC_SET: 设置共享内存的状态</span></span><br><span class="line"><span class="comment">        IPC_RMID: 标记共享内存要被删除</span></span><br><span class="line"><span class="comment">    buf:</span></span><br><span class="line"><span class="comment">        cmd == IPC_STAT，作为传出参数，会得到共享内存的相关属性信息</span></span><br><span class="line"><span class="comment">        cmd == IPC_SET，作为传入参数，将用户的自定义属性设置到共享内存中</span></span><br><span class="line"><span class="comment">        cmd == IPC_RMID，buf 就没意义了，这时候 buf 指定为 NULL</span></span><br><span class="line"><span class="comment">返回值：</span></span><br><span class="line"><span class="comment">    成功，返回值大于等于 0</span></span><br><span class="line"><span class="comment">    失败，返回 -1</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="相关-shell-命令"><a href="#相关-shell-命令" class="headerlink" title="相关 shell 命令"></a>相关 shell 命令</h3><p>使用 <code>ipcs</code> 添加参数 <code>-m</code>：查看系统中共享内存的详细信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ipcs -m</span><br><span class="line"></span><br><span class="line">------------ 共享内存段 --------------</span><br><span class="line">键        shmid      拥有者  权限     字节     nattch     状态      </span><br><span class="line">0x00000000 425984     oracle     600        524288     2          目标       </span><br><span class="line">0x00000000 327681     oracle     600        524288     2          目标</span><br></pre></td></tr></table></figure>
+<p>使用 <code>ipcrm</code> 命令标记删除某块共享内存</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># key == shmget 的第一个参数</span></span><br><span class="line">$ ipcrm -M shmkey  </span><br><span class="line"></span><br><span class="line"><span class="comment"># id == shmget 的返回值</span></span><br><span class="line">$ ipcrm -m shmid</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>shmctl()</code> 可知：共享内存的信息是存储到一个 <code>struct shmid_ds</code> 的结构体中，其中有一个重要的成员叫做 <code>shm_nattch</code>，在这个成员变量里边记录着当前共享内存关联的进程的个数，一般将其称之为引用计数。当共享内存被标记为删除状态，并且这个引用计数变为 0 之后共享内存才会被真正的被删除掉。</p>
+<p>当共享内存被标记为删除状态之后，共享内存的状态也会发生变化，共享内存内部维护的 <code>key</code> 从一个正整数变为 0，其属性从公共的变为私有的。私有是指只有已经关联成功的进程才允许继续访问共享内存，不再允许新的进程和这块共享内存进行关联了。下图表示了共享内存的状态变化：<br><img src="/.com//%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png" srcset="/img/loading.gif" lazyload alt="共享内存的状态"></p>
+<h2 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h2><p>使用共享内存实现进程间通信的操作流程：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>调用 Linux 的系统 API 创建一块共享内存</span><br><span class="line">    这块内存不属于任何进程，默认进程不能对其进行操作。</span><br><span class="line">    </span><br><span class="line"><span class="number">2.</span>准备好进程 A 和进程 B，这两个进程需要和创建的共享内存进行关联</span><br><span class="line">    关联操作: 调用 Linux 的 api</span><br><span class="line">    关联成功之后，得到了这块共享内存的起始地址</span><br><span class="line">        </span><br><span class="line"><span class="number">3.</span>在进程 A 或者进程 B 中对共享内存进行读写操作</span><br><span class="line">    读内存: <span class="built_in">printf</span>() 等;</span><br><span class="line">	写内存: <span class="built_in">memcpy</span>() 等;</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span>通信完成，可以让进程 A 和 B 和共享内存解除关联</span><br><span class="line">    解除成功，进程 A 和 B 不能再操作共享内存</span><br><span class="line">    共享内存不受进程生命周期的影响的</span><br><span class="line">    </span><br><span class="line"><span class="number">5.</span>共享内存不在使用之后，将其删除</span><br><span class="line">    调用 Linux 的 api 函数，删除之后这块内存被内核回收</span><br></pre></td></tr></table></figure>
+
+<p>写共享内存的进程，示例代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建共享内存，大小为 4k</span></span><br><span class="line">    <span class="type">int</span> shmid = <span class="built_in">shmget</span>(<span class="number">1000</span>, <span class="number">4096</span>, IPC_CREAT | <span class="number">0664</span>);</span><br><span class="line">    <span class="keyword">if</span> (shmid == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;shmget error&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.当前进程和共享内存关联</span></span><br><span class="line">    <span class="type">void</span>* ptr = <span class="built_in">shmat</span>(shmid, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (ptr == (<span class="type">void</span>*) <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;shmat error&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.写共享内存</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* p = <span class="string">&quot;写共享内存的进程，写数据...&quot;</span>;</span><br><span class="line">    <span class="built_in">memcpy</span>(ptr, p, <span class="built_in">strlen</span>(p)+<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 阻塞程序</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;按任意键继续，删除共享内存\n&quot;</span>);</span><br><span class="line">    <span class="built_in">getchar</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">shmdt</span>(ptr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除共享内存</span></span><br><span class="line">    <span class="built_in">shmctl</span>(shmid, IPC_RMID, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;共享内存已经被删除...\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读共享内存的进程，示例代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建共享内存，大小为 4k</span></span><br><span class="line">    <span class="type">int</span> shmid = <span class="built_in">shmget</span>(<span class="number">1000</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (shmid == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;shmget error&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.当前进程和共享内存关联</span></span><br><span class="line">    <span class="type">void</span>* ptr = <span class="built_in">shmat</span>(shmid, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (ptr == (<span class="type">void</span>*) <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;shmat error&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.读共享内存</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;读共享内存的进程，数据: %s\n&quot;</span>, (<span class="type">char</span>*)ptr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 阻塞程序</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;按任意键继续，删除共享内存\n&quot;</span>);</span><br><span class="line">    <span class="built_in">getchar</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">shmdt</span>(ptr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除共享内存</span></span><br><span class="line">    <span class="built_in">shmctl</span>(shmid, IPC_RMID, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;共享内存已经被删除...\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="shm-和-mmap-的区别"><a href="#shm-和-mmap-的区别" class="headerlink" title="shm 和 mmap 的区别"></a>shm 和 mmap 的区别</h2><p>共享内存和内存映射区都可以实现进程间通信，分析二者的区别：<br>（1）实现进程间通信的方式<br>共享内存：多个进程只需要一块共享内存就够了。共享内存不属于进程，需要和进程关联才能使用。<br>内存映射区：位于每个进程的虚拟地址空间中，并且需要关联同一个磁盘文件才能实现进程间数据通信。<br>（2）效率<br>共享内存：直接对内存操作，效率高。<br>内存映射区：需要内存和文件之间的数据同步，效率低。<br>（3）生命周期<br>共享内存：进程退出对共享内存没有影响，调用相关函数&#x2F;命令&#x2F;关机才能删除共享内存。<br>内存映射区：进程退出，内存映射区也就没有了。<br>（4）数据的完整性（突发状态下数据能否被保存，比如：突然断电）<br>共享内存：数据存储在物理内存中，断电之后系统关闭，内存数据也就丢失了。<br>内存映射区：可以完整的保存数据，内存映射区数据会同步到磁盘文件。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://subingwen.cn/linux/shm">https://subingwen.cn/linux/shm</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>共享内存</div>
+      <div>http://example.com/2021/08/10/共享内存/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/13/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B/" title="守护进程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">守护进程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/08/%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84/" title="内存映射">
+                        <span class="hidden-mobile">内存映射</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/';
+          this.page.identifier = '/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

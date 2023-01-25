@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。  因为管道数据是通过队列来维护的，分析一个管道中数据的特点：（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。（2）管道分为两部分：读端和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="管道">
+<meta property="og:url" content="http://example.com/2021/08/05/%E7%AE%A1%E9%81%93/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。  因为管道数据是通过队列来维护的，分析一个管道中数据的特点：（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。（2）管道分为两部分：读端和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png">
+<meta property="article:published_time" content="2021-08-05T08:54:00.000Z">
+<meta property="article:modified_time" content="2021-09-16T10:07:26.779Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="进程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/.com//%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png">
+  
+  
+  
+  <title>管道 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="管道"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-05 16:54" pubdate>
+          2021年8月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">管道</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。</p>
+<p><img src="/.com//%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png" srcset="/img/loading.gif" lazyload alt="循环队列"></p>
+<p>因为管道数据是通过队列来维护的，分析一个管道中数据的特点：<br>（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。<br>（2）管道分为两部分：读端和写端（队列的两端），数据从写端进入管道，从读端流出管道。<br>（3）管道中的数据只能读一次，做一次读操作之后数据就没有了（读数据相当于出队列）。<br>（4）管道是单工的：数据只能单向流动，数据从写端流向读端。<br>（5）对管道的操作（读、写）默认是阻塞的。<br>读管道：管道中没有数据，读操作被阻塞，当管道中有数据之后才解除阻塞。<br>写管道：管道被写满了，写数据的操作被阻塞，当管道变为不满的状态，写阻塞解除。</p>
+<p>管道在内核中，不能直接对其进行操作，通过什么方式去读写管道呢？<br>管道操作就是文件 IO 操作，内核中管道的两端分别对应两个文件描述符，通过写端的文件描述符把数据写入到管道中，通过读端的文件描述符将数据从管道中读出来。读写管道的函数就是 Linux 中的文件 IO 函数，函数原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读管道</span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">read</span><span class="params">(<span class="type">int</span> fd, <span class="type">void</span> *buf, <span class="type">size_t</span> count)</span></span>;</span><br><span class="line"><span class="comment">// 写管道的函数</span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">write</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="type">void</span> *buf, <span class="type">size_t</span> count)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>为什么可以使用管道进行进程间通信？<br>假设父进通过一系列操作可以通过文件描述符表中的文件描述符 fd3 写管道，通过 fd4 读管道，然后通过 <code>fork()</code> 创建出子进程，那么在父进程中被分配的文件描述符 fd3、fd4 被拷贝到子进程中，子进程通过 fd3 可以将数据写入到内核的管道中，通过 fd4 将数据从管道中读出来。<br>也就是说管道是独立于任何进程的，并且充当了两个进程用于数据通信的载体，只要两个进程能够得到同一个管道的入口和出口（读端和写端的文件描述符），那么它们之间就可以通过管道进行数据的交互。</p>
+<h2 id="匿名管道"><a href="#匿名管道" class="headerlink" title="匿名管道"></a>匿名管道</h2><p>匿名管道是管道的一种，这个管道没有名字，但其本质是不变的，就是位于内核中的一块内存，匿名管道拥有管道的所有特性。此外，匿名管道只能实现有血缘关系的进程间通信。什么叫有血缘的进程关系呢？比如：父子进程、兄弟进程、爷孙进程、叔侄进程。</p>
+<p>创建匿名管道的函数，函数原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="comment">// 创建一个匿名的管道，得到两个可用的文件描述符</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pipe</span><span class="params">(<span class="type">int</span> pipefd[<span class="number">2</span>])</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">    传出参数，一个整形数组的地址，数组大小为 2</span></span><br><span class="line"><span class="comment">        pipefd[0]：管道读端的文件描述符，通过它可以将数据从管道中读出</span></span><br><span class="line"><span class="comment">        pipefd[1]：管道写端的文件描述符，通过它可以将数据写入到管道中</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">        成功返回 0</span></span><br><span class="line"><span class="comment">        失败返回 -1</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>使用匿名管道只能实现有血缘关系的进程间通信，要求写一段程序完成下边的功能：<br>在父进程中创建一个子进程，父子进程分别执行不同的操作：子进程执行一个shell命令 “ps aux”，将命令的结果传递给父进程；父进程将子进程命令的结果输出到终端。<br>分析：<br>（1）子进程中执行 shell 命令相当于启动一个磁盘程序，因此需要使用 <code>execl()/execlp()</code> 函数 <code>execlp(&quot;ps&quot;, &quot;ps&quot;, &quot;aux&quot;, NULL)</code><br>（2）子进程中执行完 shell 命令直接就可以在终端输出结果，如果将这些信息传递给父进程呢？<br>    数据传递需要使用管道，子进程需要将数据写入到管道中<br>    将默认输出到终端的数据写入到管道就需要进行输出的重定向，使用 dup2()<br>    <code>dup2(fd[1], STDOUT_FILENO);</code><br>（3）父进程需要读管道，将从管道中读出的数据打印到终端。<br>（4）父进程最后需要释放子进程资源，防止出现僵尸进程。</p>
+<p>使用管道进行进程间通信必须保证数据在管道中的单向流动，如何理解这句话？<br>（1）在父进程中创建了匿名管道，得到了两个分配的文件描述符（fd3 操作管道的读端，fd4 操作管道的写端）<br>（2）父进程创建子进程，父进程的文件描述符被拷贝，在子进程的文件描述符表中也得到了两个被分配的可以使用的文件描述符。<br>此时管道中数据的流动不是单向的，有以下 4 种情况：<br>（3）为了避免两个进程都读管道，可以关闭进程中用不到的那一端的文件描述符，这样数据就只能单向的从一端流向另外一端。</p>
+<p>示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    管道的数据是单向流动的：</span></span><br><span class="line"><span class="comment">        进程 A 读管道，需要关闭管道的写端；进程 B 写管道，需要关闭管道的读端。</span></span><br><span class="line"><span class="comment">        如果不做上述的操作，会对程序的结果造成一些影响，对管道的操作无法结束。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建匿名管道，得到两个文件描述符</span></span><br><span class="line">    <span class="type">int</span> fd[<span class="number">2</span>];</span><br><span class="line">    <span class="type">int</span> ret = <span class="built_in">pipe</span>(fd);</span><br><span class="line">    <span class="keyword">if</span> (ret == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;pipe error&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.创建子进程 -&gt; 能够操作管道的文件描述符被复制到子进程中</span></span><br><span class="line">    <span class="type">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 关闭读端</span></span><br><span class="line">        <span class="built_in">close</span>(fd[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">// 3. 在子进程中执行 execlp(&quot;ps&quot;, &quot;ps&quot;, &quot;aux&quot;, NULL);</span></span><br><span class="line">        <span class="comment">// 在子进程中完成输出的重定向，原来输出到终端，现在要写管道</span></span><br><span class="line">        <span class="comment">// 终端对应的文件描述符: stdout_fileno</span></span><br><span class="line">        <span class="comment">// 标准输出重定向到管道的写端</span></span><br><span class="line">        <span class="built_in">dup2</span>(fd[<span class="number">1</span>], STDOUT_FILENO);</span><br><span class="line">        <span class="built_in">execlp</span>(<span class="string">&quot;ps&quot;</span>, <span class="string">&quot;ps&quot;</span>, <span class="string">&quot;aux&quot;</span>, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;execlp error&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) <span class="comment">// 4.父进程读管道</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 关闭s写端</span></span><br><span class="line">        <span class="built_in">close</span>(fd[<span class="number">1</span>]);</span><br><span class="line">        <span class="comment">// 5.父进程打印读到的数据信息</span></span><br><span class="line">        <span class="type">char</span> buf[<span class="number">4096</span>];</span><br><span class="line">        <span class="comment">// 读管道</span></span><br><span class="line">        <span class="comment">// 如果管道中没有数据，read会阻塞；有数据之后，read解除阻塞，直接读数据。</span></span><br><span class="line">        <span class="comment">// 循环读数据：管道是有容量的，写满之后就不写了；数据被读走后，可以继续写管道，需要继续读数据。</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="built_in">sizeof</span>(buf));</span><br><span class="line">            <span class="type">int</span> len = <span class="built_in">read</span>(fd[<span class="number">0</span>], buf, <span class="built_in">sizeof</span>(buf));</span><br><span class="line">            <span class="keyword">if</span> (len == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 管道的写端关闭了，如果管道中没有数据，管道读端不会阻塞</span></span><br><span class="line">                <span class="comment">// 没数据直接返回 0；如果有数据，将数据读出，数据读完之后返回 0</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%s, len = %d\n&quot;</span>, buf, len);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">close</span>(fd[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 回收子进程资源</span></span><br><span class="line">        <span class="built_in">wait</span>(<span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// gcc pipe.c -o app</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="有名管道"><a href="#有名管道" class="headerlink" title="有名管道"></a>有名管道</h2><p>有名管道拥有管道的所有特性，管道在磁盘上有实体文件，文件类型为 p ，有名管道文件大小永远为 0，因为有名管道也是将数据存储到内存的缓冲区中，打开这个磁盘上的管道文件可以得到文件描述符，通过文件描述符读写管道存储在内核中的数据。</p>
+<p>使用有名管道可以进行有血缘关系的进程间通信，也可以进行没有血缘关系的进程间通信。<br>创建有名管道的方式有两种，一种是通过命令，一种是通过函数。<br>（1）通过命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfifo 有名管道的名字</span><br></pre></td></tr></table></figure>
+<p>（2）通过函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="comment">// int open(const char *pathname, int flags, mode_t mode);</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">mkfifo</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname, <span class="type">mode_t</span> mode)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">    pathname: 创建的有名管道的名字</span></span><br><span class="line"><span class="comment">    mode: 文件的操作权限，和 open() 的第三个参数作用相同，最终权限: (mode &amp; ~umask)</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">        成功返回 0</span></span><br><span class="line"><span class="comment">        失败返回 -1</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>不论有血缘关系还是没有血缘关系，使用有名管道实现进程间通信的方式是相同的，就是在两个进程中分别以读、写的方式打开磁盘上的管道文件，得到用于读管道、写管道的文件描述符，调用对应的 <code>read()/write()</code> 函数进行读写操作。<br>有名管道操作需要通过 <code>open()</code> 操作得到读写管道的文件描述符，如果只是读端打开或者只是写端打开，进程会阻塞在这里不会向下执行，直到在另一个进程中将管道的对端打开，当前进程的阻塞也就解除了。</p>
+<p>写管道的进程，示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	1.创建有名管道文件 </span></span><br><span class="line"><span class="comment">		mkfifo();</span></span><br><span class="line"><span class="comment">	2.打开有名管道文件，打开方式是 o_wronly</span></span><br><span class="line"><span class="comment">		int wfd = open(&quot;xx&quot;, O_WRONLY);</span></span><br><span class="line"><span class="comment">	3.调用write函数写文件 -&gt; 数据被写入管道中</span></span><br><span class="line"><span class="comment">		write(wfd, data, strlen(data));</span></span><br><span class="line"><span class="comment">	4.写完之后关闭文件描述符</span></span><br><span class="line"><span class="comment">		close(wfd);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建有名管道文件</span></span><br><span class="line">    <span class="type">int</span> ret = <span class="built_in">mkfifo</span>(<span class="string">&quot;./testfifo&quot;</span>, <span class="number">0664</span>);</span><br><span class="line">    <span class="keyword">if</span> (ret == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;mkfifo error&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;管道文件创建成功...\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.打开管道文件</span></span><br><span class="line">    <span class="comment">// 因为要写管道，打开方式应该指定为 O_WRONLY</span></span><br><span class="line">    <span class="comment">// 如果先打开写端，读端还没有打开，open 函数会阻塞；当读端也打开之后，open 解除阻塞</span></span><br><span class="line">    <span class="type">int</span> wfd = <span class="built_in">open</span>(<span class="string">&quot;./testfifo&quot;</span>, O_WRONLY);</span><br><span class="line">    <span class="keyword">if</span> (wfd == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;open error&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;以只写的方式打开文件成功...\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.循环写管道</span></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="number">100</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">        <span class="built_in">sprintf</span>(buf, <span class="string">&quot;fifo, 写管道...%d\n&quot;</span>, i);</span><br><span class="line">        <span class="built_in">write</span>(wfd, buf, <span class="built_in">strlen</span>(buf));</span><br><span class="line">        i++;</span><br><span class="line">        <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(wfd);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读管道的进程，示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	1.这两个进程需要操作相同的管道文件</span></span><br><span class="line"><span class="comment">	2.打开有名管道文件, 打开方式是 O_RDONLY</span></span><br><span class="line"><span class="comment">		int rfd = open(&quot;xx&quot;, O_RDONLY);</span></span><br><span class="line"><span class="comment">	3.调用read函数读文件 -&gt; 读管道中的数据</span></span><br><span class="line"><span class="comment">		char buf[4096];</span></span><br><span class="line"><span class="comment">		read(rfd, buf, sizeof(buf));</span></span><br><span class="line"><span class="comment">	4.读完之后关闭文件描述符</span></span><br><span class="line"><span class="comment">		close(rfd);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.打开管道文件</span></span><br><span class="line">    <span class="comment">// 因为要读管道，打开方式应该指定为 O_RDONLY</span></span><br><span class="line">    <span class="comment">// 如果只打开了读端，写端还没有打开，open 阻塞；当写端被打开，阻塞就解除了</span></span><br><span class="line">    <span class="type">int</span> rfd = <span class="built_in">open</span>(<span class="string">&quot;./testfifo&quot;</span>, O_RDONLY);</span><br><span class="line">    <span class="keyword">if</span>(rfd == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;open&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;以只读的方式打开文件成功...\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.循环读管道</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">        <span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="built_in">sizeof</span>(buf));</span><br><span class="line">        <span class="comment">// 读是阻塞的，如果管道中没有数据，read自动阻塞；如果有数据，解除阻塞继续读数据。</span></span><br><span class="line">        <span class="type">int</span> len = <span class="built_in">read</span>(rfd, buf, <span class="built_in">sizeof</span>(buf));</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;读出的数据: %s\n&quot;</span>, buf);</span><br><span class="line">        <span class="keyword">if</span>(len == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 写端关闭了，read 解除阻塞返回 0</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;管道的写端已经关闭, 退出...\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(rfd);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="管道的读写行为"><a href="#管道的读写行为" class="headerlink" title="管道的读写行为"></a>管道的读写行为</h2><p>管道不论是有名的还是匿名的，在进行读写的时候，它们表现出的行为是一致的，总结如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">读管道，根据写端的状态进行分析</span><br><span class="line">（1）写端没有关闭（操作管道写端的文件描述符没有被关闭）</span><br><span class="line">    如果管道中没有数据，读阻塞；如果管道中被写入了数据，阻塞解除。</span><br><span class="line">    如果管道中有数据，读不阻塞；如果管道中的数据被读完了，继续读管道会阻塞。</span><br><span class="line">（2）写端已经关闭（没有可用的文件描述符可以写管道）</span><br><span class="line">    如果管道中没有数据，读端解除阻塞，read 函数返回 0。</span><br><span class="line">    如果管道中有数据，read 先将数据读出，数据读完之后返回 0，不会阻塞。</span><br><span class="line"></span><br><span class="line">写管道，根据读端的状态进行分析</span><br><span class="line">（1）读端没有关闭</span><br><span class="line">如果管道有存储的空间，一直写数据。</span><br><span class="line">如果管道写满了，写操作就阻塞，当读端将管道数据读走了，解除阻塞继续写。</span><br><span class="line">（2）读端关闭</span><br><span class="line">管道破裂（异常），进程直接退出。</span><br></pre></td></tr></table></figure>
+
+<p>管道的两端默认是阻塞的，如何将管道设置为非阻塞？<br>管道的读写两端的非阻塞操作是相同的，将匿名的读端设置为非阻塞，示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过 fcntl 修改就可以，一般情况下不建议修改</span></span><br><span class="line"><span class="comment">// 管道操作对应两个文件描述符，分别是管道的读端和写端</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.获取读端的文件描述符的 flag 属性</span></span><br><span class="line"><span class="type">int</span> flag = <span class="built_in">fcntl</span>(fd[<span class="number">0</span>], F_GETFL);</span><br><span class="line"><span class="comment">// 2.添加非阻塞属性到 flag</span></span><br><span class="line">flag |= O_NONBLOCK;</span><br><span class="line"><span class="comment">// 3.将新的 flag 属性设置给读端的文件描述符</span></span><br><span class="line"><span class="built_in">fcntl</span>(fd[<span class="number">0</span>], F_SETFL, flag);</span><br><span class="line"><span class="comment">// 4.非阻塞读管道</span></span><br><span class="line"><span class="type">char</span> buf[<span class="number">4096</span>];</span><br><span class="line"><span class="built_in">read</span>(fd[<span class="number">0</span>], buf, <span class="built_in">sizeof</span>(buf));</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://subingwen.cn/linux/pipe/">https://subingwen.cn/linux/pipe/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>管道</div>
+      <div>http://example.com/2021/08/05/管道/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/08/%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84/" title="内存映射">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">内存映射</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/" title="服务器并发">
+                        <span class="hidden-mobile">服务器并发</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2021/08/05/%E7%AE%A1%E9%81%93/';
+          this.page.identifier = '/2021/08/05/%E7%AE%A1%E9%81%93/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

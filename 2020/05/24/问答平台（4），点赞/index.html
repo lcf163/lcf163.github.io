@@ -1,0 +1,680 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="点赞123- 支持对帖子、评论点赞。- 第1次点赞，第2次取消点赞。- 点赞功能需要考虑性能的问题：点赞数据存到 Redis 里会提升性能。 首页点赞数量1- 统计帖子的点赞数量。 详情页点赞数量12- 统计点赞数量。- 显示点赞状态。  工具类 RedisKeyUtil：新增1234567891011public class RedisKeyUtil &amp;#123;    private stat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="问答平台（4），点赞">
+<meta property="og:url" content="http://example.com/2020/05/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="点赞123- 支持对帖子、评论点赞。- 第1次点赞，第2次取消点赞。- 点赞功能需要考虑性能的问题：点赞数据存到 Redis 里会提升性能。 首页点赞数量1- 统计帖子的点赞数量。 详情页点赞数量12- 统计点赞数量。- 显示点赞状态。  工具类 RedisKeyUtil：新增1234567891011public class RedisKeyUtil &amp;#123;    private stat">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-24T05:38:11.000Z">
+<meta property="article:modified_time" content="2021-04-10T04:44:08.969Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="问答平台">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>问答平台（4），点赞 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="问答平台（4），点赞"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-05-24 13:38" pubdate>
+          2020年5月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">问答平台（4），点赞</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="点赞"><a href="#点赞" class="headerlink" title="点赞"></a>点赞</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 支持对帖子、评论点赞。</span><br><span class="line">- 第1次点赞，第2次取消点赞。</span><br><span class="line">- 点赞功能需要考虑性能的问题：点赞数据存到 Redis 里会提升性能。</span><br></pre></td></tr></table></figure>
+<h3 id="首页点赞数量"><a href="#首页点赞数量" class="headerlink" title="首页点赞数量"></a>首页点赞数量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 统计帖子的点赞数量。</span><br></pre></td></tr></table></figure>
+<h3 id="详情页点赞数量"><a href="#详情页点赞数量" class="headerlink" title="详情页点赞数量"></a>详情页点赞数量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 统计点赞数量。</span><br><span class="line">- 显示点赞状态。</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><ul>
+<li>RedisKeyUtil：新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisKeyUtil</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">SPLIT</span> <span class="operator">=</span> <span class="string">&quot;:&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PREFIX_ENTITY_LIKE</span> <span class="operator">=</span> <span class="string">&quot;like:entity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 某个实体的赞</span></span><br><span class="line">    <span class="comment">// like:entity:entityType:entityId -&gt; set(userId)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getEntityLikeKey</span><span class="params">(<span class="type">int</span> entityType, <span class="type">int</span> entityId)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h2><ul>
+<li>LikeService：新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LikeService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点赞</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">like</span><span class="params">(<span class="type">int</span> userId, <span class="type">int</span> entityType, <span class="type">int</span> entityId)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">entityLikeKey</span> <span class="operator">=</span> RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isMember</span> <span class="operator">=</span> operations.opsForSet().isMember(entityLikeKey, userId);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isMember) &#123;</span><br><span class="line">            operations.opsForSet().remove(entityLikeKey, userId);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            operations.opsForSet().add(entityLikeKey, userId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某实体点赞的数量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">findEntityLikeCount</span><span class="params">(<span class="type">int</span> entityType, <span class="type">int</span> entityId)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">entityLikeKey</span> <span class="operator">=</span> RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().size(entityLikeKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询某人对某实体的点赞状态</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findEntityLikeStatus</span><span class="params">(<span class="type">int</span> userId, <span class="type">int</span> entityType, <span class="type">int</span> entityId)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">entityLikeKey</span> <span class="operator">=</span> RedisKeyUtil.getEntityLikeKey(entityType, entityId);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="表现层"><a href="#表现层" class="headerlink" title="表现层"></a>表现层</h2><ul>
+<li>LikeController：新增<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LikeController</span> <span class="keyword">implements</span> <span class="title class_">CommunityConstant</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LikeService likeService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(path = &quot;/like&quot;, method = RequestMethod.POST)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">like</span><span class="params">(<span class="type">int</span> entityType, <span class="type">int</span> entityId)</span> &#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> hostHolder.getUser();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 点赞</span></span><br><span class="line">        likeService.like(user.getId(), entityType, entityId);</span><br><span class="line">        <span class="comment">// 数量</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">likeCount</span> <span class="operator">=</span> likeService.findEntityLikeCount(entityType, entityId);</span><br><span class="line">        <span class="comment">// 状态</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">likeStatus</span> <span class="operator">=</span> likeService.findEntityLikeStatus(user.getId(), entityType, entityId);</span><br><span class="line">        <span class="comment">// 返回的结果</span></span><br><span class="line">        Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">&quot;likeCount&quot;</span>, likeCount);</span><br><span class="line">        map.put(<span class="string">&quot;likeStatus&quot;</span>, likeStatus);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="literal">null</span>, map);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>实现首页的点赞数量的显示<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HomeController -&gt; getIndexPage(): 加入查找点赞数量的逻辑</span></span><br><span class="line"><span class="type">long</span> <span class="variable">likeCount</span> <span class="operator">=</span> likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());</span><br><span class="line">map.put(<span class="string">&quot;likeCount&quot;</span>, likeCount);</span><br></pre></td></tr></table></figure></li>
+<li>实现帖子详情页（帖子、评论、回复）的点赞数量和点赞状态的显示<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DiscussPostController -&gt; getDiscussPost(): 加入如下逻辑</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line"><span class="type">long</span> <span class="variable">likeCount</span> <span class="operator">=</span> likeService.findEntityLikeCount(ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">&quot;likeCount&quot;</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line"><span class="type">int</span> <span class="variable">likeStatus</span> <span class="operator">=</span> hostHolder.getUser() == <span class="literal">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, discussPostId);</span><br><span class="line">model.addAttribute(<span class="string">&quot;likeStatus&quot;</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 评论VO列表</span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">&quot;likeCount&quot;</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="literal">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, comment.getId());</span><br><span class="line">commentVo.put(<span class="string">&quot;likeStatus&quot;</span>, likeStatus);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回复VO列表            </span></span><br><span class="line"><span class="comment">// 点赞数量</span></span><br><span class="line">likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">&quot;likeCount&quot;</span>, likeCount);</span><br><span class="line"><span class="comment">// 点赞状态</span></span><br><span class="line">likeStatus = hostHolder.getUser() == <span class="literal">null</span> ?</span><br><span class="line">        <span class="number">0</span> : likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());</span><br><span class="line">replyVo.put(<span class="string">&quot;likeStatus&quot;</span>, likeStatus);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><ul>
+<li>discuss-detail.html<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 内容 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 作者 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;d-inline ml-2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:;&quot;</span> <span class="attr">th:onclick</span>=<span class="string">&quot;|like(this,1,$&#123;post.id&#125;);|&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-primary&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">b</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;likeStatus==1?&#x27;已赞&#x27;:&#x27;赞&#x27;&#125;&quot;</span>&gt;</span>赞<span class="tag">&lt;/<span class="name">b</span>&gt;</span> <span class="tag">&lt;<span class="name">i</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;likeCount&#125;&quot;</span>&gt;</span>11<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 回帖列表 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;d-inline ml-2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:;&quot;</span> <span class="attr">th:onclick</span>=<span class="string">&quot;|like(this,2,$&#123;cvo.comment.id&#125;);|&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-primary&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">b</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;cvo.likeStatus==1?&#x27;已赞&#x27;:&#x27;赞&#x27;&#125;&quot;</span>&gt;</span>赞<span class="tag">&lt;/<span class="name">b</span>&gt;</span> (<span class="tag">&lt;<span class="name">i</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;cvo.likeCount&#125;&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">i</span>&gt;</span>)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 回复列表 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;d-inline ml-2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:;&quot;</span> <span class="attr">th:onclick</span>=<span class="string">&quot;|like(this,2,$&#123;rvo.reply.id&#125;);|&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-primary&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">b</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;rvo.likeStatus==1?&#x27;已赞&#x27;:&#x27;赞&#x27;&#125;&quot;</span>&gt;</span>赞<span class="tag">&lt;/<span class="name">b</span>&gt;</span> (<span class="tag">&lt;<span class="name">i</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;rvo.likeCount&#125;&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">i</span>&gt;</span>)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>discuss.js<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">like</span>(<span class="params">btn, entityType, entityId</span>) &#123;</span><br><span class="line">    $.<span class="title function_">post</span>(</span><br><span class="line">        <span class="variable constant_">CONTEXT_PATH</span> + <span class="string">&quot;/like&quot;</span>,</span><br><span class="line">        &#123;<span class="string">&quot;entityType&quot;</span>: entityType, <span class="string">&quot;entityId&quot;</span>: entityId&#125;,</span><br><span class="line">        <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span><br><span class="line">            data = $.<span class="title function_">parseJSON</span>(data);</span><br><span class="line">            <span class="keyword">if</span> (data.<span class="property">code</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                $(btn).<span class="title function_">children</span>(<span class="string">&quot;i&quot;</span>).<span class="title function_">text</span>(data.<span class="property">likeCount</span>);</span><br><span class="line">                $(btn).<span class="title function_">children</span>(<span class="string">&quot;b&quot;</span>).<span class="title function_">text</span>(data.<span class="property">likeStatus</span> == <span class="number">1</span> ? <span class="string">&#x27;已赞&#x27;</span> : <span class="string">&#x27;赞&#x27;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_">alert</span>(data.<span class="property">msg</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>index.html<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 帖子列表 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;d-inline float-right&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;d-inline ml-2&quot;</span>&gt;</span>赞 <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;map.likeCount&#125;&quot;</span>&gt;</span>11<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;d-inline ml-2&quot;</span>&gt;</span>|<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;d-inline ml-2&quot;</span>&gt;</span>回帖 <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;map.post.commentCount&#125;&quot;</span>&gt;</span>7<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zyyweb/p/9637367.html">https://www.cnblogs.com/zyyweb/p/9637367.html</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>问答平台（4），点赞</div>
+      <div>http://example.com/2020/05/24/问答平台（4），点赞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年5月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/25/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/" title="问答平台（4），收到的赞">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">问答平台（4），收到的赞</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/23/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8CSpring%E6%95%B4%E5%90%88Redis/" title="问答平台（4），Spring整合Redis">
+                        <span class="hidden-mobile">问答平台（4），Spring整合Redis</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2020/05/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/';
+          this.page.identifier = '/2020/05/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E7%82%B9%E8%B5%9E/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在 C++11 中增加了很多新的特性，可以使用 auto 自动推导变量的类型，还能够结合 decltype 来表示函数的返回值。使用新的特性可以让我们写出更加简洁，更加现代的代码。在 C++11 之前 auto 和 static 是对应的，表示变量是自动存储的，但是非 static 的局部变量默认都是自动存储的，因此这个关键字变得非常鸡肋，在 C++11 中赋予了新的含义，使用这个关键字能够像别的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动类型推导">
+<meta property="og:url" content="http://example.com/2021/09/15/%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="在 C++11 中增加了很多新的特性，可以使用 auto 自动推导变量的类型，还能够结合 decltype 来表示函数的返回值。使用新的特性可以让我们写出更加简洁，更加现代的代码。在 C++11 之前 auto 和 static 是对应的，表示变量是自动存储的，但是非 static 的局部变量默认都是自动存储的，因此这个关键字变得非常鸡肋，在 C++11 中赋予了新的含义，使用这个关键字能够像别的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-15T08:51:02.000Z">
+<meta property="article:modified_time" content="2021-09-15T09:05:25.827Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="C++11">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>自动类型推导 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="自动类型推导"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-09-15 16:51" pubdate>
+          2021年9月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          70 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">自动类型推导</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在 C++11 中增加了很多新的特性，可以使用 <code>auto</code> 自动推导变量的类型，还能够结合 <code>decltype</code> 来表示函数的返回值。<br>使用新的特性可以让我们写出更加简洁，更加现代的代码。<br>在 C++11 之前 <code>auto</code> 和 <code>static</code> 是对应的，表示变量是自动存储的，但是非 <code>static</code> 的局部变量默认都是自动存储的，因此这个关键字变得非常鸡肋，在 C++11 中赋予了新的含义，使用这个关键字能够像别的语言一样自动推导出变量的实际类型。</p>
+<h2 id="auto-推导规则"><a href="#auto-推导规则" class="headerlink" title="auto 推导规则"></a>auto 推导规则</h2><p>C++11 中 <code>auto</code> 并不代表一种实际的数据类型，只是一个类型声明的 “占位符”，<code>auto</code> 并不是在任意场景下都能够推导出变量的实际类型。使用<code>auto</code> 声明的变量必须要进行初始化，让编译器推导出它的实际类型，在编译时将 <code>auto</code> 占位符替换为真正的类型。使用语法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> x = <span class="number">3.14</span>;    <span class="comment">// x 是浮点型 double</span></span><br><span class="line"><span class="keyword">auto</span> y = <span class="number">520</span>;     <span class="comment">// y 是整形 int</span></span><br><span class="line"><span class="keyword">auto</span> z = <span class="string">&#x27;a&#x27;</span>;     <span class="comment">// z 是字符型 char</span></span><br><span class="line"><span class="keyword">auto</span> nb;          <span class="comment">// error，变量必须要初始化</span></span><br><span class="line"><span class="keyword">auto</span> <span class="type">double</span> nbl;  <span class="comment">// 语法错误，不能修改数据类型   </span></span><br></pre></td></tr></table></figure>
+<p>不仅如此，<code>auto</code> 还可以和指针、引用结合起来使用，也可以带上 <code>const</code>、<code>volatile</code> 限定符。<br>在不同的场景下有对应的推导规则，规则内容如下：<br>（1）当变量不是指针或者引用类型时，推导的结果中不会保留 <code>const</code>、<code>volatile</code> 关键字。<br>（2）当变量是指针或者引用类型时，推导的结果中会保留 <code>const</code>、<code>volatile</code> 关键字。</p>
+<p>变量带指针和引用并使用 <code>auto</code> 进行类型推导的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> temp = <span class="number">110</span>;</span><br><span class="line"><span class="keyword">auto</span> *a = &amp;temp;  <span class="comment">// 变量 a 的数据类型为 int*，因此 auto 关键字被推导为 int 类型</span></span><br><span class="line"><span class="keyword">auto</span> b = &amp;temp;	  <span class="comment">// 变量 b 的数据类型为 int*，因此 auto 关键字被推导为 int* 类型	</span></span><br><span class="line"><span class="keyword">auto</span> &amp;c = temp;	  <span class="comment">// 变量 c 的数据类型为 int&amp;，因此 auto 关键字被推导为 int 类型</span></span><br><span class="line"><span class="keyword">auto</span> d = temp;	  <span class="comment">// 变量 d 的数据类型为 int，因此 auto 关键字被推导为 int 类型</span></span><br></pre></td></tr></table></figure>
+<p>带 <code>const</code> 限定的变量，使用 <code>auto</code> 进行类型推导的例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> tmp = <span class="number">250</span>;        </span><br><span class="line"><span class="type">const</span> <span class="keyword">auto</span> a1 = tmp;  <span class="comment">// 变量 a1 的数据类型为 const int，因此 auto 关键字被推导为 int 类型</span></span><br><span class="line"><span class="keyword">auto</span> a2 = a1;         <span class="comment">// 变量 a2 的数据类型为 int，a2 没有声明为指针或引用，因此 const 属性被去掉，auto 被推导为 int</span></span><br><span class="line"><span class="type">const</span> <span class="keyword">auto</span> &amp;a3 = tmp; <span class="comment">// 变量 a3 的数据类型为 const int&amp;，a3 被声明为引用，因此 const 属性被保留，auto 关键字被推导为 int 类型</span></span><br><span class="line"><span class="keyword">auto</span> &amp;a4 = a3;        <span class="comment">// 变量 a4 的数据类型为 const int&amp;，a4 被声明为引用，因此 const 属性被保留，auto 关键字被推导为 const int 类型</span></span><br></pre></td></tr></table></figure>
+<h2 id="auto-的限制"><a href="#auto-的限制" class="headerlink" title="auto 的限制"></a>auto 的限制</h2><p><code>auto</code> 关键字并不是万能的，在以下这些场景中不能完成类型推导：<br>（1）不能作为函数参数使用。因为只有在函数调用的时候才会给函数参数传递实参，<code>auto</code> 要求必须要给修饰的变量赋值，因此二者矛盾。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">(<span class="keyword">auto</span> a, <span class="keyword">auto</span> b)</span>  <span class="comment">// error</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;a: &quot;</span> &lt;&lt; a &lt;&lt; <span class="string">&quot;, b: &quot;</span> &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）不能用于类的非静态成员变量的初始化</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> v1 = <span class="number">0</span>;                <span class="comment">// error</span></span><br><span class="line">    <span class="type">static</span> <span class="keyword">auto</span> v2 = <span class="number">0</span>;         <span class="comment">// error，类的静态非常量成员不允许在类内部直接初始化</span></span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="keyword">auto</span> v3 = <span class="number">10</span>;  <span class="comment">// ok</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（3）不能使用 <code>auto</code> 关键字定义数组</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> array[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;  <span class="comment">// 定义数组</span></span><br><span class="line">    <span class="keyword">auto</span> t1 = array;            <span class="comment">// ok，t1 被推导为 int* 类型</span></span><br><span class="line">    <span class="keyword">auto</span> t2[] = array;          <span class="comment">// error，auto 无法定义数组</span></span><br><span class="line">    <span class="keyword">auto</span> t3[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;;   <span class="comment">// error，auto 无法定义数组</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（4）无法使用 <code>auto</code> 推导出模板参数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Test</span>&#123;&#125;; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Test&lt;<span class="type">double</span>&gt; t;</span><br><span class="line">    Test&lt;<span class="keyword">auto</span>&gt; t1 = t;  <span class="comment">// error，无法推导出模板类型</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="auto-的应用"><a href="#auto-的应用" class="headerlink" title="auto 的应用"></a>auto 的应用</h2><p>了解 <code>auto</code> 的限制之后，就可以避开这些场景编程，下面列举几个比较常用的场景：<br>（1）用于 STL 的容器遍历<br>在 C++11 之前，定义了一个 STL 容器之后，遍历的时候常会写出这样的示例代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;<span class="type">int</span>, string&gt; person;</span><br><span class="line">    map&lt;<span class="type">int</span>, string&gt;::iterator it = person.<span class="built_in">begin</span>();</span><br><span class="line">	<span class="keyword">for</span> (; it != person.<span class="built_in">end</span>(); ++it)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="comment">// do something</span></span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义迭代器变量 it 的时候代码是很长的，写起来很麻烦，使用了 <code>auto</code> 之后，就变得简单：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;<span class="type">int</span>, string&gt; person;</span><br><span class="line">	<span class="comment">// 代码简化</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> it = person.<span class="built_in">begin</span>(); it != person.<span class="built_in">end</span>(); ++it)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="comment">// do something</span></span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）用于泛型编程<br>在使用模板的时候，很多情况下不知道变量应该定义为什么类型，示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">T1</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">T2</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> string <span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello, world&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">A</span>&gt;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> val = A::<span class="built_in">get</span>();</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;val: &quot;</span> &lt;&lt; val &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">func</span>&lt;T1&gt;();</span><br><span class="line">    <span class="built_in">func</span>&lt;T2&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个示例中定义了泛型函数 <code>func</code>，在函数中调用了类 A 的静态方法 <code>get()</code>，这个函数的返回值是不能确定的，如果不使用 <code>auto</code>，就需要再定义一个模板参数，并且在外部调用时手动指定 <code>get()</code> 的返回值类型，示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">T1</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">T2</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> string <span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello, world&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">A</span>, <span class="keyword">typename</span> B&gt;  <span class="comment">// 添加了模板参数 B</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    B val = A::<span class="built_in">get</span>();</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;val: &quot;</span> &lt;&lt; val &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">func</span>&lt;T1, <span class="type">int</span>&gt;();     <span class="comment">// 手动指定返回值类型 -&gt; int</span></span><br><span class="line">    <span class="built_in">func</span>&lt;T2, string&gt;();  <span class="comment">// 手动指定返回值类型 -&gt; string</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h2><p>在某些情况下，不需要或者不能定义变量，但是希望得到某种类型，这时候可以使用 C++11 提供的 decltype 关键字，它的作用是在编译器编译的时候推导出一个表达式的类型。<br><code>decltype</code>(declare type)，意思是 “声明类型”。<code>decltype</code> 的推导是在编译期完成的，它只是用于表达式类型的推导，并不会计算表达式的值。</p>
+<p>示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">decltype</span>(a) b = <span class="number">99</span>;              <span class="comment">// b -&gt; int</span></span><br><span class="line"><span class="keyword">decltype</span>(a + <span class="number">3.14</span>) c = <span class="number">52.13</span>;    <span class="comment">// c -&gt; double</span></span><br><span class="line"><span class="keyword">decltype</span>(a + b*c) d = <span class="number">520.1314</span>;  <span class="comment">// d -&gt; double</span></span><br></pre></td></tr></table></figure>
+<p><code>decltype</code> 推导的表达式可简单可复杂，<code>auto</code> 只能推导已初始化的变量类型。</p>
+<h2 id="decltype-推导规则"><a href="#decltype-推导规则" class="headerlink" title="decltype 推导规则"></a>decltype 推导规则</h2><p><code>decltype</code> 的背后隐藏着很多的细节，下面分三个场景讨论：<br>（1）表达式为普通变量&#x2F;普通表达式&#x2F;类表达式，在这种情况下，使用 <code>decltype</code> 推导出的类型和表达式的类型是一致的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    string text;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">int</span> value = <span class="number">110</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">99</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> &amp;y = x;</span><br><span class="line">    <span class="keyword">decltype</span>(x) a = x;  <span class="comment">// 变量 a 被推导为 int 类型</span></span><br><span class="line">    <span class="keyword">decltype</span>(y) b = x;  <span class="comment">// 变量 b 被推导为 const int &amp; 类型</span></span><br><span class="line">    <span class="keyword">decltype</span>(Test::value) c = <span class="number">0</span>; <span class="comment">// 变量 c 被推导为 const int 类型</span></span><br><span class="line">    Test t;</span><br><span class="line">    <span class="keyword">decltype</span>(t.text) d = <span class="string">&quot;hello, world&quot;</span>; <span class="comment">// 变量 d 被推导为 string 类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）表达式是函数调用，使用 <code>decltype</code> 推导出的类型和函数返回值一致。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">func_int</span><span class="params">()</span></span>;             <span class="comment">// 返回值为 int</span></span><br><span class="line"><span class="function"><span class="type">int</span>&amp; <span class="title">func_int_r</span><span class="params">()</span></span>;          <span class="comment">// 返回值为 int&amp;</span></span><br><span class="line"><span class="function"><span class="type">int</span>&amp;&amp; <span class="title">func_int_rr</span><span class="params">()</span></span>;        <span class="comment">// 返回值为 int&amp;&amp;</span></span><br><span class="line"><span class="function"><span class="type">const</span> <span class="type">int</span> <span class="title">func_cint</span><span class="params">()</span></span>;      <span class="comment">// 返回值为 const int</span></span><br><span class="line"><span class="function"><span class="type">const</span> <span class="type">int</span>&amp; <span class="title">func_cint_r</span><span class="params">()</span></span>;   <span class="comment">// 返回值为 const int&amp;</span></span><br><span class="line"><span class="function"><span class="type">const</span> <span class="type">int</span>&amp;&amp; <span class="title">func_cint_rr</span><span class="params">()</span></span>; <span class="comment">// 返回值为 const int&amp;&amp;</span></span><br><span class="line"><span class="function"><span class="type">const</span> Test <span class="title">func_ctest</span><span class="params">()</span></span>;    <span class="comment">// 返回值为 const Test</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// decltype类型推导</span></span><br><span class="line">	<span class="type">int</span> n = <span class="number">100</span>;</span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_int</span>()) a = <span class="number">0</span>;		    <span class="comment">// 变量 a 被推导为 int 类型</span></span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_int_r</span>()) b = n;	    <span class="comment">// 变量 b 被推导为 int&amp; 类型</span></span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_int_rr</span>()) c = <span class="number">0</span>;	    <span class="comment">// 变量 c 被推导为 int&amp;&amp; 类型</span></span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_cint</span>()) d = <span class="number">0</span>;	    <span class="comment">// 变量 d 被推导为 int 类型</span></span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_cint_r</span>()) e = n;	    <span class="comment">// 变量 e 被推导为 const int &amp; 类型</span></span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_cint_rr</span>()) f = <span class="number">0</span>;	    <span class="comment">// 变量 f 被推导为 const int &amp;&amp; 类型</span></span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">func_ctest</span>()) g = <span class="built_in">Test</span>();  <span class="comment">// 变量 g 被推导为 const Test 类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数 <code>func_cint()</code> 返回的是一个纯右值（在表达式执行结束后不再存在的数据，也就是临时性的数据）。对于纯右值而言，只有类类型可以携带 <code>const</code>、<code>volatile</code> 限定符，除此之外需要忽略掉这两个限定符，因此推导出的变量 d 的类型为 <code>int</code> 而不是 <code>const int</code>。<br>（3）表达式是一个左值，或者被括号 <code>()</code> 包围，使用 <code>decltype</code> 推导出的是表达式类型的引用（如果有 <code>const</code>、<code>volatile</code> 限定符不能忽略）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Test</span>() &#123;&#125;</span><br><span class="line">    <span class="type">int</span> num;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> Test obj;</span><br><span class="line">    <span class="comment">// 带有括号的表达式</span></span><br><span class="line">    <span class="keyword">decltype</span>(obj.num) a = <span class="number">0</span>;   <span class="comment">// obj.num 为类的成员访问表达式，符合场景 1，因此 a 的类型为 int</span></span><br><span class="line">    <span class="keyword">decltype</span>((obj.num)) b = a; <span class="comment">// obj.num 带有括号，符合场景 3，因此 b 的类型为 const int&amp;</span></span><br><span class="line">    <span class="comment">// 加法表达式</span></span><br><span class="line">    <span class="type">int</span> n = <span class="number">0</span>, m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">decltype</span>(n + m) c = <span class="number">0</span>;     <span class="comment">// n + m 得到一个右值，符合场景 1，因此 c 的类型为 int</span></span><br><span class="line">    <span class="keyword">decltype</span>(n = n + m) d = n; <span class="comment">// n = n + m 得到一个左值 n，符合场景 3，因此 d 的类型为 int&amp;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="decltype-的应用"><a href="#decltype-的应用" class="headerlink" title="decltype 的应用"></a>decltype 的应用</h2><p><code>decltype</code> 的应用常常出现在泛型编程中。比如编写一个类模板，在里面添加遍历容器的函数，操作如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Container</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(T&amp; c)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (m_it = c.<span class="built_in">begin</span>(); m_it != c.<span class="built_in">end</span>(); ++m_it) </span><br><span class="line">		&#123;</span><br><span class="line">			cout &lt;&lt; *m_it &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; endl;</span><br><span class="line">	&#125; </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">decltype</span>(<span class="built_in">T</span>().<span class="built_in">begin</span>()) m_it; <span class="comment">// 这里不能确定迭代器类型 </span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">const</span> list&lt;<span class="type">int</span>&gt; lst &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line">	Container&lt;<span class="type">const</span> list&lt;<span class="type">int</span>&gt;&gt; obj;</span><br><span class="line">	obj.<span class="built_in">func</span>(lst);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="返回类型后置"><a href="#返回类型后置" class="headerlink" title="返回类型后置"></a>返回类型后置</h2><p>在泛型编程中，可能需要通过参数的运算来得到返回值的类型，比如下面这个场景：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// R-&gt;返回值类型, T-&gt;参数1类型, U-&gt;参数2类型</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span><br><span class="line"><span class="function">R <span class="title">add</span><span class="params">(T t, U u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t + u;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">520</span>;</span><br><span class="line">    <span class="type">double</span> y = <span class="number">13.14</span>;</span><br><span class="line">    <span class="comment">// auto z = add&lt;decltype(x + y), int, double&gt;(x, y);</span></span><br><span class="line">    <span class="keyword">auto</span> z = <span class="built_in">add</span>&lt;<span class="keyword">decltype</span>(x + y)&gt;(x, y); <span class="comment">// 简化后的写法</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;z: &quot;</span> &lt;&lt; z &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于返回值，从上面的代码可以推断出和表达式 <code>t + u</code> 的结果类型是一样的，因此可以通过 <code>decltype</code> 进行推导，关于模板函数的参数 <code>t</code> 和 <code>u</code> 可以通过实参自动推导出来，因此在程序中可以不写。虽然通过上述方式问题被解决了，但是解决方案有点过于理想化，因为对于调用者来说，是不知道函数内部执行了什么样的处理动作的。<br>因此，想解决这个问题就得直接在 <code>add</code> 函数上做文章，先来看第一种写法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span><br><span class="line"><span class="keyword">decltype</span>(t + u) <span class="built_in">add</span>(T t, U u)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> t + u;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在编译器中将这几行代码改出来后直接报错，因为 <code>decltype</code> 中的 <code>t</code> 和 <code>u</code> 都是函数参数，这样写相当于变量还没有定义就使用了，这时候变量还不存在。在 C++11 中增加了返回类型后置语法，将 <code>decltype</code> 和 <code>auto</code> 结合起来完成返回类型的推导。其语法格式如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 符号 -&gt; 后边跟随的是函数返回值的类型</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">func</span><span class="params">(参数<span class="number">1</span>, 参数<span class="number">2</span>, ...)</span> -&gt; <span class="title">decltype</span><span class="params">(参数表达式)</span></span></span><br></pre></td></tr></table></figure>
+<p>上述代码中，<code>auto</code> 会追踪 <code>decltype()</code> 推导出的类型，因此上边的 <code>add()</code> 函数可以做如下的修改：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">add</span><span class="params">(T t, U u)</span> -&gt; <span class="title">decltype</span><span class="params">(t + u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> t + u;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">520</span>;</span><br><span class="line">    <span class="type">double</span> y = <span class="number">13.14</span>;    </span><br><span class="line">    <span class="comment">// auto z = add(int, double) (x, y);</span></span><br><span class="line">    <span class="keyword">auto</span> z = <span class="built_in">add</span>(x, y);  <span class="comment">// 简化后的写法</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;z: &quot;</span> &lt;&lt; z &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了进一步说明这个语法，示例代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span>&amp; <span class="title">test</span><span class="params">(<span class="type">int</span> &amp;i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">test</span><span class="params">(<span class="type">double</span> &amp;d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    d = d + <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">return</span> d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="comment">// 返回类型后置语法</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">myFunc</span><span class="params">(T&amp; t)</span> -&gt; <span class="title">decltype</span><span class="params">(test(t))</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">test</span>(t);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">520</span>;</span><br><span class="line">    <span class="type">double</span> y = <span class="number">13.14</span>;</span><br><span class="line">    <span class="comment">// auto z = myFunc&lt;int&gt;(x);</span></span><br><span class="line">    <span class="keyword">auto</span> z = <span class="built_in">myFunc</span>(x);            <span class="comment">// 简化后的写法</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;z: &quot;</span> &lt;&lt; z &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// auto z = myFunc&lt;double&gt;(y);</span></span><br><span class="line">    <span class="keyword">auto</span> z1 = <span class="built_in">myFunc</span>(y);           <span class="comment">// 简化后的写法</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;z1: &quot;</span> &lt;&lt; z1 &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://subingwen.cn/cpp/autotype/">https://subingwen.cn/cpp/autotype/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C-11/">#C++11</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>自动类型推导</div>
+      <div>http://example.com/2021/09/15/自动类型推导/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年9月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/09/15/%E6%A8%A1%E6%9D%BF%E7%9A%84%E4%BC%98%E5%8C%96/" title="模板的优化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">模板的优化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/15/final%E5%92%8Coverride/" title="final和override">
+                        <span class="hidden-mobile">final和override</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2021/09/15/%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/';
+          this.page.identifier = '/2021/09/15/%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

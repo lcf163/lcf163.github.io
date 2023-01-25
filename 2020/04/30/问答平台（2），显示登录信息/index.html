@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="问题背景每个页面头部都要显示用户头像。如果用户没有登录，页面最上方显示的是登录按钮；如果用户登录，显示的是头像、消息等按钮。根据是否登录，调整页面内容。 拦截器的好处如果每个页面都调用相同的方法来显示用户信息，耦合度高。利用Spring拦截器来解决问题：拦截浏览器访问请求，在请求的开始和结束部分插入，批量解决多个请求共有的业务，低耦合度。 拦截器的示例定义拦截器实现 HandlerIntercep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="问答平台（2），显示登录信息">
+<meta property="og:url" content="http://example.com/2020/04/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="问题背景每个页面头部都要显示用户头像。如果用户没有登录，页面最上方显示的是登录按钮；如果用户登录，显示的是头像、消息等按钮。根据是否登录，调整页面内容。 拦截器的好处如果每个页面都调用相同的方法来显示用户信息，耦合度高。利用Spring拦截器来解决问题：拦截浏览器访问请求，在请求的开始和结束部分插入，批量解决多个请求共有的业务，低耦合度。 拦截器的示例定义拦截器实现 HandlerIntercep">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B.png">
+<meta property="article:published_time" content="2020-04-30T11:58:42.000Z">
+<meta property="article:modified_time" content="2021-04-10T04:41:29.727Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="问答平台">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/.com//%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B.png">
+  
+  
+  
+  <title>问答平台（2），显示登录信息 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="问答平台（2），显示登录信息"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-04-30 19:58" pubdate>
+          2020年4月30日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">问答平台（2），显示登录信息</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>每个页面头部都要显示用户头像。<br>如果用户没有登录，页面最上方显示的是登录按钮；如果用户登录，显示的是头像、消息等按钮。<br>根据是否登录，调整页面内容。</p>
+<h2 id="拦截器的好处"><a href="#拦截器的好处" class="headerlink" title="拦截器的好处"></a>拦截器的好处</h2><p>如果每个页面都调用相同的方法来显示用户信息，耦合度高。<br>利用Spring拦截器来解决问题：拦截浏览器访问请求，在请求的开始和结束部分插入，批量解决多个请求共有的业务，低耦合度。</p>
+<h2 id="拦截器的示例"><a href="#拦截器的示例" class="headerlink" title="拦截器的示例"></a>拦截器的示例</h2><h3 id="定义拦截器"><a href="#定义拦截器" class="headerlink" title="定义拦截器"></a>定义拦截器</h3><p>实现 HandlerInterceptor。<br>有三个方法：请求前执行、请求后执行、模版引擎执行后执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 包：controller -&gt; interceptor</span></span><br><span class="line"><span class="comment">// AlphaInterceptor.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlphaInterceptor</span> <span class="keyword">implements</span> <span class="title class_">HandlerInterceptor</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(AlphaInterceptor.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在Controller之前执行</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        logger.debug(<span class="string">&quot;preHandle: &quot;</span> + handler.toString());</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在Controller之后执行</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        logger.debug(<span class="string">&quot;postHandle: &quot;</span> + handler.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在TemplateEngine之后执行</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        logger.debug(<span class="string">&quot;afterCompletion: &quot;</span> + handler.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置拦截器"><a href="#配置拦截器" class="headerlink" title="配置拦截器"></a>配置拦截器</h3><p>为它指定拦截、排除的路径</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 包：config</span></span><br><span class="line"><span class="comment">// WebMvcConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注入拦截器</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaInterceptor alphaInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加拦截器</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">        <span class="comment">//将拦截器加入registry对象</span></span><br><span class="line">        registry.addInterceptor(alphaInterceptor)</span><br><span class="line">                .excludePathPatterns(<span class="string">&quot;/**/*.css&quot;</span>, <span class="string">&quot;/**/*.js&quot;</span>, <span class="string">&quot;/**/*.png&quot;</span>, <span class="string">&quot;/**/*.jpg&quot;</span>, <span class="string">&quot;/**/*.jpeg&quot;</span>)</span><br><span class="line">                .addPathPatterns(<span class="string">&quot;/register&quot;</span>, <span class="string">&quot;/login&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拦截器的应用"><a href="#拦截器的应用" class="headerlink" title="拦截器的应用"></a>拦截器的应用</h2><h3 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h3><p><img src="/.com//%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B.png" srcset="/img/loading.gif" lazyload alt="请求过程-图示"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 在请求开始时查询登录用户</span><br><span class="line">- 在本次请求中持有用户数据</span><br><span class="line">- 在模板视图上显示用户数据</span><br><span class="line">- 在请求结束时清理用户数据</span><br></pre></td></tr></table></figure>
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h3><p>CookieUtil: 处理每次请求得到 Cookie 中的 Ticket</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CookieUtil.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CookieUtil</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getValue</span><span class="params">(HttpServletRequest request, String name)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(request == <span class="literal">null</span> || name == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;参数为空!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Cookie[] cookies = request.getCookies();</span><br><span class="line">        <span class="keyword">if</span>(cookies != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span>(Cookie cookie : cookies) &#123;</span><br><span class="line">                <span class="comment">// 找到数据，返回Cookie值</span></span><br><span class="line">                <span class="keyword">if</span>(cookie.getName().equals(name)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> cookie.getValue();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>HostHolder: 由于服务器是多线程环境，如果简单的将 User 信息存入一个容器中，很有可能产生冲突。此时用到了线程私有的 ThreadLocal。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HostHolder.java</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 持有用户信息，用于代替session对象.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HostHolder</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过ThreadLocal进行线程隔离</span></span><br><span class="line">    <span class="keyword">private</span> ThreadLocal&lt;User&gt; users = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;User&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUser</span><span class="params">(User user)</span> &#123;</span><br><span class="line">        users.set(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> users.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">clear</span><span class="params">()</span> &#123;</span><br><span class="line">        users.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义拦截器-1"><a href="#定义拦截器-1" class="headerlink" title="定义拦截器"></a>定义拦截器</h3><p>登录的拦截器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LoginTicketInterceptor.java</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginTicketInterceptor</span> <span class="keyword">implements</span> <span class="title class_">HandlerInterceptor</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请求开始时通过ticket获取User信息，将信息存入ThreadLocal</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 从cookie中获取凭证</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">ticket</span> <span class="operator">=</span> CookieUtil.getValue(request, <span class="string">&quot;ticket&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ticket != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 查询凭证</span></span><br><span class="line">            <span class="type">LoginTicket</span> <span class="variable">loginTicket</span> <span class="operator">=</span> userService.findLoginTicket(ticket);</span><br><span class="line">            <span class="comment">// 检查凭证是否过期（有效）</span></span><br><span class="line">            <span class="keyword">if</span>(loginTicket != <span class="literal">null</span> &amp;&amp; loginTicket.getStatus() == <span class="number">0</span> &amp;&amp; loginTicket.getExpired().after(<span class="keyword">new</span> <span class="title class_">Date</span>())) &#123;</span><br><span class="line">                <span class="comment">// 根据凭证查询用户</span></span><br><span class="line">                <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userService.findUserById(loginTicket.getUserId());</span><br><span class="line">                <span class="comment">// 在本次请求中持有用户</span></span><br><span class="line">                hostHolder.setUser(user);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Controller方法执行后，将User信息填充到model</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> hostHolder.getUser();</span><br><span class="line">        <span class="keyword">if</span>(user != <span class="literal">null</span> &amp;&amp; modelAndView != <span class="literal">null</span>) &#123;</span><br><span class="line">            modelAndView.addObject(<span class="string">&quot;loginUser&quot;</span>, user);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 渲染后，清空ThreadLocal里面的User信息</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        hostHolder.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置拦截器-1"><a href="#配置拦截器-1" class="headerlink" title="配置拦截器"></a>配置拦截器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WebMvcConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注入拦截器</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlphaInterceptor alphaInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LoginTicketInterceptor loginTicketInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加拦截器</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">        <span class="comment">//将拦截器加入registry对象</span></span><br><span class="line">        registry.addInterceptor(alphaInterceptor)</span><br><span class="line">                .excludePathPatterns(<span class="string">&quot;/**/*.css&quot;</span>, <span class="string">&quot;/**/*.js&quot;</span>, <span class="string">&quot;/**/*.png&quot;</span>, <span class="string">&quot;/**/*.jpg&quot;</span>, <span class="string">&quot;/**/*.jpeg&quot;</span>)</span><br><span class="line">                .addPathPatterns(<span class="string">&quot;/register&quot;</span>, <span class="string">&quot;/login&quot;</span>);</span><br><span class="line"></span><br><span class="line">        registry.addInterceptor(loginTicketInterceptor)</span><br><span class="line">                .excludePathPatterns(<span class="string">&quot;/**/*.css&quot;</span>, <span class="string">&quot;/**/*.js&quot;</span>, <span class="string">&quot;/**/*.png&quot;</span>, <span class="string">&quot;/**/*.jpg&quot;</span>, <span class="string">&quot;/**/*.jpeg&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 头部 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 功能 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;collapse navbar-collapse&quot;</span> <span class="attr">id</span>=<span class="string">&quot;navbarSupportedContent&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;navbar-nav mr-auto&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav-item ml-3 btn-group-vertical&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;nav-link&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/index&#125;&quot;</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav-item ml-3 btn-group-vertical&quot;</span> <span class="attr">th:if</span>=<span class="string">&quot;$&#123;loginUser!=null&#125;&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;nav-link position-relative&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/letter/list&#125;&quot;</span>&gt;</span>消息</span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;badge badge-danger&quot;</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">th:text</span>=<span class="string">&quot;$&#123;allUnreadCount!=0?allUnreadCount:&#x27;&#x27;&#125;&quot;</span>&gt;</span>12</span><br><span class="line">                <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav-item ml-3 btn-group-vertical&quot;</span> <span class="attr">th:if</span>=<span class="string">&quot;$&#123;loginUser==null&#125;&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;nav-link&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/register&#125;&quot;</span>&gt;</span>注册<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav-item ml-3 btn-group-vertical&quot;</span> <span class="attr">th:if</span>=<span class="string">&quot;$&#123;loginUser==null&#125;&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;nav-link&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/login&#125;&quot;</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav-item ml-3 btn-group-vertical dropdown&quot;</span> <span class="attr">th:if</span>=<span class="string">&quot;$&#123;loginUser!=null&#125;&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;nav-link dropdown-toggle&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">id</span>=<span class="string">&quot;navbarDropdown&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">data-toggle</span>=<span class="string">&quot;dropdown&quot;</span> <span class="attr">aria-haspopup</span>=<span class="string">&quot;true&quot;</span> <span class="attr">aria-expanded</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">img</span> <span class="attr">th:src</span>=<span class="string">&quot;$&#123;loginUser.headerUrl&#125;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;rounded-circle&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width:30px;&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dropdown-menu&quot;</span> <span class="attr">aria-labelledby</span>=<span class="string">&quot;navbarDropdown&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;dropdown-item text-center&quot;</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">th:href</span>=<span class="string">&quot;@&#123;|/user/profile/$&#123;loginUser.id&#125;|&#125;&quot;</span>&gt;</span>个人主页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;dropdown-item text-center&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/user/setting&#125;&quot;</span>&gt;</span>账号设置<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;dropdown-item text-center&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/logout&#125;&quot;</span>&gt;</span>退出登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dropdown-divider&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;dropdown-item text-center text-secondary&quot;</span> <span class="attr">th:utext</span>=<span class="string">&quot;$&#123;loginUser.username&#125;&quot;</span>&gt;</span>nowcoder<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 搜索 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">&quot;form-inline my-2 my-lg-0&quot;</span> <span class="attr">method</span>=<span class="string">&quot;get&quot;</span> <span class="attr">th:action</span>=<span class="string">&quot;@&#123;/search&#125;&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">&quot;form-control mr-sm-2&quot;</span> <span class="attr">type</span>=<span class="string">&quot;search&quot;</span> <span class="attr">aria-label</span>=<span class="string">&quot;Search&quot;</span> <span class="attr">name</span>=<span class="string">&quot;keyword&quot;</span> <span class="attr">th:value</span>=<span class="string">&quot;$&#123;keyword&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-outline-light my-2 my-sm-0&quot;</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>搜索<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>问答平台（2），显示登录信息</div>
+      <div>http://example.com/2020/04/30/问答平台（2），显示登录信息/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年4月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/01/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E8%B4%A6%E5%8F%B7%E8%AE%BE%E7%BD%AE/" title="问答平台（2），账号设置">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">问答平台（2），账号设置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/28/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA/" title="问答平台（2），登录和退出">
+                        <span class="hidden-mobile">问答平台（2），登录和退出</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2020/04/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF/';
+          this.page.identifier = '/2020/04/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="线程池线程池的思想 线程池的流程图 简单版本的线程池 主线程添加任务；子线程执行任务和销毁线程池   threadpoolsimple.h12345678910111213141516171819202122232425262728293031323334353637383940#ifndef _THREADPOOL_H#define _THREADPOOL_H#include &lt;stdio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池">
+<meta property="og:url" content="http://example.com/2021/07/24/%E7%BA%BF%E7%A8%8B%E6%B1%A0/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="线程池线程池的思想 线程池的流程图 简单版本的线程池 主线程添加任务；子线程执行任务和销毁线程池   threadpoolsimple.h12345678910111213141516171819202122232425262728293031323334353637383940#ifndef _THREADPOOL_H#define _THREADPOOL_H#include &lt;stdio">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%80%9D%E6%83%B3.png">
+<meta property="og:image" content="http://example.com/.com//%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
+<meta property="article:published_time" content="2021-07-24T07:10:10.000Z">
+<meta property="article:modified_time" content="2021-09-03T13:52:00.836Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="线程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/.com//%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%80%9D%E6%83%B3.png">
+  
+  
+  
+  <title>线程池 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="线程池"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-24 15:10" pubdate>
+          2021年7月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          18k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          148 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">线程池</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><h3 id="线程池的思想"><a href="#线程池的思想" class="headerlink" title="线程池的思想"></a>线程池的思想</h3><p><img src="/.com//%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%80%9D%E6%83%B3.png" srcset="/img/loading.gif" lazyload alt="线程池的思想"></p>
+<h3 id="线程池的流程图"><a href="#线程池的流程图" class="headerlink" title="线程池的流程图"></a>线程池的流程图</h3><p><img src="/.com//%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%B5%81%E7%A8%8B%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="线程池的流程图"></p>
+<h3 id="简单版本的线程池"><a href="#简单版本的线程池" class="headerlink" title="简单版本的线程池"></a>简单版本的线程池</h3><blockquote>
+<p>主线程添加任务；子线程执行任务和销毁线程池</p>
+</blockquote>
+<ul>
+<li>threadpoolsimple.h<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _THREADPOOL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _THREADPOOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_PoolTask</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> tasknum;                  <span class="comment">//模拟任务编号</span></span><br><span class="line">    <span class="type">void</span> *arg;                    <span class="comment">//回调函数的参数</span></span><br><span class="line">    <span class="built_in">void</span> (*task_func)(<span class="type">void</span> *arg); <span class="comment">//任务的回调函数</span></span><br><span class="line">&#125; PoolTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_ThreadPool</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> max_job_num; <span class="comment">//最大任务个数</span></span><br><span class="line">    <span class="type">int</span> job_num;     <span class="comment">//实际任务个数</span></span><br><span class="line">    PoolTask *tasks; <span class="comment">//任务队列数组</span></span><br><span class="line">    <span class="type">int</span> job_push;    <span class="comment">//入队位置</span></span><br><span class="line">    <span class="type">int</span> job_pop;     <span class="comment">// 出队位置</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> thr_num;                   <span class="comment">//线程池内线程个数</span></span><br><span class="line">    <span class="type">pthread_t</span> *threads;            <span class="comment">//线程池内线程数组</span></span><br><span class="line">    <span class="type">int</span> shutdown;                  <span class="comment">//是否关闭线程池</span></span><br><span class="line">    <span class="type">pthread_mutex_t</span> pool_lock;     <span class="comment">//线程池的锁</span></span><br><span class="line">    <span class="type">pthread_cond_t</span> empty_task;     <span class="comment">//任务队列为空的条件</span></span><br><span class="line">    <span class="type">pthread_cond_t</span> not_empty_task; <span class="comment">//任务队列不为空的条件</span></span><br><span class="line"></span><br><span class="line">&#125; ThreadPool;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_threadpool</span><span class="params">(<span class="type">int</span> thrnum, <span class="type">int</span> maxtasknum)</span></span>; <span class="comment">//创建线程池：thrnum 代表线程个数，maxtasknum 最大任务个数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">destroy_threadpool</span><span class="params">(ThreadPool *pool)</span></span>;          <span class="comment">//摧毁线程池</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">addtask</span><span class="params">(ThreadPool *pool)</span></span>;                     <span class="comment">//添加任务到线程池</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">taskRun</span><span class="params">(<span class="type">void</span> *arg)</span></span>;                            <span class="comment">//任务回调函数</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure></li>
+<li>threadpoolsimple.c<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//简易版线程池</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;threadpoolsimple.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ThreadPool *thrPool = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> beginnum = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">thrRun</span><span class="params">(<span class="type">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//printf(&quot;begin call %s-----\n&quot;,__FUNCTION__);</span></span><br><span class="line">    ThreadPool *pool = (ThreadPool *)arg;</span><br><span class="line">    <span class="type">int</span> taskpos = <span class="number">0</span>; <span class="comment">//任务位置</span></span><br><span class="line">    PoolTask *task = (PoolTask *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(PoolTask));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取任务，先要尝试加锁</span></span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;thrPool-&gt;pool_lock);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//无任务并且线程池不摧毁</span></span><br><span class="line">        <span class="keyword">while</span> (thrPool-&gt;job_num &lt;= <span class="number">0</span> &amp;&amp; !thrPool-&gt;shutdown)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//如果没有任务，线程会阻塞</span></span><br><span class="line">            <span class="built_in">pthread_cond_wait</span>(&amp;thrPool-&gt;not_empty_task, &amp;thrPool-&gt;pool_lock);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (thrPool-&gt;job_num)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//有任务需要处理</span></span><br><span class="line">            taskpos = (thrPool-&gt;job_pop++) % thrPool-&gt;max_job_num;</span><br><span class="line">            <span class="comment">//printf(&quot;task out %d...tasknum===%d tid=%lu\n&quot;,taskpos,thrPool-&gt;tasks[taskpos].tasknum,pthread_self());</span></span><br><span class="line">            <span class="comment">//为什么要拷贝？避免任务被修改，生产者会添加任务</span></span><br><span class="line">            <span class="built_in">memcpy</span>(task, &amp;thrPool-&gt;tasks[taskpos], <span class="built_in">sizeof</span>(PoolTask));</span><br><span class="line">            task-&gt;arg = task;</span><br><span class="line">            thrPool-&gt;job_num--;</span><br><span class="line">            <span class="comment">//task = &amp;thrPool-&gt;tasks[taskpos];</span></span><br><span class="line">            <span class="built_in">pthread_cond_signal</span>(&amp;thrPool-&gt;empty_task); <span class="comment">//通知主线程</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (thrPool-&gt;shutdown)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//代表要摧毁线程池，此时线程退出即可</span></span><br><span class="line">            <span class="comment">//pthread_detach(pthread_self());//临死前分家</span></span><br><span class="line">            <span class="built_in">pthread_mutex_unlock</span>(&amp;thrPool-&gt;pool_lock);</span><br><span class="line">            <span class="built_in">free</span>(task);</span><br><span class="line">            <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//释放锁</span></span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;thrPool-&gt;pool_lock);</span><br><span class="line">        task-&gt;<span class="built_in">task_func</span>(task-&gt;arg); <span class="comment">//执行回调函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//printf(&quot;end call %s-----\n&quot;,__FUNCTION__);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建线程池</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_threadpool</span><span class="params">(<span class="type">int</span> thrnum, <span class="type">int</span> maxtasknum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;begin call %s-----\n&quot;</span>, __FUNCTION__);</span><br><span class="line">    thrPool = (ThreadPool *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(ThreadPool));</span><br><span class="line"></span><br><span class="line">    thrPool-&gt;thr_num = thrnum;</span><br><span class="line">    thrPool-&gt;max_job_num = maxtasknum;</span><br><span class="line">    thrPool-&gt;job_num = <span class="number">0</span>;  <span class="comment">//初始化的任务个数为0</span></span><br><span class="line">    thrPool-&gt;job_push = <span class="number">0</span>; <span class="comment">//任务队列添加的位置</span></span><br><span class="line">    thrPool-&gt;job_pop = <span class="number">0</span>;  <span class="comment">//任务队列出队的位置</span></span><br><span class="line">    thrPool-&gt;shutdown = <span class="number">0</span>; <span class="comment">//是否摧毁线程池，1代表摧毁</span></span><br><span class="line"></span><br><span class="line">    thrPool-&gt;tasks = (PoolTask *)<span class="built_in">malloc</span>((<span class="built_in">sizeof</span>(PoolTask) * maxtasknum)); <span class="comment">//申请最大的任务队列</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化锁和条件变量</span></span><br><span class="line">    <span class="built_in">pthread_mutex_init</span>(&amp;thrPool-&gt;pool_lock, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">pthread_cond_init</span>(&amp;thrPool-&gt;empty_task, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">pthread_cond_init</span>(&amp;thrPool-&gt;not_empty_task, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    thrPool-&gt;threads = (<span class="type">pthread_t</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">pthread_t</span>) * thrnum); <span class="comment">//申请n个线程id的空间</span></span><br><span class="line"></span><br><span class="line">    <span class="type">pthread_attr_t</span> attr;</span><br><span class="line">    <span class="built_in">pthread_attr_init</span>(&amp;attr);</span><br><span class="line">    <span class="built_in">pthread_attr_setdetachstate</span>(&amp;attr, PTHREAD_CREATE_DETACHED);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; thrnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">pthread_create</span>(&amp;thrPool-&gt;threads[i], &amp;attr, thrRun, (<span class="type">void</span> *)thrPool); <span class="comment">//创建多个线程</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//printf(&quot;end call %s-----\n&quot;,__FUNCTION__);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//摧毁线程池</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">destroy_threadpool</span><span class="params">(ThreadPool *pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    pool-&gt;shutdown = <span class="number">1</span>;                            <span class="comment">//开始自爆</span></span><br><span class="line">    <span class="built_in">pthread_cond_broadcast</span>(&amp;pool-&gt;not_empty_task); <span class="comment">//诱杀</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pool-&gt;thr_num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">pthread_join</span>(pool-&gt;threads[i], <span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">pthread_cond_destroy</span>(&amp;pool-&gt;not_empty_task);</span><br><span class="line">    <span class="built_in">pthread_cond_destroy</span>(&amp;pool-&gt;empty_task);</span><br><span class="line">    <span class="built_in">pthread_mutex_destroy</span>(&amp;pool-&gt;pool_lock);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(pool-&gt;tasks);</span><br><span class="line">    <span class="built_in">free</span>(pool-&gt;threads);</span><br><span class="line">    <span class="built_in">free</span>(pool);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加任务到线程池</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">addtask</span><span class="params">(ThreadPool *pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//printf(&quot;begin call %s-----\n&quot;,__FUNCTION__);</span></span><br><span class="line">    <span class="built_in">pthread_mutex_lock</span>(&amp;pool-&gt;pool_lock);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//实际任务总数大于最大任务个数则阻塞等待(等待任务被处理)</span></span><br><span class="line">    <span class="keyword">while</span> (pool-&gt;max_job_num &lt;= pool-&gt;job_num)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">pthread_cond_wait</span>(&amp;pool-&gt;empty_task, &amp;pool-&gt;pool_lock);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> taskpos = (pool-&gt;job_push++) % pool-&gt;max_job_num;</span><br><span class="line">    <span class="comment">//printf(&quot;add task %d  tasknum===%d\n&quot;,taskpos,beginnum);</span></span><br><span class="line">    pool-&gt;tasks[taskpos].tasknum = beginnum++;</span><br><span class="line">    pool-&gt;tasks[taskpos].arg = (<span class="type">void</span> *)&amp;pool-&gt;tasks[taskpos];</span><br><span class="line">    pool-&gt;tasks[taskpos].task_func = taskRun;</span><br><span class="line">    pool-&gt;job_num++;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">pthread_mutex_unlock</span>(&amp;pool-&gt;pool_lock);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">pthread_cond_signal</span>(&amp;pool-&gt;not_empty_task); <span class="comment">//通知子线程</span></span><br><span class="line">    <span class="comment">//printf(&quot;end call %s-----\n&quot;,__FUNCTION__);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//任务回调函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">taskRun</span><span class="params">(<span class="type">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    PoolTask *task = (PoolTask *)arg;</span><br><span class="line">    <span class="type">int</span> num = task-&gt;tasknum;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;task %d is runing %lu\n&quot;</span>, num, <span class="built_in">pthread_self</span>());</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;task %d is done %lu\n&quot;</span>, num, <span class="built_in">pthread_self</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">create_threadpool</span>(<span class="number">3</span>, <span class="number">20</span>);</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">50</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">addtask</span>(thrPool); <span class="comment">//模拟添加任务</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">20</span>);</span><br><span class="line">    <span class="built_in">destroy_threadpool</span>(thrPool);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="复杂版本的线程池"><a href="#复杂版本的线程池" class="headerlink" title="复杂版本的线程池"></a>复杂版本的线程池</h3><blockquote>
+<p>主线程；子线程；管理线程</p>
+</blockquote>
+<ul>
+<li>threadpool.h<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __THREADPOOL_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __THREADPOOL_H_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">threadpool_t</span> <span class="type">threadpool_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @function threadpool_create</span></span><br><span class="line"><span class="comment"> * @descCreates a threadpool_t object.</span></span><br><span class="line"><span class="comment"> * @param thr_num  thread num</span></span><br><span class="line"><span class="comment"> * @param max_thr_num  max thread size</span></span><br><span class="line"><span class="comment"> * @param queue_max_size   size of the queue.</span></span><br><span class="line"><span class="comment"> * @return a newly created thread pool or NULL</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">threadpool_t</span> *<span class="title">threadpool_create</span><span class="params">(<span class="type">int</span> min_thr_num, <span class="type">int</span> max_thr_num, <span class="type">int</span> queue_max_size)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @function threadpool_add</span></span><br><span class="line"><span class="comment"> * @desc add a new task in the queue of a thread pool</span></span><br><span class="line"><span class="comment"> * @param pool     Thread pool to which add the task.</span></span><br><span class="line"><span class="comment"> * @param function Pointer to the function that will perform the task.</span></span><br><span class="line"><span class="comment"> * @param argument Argument to be passed to the function.</span></span><br><span class="line"><span class="comment"> * @return 0 if all goes well,else -1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_add</span><span class="params">(<span class="type">threadpool_t</span> *pool, <span class="type">void</span> *(*function)(<span class="type">void</span> *arg), <span class="type">void</span> *arg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @function threadpool_destroy</span></span><br><span class="line"><span class="comment"> * @desc Stops and destroys a thread pool.</span></span><br><span class="line"><span class="comment"> * @param pool  Thread pool to destroy.</span></span><br><span class="line"><span class="comment"> * @return 0 if destory success else -1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_destroy</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @desc get the thread num</span></span><br><span class="line"><span class="comment"> * @pool pool threadpool</span></span><br><span class="line"><span class="comment"> * @return # of the thread</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_all_threadnum</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * desc get the busy thread num</span></span><br><span class="line"><span class="comment"> * @param pool threadpool</span></span><br><span class="line"><span class="comment"> * return # of the busy thread</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_busy_threadnum</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure></li>
+<li>threadpool.c<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;threadpool.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEFAULT_TIME 10        <span class="comment">/*10s检测一次*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MIN_WAIT_TASK_NUM 10   <span class="comment">/*如果queue_size &gt; MIN_WAIT_TASK_NUM 添加新的线程到线程池*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEFAULT_THREAD_VARY 10 <span class="comment">/*每次创建和销毁线程的个数*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> true 1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> false 0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">void</span> *(*function)(<span class="type">void</span> *); <span class="comment">/* 函数指针，回调函数 */</span></span><br><span class="line">    <span class="type">void</span> *arg;                 <span class="comment">/* 上面函数的参数 */</span></span><br><span class="line">&#125; <span class="type">threadpool_task_t</span>;           <span class="comment">/* 各子线程任务结构体 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 描述线程池相关信息 */</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">threadpool_t</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pthread_mutex_t</span> lock;           <span class="comment">/* 用于锁住本结构体 */</span></span><br><span class="line">    <span class="type">pthread_mutex_t</span> thread_counter; <span class="comment">/* 记录忙状态线程个数的琐 -- busy_thr_num */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">pthread_cond_t</span> queue_not_full;  <span class="comment">/* 当任务队列满时，添加任务的线程阻塞，等待此条件变量 */</span></span><br><span class="line">    <span class="type">pthread_cond_t</span> queue_not_empty; <span class="comment">/* 任务队列里不为空时，通知等待任务的线程 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">pthread_t</span> *threads;            <span class="comment">/* 存放线程池中每个线程tid的数组 */</span></span><br><span class="line">    <span class="type">pthread_t</span> adjust_tid;          <span class="comment">/* 存管理线程tid */</span></span><br><span class="line">    <span class="type">threadpool_task_t</span> *task_queue; <span class="comment">/* 任务队列(数组首地址) */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> min_thr_num;       <span class="comment">/* 线程池最小线程数 */</span></span><br><span class="line">    <span class="type">int</span> max_thr_num;       <span class="comment">/* 线程池最大线程数 */</span></span><br><span class="line">    <span class="type">int</span> live_thr_num;      <span class="comment">/* 当前存活线程个数 */</span></span><br><span class="line">    <span class="type">int</span> busy_thr_num;      <span class="comment">/* 忙状态线程个数 */</span></span><br><span class="line">    <span class="type">int</span> wait_exit_thr_num; <span class="comment">/* 要销毁的线程个数 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> queue_front;    <span class="comment">/* task_queue队头下标 */</span></span><br><span class="line">    <span class="type">int</span> queue_rear;     <span class="comment">/* task_queue队尾下标 */</span></span><br><span class="line">    <span class="type">int</span> queue_size;     <span class="comment">/* task_queue队中实际任务数 */</span></span><br><span class="line">    <span class="type">int</span> queue_max_size; <span class="comment">/* task_queue队列可容纳任务数上限 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> shutdown; <span class="comment">/* 标志位，线程池使用状态，true或false */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">threadpool_thread</span><span class="params">(<span class="type">void</span> *threadpool)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">adjust_thread</span><span class="params">(<span class="type">void</span> *threadpool)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">is_thread_alive</span><span class="params">(<span class="type">pthread_t</span> tid)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_free</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//threadpool_create(3,100,100);</span></span><br><span class="line"><span class="function"><span class="type">threadpool_t</span> *<span class="title">threadpool_create</span><span class="params">(<span class="type">int</span> min_thr_num, <span class="type">int</span> max_thr_num, <span class="type">int</span> queue_max_size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">threadpool_t</span> *pool = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((pool = (<span class="type">threadpool_t</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">threadpool_t</span>))) == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;malloc threadpool fail&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>; <span class="comment">/*跳出do while*/</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pool-&gt;min_thr_num = min_thr_num;</span><br><span class="line">        pool-&gt;max_thr_num = max_thr_num;</span><br><span class="line">        pool-&gt;busy_thr_num = <span class="number">0</span>;</span><br><span class="line">        pool-&gt;live_thr_num = min_thr_num; <span class="comment">/* 活着的线程数初值=最小线程数 */</span></span><br><span class="line">        pool-&gt;wait_exit_thr_num = <span class="number">0</span>;</span><br><span class="line">        pool-&gt;queue_size = <span class="number">0</span>; <span class="comment">/* 有0个产品 */</span></span><br><span class="line">        pool-&gt;queue_max_size = queue_max_size;</span><br><span class="line">        pool-&gt;queue_front = <span class="number">0</span>;</span><br><span class="line">        pool-&gt;queue_rear = <span class="number">0</span>;</span><br><span class="line">        pool-&gt;shutdown = <span class="literal">false</span>; <span class="comment">/* 不关闭线程池 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 根据最大线程上限数，给工作线程数组开辟空间，并清零 */</span></span><br><span class="line">        pool-&gt;threads = (<span class="type">pthread_t</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">pthread_t</span>) * max_thr_num);</span><br><span class="line">        <span class="keyword">if</span> (pool-&gt;threads == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;malloc threads fail&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">memset</span>(pool-&gt;threads, <span class="number">0</span>, <span class="built_in">sizeof</span>(<span class="type">pthread_t</span>) * max_thr_num);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 队列开辟空间 */</span></span><br><span class="line">        pool-&gt;task_queue = (<span class="type">threadpool_task_t</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">threadpool_task_t</span>) * queue_max_size);</span><br><span class="line">        <span class="keyword">if</span> (pool-&gt;task_queue == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;malloc task_queue fail\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 初始化互斥琐、条件变量 */</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">pthread_mutex_init</span>(&amp;(pool-&gt;lock), <span class="literal">NULL</span>) != <span class="number">0</span> || </span><br><span class="line">            <span class="built_in">pthread_mutex_init</span>(&amp;(pool-&gt;thread_counter), <span class="literal">NULL</span>) != <span class="number">0</span> || </span><br><span class="line">            <span class="built_in">pthread_cond_init</span>(&amp;(pool-&gt;queue_not_empty), <span class="literal">NULL</span>) != <span class="number">0</span> || </span><br><span class="line">            <span class="built_in">pthread_cond_init</span>(&amp;(pool-&gt;queue_not_full), <span class="literal">NULL</span>) != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;init the lock or cond fail\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//启动工作线程</span></span><br><span class="line">        <span class="type">pthread_attr_t</span> attr;</span><br><span class="line">        <span class="built_in">pthread_attr_init</span>(&amp;attr);</span><br><span class="line">        <span class="built_in">pthread_attr_setdetachstate</span>(&amp;attr, PTHREAD_CREATE_DETACHED);</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; min_thr_num; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">pthread_create</span>(&amp;(pool-&gt;threads[i]), &amp;attr, threadpool_thread, (<span class="type">void</span> *)pool); <span class="comment">/*pool指向当前线程池*/</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;start thread 0x%x...\n&quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)pool-&gt;threads[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建管理者线程</span></span><br><span class="line">        <span class="built_in">pthread_create</span>(&amp;(pool-&gt;adjust_tid), &amp;attr, adjust_thread, (<span class="type">void</span> *)pool);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> pool;</span><br><span class="line">    &#125; <span class="keyword">while</span> (<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 前面代码调用失败时，释放poll存储空间 */</span></span><br><span class="line">    <span class="built_in">threadpool_free</span>(pool);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 向线程池中 添加一个任务 */</span></span><br><span class="line"><span class="comment">//threadpool_add(thp, process, (void*)&amp;num[i]); /* 向线程池中添加任务 process: 小写----&gt;大写*/</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_add</span><span class="params">(<span class="type">threadpool_t</span> *pool, <span class="type">void</span> *(*function)(<span class="type">void</span> *arg), <span class="type">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* ==为真，队列已经满，调wait阻塞 */</span></span><br><span class="line">    <span class="keyword">while</span> ((pool-&gt;queue_size == pool-&gt;queue_max_size) &amp;&amp; (!pool-&gt;shutdown))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">pthread_cond_wait</span>(&amp;(pool-&gt;queue_not_full), &amp;(pool-&gt;lock));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pool-&gt;shutdown)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">pthread_cond_broadcast</span>(&amp;(pool-&gt;queue_not_empty));</span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 清空工作线程，调用的回调函数的参数arg */</span></span><br><span class="line">    <span class="keyword">if</span> (pool-&gt;task_queue[pool-&gt;queue_rear].arg != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pool-&gt;task_queue[pool-&gt;queue_rear].arg = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*添加任务到任务队列里*/</span></span><br><span class="line">    pool-&gt;task_queue[pool-&gt;queue_rear].function = function;</span><br><span class="line">    pool-&gt;task_queue[pool-&gt;queue_rear].arg = arg;</span><br><span class="line">    pool-&gt;queue_rear = (pool-&gt;queue_rear + <span class="number">1</span>) % pool-&gt;queue_max_size; <span class="comment">/* 队尾指针移动，模拟环形 */</span></span><br><span class="line">    pool-&gt;queue_size++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*添加完任务后，队列不为空，唤醒线程池中等待处理任务的线程*/</span></span><br><span class="line">    <span class="built_in">pthread_cond_signal</span>(&amp;(pool-&gt;queue_not_empty));</span><br><span class="line">    <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 线程池中各个工作线程 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">threadpool_thread</span><span class="params">(<span class="type">void</span> *threadpool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">threadpool_t</span> *pool = (<span class="type">threadpool_t</span> *)threadpool;</span><br><span class="line">    <span class="type">threadpool_task_t</span> task;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Lock must be taken to wait on conditional variable */</span></span><br><span class="line">        <span class="comment">/*刚创建出线程，等待任务队列里有任务，否则阻塞等待任务队列里有任务后再唤醒接收任务*/</span></span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*queue_size == 0 说明没有任务，调 wait 阻塞在条件变量上，若有任务，跳过该while*/</span></span><br><span class="line">        <span class="keyword">while</span> ((pool-&gt;queue_size == <span class="number">0</span>) &amp;&amp; (!pool-&gt;shutdown))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;thread 0x%x is waiting\n&quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)<span class="built_in">pthread_self</span>());</span><br><span class="line">            <span class="built_in">pthread_cond_wait</span>(&amp;(pool-&gt;queue_not_empty), &amp;(pool-&gt;lock)); <span class="comment">//暂停到这</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">/*清除指定数目的空闲线程，如果要结束的线程个数大于0，结束线程*/</span></span><br><span class="line">            <span class="keyword">if</span> (pool-&gt;wait_exit_thr_num &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                pool-&gt;wait_exit_thr_num--;</span><br><span class="line"></span><br><span class="line">                <span class="comment">/*如果线程池里线程个数大于最小值，可以结束当前线程*/</span></span><br><span class="line">                <span class="keyword">if</span> (pool-&gt;live_thr_num &gt; pool-&gt;min_thr_num)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;thread 0x%x is exiting\n&quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)<span class="built_in">pthread_self</span>());</span><br><span class="line">                    pool-&gt;live_thr_num--;</span><br><span class="line">                    <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">                    <span class="comment">//pthread_detach(pthread_self());</span></span><br><span class="line">                    <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*如果指定了true，要关闭线程池里的每个线程，自行退出处理--销毁线程池*/</span></span><br><span class="line">        <span class="keyword">if</span> (pool-&gt;shutdown)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;thread 0x%x is exiting\n&quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)<span class="built_in">pthread_self</span>());</span><br><span class="line">            <span class="comment">//pthread_detach(pthread_self());</span></span><br><span class="line">            <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>); <span class="comment">/* 线程自行结束 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*从任务队列里获取任务, 是一个出队操作*/</span></span><br><span class="line">        task.function = pool-&gt;task_queue[pool-&gt;queue_front].function;</span><br><span class="line">        task.arg = pool-&gt;task_queue[pool-&gt;queue_front].arg;</span><br><span class="line"></span><br><span class="line">        pool-&gt;queue_front = (pool-&gt;queue_front + <span class="number">1</span>) % pool-&gt;queue_max_size; <span class="comment">/* 出队，模拟环形队列 */</span></span><br><span class="line">        pool-&gt;queue_size--;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*通知可以有新的任务添加进来*/</span></span><br><span class="line">        <span class="built_in">pthread_cond_broadcast</span>(&amp;(pool-&gt;queue_not_full));</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*任务取出后，立即将线程池琐释放*/</span></span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*执行任务*/</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;thread 0x%x start working\n&quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)<span class="built_in">pthread_self</span>());</span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;thread_counter)); <span class="comment">/*忙状态线程数变量琐*/</span></span><br><span class="line">        pool-&gt;busy_thr_num++;                        <span class="comment">/*忙状态线程数+1*/</span></span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line"></span><br><span class="line">        (*(task.function))(task.arg); <span class="comment">/*执行回调函数任务*/</span></span><br><span class="line">        <span class="comment">//task.function(task.arg);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/*任务结束处理*/</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;thread 0x%x end working\n&quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)<span class="built_in">pthread_self</span>());</span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line">        pool-&gt;busy_thr_num--; <span class="comment">/*处理掉一个任务，忙状态数线程数-1*/</span></span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 管理线程 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">adjust_thread</span><span class="params">(<span class="type">void</span> *threadpool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">threadpool_t</span> *pool = (<span class="type">threadpool_t</span> *)threadpool;</span><br><span class="line">    <span class="keyword">while</span> (!pool-&gt;shutdown)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sleep</span>(DEFAULT_TIME); <span class="comment">/*定时 对线程池管理*/</span></span><br><span class="line"></span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">        <span class="type">int</span> queue_size = pool-&gt;queue_size;     <span class="comment">/* 关注 任务数 */</span></span><br><span class="line">        <span class="type">int</span> live_thr_num = pool-&gt;live_thr_num; <span class="comment">/* 存活 线程数 */</span></span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line">        <span class="type">int</span> busy_thr_num = pool-&gt;busy_thr_num; <span class="comment">/* 忙着的线程数 */</span></span><br><span class="line">        <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 创建新线程：任务数大于最小线程池个数, 且存活的线程数少于最大线程个数时 如：30&gt;=10 &amp;&amp; 40&lt;100*/</span></span><br><span class="line">        <span class="keyword">if</span> (queue_size &gt;= MIN_WAIT_TASK_NUM &amp;&amp; live_thr_num &lt; pool-&gt;max_thr_num)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">            <span class="type">int</span> add = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/*一次增加 DEFAULT_THREAD 个线程*/</span></span><br><span class="line">            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pool-&gt;max_thr_num &amp;&amp; add &lt; DEFAULT_THREAD_VARY &amp;&amp; pool-&gt;live_thr_num &lt; pool-&gt;max_thr_num; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (pool-&gt;threads[i] == <span class="number">0</span> || !<span class="built_in">is_thread_alive</span>(pool-&gt;threads[i]))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">pthread_create</span>(&amp;(pool-&gt;threads[i]), <span class="literal">NULL</span>, threadpool_thread, (<span class="type">void</span> *)pool);</span><br><span class="line">                    add++;</span><br><span class="line">                    pool-&gt;live_thr_num++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 销毁多余的空闲线程：忙线程X2小于存活的线程数，且存活的线程数大于最小线程数*/</span></span><br><span class="line">        <span class="keyword">if</span> ((busy_thr_num * <span class="number">2</span>) &lt; live_thr_num &amp;&amp; live_thr_num &gt; pool-&gt;min_thr_num)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* 一次销毁DEFAULT_THREAD个线程，随机10个 */</span></span><br><span class="line">            <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">            pool-&gt;wait_exit_thr_num = DEFAULT_THREAD_VARY; <span class="comment">/* 要销毁的线程数，设置为10 */</span></span><br><span class="line">            <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; DEFAULT_THREAD_VARY; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* 通知处在空闲状态的线程, 他们会自行终止*/</span></span><br><span class="line">                <span class="built_in">pthread_cond_signal</span>(&amp;(pool-&gt;queue_not_empty));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_destroy</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">if</span> (pool == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pool-&gt;shutdown = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*先销毁管理线程*/</span></span><br><span class="line">    <span class="comment">//pthread_join(pool-&gt;adjust_tid, NULL);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pool-&gt;live_thr_num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/*通知所有的空闲线程*/</span></span><br><span class="line">        <span class="built_in">pthread_cond_broadcast</span>(&amp;(pool-&gt;queue_not_empty));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*for (i = 0; i &lt; pool-&gt;live_thr_num; i++) </span></span><br><span class="line"><span class="comment">	&#123;</span></span><br><span class="line"><span class="comment">        pthread_join(pool-&gt;threads[i], NULL);</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">threadpool_free</span>(pool);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_free</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pool == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pool-&gt;task_queue)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">free</span>(pool-&gt;task_queue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pool-&gt;threads)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">free</span>(pool-&gt;threads);</span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">        <span class="built_in">pthread_mutex_destroy</span>(&amp;(pool-&gt;lock));</span><br><span class="line">        <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line">        <span class="built_in">pthread_mutex_destroy</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line">        <span class="built_in">pthread_cond_destroy</span>(&amp;(pool-&gt;queue_not_empty));</span><br><span class="line">        <span class="built_in">pthread_cond_destroy</span>(&amp;(pool-&gt;queue_not_full));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(pool);</span><br><span class="line">    pool = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_all_threadnum</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> all_threadnum = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;lock));</span><br><span class="line">    all_threadnum = pool-&gt;live_thr_num;</span><br><span class="line">    <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;lock));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> all_threadnum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">threadpool_busy_threadnum</span><span class="params">(<span class="type">threadpool_t</span> *pool)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> busy_threadnum = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">pthread_mutex_lock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line">    busy_threadnum = pool-&gt;busy_thr_num;</span><br><span class="line">    <span class="built_in">pthread_mutex_unlock</span>(&amp;(pool-&gt;thread_counter));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> busy_threadnum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">is_thread_alive</span><span class="params">(<span class="type">pthread_t</span> tid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> kill_rc = <span class="built_in">pthread_kill</span>(tid, <span class="number">0</span>); <span class="comment">//发0号信号，测试线程是否存活</span></span><br><span class="line">    <span class="keyword">if</span> (kill_rc == ESRCH)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*测试*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 1</span></span><br><span class="line"><span class="comment">/* 线程池中的线程，模拟处理业务 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">process</span><span class="params">(<span class="type">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;thread 0x%x working on task %d\n &quot;</span>, (<span class="type">unsigned</span> <span class="type">int</span>)<span class="built_in">pthread_self</span>(), *(<span class="type">int</span> *)arg);</span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;task %d is end\n&quot;</span>, *(<span class="type">int</span> *)arg);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/*threadpool_t *threadpool_create(int min_thr_num, int max_thr_num, int queue_max_size);*/</span></span><br><span class="line">    <span class="type">threadpool_t</span> *thp = <span class="built_in">threadpool_create</span>(<span class="number">3</span>, <span class="number">100</span>, <span class="number">100</span>); <span class="comment">/*创建线程池，池里最小3个线程，最大100，队列最大100*/</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;pool inited&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//int *num = (int *)malloc(sizeof(int)*20);</span></span><br><span class="line">    <span class="type">int</span> num[<span class="number">20</span>], i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        num[i] = i;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;add task %d\n&quot;</span>, i);</span><br><span class="line">        <span class="built_in">threadpool_add</span>(thp, process, (<span class="type">void</span> *)&amp;num[i]); <span class="comment">/* 向线程池中添加任务 */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">10</span>); <span class="comment">/* 等子线程完成任务 */</span></span><br><span class="line">    <span class="built_in">threadpool_destroy</span>(thp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线程池</div>
+      <div>http://example.com/2021/07/24/线程池/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年7月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/01/%E5%A5%97%E6%8E%A5%E5%AD%97%E9%80%9A%E4%BF%A1/" title="套接字通信">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">套接字通信</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/05/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-%E6%9C%AC%E5%9C%B0socket%E9%80%9A%E4%BF%A1/" title="Linux网络编程-本地socket通信">
+                        <span class="hidden-mobile">Linux网络编程-本地socket通信</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2021/07/24/%E7%BA%BF%E7%A8%8B%E6%B1%A0/';
+          this.page.identifier = '/2021/07/24/%E7%BA%BF%E7%A8%8B%E6%B1%A0/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

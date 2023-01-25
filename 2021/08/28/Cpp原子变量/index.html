@@ -1,0 +1,681 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="C++11 提供了一个原子类型 std::atomic&lt;T&gt;，通过这个原子类型管理的内部变量就可以称为原子变量，可以给原子类型指定任意的类型作为模板参数，因此原子变量可以是任意的类型。 C++11 内置了整形的原子变量，这样就可以更方便地使用原子变量。在多线程操作中，使用原子变量之后就不需要再使用互斥量来保护该变量，使用起来更简洁。因为对原子变量进行的操作只能是一个原子操作 atomi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++原子变量">
+<meta property="og:url" content="http://example.com/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="C++11 提供了一个原子类型 std::atomic&lt;T&gt;，通过这个原子类型管理的内部变量就可以称为原子变量，可以给原子类型指定任意的类型作为模板参数，因此原子变量可以是任意的类型。 C++11 内置了整形的原子变量，这样就可以更方便地使用原子变量。在多线程操作中，使用原子变量之后就不需要再使用互斥量来保护该变量，使用起来更简洁。因为对原子变量进行的操作只能是一个原子操作 atomi">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-28T00:55:05.000Z">
+<meta property="article:modified_time" content="2021-09-19T15:06:04.981Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="线程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C++原子变量 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++原子变量"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-28 08:55" pubdate>
+          2021年8月28日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">C++原子变量</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>C++11 提供了一个原子类型 <code>std::atomic&lt;T&gt;</code>，通过这个原子类型管理的内部变量就可以称为原子变量，可以给原子类型指定任意的类型作为模板参数，因此原子变量可以是任意的类型。</p>
+<p>C++11 内置了整形的原子变量，这样就可以更方便地使用原子变量。在多线程操作中，使用原子变量之后就不需要再使用互斥量来保护该变量，使用起来更简洁。因为对原子变量进行的操作只能是一个原子操作 <code>atomic operation</code>，原子操作是不会被线程调度机制打断的操作，这种操作一旦开始，就一直运行到结束，中间不会有任何的上下文切换。多线程同时访问共享资源造成数据混乱是因为 CPU 的上下文切换导致的，使用原子变量解决了这个问题，因此不需要使用互斥锁。</p>
+<h2 id="atomic类"><a href="#atomic类" class="headerlink" title="atomic类"></a>atomic类</h2><h3 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义于头文件 &lt;atomic&gt;</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">atomic</span>;</span><br></pre></td></tr></table></figure>
+<p>通过定义知道，在使用这个模板类的时候，一定要指定模板类型。</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="built_in">atomic</span>() <span class="keyword">noexcept</span> = <span class="keyword">default</span>;</span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="title">atomic</span><span class="params">(T desired)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="built_in">atomic</span>(<span class="type">const</span> atomic&amp;) = <span class="keyword">delete</span>;</span><br></pre></td></tr></table></figure>
+<p>构造函数1：默认无参构造函数。<br>构造函数2：使用 desired 初始化原子变量的值。<br>构造函数3：使用 &#x3D;delete 删除拷贝构造函数，不允许进行对象之间的拷贝。</p>
+<h3 id="公共成员函数"><a href="#公共成员函数" class="headerlink" title="公共成员函数"></a>公共成员函数</h3><p>原子类型在类内部重载了 &#x3D; 操作符，并且不允许在类的外部使用 &#x3D; 进行对象的拷贝。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">T <span class="keyword">operator</span>=(T desired) <span class="keyword">noexcept</span>;</span><br><span class="line">T <span class="keyword">operator</span>=(T desired) <span class="keyword">volatile</span> <span class="keyword">noexcept</span>;</span><br><span class="line"></span><br><span class="line">atomic&amp; <span class="keyword">operator</span>=(<span class="type">const</span> atomic&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">atomic&amp; <span class="keyword">operator</span>=(<span class="type">const</span> atomic&amp;) <span class="keyword">volatile</span> = <span class="keyword">delete</span>;</span><br></pre></td></tr></table></figure>
+
+<p>原子地以 desired 替换当前值，按照 order 的值影响内存。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">store</span><span class="params">(T desired, std::memory_order order = std::memory_order_seq_cst)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">store</span><span class="params">(T desired, std::memory_order order = std::memory_order_seq_cst)</span> <span class="keyword">volatile</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">    desired：</span></span><br><span class="line"><span class="comment">        存储到原子变量中的值</span></span><br><span class="line"><span class="comment">    order：</span></span><br><span class="line"><span class="comment">        强制的内存顺序</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>原子地加载并返回原子变量的当前值，按照 order 的值影响内存。直接访问原子对象也可以得到原子变量的当前值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">load</span><span class="params">(std::memory_order order = std::memory_order_seq_cst)</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="function">T <span class="title">load</span><span class="params">(std::memory_order order = std::memory_order_seq_cst)</span> <span class="type">const</span> <span class="keyword">volatile</span> <span class="keyword">noexcept</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="C-20-新增成员"><a href="#C-20-新增成员" class="headerlink" title="C++20 新增成员"></a>C++20 新增成员</h3><p>在 C++20 版本中添加了新的功能函数，可以通过原子类型来阻塞线程，和条件变量中的等待&#x2F;通知函数是一样的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wait</span>(C++<span class="number">20</span>)：阻塞线程直至被唤醒且原子值更改</span><br><span class="line"><span class="built_in">notify_one</span>(C++<span class="number">20</span>)：通知（唤醒）至少一个在原子对象上阻塞的线程</span><br><span class="line"><span class="built_in">notify_all</span>(C++<span class="number">20</span>)：通知（唤醒）所有在原子对象上阻塞的线程</span><br></pre></td></tr></table></figure>
+
+<h2 id="原子变量的使用"><a href="#原子变量的使用" class="headerlink" title="原子变量的使用"></a>原子变量的使用</h2><p>一个多线程交替数数的计数器，使用互斥锁和原子变量的方式分别进行实现，比较二者的不同：</p>
+<h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;atomic&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Counter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">increment</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">lock_guard&lt;mutex&gt; <span class="title">locker</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">            m_value++;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;increment number: &quot;</span> &lt;&lt; m_value </span><br><span class="line">                 &lt;&lt; <span class="string">&quot;, threadId: &quot;</span> &lt;&lt; this_thread::<span class="built_in">get_id</span>() &lt;&lt; endl;</span><br><span class="line">            this_thread::<span class="built_in">sleep_for</span>(chrono::<span class="built_in">microseconds</span>(<span class="number">100</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">decrement</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">lock_guard&lt;mutex&gt; <span class="title">locker</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">            m_value--;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;decrement number: &quot;</span> &lt;&lt; m_value </span><br><span class="line">                 &lt;&lt; <span class="string">&quot;, threadId: &quot;</span> &lt;&lt; this_thread::<span class="built_in">get_id</span>() &lt;&lt; endl;</span><br><span class="line">            this_thread::<span class="built_in">sleep_for</span>(chrono::<span class="built_in">microseconds</span>(<span class="number">100</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> m_value = <span class="number">0</span>;</span><br><span class="line">    mutex m_mutex;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Counter c;</span><br><span class="line">    <span class="keyword">auto</span> increment = <span class="built_in">bind</span>(&amp;Counter::increment, &amp;c);</span><br><span class="line">    <span class="keyword">auto</span> decrement = <span class="built_in">bind</span>(&amp;Counter::decrement, &amp;c);</span><br><span class="line">    <span class="function">thread <span class="title">t1</span><span class="params">(increment)</span></span>;</span><br><span class="line">    <span class="function">thread <span class="title">t2</span><span class="params">(decrement)</span></span>;</span><br><span class="line"></span><br><span class="line">    t1.<span class="built_in">join</span>();</span><br><span class="line">    t2.<span class="built_in">join</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// g++ lock_guard2.cpp -o app</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="原子变量"><a href="#原子变量" class="headerlink" title="原子变量"></a>原子变量</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;atomic&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Counter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">Counter</span>() : <span class="built_in">m_value</span>(<span class="number">0</span>) &#123;&#125; </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">increment</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            m_value++;</span><br><span class="line">            <span class="comment">// cout &lt;&lt; &quot;increment number: &quot; &lt;&lt; m_value </span></span><br><span class="line">            <span class="comment">//      &lt;&lt; &quot;, threadId: &quot; &lt;&lt; this_thread::get_id() &lt;&lt; endl;</span></span><br><span class="line">            <span class="comment">// this_thread::sleep_for(chrono::milliseconds(500));</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">decrement</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// m_value--;</span></span><br><span class="line">            <span class="comment">// cout &lt;&lt; &quot;decrement number: &quot; &lt;&lt; m_value </span></span><br><span class="line">            <span class="comment">//      &lt;&lt; &quot;, threadId: &quot; &lt;&lt; this_thread::get_id() &lt;&lt; endl;</span></span><br><span class="line">            <span class="comment">// this_thread::sleep_for(chrono::milliseconds(500));</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// atomic&lt;int&gt; = atomic_int</span></span><br><span class="line">    atomic_int m_value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Counter c;</span><br><span class="line">    <span class="keyword">auto</span> increment = <span class="built_in">bind</span>(&amp;Counter::increment, &amp;c);</span><br><span class="line">    <span class="keyword">auto</span> decrement = <span class="built_in">bind</span>(&amp;Counter::decrement, &amp;c);</span><br><span class="line">    <span class="function">thread <span class="title">t1</span><span class="params">(increment)</span></span>;</span><br><span class="line">    <span class="function">thread <span class="title">t2</span><span class="params">(decrement)</span></span>;</span><br><span class="line">    cout &lt;&lt; c.m_value &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    t1.<span class="built_in">join</span>();</span><br><span class="line">    t2.<span class="built_in">join</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// g++ atomic.cpp -o app</span></span><br></pre></td></tr></table></figure>
+<p>使用这些原子类型即可摆脱每次对共享变量进行操作都进行的加锁解锁动作，节省了系统开销，同时避免了线程因阻塞而频繁的切换。但是<code>atomic</code>无法做到线程之间的同步。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>atomic<br><a target="_blank" rel="noopener" href="https://subingwen.cn/cpp/atomic">https://subingwen.cn/cpp/atomic</a></li>
+<li>bind<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/myd620/p/8706651.html">https://www.cnblogs.com/myd620/p/8706651.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jialin0x7c9/p/12219239.html">https://www.cnblogs.com/jialin0x7c9/p/12219239.html</a></li>
+<li>无锁编程<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lsgxeva/p/11076318.html">https://www.cnblogs.com/lsgxeva/p/11076318.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zl1991/p/12013156.html">https://www.cnblogs.com/zl1991/p/12013156.html</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++原子变量</div>
+      <div>http://example.com/2021/08/28/Cpp原子变量/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/31/%E6%89%8B%E5%86%99%E7%BA%BF%E7%A8%8B%E6%B1%A0-C%E8%AF%AD%E8%A8%80%E7%89%88/" title="手写线程池-C语言版">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">手写线程池-C语言版</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" title="C++线程同步">
+                        <span class="hidden-mobile">C++线程同步</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/';
+          this.page.identifier = '/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

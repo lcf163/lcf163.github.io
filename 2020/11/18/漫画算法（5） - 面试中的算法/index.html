@@ -1,0 +1,676 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="有环链表1234567891011121314151617181920212223242526272829303132333435363738394041424344454647public class LinkedListCycle &amp;#123;    &#x2F;**     * 判断是否有环     *     * @param head 链表头节点     *&#x2F;    public static b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漫画算法（5）- 面试中的算法">
+<meta property="og:url" content="http://example.com/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%885%EF%BC%89%20-%20%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="有环链表1234567891011121314151617181920212223242526272829303132333435363738394041424344454647public class LinkedListCycle &amp;#123;    &#x2F;**     * 判断是否有环     *     * @param head 链表头节点     *&#x2F;    public static b">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-18T03:03:30.000Z">
+<meta property="article:modified_time" content="2021-01-28T14:53:32.976Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>漫画算法（5）- 面试中的算法 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="漫画算法（5）- 面试中的算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-11-18 11:03" pubdate>
+          2020年11月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          115 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">漫画算法（5）- 面试中的算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="有环链表"><a href="#有环链表" class="headerlink" title="有环链表"></a>有环链表</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LinkedListCycle</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断是否有环</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> head 链表头节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isCycle</span><span class="params">(Node head)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">p1</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">p2</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">while</span> (p2 != <span class="literal">null</span> &amp;&amp; p2.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            p1 = p1.next;</span><br><span class="line">            p2 = p2.next.next;</span><br><span class="line">            <span class="keyword">if</span> (p1 == p2) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 链表节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">        <span class="type">int</span> data;</span><br><span class="line">        Node next;</span><br><span class="line"></span><br><span class="line">        Node(<span class="type">int</span> data) &#123;</span><br><span class="line">            <span class="built_in">this</span>.data = data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">5</span>);</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">3</span>);</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">7</span>);</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node4</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">2</span>);</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node5</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">6</span>);</span><br><span class="line">        node1.next = node2;</span><br><span class="line">        node2.next = node3;</span><br><span class="line">        node3.next = node4;</span><br><span class="line">        node4.next = node5;</span><br><span class="line">        node5.next = node2;</span><br><span class="line"></span><br><span class="line">        System.out.println(isCycle(node1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最小栈"><a href="#最小栈" class="headerlink" title="最小栈"></a>最小栈</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MinStack</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Stack&lt;Integer&gt; mainStack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> Stack&lt;Integer&gt; minStack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 入栈操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> element 入栈的元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">push</span><span class="params">(<span class="type">int</span> element)</span> &#123;</span><br><span class="line">        mainStack.push(element);</span><br><span class="line">        <span class="comment">// 如果辅助栈为空，或新元素小于等于辅助栈栈顶，则新元素压入辅助栈</span></span><br><span class="line">        <span class="keyword">if</span> (minStack.empty() || element &lt;= minStack.peek()) &#123;</span><br><span class="line">            minStack.push(element);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 出栈操作</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">pop</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 如果出栈元素和辅助栈栈顶元素值相等，辅助栈出栈</span></span><br><span class="line">        <span class="keyword">if</span> (mainStack.peek().equals(minStack.peek())) &#123;</span><br><span class="line">            minStack.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mainStack.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取栈的最小元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getMin</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">if</span> (mainStack.empty()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">&quot;stack is empty&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> minStack.peek();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">MinStack</span> <span class="variable">stack</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MinStack</span>();</span><br><span class="line">        stack.push(<span class="number">4</span>);</span><br><span class="line">        stack.push(<span class="number">9</span>);</span><br><span class="line">        stack.push(<span class="number">7</span>);</span><br><span class="line">        stack.push(<span class="number">3</span>);</span><br><span class="line">        stack.push(<span class="number">8</span>);</span><br><span class="line">        stack.push(<span class="number">5</span>);</span><br><span class="line">        System.out.println(stack.getMin());</span><br><span class="line">        stack.pop();</span><br><span class="line">        stack.pop();</span><br><span class="line">        stack.pop();</span><br><span class="line">        System.out.println(stack.getMin());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GreatestCommonDivisor</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getGreatestCommonDivisor</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">big</span> <span class="operator">=</span> a &gt; b ? a : b;</span><br><span class="line">        <span class="type">int</span> <span class="variable">small</span> <span class="operator">=</span> a &lt; b ? a : b;</span><br><span class="line">        <span class="keyword">if</span> (big % small == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> small;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> small / <span class="number">2</span>; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (small % i == <span class="number">0</span> &amp;&amp; big % i == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 辗转相除法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getGreatestCommonDivisorV2</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">big</span> <span class="operator">=</span> a &gt; b ? a : b;</span><br><span class="line">        <span class="type">int</span> <span class="variable">small</span> <span class="operator">=</span> a &lt; b ? a : b;</span><br><span class="line">        <span class="keyword">if</span> (big % small == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> small;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> getGreatestCommonDivisorV2(big % small, small);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更相减损术</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getGreatestCommonDivisorV3</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (a == b) &#123;</span><br><span class="line">            <span class="keyword">return</span> a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">big</span> <span class="operator">=</span> a &gt; b ? a : b;</span><br><span class="line">        <span class="type">int</span> <span class="variable">small</span> <span class="operator">=</span> a &lt; b ? a : b;</span><br><span class="line">        <span class="keyword">return</span> getGreatestCommonDivisorV3(big - small, small);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">gcd</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (a == b) &#123;</span><br><span class="line">            <span class="keyword">return</span> a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((a &amp; <span class="number">1</span>) == <span class="number">0</span> &amp;&amp; (b &amp; <span class="number">1</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> gcd(a &gt;&gt; <span class="number">1</span>, b &gt;&gt; <span class="number">1</span>) &lt;&lt; <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((a &amp; <span class="number">1</span>) == <span class="number">0</span> &amp;&amp; (b &amp; <span class="number">1</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> gcd(a &gt;&gt; <span class="number">1</span>, b);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((a &amp; <span class="number">1</span>) != <span class="number">0</span> &amp;&amp; (b &amp; <span class="number">1</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> gcd(a, b &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">big</span> <span class="operator">=</span> a &gt; b ? a : b;</span><br><span class="line">            <span class="type">int</span> <span class="variable">small</span> <span class="operator">=</span> a &lt; b ? a : b;</span><br><span class="line">            <span class="keyword">return</span> gcd(big - small, small);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(gcd(<span class="number">25</span>, <span class="number">5</span>));</span><br><span class="line">        System.out.println(gcd(<span class="number">100</span>, <span class="number">80</span>));</span><br><span class="line">        System.out.println(gcd(<span class="number">27</span>, <span class="number">14</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2的整数次幂"><a href="#2的整数次幂" class="headerlink" title="2的整数次幂"></a>2的整数次幂</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    方法：位运算（n &amp; n-1）</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PowerOf2</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isPowerOf2</span><span class="params">(<span class="type">int</span> num)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (temp &lt;= num) &#123;</span><br><span class="line">            <span class="keyword">if</span> (temp == num) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            temp = temp * <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isPowerOf2V2</span><span class="params">(<span class="type">int</span> num)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (temp &lt;= num) &#123;</span><br><span class="line">            <span class="keyword">if</span> (temp == num) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            temp = temp &lt;&lt; <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// n &amp; (n-1): 整数不是 2 的整数次幂，结果一定不是 0</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isPowerOf2V3</span><span class="params">(<span class="type">int</span> num)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (num &amp; num - <span class="number">1</span>) == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(isPowerOf2V3(<span class="number">32</span>));</span><br><span class="line">        System.out.println(isPowerOf2V3(<span class="number">19</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最大相邻差"><a href="#最大相邻差" class="headerlink" title="最大相邻差"></a>最大相邻差</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    无序整形数组，求出该数组排序后的任意两个相邻元素的最大差值。</span></span><br><span class="line"><span class="comment">    方法：桶排序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MaxSortedDistance</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getMaxSortedDistance</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1.得到数列的最大值和最小值</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> array[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> array[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (array[i] &gt; max) &#123;</span><br><span class="line">                max = array[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (array[i] &lt; min) &#123;</span><br><span class="line">                min = array[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">d</span> <span class="operator">=</span> max - min;</span><br><span class="line">        <span class="comment">// 如果max == min，说明数组所有元素都相等，返回0</span></span><br><span class="line">        <span class="keyword">if</span> (d == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.初始化桶</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">bucketNum</span> <span class="operator">=</span> array.length;</span><br><span class="line">        Bucket[] buckets = <span class="keyword">new</span> <span class="title class_">Bucket</span>[bucketNum];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; bucketNum; i++) &#123;</span><br><span class="line">            buckets[i] = <span class="keyword">new</span> <span class="title class_">Bucket</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.遍历原始数组，填充桶中的最大值和最小值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 确定数组元素的桶下标</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> ((array[i] - min) * (bucketNum - <span class="number">1</span>) / d);</span><br><span class="line">            <span class="keyword">if</span> (buckets[index].min == <span class="literal">null</span> || buckets[index].min &gt; array[i]) &#123;</span><br><span class="line">                buckets[index].min = array[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (buckets[index].max == <span class="literal">null</span> || buckets[index].max &lt; array[i]) &#123;</span><br><span class="line">                buckets[index].max = array[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4.遍历桶，找到最大差值</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">leftMax</span> <span class="operator">=</span> buckets[<span class="number">0</span>].max;</span><br><span class="line">        <span class="type">int</span> <span class="variable">maxDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; buckets.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (buckets[i].min == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (buckets[i].min - leftMax &gt; maxDistance) &#123;</span><br><span class="line">                maxDistance = buckets[i].min - leftMax;</span><br><span class="line">            &#125;</span><br><span class="line">            leftMax = buckets[i].max;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> maxDistance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 桶</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Bucket</span> &#123;</span><br><span class="line">        Integer min;</span><br><span class="line">        Integer max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] array = <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">2</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">9</span>&#125;;</span><br><span class="line">        System.out.println(getMaxSortedDistance(array));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用栈实现队列"><a href="#用栈实现队列" class="headerlink" title="用栈实现队列"></a>用栈实现队列</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StackQueue</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Stack&lt;Integer&gt; stackA = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> Stack&lt;Integer&gt; stackB = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 入队操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> element 入队的元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">enQueue</span><span class="params">(<span class="type">int</span> element)</span> &#123;</span><br><span class="line">        stackA.push(element);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 出队操作</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">deQueue</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (stackB.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (stackA.isEmpty()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (!stackA.isEmpty()) &#123;</span><br><span class="line">                stackB.push(stackA.pop());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> stackB.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">StackQueue</span> <span class="variable">stackQueue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StackQueue</span>();</span><br><span class="line">        stackQueue.enQueue(<span class="number">1</span>);</span><br><span class="line">        stackQueue.enQueue(<span class="number">2</span>);</span><br><span class="line">        stackQueue.enQueue(<span class="number">3</span>);</span><br><span class="line">        System.out.println(stackQueue.deQueue());</span><br><span class="line">        System.out.println(stackQueue.deQueue());</span><br><span class="line">        stackQueue.enQueue(<span class="number">4</span>);</span><br><span class="line">        System.out.println(stackQueue.deQueue());</span><br><span class="line">        System.out.println(stackQueue.deQueue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="寻找全排列的下一个数"><a href="#寻找全排列的下一个数" class="headerlink" title="寻找全排列的下一个数"></a>寻找全排列的下一个数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    方法：字典序算法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FindNearestNumber</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] findNearestNumber(<span class="type">int</span>[] numbers) &#123;</span><br><span class="line">        <span class="comment">// 1.从后向前查看逆序区域，找到逆序区域的前一位，即为数字置换的边界</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> findTransferPoint(numbers);</span><br><span class="line">        <span class="comment">// 如果数字置换边界是0，说明整个数组已经逆序，返回null</span></span><br><span class="line">        <span class="keyword">if</span> (index == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2.把逆序区域的前一位和逆序区域中略大于它的数字交换位置</span></span><br><span class="line">        <span class="comment">// 拷贝入参，避免直接修改入参</span></span><br><span class="line">        <span class="type">int</span>[] numbersCopy = Arrays.copyOf(numbers, numbers.length);</span><br><span class="line">        numbersCopy = exchangeHead(numbersCopy, index);</span><br><span class="line">        outputNumbers(numbersCopy);</span><br><span class="line">        <span class="comment">// 3.把原来的逆序区域转为顺序</span></span><br><span class="line">        numbersCopy = reverse(numbersCopy, index);</span><br><span class="line">        outputNumbers(numbersCopy);</span><br><span class="line">        <span class="keyword">return</span> numbersCopy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">findTransferPoint</span><span class="params">(<span class="type">int</span>[] numbers)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> numbers.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (numbers[i] &gt; numbers[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] exchangeHead(<span class="type">int</span>[] numbers, <span class="type">int</span> index) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">head</span> <span class="operator">=</span> numbers[index - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> numbers.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (head &lt; numbers[i]) &#123;</span><br><span class="line">                numbers[index - <span class="number">1</span>] = numbers[i];</span><br><span class="line">                numbers[i] = head;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numbers;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] reverse(<span class="type">int</span>[] num, <span class="type">int</span> index) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index, j = num.length - <span class="number">1</span>; i &lt; j; i++, j--) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> num[i];</span><br><span class="line">            num[i] = num[j];</span><br><span class="line">            num[j] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> num;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] numbers = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        <span class="comment">// 打印12345之后的10个全排列整数</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;第%d轮\n&quot;</span>, i);</span><br><span class="line">            numbers = findNearestNumber(numbers);</span><br><span class="line">            outputNumbers(numbers);</span><br><span class="line">            System.out.println(<span class="string">&quot;------&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">outputNumbers</span><span class="params">(<span class="type">int</span>[] numbers)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i : numbers) &#123;</span><br><span class="line">            System.out.print(i);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删去k个数字后的最小值"><a href="#删去k个数字后的最小值" class="headerlink" title="删去k个数字后的最小值"></a>删去k个数字后的最小值</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    方法：贪心算法（依次求得局部最优解，最终得到全局最优解）</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RemoveKDigits</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除整数的k个数字，获得删除后的最小值</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> num 原整数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k   删除数量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">removeKDigits</span><span class="params">(String num, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="type">boolean</span> <span class="variable">hasCut</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="comment">// 从左向右遍历，找到比自己右侧数字大的数字并删除</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; num.length() - <span class="number">1</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (num.charAt(j) &gt; num.charAt(j + <span class="number">1</span>)) &#123;</span><br><span class="line">                    num = num.substring(<span class="number">0</span>, j) + num.substring(j + <span class="number">1</span>, num.length());</span><br><span class="line">                    hasCut = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果没有找到要删除的数字，则删除最后一个数字</span></span><br><span class="line">            <span class="keyword">if</span> (!hasCut) &#123;</span><br><span class="line">                num = num.substring(<span class="number">0</span>, num.length() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 清除整数左侧的数字0</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; num.length() - <span class="number">1</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (num.charAt(j) != <span class="string">&#x27;0&#x27;</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            start++;</span><br><span class="line">        &#125;</span><br><span class="line">        num = num.substring(start, num.length());</span><br><span class="line">        <span class="comment">// 如果整数的所有数字都被删除了，直接返回0</span></span><br><span class="line">        <span class="keyword">if</span> (num.length() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> num;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除整数的k个数字，获得删除后的最小值</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> num 原整数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k   删除数量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">removeKDigitsV2</span><span class="params">(String num, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="comment">// 新整数的最终长度 = 原整数长度 - k</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">newLength</span> <span class="operator">=</span> num.length() - k;</span><br><span class="line">        <span class="comment">// 创建一个栈，用于接收所有的数字</span></span><br><span class="line">        <span class="type">char</span>[] stack = <span class="keyword">new</span> <span class="title class_">char</span>[num.length()];</span><br><span class="line">        <span class="type">int</span> <span class="variable">top</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; num.length(); ++i) &#123;</span><br><span class="line">            <span class="comment">// 遍历当前数字</span></span><br><span class="line">            <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> num.charAt(i);</span><br><span class="line">            <span class="comment">// 当栈顶数字大于遍历到的当前数字，栈顶数字出栈</span></span><br><span class="line">            <span class="keyword">while</span> (top &gt; <span class="number">0</span> &amp;&amp; stack[top - <span class="number">1</span>] &gt; c &amp;&amp; k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                top -= <span class="number">1</span>;</span><br><span class="line">                k -= <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果遇到数字0，且栈为空，0不入栈</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&#x27;0&#x27;</span> == c &amp;&amp; top == <span class="number">0</span>) &#123;</span><br><span class="line">                newLength--;</span><br><span class="line">                <span class="keyword">if</span> (newLength &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 遍历到的当前数字入栈</span></span><br><span class="line">            stack[top++] = c;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 用栈构建新的整数字符串</span></span><br><span class="line">        <span class="keyword">return</span> newLength &lt;= <span class="number">0</span> ? <span class="string">&quot;0&quot;</span> : <span class="keyword">new</span> <span class="title class_">String</span>(stack, <span class="number">0</span>, newLength);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(removeKDigits(<span class="string">&quot;1593212&quot;</span>, <span class="number">3</span>));</span><br><span class="line">        System.out.println(removeKDigits(<span class="string">&quot;30200&quot;</span>, <span class="number">1</span>));</span><br><span class="line">        System.out.println(removeKDigits(<span class="string">&quot;10&quot;</span>, <span class="number">2</span>));</span><br><span class="line">        System.out.println(removeKDigits(<span class="string">&quot;541270936&quot;</span>, <span class="number">3</span>));</span><br><span class="line">        System.out.println(removeKDigits(<span class="string">&quot;1593212&quot;</span>, <span class="number">4</span>));</span><br><span class="line">        System.out.println(removeKDigits(<span class="string">&quot;1000020000000010&quot;</span>, <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="大整数相加"><a href="#大整数相加" class="headerlink" title="大整数相加"></a>大整数相加</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    把大整数按照数位来拆分，拆分到可以被直接计算即可。</span></span><br><span class="line"><span class="comment">    int 类型的取值范围是 -2147483648~2147483647，为了防止溢出，可以把大整数每 9 位作为数组的一个元素。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BigNumberSum</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 大整数求和</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bigNumberA 大整数A</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bigNumberB 大整数B</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">bigNumberSum</span><span class="params">(String bigNumberA, String bigNumberB)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.把两个大整数用数组逆序存储</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">maxLength</span> <span class="operator">=</span> bigNumberA.length() &gt; bigNumberB.length() ? bigNumberA.length() : bigNumberB.length();</span><br><span class="line">        <span class="type">int</span>[] arrayA = <span class="keyword">new</span> <span class="title class_">int</span>[maxLength + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; bigNumberA.length(); i++) &#123;</span><br><span class="line">            arrayA[i] = bigNumberA.charAt(bigNumberA.length() - <span class="number">1</span> - i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[] arrayB = <span class="keyword">new</span> <span class="title class_">int</span>[maxLength + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; bigNumberB.length(); i++) &#123;</span><br><span class="line">            arrayB[i] = bigNumberB.charAt(bigNumberB.length() - <span class="number">1</span> - i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2.构建result数组</span></span><br><span class="line">        <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[maxLength + <span class="number">1</span>];</span><br><span class="line">        <span class="comment">// 3.遍历数组，按位相加</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; result.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> result[i];</span><br><span class="line">            temp += arrayA[i];</span><br><span class="line">            temp += arrayB[i];</span><br><span class="line">            <span class="comment">// 判断是否进位</span></span><br><span class="line">            <span class="keyword">if</span> (temp &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">                temp = temp - <span class="number">10</span>;</span><br><span class="line">                result[i + <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            result[i] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 4.把result数组再次逆序并转成String</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="comment">// 是否找到大整数的最高有效位</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">findFirst</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> result.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!findFirst) &#123;</span><br><span class="line">                <span class="keyword">if</span> (result[i] == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                findFirst = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            sb.append(result[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(bigNumberSum(<span class="string">&quot;426709752318&quot;</span>, <span class="string">&quot;95481253129&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="金矿问题"><a href="#金矿问题" class="headerlink" title="金矿问题"></a>金矿问题</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    10 个工人在 5 个金矿中做出最优选择。</span></span><br><span class="line"><span class="comment">    方法：动态规划（自底向上求解，明确边界、状态转移方程式）</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GoldMining</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获得金矿最优收益</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> w 工人数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> p 金矿开采所需工人数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> g 金矿储量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getBestGoldMiningV3</span><span class="params">(<span class="type">int</span> w, <span class="type">int</span>[] p, <span class="type">int</span>[] g)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建当前结果</span></span><br><span class="line">        <span class="type">int</span>[] results = <span class="keyword">new</span> <span class="title class_">int</span>[w + <span class="number">1</span>];</span><br><span class="line">        <span class="comment">// 填充一维数组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= g.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> w; j &gt;= <span class="number">1</span>; j--) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= p[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                    results[j] = Math.max(results[j], results[j - p[i - <span class="number">1</span>]] + g[i - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 返回最后一个格子的值</span></span><br><span class="line">        <span class="keyword">return</span> results[w];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获得金矿最优收益</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> w 工人数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> p 金矿开采所需工人数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> g 金矿储量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getBestGoldMiningV2</span><span class="params">(<span class="type">int</span> w, <span class="type">int</span>[] p, <span class="type">int</span>[] g)</span> &#123;</span><br><span class="line">        <span class="comment">//创建表格</span></span><br><span class="line">        <span class="type">int</span>[][] resultTable = <span class="keyword">new</span> <span class="title class_">int</span>[g.length + <span class="number">1</span>][w + <span class="number">1</span>];</span><br><span class="line">        <span class="comment">//填充表格</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= g.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= w; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; p[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                    resultTable[i][j] = resultTable[i - <span class="number">1</span>][j];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    resultTable[i][j] = Math.max(resultTable[i - <span class="number">1</span>][j], resultTable[i - <span class="number">1</span>][j - p[i - <span class="number">1</span>]] + g[i - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//返回最后一个格子的值</span></span><br><span class="line">        <span class="keyword">return</span> resultTable[g.length][w];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获得金矿最优收益</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> w 工人数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> n 可选金矿数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> p 金矿开采所需工人数量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> g 金矿储量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getBestGoldMining</span><span class="params">(<span class="type">int</span> w, <span class="type">int</span> n, <span class="type">int</span>[] p, <span class="type">int</span>[] g)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (w == <span class="number">0</span> || n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (w &lt; p[n - <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> getBestGoldMining(w, n - <span class="number">1</span>, p, g);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(getBestGoldMining(w, n - <span class="number">1</span>, p, g), getBestGoldMining(w - p[n - <span class="number">1</span>], n - <span class="number">1</span>, p, g) + g[n - <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">w</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span>[] p = &#123;<span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>&#125;;</span><br><span class="line">        <span class="type">int</span>[] g = &#123;<span class="number">400</span>, <span class="number">500</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">350</span>&#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;最优收益：&quot;</span> + getBestGoldMining(w, g.length, p, g));</span><br><span class="line">        System.out.println(<span class="string">&quot;最优收益：&quot;</span> + getBestGoldMiningV2(w, p, g));</span><br><span class="line">        System.out.println(<span class="string">&quot;最优收益：&quot;</span> + getBestGoldMiningV3(w, p, g));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="缺失的整数"><a href="#缺失的整数" class="headerlink" title="缺失的整数"></a>缺失的整数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    一个无序数组中有 99 个不重复的正整数，范围是 1~100</span></span><br><span class="line"><span class="comment">    （1）其中 99 个整数都出现了偶数次，只有 1 个整数出现了奇数次，该数是多少？</span></span><br><span class="line"><span class="comment">    （2）其中有 2 个整数出现了奇数次，其他整数出现了偶数次，该数是多少？</span></span><br><span class="line"><span class="comment">    方法：异或运算</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FindLostNum</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] findLostNum(<span class="type">int</span>[] array) &#123;</span><br><span class="line">        <span class="comment">// 用于存储两个出现奇数次的整数</span></span><br><span class="line">        <span class="type">int</span> result[] = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="comment">// 第一次整体异或</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">xorResult</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">            xorResult ^= array[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果异或结果为0，说明输入数组不符合题目</span></span><br><span class="line">        <span class="keyword">if</span> (xorResult == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 确定两个整数的不同位，做分组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">separator</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">0</span> == (xorResult &amp; separator)) &#123;</span><br><span class="line">            separator &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 第二次分组异或</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="number">0</span> == (array[i] &amp; separator)) &#123;</span><br><span class="line">                result[<span class="number">0</span>] ^= array[i];</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result[<span class="number">1</span>] ^= array[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] array = &#123;<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>&#125;;</span><br><span class="line">        <span class="type">int</span>[] result = findLostNum(array);</span><br><span class="line">        System.out.println(result[<span class="number">0</span>] + <span class="string">&quot;,&quot;</span> + result[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>《漫画算法》第 5 章</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>漫画算法（5）- 面试中的算法</div>
+      <div>http://example.com/2020/11/18/漫画算法（5） - 面试中的算法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年11月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%886%EF%BC%89%20-%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/" title="漫画算法（6）- 算法的实际应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">漫画算法（6）- 算法的实际应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/17/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%884%EF%BC%89-%20%E6%8E%92%E5%BA%8F/" title="漫画算法（4）- 排序">
+                        <span class="hidden-mobile">漫画算法（4）- 排序</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%885%EF%BC%89%20-%20%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%E7%AE%97%E6%B3%95/';
+          this.page.identifier = '/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%885%EF%BC%89%20-%20%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%E7%AE%97%E6%B3%95/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

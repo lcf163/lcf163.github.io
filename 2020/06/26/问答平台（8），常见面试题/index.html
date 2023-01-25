@@ -1,0 +1,693 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MySQL存储引擎MyISAM、Memory、InnoDB、Archive和NDB。InnoDB 和 NDB 支持事务，但 NDB 支持集群。 事务事务的特性（ACID）原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。 事务的隔离性并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读隔离级别：Read Unc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="问答平台（8），常见面试题">
+<meta property="og:url" content="http://example.com/2020/06/26/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="MySQL存储引擎MyISAM、Memory、InnoDB、Archive和NDB。InnoDB 和 NDB 支持事务，但 NDB 支持集群。 事务事务的特性（ACID）原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。 事务的隔离性并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读隔离级别：Read Unc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//B+Tree.png">
+<meta property="og:image" content="http://example.com/.com//Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="http://example.com/.com//LRU%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://example.com/.com//%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="og:image" content="http://example.com/.com//SpringIoC.png">
+<meta property="og:image" content="http://example.com/.com//SpringAOP.png">
+<meta property="og:image" content="http://example.com/.com//SpringMVC.png">
+<meta property="article:published_time" content="2020-06-26T09:27:05.000Z">
+<meta property="article:modified_time" content="2021-04-10T04:45:41.663Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="问答平台">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/.com//B+Tree.png">
+  
+  
+  
+  <title>问答平台（8），常见面试题 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="问答平台（8），常见面试题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-06-26 17:27" pubdate>
+          2020年6月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">问答平台（8），常见面试题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><p>MyISAM、Memory、InnoDB、Archive和NDB。<br>InnoDB 和 NDB 支持事务，但 NDB 支持集群。</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h4 id="事务的特性（ACID）"><a href="#事务的特性（ACID）" class="headerlink" title="事务的特性（ACID）"></a>事务的特性（ACID）</h4><p>原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。</p>
+<h4 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h4><p>并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读<br>隔离级别：Read Uncommitted、Read Committed、Repeatable Read、Serializable<br>Spirng 事务管理：<br>1.声明式事务（通过 xml 配置、通过注解 @Transactional）<br>2.编程式事务（通过 TransactionTemplate 管理事务，并通过它执行数据库的操作）</p>
+<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><h4 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h4><p>表级锁：开销小、加锁快，发生锁冲突的概率高、并发度低，不会出现死锁。<br>行级锁：开销大、加锁慢，发生锁冲突的概率低、并发度高，会出现死锁。<br>MyISAM 默认表级锁，InnoDB 支持行级锁。</p>
+<h4 id="类型（InnoDB）"><a href="#类型（InnoDB）" class="headerlink" title="类型（InnoDB）"></a>类型（InnoDB）</h4><p>共享锁（S）：行级，读取一行。<br>排他锁（X）：行级，更新一行。<br>意向共享锁（IS）：表级，准备加共享锁。<br>意向排他锁（IX）：表级，准备加排他锁。<br>间隙锁（NK）：行级，使用范围条件时，对范围内不存在的记录加锁。一是为了防止幻读，二是为了满足恢复和复制的需要。</p>
+<h4 id="加锁"><a href="#加锁" class="headerlink" title="加锁"></a>加锁</h4><p>增加行级锁之前，InnoDB 会自动给表加意向锁。<br>执行 DML 语句时，InnoDB 会自动给数据加排他锁。<br>执行 DQL 语句时：<br>共享锁（S）：SELECT … FROM … WHERE … LOCK IN SHARE MODE;<br>排他锁（X）：SELECT … FROM … WHERE … FOR UPDATE;<br>间隙锁（NK）：上述 SQL 采用范围条件时，InnoDB 对不存在的记录自动加间隙锁。</p>
+<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>解决方案：<br>1.InnoDB 会自动检测到，并使一个事务回滚，另一个事务继续。<br>2.设置超时等待参数: innodb_lock_wait_timeout。<br>避免死锁：<br>1.不同的业务并发访问多个表时，约定以相同的顺序来访问这些表。<br>2.以批量的方式处理数据时，事先对数据排序，保证线程按固定的顺序来处据。<br>3.在事务中，如果要更新记录，直接申请足够级别的锁，即排他锁。</p>
+<h4 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h4><p>悲观锁（数据库）：针对更新数据频繁的情况。<br>乐观锁（自定义）：针对查询数据频繁的情况（版本号机制、CAS 算法）。</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h4 id="B-Tree-InnoDB"><a href="#B-Tree-InnoDB" class="headerlink" title="B+Tree(InnoDB)"></a>B+Tree(InnoDB)</h4><p>数据分块存储，每一块称为一页。<br>所有的值按顺序存储，每一个叶子到根的距离相同。<br>非叶节点存储数据的边界，叶子节点存储指向数据行的指针。<br>通过边界缩小数据的范围，避免全表扫描，加快查找的速度。<br><img src="/.com//B+Tree.png" srcset="/img/loading.gif" lazyload alt="B+Tree-图示"></p>
+<hr>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><img src="/.com//Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" srcset="/img/loading.gif" lazyload alt="Redis数据类型-图示"></p>
+<h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><p>Redis 会把设置了过期时间的 key 放入一个独立的字典里，在 key 过期时不会立刻删除它。<br>Redis 通过如下两种策略，来删除过期的 key：<br>1.惰性删除：客户端访问某个 key 时，Redis 会检查该 key 是否过期，若过期则删除。<br>2.定期扫描：Redis 默认每秒执行10次过期扫描（配置hz选项），扫描策略如下<br>（1）从过期字典中随机选择20个 key；<br>（2）删除这20个key中已过期的 key；<br>（3）如果过期的 key 的比例超过25%，则重复步骤（1）。</p>
+<h3 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h3><p>当 Redis 占用内存超出最大限制（maxmemory）时，让 Redis 淘汰一些数据，腾出空间继续提供读写服务，可采用如下策略（maxmemory-policy）：<br>volatile-ttl: 在设置了过期时间的 key 中，选择剩余寿命（TTL）最短的 key，将其淘汰。<br>volatile-lru: 在设置了过期时间的 key 中，选择最少使用的 key(LRU)，将其淘汰。<br>volatile-random: 在设置了过期时间的 key 中，随机选择一些 key，将其淘汰。<br>allkeys-lru: 在所有的 key 中，选择最少使用的 key(LRU)，将其淘汰。<br>allkeys-random: 在所有的 key 中，随机选择一些 key，将其淘汰。<br>no-eviction: 禁⽌驱逐数据，当内存不⾜以容纳新写⼊数据时，新写⼊操作会报错。对可能导致增大内存的命令返回错误。<br><img src="/.com//LRU%E7%AE%97%E6%B3%95.png" srcset="/img/loading.gif" lazyload alt="LRU算法-图示"></p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p><img src="/.com//%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" srcset="/img/loading.gif" lazyload alt="缓存穿透-图示"></p>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><p>查询不存在的数据，使请求直达存储层，导致负载过大，甚至宕机。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.缓存空对象。存储层未命中后，仍然将空值存入缓存层。再次访问该数据时，缓存层会直接返回空值。<br>2.布隆过滤器。将所有存在的 key 提前存入布隆过滤器，在访问缓存层之前，先通过过滤器拦截，若请求的是不存在的 key，直接返回空值。</p>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h4 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h4><p>热点数据，它的访问量非常大。在其缓存失效瞬间，大量请求直达存储层，导致服务崩溃。</p>
+<h4 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.加互斥锁。对数据的访问加互斥锁，当一个线程访问该数据时，其他线程只能等待。这个线程访问过后，缓存中的数据将被重建，届时其他线程直接从缓存取值。<br>2.永不过期。不设置过期时间，所以不会出现上述问题，这是“物理”上的不过期。为每个 value 设置逻辑过期时间，当发现该值逻辑过期时，使用单独的线程重建缓存。</p>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h4 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h4><p>缓存同一时间大面积失效，所以后面的请求都会落到数据库上，造成数据库短时间内承受大量请求而崩溃。<br>（缓存层不能提供服务，导致所有的请求直达存储层，造成存储层宕机。）</p>
+<h4 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.避免同时过期。设置过期时间时，附加一个随机数，避免大量的 key 同时过期。<br>2.构建高可用的 Redis 缓存。部署多个 Redis 实例，个别节点宕机，依然可以保持服务的整体可用。<br>3.构建多级缓存。增加本地缓存，在存储层前面多加一级屏障，降低请求直达存储层的几率。<br>4.启动限流和降级措施。对存储层增加限流措施（限流框架），当请求超出限制时，对其提供降级服务（降级自定义）。</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><p>修改时，经常需要先将数据读取到内存，在内存中修改后再存回去。<br>在分布式应用中，可能多个进程同时执行上述操作，而读取和修改非原子操作，所以会产生冲突。<br>增加分布式锁，可以解决此类问题。</p>
+<h4 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h4><p>同步锁：多个（线程）都能访问到的地方，做一个标记，标识该数据的访问权限。<br>分布式锁：多个（进程）都能访问到的地方，做一个标记，标识该数据的访问权限。</p>
+<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><p>1.基于数据库实现分布式锁。<br>2.基于 Redis 实现分布式锁。<br>3.基于 Zookeeper 实现分布式锁。</p>
+<h4 id="Redis-实现分布式锁的原则"><a href="#Redis-实现分布式锁的原则" class="headerlink" title="Redis 实现分布式锁的原则"></a>Redis 实现分布式锁的原则</h4><p>1.安全属性：独享。在任一时刻，只有一个客户端持有锁。<br>2.活性A：无死锁。即使持有锁的客户端崩溃或网络被分裂，锁仍然可以被获取。<br>3.活性B：容错。只要大部分 Redis 节点都活着，客户端就可以获取和释放锁。</p>
+<h4 id="单-Redis-实例实现分布式锁"><a href="#单-Redis-实例实现分布式锁" class="headerlink" title="单 Redis 实例实现分布式锁"></a>单 Redis 实例实现分布式锁</h4><p>1.获取锁使用命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
+<p>NX: 仅在 key 不存在时才执行成功。<br>PX: 设置锁的自动过期时间。<br>2.通过 Lua 脚本释放锁，可以避免删除别的客户端获取成功的锁：<br>A加锁 -&gt; A阻塞 -&gt; 因超时释放锁 -&gt; B加锁 -&gt; A恢复 -&gt; 释放锁</p>
+<h4 id="多-Redis-实例实现分布式锁"><a href="#多-Redis-实例实现分布式锁" class="headerlink" title="多 Redis 实例实现分布式锁"></a>多 Redis 实例实现分布式锁</h4><p>Redlock 算法，该算法有现成的实现，Java版本的库为 Redisson。<br>算法流程：<br>1.获取当前 Unix 时间，以毫秒为单位。<br>2.依次尝试 N 个实例，使用相同的 key 和随机值获取锁，并设置响应超时时间。如果服务器没有在规定时间内响应，客户端应该尽快尝试另一个 Redis 实例。<br>3.客户端使用当前时间减去开始获取锁的时间，得到获取锁使用的时间。仅当大多数的 Redis 节点都取到锁，并且使用的时间小于锁失效的时间，锁才算取得成功。<br>4.如果取到了锁，key 的真正有效时间等于有效时间减去获取锁使用的时间。<br>5.如果获取锁失败，客户端应该在所有的 Redis 实例上进行解锁。</p>
+<hr>
+<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h3><p><img src="/.com//SpringIoC.png" srcset="/img/loading.gif" lazyload alt="SpringIoC-图示"></p>
+<h3 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h3><p><img src="/.com//SpringAOP.png" srcset="/img/loading.gif" lazyload alt="SpringAOP-图示"></p>
+<h3 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h3><p>Spring MVC 处理请求的过程<br><img src="/.com//SpringMVC.png" srcset="/img/loading.gif" lazyload alt="SpringMVC-图示"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>问答平台（8），常见面试题</div>
+      <div>http://example.com/2020/06/26/问答平台（8），常见面试题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年6月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/28/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%98%BF%E9%87%8C%E4%BA%91%E9%83%A8%E7%BD%B2/" title="问答平台（8），阿里云部署">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">问答平台（8），阿里云部署</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/25/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" title="问答平台（8），项目总结">
+                        <span class="hidden-mobile">问答平台（8），项目总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2020/06/26/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/';
+          this.page.identifier = '/2020/06/26/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

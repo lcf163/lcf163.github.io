@@ -1,0 +1,662 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Bitmap123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657public class MyBitmap &amp;#123;    &#x2F;&#x2F; 一个long类型元素，对应64位二进制    private long[] words;    &#x2F;&#x2F; bit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漫画算法（6）- 算法的实际应用">
+<meta property="og:url" content="http://example.com/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%886%EF%BC%89%20-%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="Bitmap123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657public class MyBitmap &amp;#123;    &#x2F;&#x2F; 一个long类型元素，对应64位二进制    private long[] words;    &#x2F;&#x2F; bit">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-18T11:45:34.000Z">
+<meta property="article:modified_time" content="2021-01-28T14:53:36.472Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>漫画算法（6）- 算法的实际应用 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="漫画算法（6）- 算法的实际应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-11-18 19:45" pubdate>
+          2020年11月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          81 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">漫画算法（6）- 算法的实际应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBitmap</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 一个long类型元素，对应64位二进制</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span>[] words;</span><br><span class="line">    <span class="comment">// bitmap的位数大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyBitmap</span><span class="params">(<span class="type">int</span> size)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.size = size;</span><br><span class="line">        <span class="built_in">this</span>.words = <span class="keyword">new</span> <span class="title class_">long</span>[(getWordIndex(size - <span class="number">1</span>) + <span class="number">1</span>)];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断bitmap某一位的状态</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitIndex 位图的第bitIndex位</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getBit</span><span class="params">(<span class="type">int</span> bitIndex)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (bitIndex &lt; <span class="number">0</span> || bitIndex &gt; size - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IndexOutOfBoundsException</span>(<span class="string">&quot;超过bitmap有效范围&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">wordIndex</span> <span class="operator">=</span> getWordIndex(bitIndex);</span><br><span class="line">        <span class="keyword">return</span> (words[wordIndex] &amp; (<span class="number">1L</span> &lt;&lt; bitIndex)) != <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 把bitmap某一位设为真</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitIndex 位图的第bitIndex位</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBit</span><span class="params">(<span class="type">int</span> bitIndex)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (bitIndex &lt; <span class="number">0</span> || bitIndex &gt; size - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IndexOutOfBoundsException</span>(<span class="string">&quot;超过bitmap有效范围&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">wordIndex</span> <span class="operator">=</span> getWordIndex(bitIndex);</span><br><span class="line">        words[wordIndex] |= (<span class="number">1L</span> &lt;&lt; bitIndex);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定位bitmap某一位所对应的word</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitIndex 位图的第bitIndex位</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">getWordIndex</span><span class="params">(<span class="type">int</span> bitIndex)</span> &#123;</span><br><span class="line">        <span class="comment">// 右移6位，相当于除以64</span></span><br><span class="line">        <span class="keyword">return</span> bitIndex &gt;&gt; <span class="number">6</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">MyBitmap</span> <span class="variable">bitMap</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyBitmap</span>(<span class="number">128</span>);</span><br><span class="line">        bitMap.setBit(<span class="number">126</span>);</span><br><span class="line">        bitMap.setBit(<span class="number">75</span>);</span><br><span class="line">        System.out.println(bitMap.getBit(<span class="number">126</span>));</span><br><span class="line">        System.out.println(bitMap.getBit(<span class="number">75</span>));</span><br><span class="line">        System.out.println(bitMap.getBit(<span class="number">78</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="LRU算法"><a href="#LRU算法" class="headerlink" title="LRU算法"></a>LRU算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    在 LRU 算法中，使用了一种数据结构叫做哈希链表。</span></span><br><span class="line"><span class="comment">    Java 中的 LinkedHashMap 已经对哈希链表做了很好地实现。</span></span><br><span class="line"><span class="comment">    缓存数据库 Redis 底层也实现了类似 LRU 的回收算法。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Node head;</span><br><span class="line">    <span class="keyword">private</span> Node end;</span><br><span class="line">    <span class="comment">// 缓存存储上限</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> limit;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;String, Node&gt; hashMap;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LRUCache</span><span class="params">(<span class="type">int</span> limit)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.limit = limit;</span><br><span class="line">        hashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, Node&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">get</span><span class="params">(String key)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> hashMap.get(key);</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        refreshNode(node);</span><br><span class="line">        <span class="keyword">return</span> node.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(String key, String value)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> hashMap.get(key);</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 如果key不存在，插入key-value</span></span><br><span class="line">            <span class="keyword">if</span> (hashMap.size() &gt;= limit) &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">oldKey</span> <span class="operator">=</span> removeNode(head);</span><br><span class="line">                hashMap.remove(oldKey);</span><br><span class="line">            &#125;</span><br><span class="line">            node = <span class="keyword">new</span> <span class="title class_">Node</span>(key, value);</span><br><span class="line">            addNode(node);</span><br><span class="line">            hashMap.put(key, node);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 如果key存在，刷新key-value</span></span><br><span class="line">            node.value = value;</span><br><span class="line">            refreshNode(node);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 刷新被访问的节点位置</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node 被访问的节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">refreshNode</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果访问的是尾节点，无需移动节点</span></span><br><span class="line">        <span class="keyword">if</span> (node == end) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        removeNode(node);</span><br><span class="line">        addNode(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除节点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node 要删除的节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String <span class="title function_">removeNode</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == head &amp;&amp; node == end) &#123;</span><br><span class="line">            <span class="comment">// 移除唯一的节点</span></span><br><span class="line">            head = <span class="literal">null</span>;</span><br><span class="line">            end = <span class="literal">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node == end) &#123;</span><br><span class="line">            <span class="comment">// 移除尾节点</span></span><br><span class="line">            end = end.pre;</span><br><span class="line">            end.next = <span class="literal">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node == head) &#123;</span><br><span class="line">            <span class="comment">// 移除头节点</span></span><br><span class="line">            head = head.next;</span><br><span class="line">            head.pre = <span class="literal">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 移除中间节点</span></span><br><span class="line">            node.pre.next = node.next;</span><br><span class="line">            node.next.pre = node.pre;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node.key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 尾部插入节点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node 要插入的节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addNode</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (end != <span class="literal">null</span>) &#123;</span><br><span class="line">            end.next = node;</span><br><span class="line">            node.pre = end;</span><br><span class="line">            node.next = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        end = node;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">            head = node;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">        Node(String key, String value) &#123;</span><br><span class="line">            <span class="built_in">this</span>.key = key;</span><br><span class="line">            <span class="built_in">this</span>.value = value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Node pre;</span><br><span class="line">        <span class="keyword">public</span> Node next;</span><br><span class="line">        <span class="keyword">public</span> String key;</span><br><span class="line">        <span class="keyword">public</span> String value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">LRUCache</span> <span class="variable">lruCache</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LRUCache</span>(<span class="number">5</span>);</span><br><span class="line">        lruCache.put(<span class="string">&quot;001&quot;</span>, <span class="string">&quot;用户1信息&quot;</span>);</span><br><span class="line">        lruCache.put(<span class="string">&quot;002&quot;</span>, <span class="string">&quot;用户2信息&quot;</span>);</span><br><span class="line">        lruCache.put(<span class="string">&quot;003&quot;</span>, <span class="string">&quot;用户3信息&quot;</span>);</span><br><span class="line">        lruCache.put(<span class="string">&quot;004&quot;</span>, <span class="string">&quot;用户4信息&quot;</span>);</span><br><span class="line">        lruCache.put(<span class="string">&quot;005&quot;</span>, <span class="string">&quot;用户5信息&quot;</span>);</span><br><span class="line">        System.out.println(lruCache.get(<span class="string">&quot;002&quot;</span>));</span><br><span class="line">        lruCache.put(<span class="string">&quot;004&quot;</span>, <span class="string">&quot;用户4信息更新&quot;</span>);</span><br><span class="line">        lruCache.put(<span class="string">&quot;006&quot;</span>, <span class="string">&quot;用户6信息&quot;</span>);</span><br><span class="line">        System.out.println(lruCache.get(<span class="string">&quot;001&quot;</span>));</span><br><span class="line">        System.out.println(lruCache.get(<span class="string">&quot;006&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="有环链表"><a href="#有环链表" class="headerlink" title="有环链表"></a>有环链表</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    A*寻路算法的基本思想，以估值高低来决定搜索优先次序的方法，被称为启发式搜索。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AStar</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 迷宫地图</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span>[][] MAZE = &#123;</span><br><span class="line">            &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;,</span><br><span class="line">            &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;,</span><br><span class="line">            &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;,</span><br><span class="line">            &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;,</span><br><span class="line">            &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * A星寻路主逻辑</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> start 迷宫起点</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> end   迷宫终点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Grid <span class="title function_">aStarSearch</span><span class="params">(Grid start, Grid end)</span> &#123;</span><br><span class="line">        ArrayList&lt;Grid&gt; openList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Grid&gt;();</span><br><span class="line">        ArrayList&lt;Grid&gt; closeList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Grid&gt;();</span><br><span class="line">        <span class="comment">// 把起点加入 openList</span></span><br><span class="line">        openList.add(start);</span><br><span class="line">        <span class="comment">// 主循环，每一轮检查一个当前方格节点</span></span><br><span class="line">        <span class="keyword">while</span> (openList.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 在openList中查找 F值最小的节点作为当前方格节点</span></span><br><span class="line">            <span class="type">Grid</span> <span class="variable">currentGrid</span> <span class="operator">=</span> findMinGird(openList);</span><br><span class="line">            <span class="comment">// 当前方格节点从openList中移除</span></span><br><span class="line">            openList.remove(currentGrid);</span><br><span class="line">            <span class="comment">// 当前方格节点进入 closeList</span></span><br><span class="line">            closeList.add(currentGrid);</span><br><span class="line">            <span class="comment">// 找到所有邻近节点</span></span><br><span class="line">            List&lt;Grid&gt; neighbors = findNeighbors(currentGrid, openList, closeList);</span><br><span class="line">            <span class="keyword">for</span> (Grid grid : neighbors) &#123;</span><br><span class="line">                <span class="comment">// 邻近节点不在openList中，标记父亲、G、H、F，并放入openList</span></span><br><span class="line">                grid.initGrid(currentGrid, end);</span><br><span class="line">                openList.add(grid);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果终点在openList中，直接返回终点格子</span></span><br><span class="line">            <span class="keyword">for</span> (Grid grid : openList) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((grid.x == end.x) &amp;&amp; (grid.y == end.y)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> grid;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// openList用尽，仍然找不到终点，说明终点不可到达，返回空</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Grid <span class="title function_">findMinGird</span><span class="params">(ArrayList&lt;Grid&gt; openList)</span> &#123;</span><br><span class="line">        <span class="type">Grid</span> <span class="variable">tempGrid</span> <span class="operator">=</span> openList.get(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (Grid grid : openList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (grid.f &lt; tempGrid.f) &#123;</span><br><span class="line">                tempGrid = grid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tempGrid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ArrayList&lt;Grid&gt; <span class="title function_">findNeighbors</span><span class="params">(Grid grid, List&lt;Grid&gt; openList, List&lt;Grid&gt; closeList)</span> &#123;</span><br><span class="line">        ArrayList&lt;Grid&gt; gridList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Grid&gt;();</span><br><span class="line">        <span class="keyword">if</span> (isValidGrid(grid.x, grid.y - <span class="number">1</span>, openList, closeList)) &#123;</span><br><span class="line">            gridList.add(<span class="keyword">new</span> <span class="title class_">Grid</span>(grid.x, grid.y - <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isValidGrid(grid.x, grid.y + <span class="number">1</span>, openList, closeList)) &#123;</span><br><span class="line">            gridList.add(<span class="keyword">new</span> <span class="title class_">Grid</span>(grid.x, grid.y + <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isValidGrid(grid.x - <span class="number">1</span>, grid.y, openList, closeList)) &#123;</span><br><span class="line">            gridList.add(<span class="keyword">new</span> <span class="title class_">Grid</span>(grid.x - <span class="number">1</span>, grid.y));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isValidGrid(grid.x + <span class="number">1</span>, grid.y, openList, closeList)) &#123;</span><br><span class="line">            gridList.add(<span class="keyword">new</span> <span class="title class_">Grid</span>(grid.x + <span class="number">1</span>, grid.y));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> gridList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isValidGrid</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y, List&lt;Grid&gt; openList, List&lt;Grid&gt; closeList)</span> &#123;</span><br><span class="line">        <span class="comment">// 是否超过边界</span></span><br><span class="line">        <span class="keyword">if</span> (x &lt; <span class="number">0</span> || x &gt;= MAZE.length || y &lt; <span class="number">0</span> || y &gt;= MAZE[<span class="number">0</span>].length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 是否有障碍物</span></span><br><span class="line">        <span class="keyword">if</span> (MAZE[x][y] == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 是否已经在openList中</span></span><br><span class="line">        <span class="keyword">if</span> (containGrid(openList, x, y)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 是否已经在closeList中</span></span><br><span class="line">        <span class="keyword">if</span> (containGrid(closeList, x, y)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">containGrid</span><span class="params">(List&lt;Grid&gt; grids, <span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (Grid grid : grids) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((grid.x == x) &amp;&amp; (grid.y == y)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Grid</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> x;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> f;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> g;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> h;</span><br><span class="line">        <span class="keyword">public</span> Grid parent;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Grid</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.x = x;</span><br><span class="line">            <span class="built_in">this</span>.y = y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initGrid</span><span class="params">(Grid parent, Grid end)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.parent = parent;</span><br><span class="line">            <span class="built_in">this</span>.g = parent.g + <span class="number">1</span>;</span><br><span class="line">            <span class="built_in">this</span>.h = Math.abs(<span class="built_in">this</span>.x - end.x) + Math.abs(<span class="built_in">this</span>.y - end.y);</span><br><span class="line">            <span class="built_in">this</span>.f = <span class="built_in">this</span>.g + <span class="built_in">this</span>.h;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 设置起点和终点</span></span><br><span class="line">        <span class="type">Grid</span> <span class="variable">startGrid</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Grid</span>(<span class="number">2</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="type">Grid</span> <span class="variable">endGrid</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Grid</span>(<span class="number">2</span>, <span class="number">5</span>);</span><br><span class="line">        <span class="comment">// 搜索迷宫终点</span></span><br><span class="line">        <span class="type">Grid</span> <span class="variable">resultGrid</span> <span class="operator">=</span> aStarSearch(startGrid, endGrid);</span><br><span class="line">        <span class="comment">// 回溯迷宫路径</span></span><br><span class="line">        ArrayList&lt;Grid&gt; path = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Grid&gt;();</span><br><span class="line">        <span class="keyword">while</span> (resultGrid != <span class="literal">null</span>) &#123;</span><br><span class="line">            path.add(<span class="keyword">new</span> <span class="title class_">Grid</span>(resultGrid.x, resultGrid.y));</span><br><span class="line">            resultGrid = resultGrid.parent;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 输出迷宫和路径，路径用星号表示</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; MAZE.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; MAZE[<span class="number">0</span>].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (containGrid(path, i, j)) &#123;</span><br><span class="line">                    System.out.print(<span class="string">&quot;*, &quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    System.out.print(MAZE[i][j] + <span class="string">&quot;, &quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<h2 id="红包算法"><a href="#红包算法" class="headerlink" title="红包算法"></a>红包算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Redpackage</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 拆分红包（二倍均值法）</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> totalAmount    总金额（以分为单位）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> totalPeopleNum 总人数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; <span class="title function_">divideRedPackage</span><span class="params">(Integer totalAmount, Integer totalPeopleNum)</span> &#123;</span><br><span class="line">        List&lt;Integer&gt; amountList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">restAmount</span> <span class="operator">=</span> totalAmount;</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">restPeopleNum</span> <span class="operator">=</span> totalPeopleNum;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; totalPeopleNum - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// 随机范围：[1，剩余人均金额的两倍)，左闭右开</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">amount</span> <span class="operator">=</span> random.nextInt(restAmount / restPeopleNum * <span class="number">2</span> - <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">            restAmount -= amount;</span><br><span class="line">            restPeopleNum--;</span><br><span class="line">            amountList.add(amount);</span><br><span class="line">        &#125;</span><br><span class="line">        amountList.add(restAmount);</span><br><span class="line">        <span class="keyword">return</span> amountList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 拆分红包V2（线段切割法）</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> totalAmount    总金额（以分为单位）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> totalPeopleNum 总人数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; <span class="title function_">divideRedPackageV2</span><span class="params">(Integer totalAmount, Integer totalPeopleNum)</span> &#123;</span><br><span class="line">        List&lt;Integer&gt; amountList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        Set&lt;Integer&gt; segments = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; totalPeopleNum - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">segment</span> <span class="operator">=</span> random.nextInt(totalAmount - <span class="number">2</span>) + <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">delta</span> <span class="operator">=</span> random.nextInt(<span class="number">1</span>) == <span class="number">0</span> ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (segments.contains(segment) || segment == <span class="number">0</span>) &#123;</span><br><span class="line">                segment = (segment + delta) % totalAmount;</span><br><span class="line">            &#125;</span><br><span class="line">            segments.add(segment);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; segmentList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(segments);</span><br><span class="line">        Collections.sort(segmentList);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; segmentList.size(); i++) &#123;</span><br><span class="line">            Integer amount;</span><br><span class="line">            <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">                amount = segmentList.get(<span class="number">0</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                amount = segmentList.get(i) - segmentList.get(i - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            amountList.add(amount);</span><br><span class="line">        &#125;</span><br><span class="line">        amountList.add(totalAmount - segmentList.get(segmentList.size() - <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> amountList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;Integer&gt; amountList = divideRedPackage(<span class="number">1000</span>, <span class="number">10</span>);</span><br><span class="line">        <span class="keyword">for</span> (Integer amount : amountList) &#123;</span><br><span class="line"><span class="comment">//            System.out.println(&quot;抢到金额：&quot; + new BigDecimal(amount).divide(new BigDecimal(100)));</span></span><br><span class="line">            System.out.println(<span class="string">&quot;抢到金额：&quot;</span> + <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(amount));</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;------&quot;</span>);</span><br><span class="line">        amountList = divideRedPackageV2(<span class="number">1000</span>, <span class="number">10</span>);</span><br><span class="line">        <span class="keyword">for</span> (Integer amount : amountList) &#123;</span><br><span class="line"><span class="comment">//            System.out.println(&quot;抢到金额：&quot; + new BigDecimal(amount).divide(new BigDecimal(100)));</span></span><br><span class="line">            System.out.println(<span class="string">&quot;抢到金额：&quot;</span> + <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(amount));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>《漫画算法》第 6 章</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>漫画算法（6）- 算法的实际应用</div>
+      <div>http://example.com/2020/11/18/漫画算法（6） - 算法的实际应用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年11月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/28/%E5%89%91%E6%8C%873%EF%BC%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" title="剑指3：数组中重复的数字">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">剑指3：数组中重复的数字</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%885%EF%BC%89%20-%20%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%E7%AE%97%E6%B3%95/" title="漫画算法（5）- 面试中的算法">
+                        <span class="hidden-mobile">漫画算法（5）- 面试中的算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%886%EF%BC%89%20-%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/';
+          this.page.identifier = '/2020/11/18/%E6%BC%AB%E7%94%BB%E7%AE%97%E6%B3%95%EF%BC%886%EF%BC%89%20-%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

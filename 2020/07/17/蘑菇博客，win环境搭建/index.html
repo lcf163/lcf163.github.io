@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、配置JDK略 2、配置Mavenmaven安装成功后，添加阿里源，解决下载速度慢问题。 3、配置nginxhttp:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;download.html nginx官网下载，下载完成后，修改nginx.conf配置文件，加入下面的内容 123456789#蘑菇博客图片资源server &amp;#123; listen       8600; server_name  localh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蘑菇博客，win环境搭建">
+<meta property="og:url" content="http://example.com/2020/07/17/%E8%98%91%E8%8F%87%E5%8D%9A%E5%AE%A2%EF%BC%8Cwin%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="1、配置JDK略 2、配置Mavenmaven安装成功后，添加阿里源，解决下载速度慢问题。 3、配置nginxhttp:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;download.html nginx官网下载，下载完成后，修改nginx.conf配置文件，加入下面的内容 123456789#蘑菇博客图片资源server &amp;#123; listen       8600; server_name  localh">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-17T03:19:43.000Z">
+<meta property="article:modified_time" content="2021-02-04T04:54:42.388Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="蘑菇博客">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>蘑菇博客，win环境搭建 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="蘑菇博客，win环境搭建"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-07-17 11:19" pubdate>
+          2020年7月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">蘑菇博客，win环境搭建</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1、配置JDK"><a href="#1、配置JDK" class="headerlink" title="1、配置JDK"></a>1、配置JDK</h2><p>略</p>
+<h2 id="2、配置Maven"><a href="#2、配置Maven" class="headerlink" title="2、配置Maven"></a>2、配置Maven</h2><p>maven安装成功后，添加阿里源，解决下载速度慢问题。</p>
+<h2 id="3、配置nginx"><a href="#3、配置nginx" class="headerlink" title="3、配置nginx"></a>3、配置nginx</h2><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></p>
+<p>nginx官网下载，下载完成后，修改nginx.conf配置文件，加入下面的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#蘑菇博客图片资源</span><br><span class="line">server &#123;</span><br><span class="line"> listen       8600;</span><br><span class="line"> server_name  localhost;    </span><br><span class="line"> location / &#123;</span><br><span class="line">    root   D:\mogu_blog\data;</span><br><span class="line">    index  index.html index.htm;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>8600端口的请求映射到 D:\mogu_blog\data的目录下，如果没有这个目录的，可以提前创建好，其它位置修改成对应的即可。</p>
+<p>如果需要修改，到mogu_picture项目的yml文件里修改对应的配置文件，如下图的 file.upload.path 修改成自定义的即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Data image url</span><br><span class="line">data:</span><br><span class="line">  image:</span><br><span class="line">    url: http://localhost:8600/</span><br><span class="line">file:</span><br><span class="line">  upload:</span><br><span class="line">    path: D:/mogu_blog/data</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、配置redis"><a href="#4、配置redis" class="headerlink" title="4、配置redis"></a>4、配置redis</h2><p><a target="_blank" rel="noopener" href="https://redis.io/">https://redis.io/</a></p>
+<p>redis官网下载，然后双击redis-server启动即可。</p>
+<h2 id="5、配置RabbitMq"><a href="#5、配置RabbitMq" class="headerlink" title="5、配置RabbitMq"></a>5、配置RabbitMq</h2><h3 id="Erlang的安装"><a href="#Erlang的安装" class="headerlink" title="Erlang的安装"></a>Erlang的安装</h3><p>下载成功后，傻瓜式安装就行了。<br>然后配置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERLANG_HOME = D:\mogu_blog\RabbitMq\erl-23.0</span><br></pre></td></tr></table></figure>
+<p>然后添加到Path中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%ERLANG_HOME%\bin</span><br></pre></td></tr></table></figure>
+<p>打开cmd，输入erl，查看是否配置成功。</p>
+<h3 id="RabbitMQ的安装"><a href="#RabbitMQ的安装" class="headerlink" title="RabbitMQ的安装"></a>RabbitMQ的安装</h3><p><a target="_blank" rel="noopener" href="http://www.rabbitmq.com/install-windows.html">http://www.rabbitmq.com/install-windows.html</a></p>
+<p>RabbitMQ官网，下载最新的RabbitMQ安装包。<br>下载完成后，也是傻瓜式安装，需要注意应该先安装Erlang，才能安装RabbitMQ，因为RabbitMQ是基于Eralng语言开发的。</p>
+<p>然后进入RabbitMq安装目录下的\sbin目录下，输入下面命令，启动图形化界面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 开启图形化界面</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<p>本地浏览器输入 <a target="_blank" rel="noopener" href="http://localhost:15672/">http://localhost:15672</a></p>
+<p>打开图形化管理页面，账号和密码都是 guest</p>
+<h2 id="6、配置搜索模块"><a href="#6、配置搜索模块" class="headerlink" title="6、配置搜索模块"></a>6、配置搜索模块</h2><p>目前蘑菇博客支持三种搜索模式的配置，分别是Solr、ElasticSearch和SQL，可以按照自己的服务器配置进行相应的部署</p>
+<h3 id="配置Solr"><a href="#配置Solr" class="headerlink" title="配置Solr"></a>配置Solr</h3><p>window下配置蘑菇博客的solr，详情参考：CentOS下Solr的安装和部署</p>
+<p>注意：需要修改schema.xml文件</p>
+<p>只需要下载后，放到tomcat的webapps目录下，然后修改一下solrhome的配置即可</p>
+<p>下载完成后，解压，然后找到 web.xml文件，把路径改成自己的目录即可</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">env-entry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env-entry-name</span>&gt;</span>solr/home<span class="tag">&lt;/<span class="name">env-entry-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env-entry-value</span>&gt;</span>E:\Software\xampp\tomcat\webapps\solr\solr_home<span class="tag">&lt;/<span class="name">env-entry-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env-entry-type</span>&gt;</span>java.lang.String<span class="tag">&lt;/<span class="name">env-entry-type</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">env-entry</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后查看solr admin页面：<a target="_blank" rel="noopener" href="http://localhost:8080/solr/#/">http://localhost:8080/solr/#/</a></p>
+<p>如果能正常显示，说明已经安装成功</p>
+<h3 id="配置ElasticSearch"><a href="#配置ElasticSearch" class="headerlink" title="配置ElasticSearch"></a>配置ElasticSearch</h3><p>下载上传的压缩包，解压</p>
+<p>进入elasticsearch下的config目录，修改elasticsearch.yml文件，把下面两个路径，改成自己对应的目录即可</p>
+<p>然后启动ElasticSearch，启动Kibana</p>
+<p>启动完成后，输入网址：<a target="_blank" rel="noopener" href="http://localhost:5601/">http://localhost:5601/</a></p>
+<p>出现该页面，说明已经成功安装了 ElasticSearch 和 Kibana。kibana只是作为ElasticSearch的图形化显示工具，相当于原来的SolrAdmin页面一样，在生产环境中，可以不部署</p>
+<h2 id="7、配置Mysql"><a href="#7、配置Mysql" class="headerlink" title="7、配置Mysql"></a>7、配置Mysql</h2><p>找到目录下的doc文件夹，里面有数据库脚本。<br>有两个数据库，我们需要提前创建好 mogu_blog 、mogu_picture 这里两个数据库，然后把备份脚本导入即可。</p>
+<p>同时设置数据库访问账户和密码为： admin admin，不设置也没关系，后面修改yml文件里面的配置即可</p>
+<h2 id="8、配置zipkin链路追踪"><a href="#8、配置zipkin链路追踪" class="headerlink" title="8、配置zipkin链路追踪"></a>8、配置zipkin链路追踪</h2><h3 id="安装Zipkin"><a href="#安装Zipkin" class="headerlink" title="安装Zipkin"></a>安装Zipkin</h3><p>SpringBoot 2.x 版本后就不推荐自定义 zipkin server 了，推荐使用官网下载的 jar 包方式</p>
+<p>也就是说，我们不需要编写一个mogu-zipkin服务，而改成直接启动jar包即可</p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java -jar zipkin-server-2.12.5-exec.jar</span><br><span class="line"># 或集成RabbitMQ</span><br><span class="line">java -jar zipkin-server-2.12.5-exec.jar --zipkin.collector.rabbitmq.addresses=127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>这样zipkin以内存存储的方式启动</p>
+<p>在业务服务的application.yml增加下面的配置，其中蘑菇博客的业务服务主要是：mogu-web，mogu-admin，mogu-sms，mogu-picture，mogu-search</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#spring</span><br><span class="line">spring:</span><br><span class="line">  # sleuth 配置</span><br><span class="line">  sleuth:</span><br><span class="line">    web:</span><br><span class="line">      client:</span><br><span class="line">        enabled: true</span><br><span class="line">    sampler:</span><br><span class="line">      probability: 1.0 # 采样比例为: 0.1(即10%),设置的值介于0.0到1.0之间，1.0则表示全部采集。</span><br><span class="line">  # zipkin 配置</span><br><span class="line">  zipkin:</span><br><span class="line">    base-url: http://localhost:9411  # 指定了Zipkin服务器的地址</span><br></pre></td></tr></table></figure>
+
+<p>然后浏览器输入下面的地址：<a target="_blank" rel="noopener" href="http://localhost:9411/">http://localhost:9411</a> ，如果出现下面的画面，那么代表zipkin服务配置成功</p>
+<h2 id="9、启动后端项目"><a href="#9、启动后端项目" class="headerlink" title="9、启动后端项目"></a>9、启动后端项目</h2><p>全部配置完成后，就可以开始启动项目了，这里我用的编辑器是sts。目前蘑菇博客的开发已经迁移到 IDEA 中。</p>
+<p>首先进入项目根目录文件夹，执行下面命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 下载依赖</span><br><span class="line">mvn clean install</span><br></pre></td></tr></table></figure>
+<p>如果都是success，那就说明依赖下载成功</p>
+<p>下面进行项目启动</p>
+<p>mogu_eureka -&gt; mogu_monitor -&gt; mogu_picture -&gt; mogu_sms -&gt; mogu_admin -&gt; mogu_web</p>
+<p>启动成功后，我们应该能够查看到对应的Swagger接口文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># admin端swagger-ui.html</span><br><span class="line">http://localhost:8601/swagger-ui.html</span><br><span class="line"># picture端swagger-ui.html</span><br><span class="line">http://localhost:8602/swagger-ui.html</span><br><span class="line"># web端swagger-ui.html</span><br><span class="line">http://localhost:8603/swagger-ui.html</span><br></pre></td></tr></table></figure>
+
+<h2 id="10、启动前端项目"><a href="#10、启动前端项目" class="headerlink" title="10、启动前端项目"></a>10、启动前端项目</h2><p>前端项目使用的是Vue编写的，需要下载好nodejs，nodejs里的npm模块是用于管理vue项目中的依赖，类似于maven</p>
+<p>node官网：<a target="_blank" rel="noopener" href="https://nodejs.org/en/">https://nodejs.org/en/</a></p>
+<p>安装的时候，记得选择好加入到环境变量中，这样我们就能在任何使用了。</p>
+<p>查看是否安装成功：npm -v</p>
+<p>（1） 安装 vue_mogu_admin 项目的依赖</p>
+<p>进入vue_mogu_admin 文件夹内，使用下面命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 使用淘宝镜像源进行依赖安装，解决国内下载缓慢的问题(出现警告可以忽略)</span><br><span class="line">npm install --registry=https://registry.npm.taobao.org</span><br><span class="line"># 启动项目</span><br><span class="line">npm run dev</span><br><span class="line">#打包项目（在部署的时候才需要使用）</span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>建议不要直接使用 cnpm 安装，会有各种诡异的 bug，可以通过重新指定 registry 来解决 npm 安装速度慢的问题。<br>若还是不行，可使用 yarn 替代 npm。</p>
+<p>Windows 用户若安装不成功，很大概率是node-sass安装失败。</p>
+<p>因为 node-sass 依赖 python环境，如果之前没有安装和配置过，自行查看相关安装教程。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br><span class="line">cnpm install node-sass</span><br></pre></td></tr></table></figure>
+
+<p>在启动项目成功后，会跳转到：localhost:9528 ，我们输入账号密码： admin, mogu2018 访问即可</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://moxi159753.gitee.io/mogu_blog_doc/#/doc/">http://moxi159753.gitee.io/mogu_blog_doc/#/doc/</a></li>
+<li>Erlang: <a target="_blank" rel="noopener" href="https://blog.csdn.net/linsongbin1/article/details/80170487">https://blog.csdn.net/linsongbin1/article/details/80170487</a></li>
+<li>RabbitMq: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/cxxjohnson/p/8734720.html">https://www.cnblogs.com/cxxjohnson/p/8734720.html</a></li>
+<li>Tomcat: <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43244698/article/details/85304535">https://blog.csdn.net/weixin_43244698/article/details/85304535</a></li>
+<li>Redis: <a target="_blank" rel="noopener" href="https://blog.csdn.net/tingyu1995/article/details/80244806">https://blog.csdn.net/tingyu1995/article/details/80244806</a></li>
+<li>IDEA: <a target="_blank" rel="noopener" href="https://blog.csdn.net/lzc4869/article/details/88912161">https://blog.csdn.net/lzc4869/article/details/88912161</a></li>
+<li>npm: <a target="_blank" rel="noopener" href="https://blog.csdn.net/new__person/article/details/103534494">https://blog.csdn.net/new__person/article/details/103534494</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sliver1836/article/details/95950284">https://blog.csdn.net/sliver1836/article/details/95950284</a></li>
+<li>vue: <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41980461/article/details/103486542">https://blog.csdn.net/qq_41980461/article/details/103486542</a></li>
+<li>python: <a target="_blank" rel="noopener" href="https://blog.csdn.net/valecalida/article/details/84304023">https://blog.csdn.net/valecalida/article/details/84304023</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%98%91%E8%8F%87%E5%8D%9A%E5%AE%A2/">#蘑菇博客</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>蘑菇博客，win环境搭建</div>
+      <div>http://example.com/2020/07/17/蘑菇博客，win环境搭建/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年7月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/" title="设计模式总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">设计模式总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/09/MySQL%E6%80%BB%E7%BB%93/" title="MySQL总结">
+                        <span class="hidden-mobile">MySQL总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2020/07/17/%E8%98%91%E8%8F%87%E5%8D%9A%E5%AE%A2%EF%BC%8Cwin%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/';
+          this.page.identifier = '/2020/07/17/%E8%98%91%E8%8F%87%E5%8D%9A%E5%AE%A2%EF%BC%8Cwin%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

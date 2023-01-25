@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="乘风的小站">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="线程的概念线程是轻量级的进程（LWP：light weight process），在 Linux 环境下线程的本质仍是进程。在计算机上运行的程序是一组指令及指令参数的组合，指令按照既定的逻辑控制计算机运行。操作系统会以进程为单位，分配系统资源。进程是资源分配的最小单位，线程是操作系统调度执行的最小单位。 线程和进程之间的区别：（1）线程是程序的最小执行单位，进程是操作系统中最小的资源分配单位。每个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程">
+<meta property="og:url" content="http://example.com/2021/08/18/%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="lcf Blog">
+<meta property="og:description" content="线程的概念线程是轻量级的进程（LWP：light weight process），在 Linux 环境下线程的本质仍是进程。在计算机上运行的程序是一组指令及指令参数的组合，指令按照既定的逻辑控制计算机运行。操作系统会以进程为单位，分配系统资源。进程是资源分配的最小单位，线程是操作系统调度执行的最小单位。 线程和进程之间的区别：（1）线程是程序的最小执行单位，进程是操作系统中最小的资源分配单位。每个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-18T03:06:47.000Z">
+<meta property="article:modified_time" content="2021-09-03T13:51:41.578Z">
+<meta property="article:author" content="乘风的小站">
+<meta property="article:tag" content="线程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>线程 - lcf Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>乘风的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="线程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-18 11:06" pubdate>
+          2021年8月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          61 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">线程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="线程的概念"><a href="#线程的概念" class="headerlink" title="线程的概念"></a>线程的概念</h2><p>线程是轻量级的进程（LWP：light weight process），在 Linux 环境下线程的本质仍是进程。<br>在计算机上运行的程序是一组指令及指令参数的组合，指令按照既定的逻辑控制计算机运行。<br>操作系统会以进程为单位，分配系统资源。进程是资源分配的最小单位，线程是操作系统调度执行的最小单位。</p>
+<p>线程和进程之间的区别：<br>（1）线程是程序的最小执行单位，进程是操作系统中最小的资源分配单位。<br>每个进程对应一个虚拟地址空间，一个进程只能抢一个 CPU 时间片。<br>一个地址空间中划分出多个线程，能够抢更多的 CPU 时间片。<br>（2）进程有自己独立的地址空间，多个线程共用同一个地址空间。<br>线程更加节省系统资源，效率更高。<br>在一个地址空间中多个线程独享：每个线程都有属于自己的栈区、寄存器 (内核中管理的)<br>在一个地址空间中多个线程共享：代码段、全局数据区、堆区、打开的文件 (文件描述符表) 都是线程共享的<br>（3）CPU 的调度和切换：线程的上下文切换比进程快很多<br>上下文切换：进程&#x2F;线程分时复用 CPU 时间片，在切换之前会将上一个任务的状态进行保存，<br>下次切换回这个任务的时候，加载这个状态继续运行，任务从保存到再次加载这个过程就是一次上下文切换。<br>（4）线程启动速度更快，退出也快，对系统资源的冲击小。</p>
+<p>在处理多任务程序的时候使用多线程比使用多进程更有优势，<br>但是线程并不是越多越好，如何控制线程的个数呢？<br>（1）IO 密集型<br>文件 IO 对 CPU 是使用率不高，因此可以分时复用 CPU 时间片，线程的个数 &#x3D; 2 * CPU 核心数（效率最高）<br>（2）CPU 密集型<br>主要是 CPU 进行运算，线程的个数 &#x3D; CPU 的核心数（效率最高）</p>
+<h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><h3 id="线程函数"><a href="#线程函数" class="headerlink" title="线程函数"></a>线程函数</h3><p>每一个线程都有一个唯一的线程 ID，ID 类型为 <code>pthread_t</code>，这个 ID 是一个无符号长整形数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">pthread_t</span> <span class="title">pthread_self</span><span class="params">(<span class="type">void</span>)</span></span>; <span class="comment">// 返回当前线程的线程ID</span></span><br></pre></td></tr></table></figure>
+<p>在一个进程中调用线程创建函数，就可得到一个子线程。<br>和进程不同，需要给每一个创建出的线程指定一个处理函数，否则这个线程无法工作。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_create</span><span class="params">(<span class="type">pthread_t</span> *thread, <span class="type">const</span> <span class="type">pthread_attr_t</span> *attr,</span></span></span><br><span class="line"><span class="params"><span class="function">                   <span class="type">void</span> *(*start_routine) (<span class="type">void</span> *), <span class="type">void</span> *arg)</span></span>;</span><br><span class="line"><span class="comment">// Compile and link with -pthread, 线程库的全名: libpthread.so libptread.a</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数:</span></span><br><span class="line"><span class="comment">    thread:</span></span><br><span class="line"><span class="comment">        传出参数，是无符号长整形数，线程创建成功，会将线程 ID 写入到这个指针指向的内存</span></span><br><span class="line"><span class="comment">    attr: </span></span><br><span class="line"><span class="comment">        线程的属性，一般情况下使用默认属性 NULL</span></span><br><span class="line"><span class="comment">    start_routine: </span></span><br><span class="line"><span class="comment">        函数指针，创建出的子线程的处理动作，也就是该函数在子线程中执行。</span></span><br><span class="line"><span class="comment">    arg: </span></span><br><span class="line"><span class="comment">        作为实参传递到 start_routine 指针指向的函数内部</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">        线程创建成功返回 0，创建失败返回对应的错误号</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>创建线程的示例代码，<br>在创建过程中一定要保证编写的线程函数与规定的函数指针类型一致：<code>void* (*start_routine) (void*)</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pthread_create.c </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子线程的处理代码</span></span><br><span class="line"><span class="function"><span class="type">void</span>* <span class="title">callback</span><span class="params">(<span class="type">void</span>* arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;child thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建一个子线程</span></span><br><span class="line">    <span class="type">pthread_t</span> tid;</span><br><span class="line">    <span class="built_in">pthread_create</span>(&amp;tid, <span class="literal">NULL</span>, callback, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.子线程不会执行下边的代码, 主线程执行</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;main thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">3</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;main thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 休息一会儿...</span></span><br><span class="line">    <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// gcc .\pthread_create.c -lpthread -o app</span></span><br></pre></td></tr></table></figure>
+<p>在打印的输出中为什么子线程处理函数没有执行完毕呢（只看到了子线程的部分日志输出）？<br>主线程一直在运行，执行期间创建出了子线程，说明主线程有 CPU 时间片，在这个时间片内将代码执行完毕了，主线程就退出了。<br>子线程被创建出来之后需要抢 cpu 时间片, 抢不到就不能运行。如果主线程退出，虚拟地址空间就被释放，子线程一并被销毁。<br>但是如果某一个子线程退出，主线程仍在运行，虚拟地址空间依旧存在。</p>
+<p>结论：在没有人为干预的情况下，虚拟地址空间的生命周期和主线程是一样的，与子线程无关。<br>解决方案：让子线程执行完毕，主线程再退出，可以在主线程中添加挂起函数 <code>sleep()</code>。</p>
+<h2 id="线程退出"><a href="#线程退出" class="headerlink" title="线程退出"></a>线程退出</h2><h3 id="线程函数-1"><a href="#线程函数-1" class="headerlink" title="线程函数"></a>线程函数</h3><p>在编写多线程程序的时候，如果想要让线程退出，但是不会导致虚拟地址空间的释放（针对于主线程），<br>可以调用线程库中的线程退出函数，调用该函数当前线程就马上退出，并且不会影响到其他线程的正常运行，<br>不论是在子线程或者主线程中都可以使用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pthread_exit</span><span class="params">(<span class="type">void</span> *retval)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pthread_exit.c </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子线程的处理代码</span></span><br><span class="line"><span class="function"><span class="type">void</span>* <span class="title">callback</span><span class="params">(<span class="type">void</span>* arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;child thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建一个子线程</span></span><br><span class="line">    <span class="type">pthread_t</span> tid;</span><br><span class="line">    <span class="built_in">pthread_create</span>(&amp;tid, <span class="literal">NULL</span>, callback, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.子线程不会执行下边的代码, 主线程执行</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;main thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="comment">// 主线程退出</span></span><br><span class="line">    <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// gcc .\pthread_exit.c -lpthread -o app</span></span><br></pre></td></tr></table></figure>
+<p>主线程退出后，不影响子线程的执行。</p>
+<h2 id="线程回收"><a href="#线程回收" class="headerlink" title="线程回收"></a>线程回收</h2><h3 id="线程函数-2"><a href="#线程函数-2" class="headerlink" title="线程函数"></a>线程函数</h3><p>线程和进程一样，子线程退出的时候其内核资源主要由主线程回收。<br>线程库中提供的线程回收函叫做 <code>pthread_join()</code>，这个函数是一个阻塞函数，<br>如果还有子线程在运行，调用该函数就会阻塞，子线程退出函数解除阻塞进行资源的回收，<br>函数被调用一次只能回收一个子线程，如果有多个子线程，则需要循环进行回收。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="comment">// 这是一个阻塞函数, 子线程在运行这个函数就阻塞</span></span><br><span class="line"><span class="comment">// 子线程退出，函数解除阻塞，回收对应的子线程资源，类似于回收进程使用的函数 wait()</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_join</span><span class="params">(<span class="type">pthread_t</span> thread, <span class="type">void</span> **retval)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">    thread:</span></span><br><span class="line"><span class="comment">        要被回收的子线程的线程 ID</span></span><br><span class="line"><span class="comment">    retval: </span></span><br><span class="line"><span class="comment">        二级指针，指向一级指针的地址，是一个传出参数，</span></span><br><span class="line"><span class="comment">        这个地址中存储了 pthread_exit () 传递出的数据，如果不需要这个参数，可以指定为 NULL</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">        线程回收成功返回 0，回收失败返回错误号。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><p>在子线程退出的时候可以使用 <code>pthread_exit()</code> 的参数将数据传出，<br>在回收这个子线程的时候可以通过 <code>phread_join()</code> 的第二个参数来接收子线程传递出的数据。<br>接收数据有很多种处理方式，列举几种：<br>（1）使用子线程栈<br>将子线程退出数据保存在子线程自己的栈区。<br>如果多个线程共用同一个虚拟地址空间，每个线程在栈区都有一块属于自己的内存，相当于栈区被这几个线程平分。<br>当线程退出时，线程在栈区的内存也就被回收。因此，随着子线程的退出，写入到栈区的数据也就被释放。<br>（2）使用全局变量<br>位于同一虚拟地址空间中的线程，虽然不能共享栈区数据，但是可以共享全局数据区和堆区数据。<br>因此，在子线程退出的时可以将传出数据存储到全局变量、静态变量或者堆内存中。<br>（3）使用主线程栈<br>虽然每个线程都有属于自己的栈区空间，但是位于同一个地址空间的多个线程是可以相互访问对方的栈空间上的数据的。<br>由于很多情况下还需要在主线程中回收子线程资源，所以主线程一般都是最后退出，<br>基于这个原因将子线程返回的数据保存到了主线程的栈区内存中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pthread_join.c </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Test</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> num;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子线程的处理代码</span></span><br><span class="line"><span class="function"><span class="type">void</span>* <span class="title">callback</span><span class="params">(<span class="type">void</span>* arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;child thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Test</span>* t = (<span class="keyword">struct</span> Test*)arg;</span><br><span class="line">    t-&gt;num = <span class="number">100</span>;</span><br><span class="line">    t-&gt;age = <span class="number">6</span>;</span><br><span class="line">    <span class="built_in">pthread_exit</span>(t);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Test</span> t;</span><br><span class="line">    <span class="comment">// 1.创建一个子线程</span></span><br><span class="line">    <span class="type">pthread_t</span> tid;</span><br><span class="line">    <span class="built_in">pthread_create</span>(&amp;tid, <span class="literal">NULL</span>, callback, &amp;t);</span><br><span class="line">    <span class="comment">// 2.子线程不会执行下边的代码, 主线程执行</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;main thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line"></span><br><span class="line">    <span class="type">void</span>* ptr;</span><br><span class="line">    <span class="built_in">pthread_join</span>(tid, &amp;ptr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;num: %d, age = %d\n&quot;</span>, t.num, t.age);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// gcc .\pthread_join.c -lpthread -o app</span></span><br></pre></td></tr></table></figure>
+<p>在上面的程序中，创建子线程并将主线程中栈空间变量 p 的地址传递到了子线程中，在子线程中将要传递出的数据写入到了这块内存中。<br>在程序的 <code>main()</code> 函数中，通过指针变量 ptr 或者通过结构体变量 p 都可以读出子线程传出的数据。</p>
+<h2 id="线程分离"><a href="#线程分离" class="headerlink" title="线程分离"></a>线程分离</h2><h3 id="线程函数-3"><a href="#线程函数-3" class="headerlink" title="线程函数"></a>线程函数</h3><p>在某些情况下，程序中的主线程有属于自己的业务处理流程，如果让主线程负责子线程的资源回收，调用 <code>pthread_join()</code> 只要子线程不退出主线程就会一直被阻塞，主要线程的任务也就不能被执行。<br>在线程库函数中线程分离函数 <code>pthread_detach()</code>，调用这个函数之后指定的子线程和主线程分离，<br>当子线程退出的时候，其占用的内核资源就被系统的其他进程接管并回收。<br>线程分离之后在主线程中使用 <code>pthread_join()</code> 就回收不到子线程资源。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="comment">// 参数是子线程的线程ID, 主线程和这个子线程分离</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_detach</span><span class="params">(<span class="type">pthread_t</span> thread)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pthread_detach.c </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子线程的处理代码</span></span><br><span class="line"><span class="function"><span class="type">void</span>* <span class="title">callback</span><span class="params">(<span class="type">void</span>* arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;child thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建一个子线程</span></span><br><span class="line">    <span class="type">pthread_t</span> tid;</span><br><span class="line">    <span class="built_in">pthread_create</span>(&amp;tid, <span class="literal">NULL</span>, callback, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">// 2.子线程不会执行下边的代码, 主线程执行</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;main thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">3</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;main thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置子线程和主线程分离</span></span><br><span class="line">    <span class="built_in">pthread_detach</span>(tid);</span><br><span class="line">    <span class="comment">// 让主线程自己退出</span></span><br><span class="line">    <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// gcc .\pthread_detach.c -lpthread -o app</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="其他线程函数"><a href="#其他线程函数" class="headerlink" title="其他线程函数"></a>其他线程函数</h2><h3 id="线程取消"><a href="#线程取消" class="headerlink" title="线程取消"></a>线程取消</h3><p>线程取消：在某些特定情况下在一个线程中杀死另一个线程。<br>使用这个函数杀死一个线程需要分两步：<br>（1）在线程 A 中调用线程取消函数 <code>pthread_cancel</code>，指定杀死线程 B，这时候线程 B 是死不了的。<br>（2）在线程 B 中进程一次系统调用（从用户区切换到内核区），否则线程 B 可以一直运行。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="comment">// 参数是子线程的线程ID</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_cancel</span><span class="params">(<span class="type">pthread_t</span> thread)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    参数：</span></span><br><span class="line"><span class="comment">        要杀死的线程的线程 ID</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">        函数调用成功返回 0，调用失败返回非 0 错误号。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子线程的处理代码</span></span><br><span class="line"><span class="function"><span class="type">void</span>* <span class="title">working</span><span class="params">(<span class="type">void</span>* arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> j=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        j++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这个函数会调用系统函数, 因此这是个间接的系统调用</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;child thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;child thread, i = %d\n&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1. 创建一个子线程</span></span><br><span class="line">    <span class="type">pthread_t</span> tid;</span><br><span class="line">    <span class="built_in">pthread_create</span>(&amp;tid, <span class="literal">NULL</span>, working, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 子线程不会执行下边的代码, 主线程执行</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;main thread, ID: %ld\n&quot;</span>, <span class="built_in">pthread_self</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 杀死子线程, 如果子线程中做系统调用, 子线程就结束了</span></span><br><span class="line">    <span class="built_in">pthread_cancel</span>(tid);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 让主线程自己退出</span></span><br><span class="line">    <span class="built_in">pthread_exit</span>(<span class="literal">NULL</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// gcc .\pthread_cancel.c -lpthread -o app</span></span><br></pre></td></tr></table></figure>
+<h3 id="线程ID比较"><a href="#线程ID比较" class="headerlink" title="线程ID比较"></a>线程ID比较</h3><p>在 Linux 中线程 ID 是一个无符号长整形，因此可以直接使用比较操作符比较两个线程的 ID。<br>但是线程库是可以跨平台使用的，在某些平台上 <code>pthread_t</code> 可能不是一个单纯的整形，这中情况下比较两个线程的 ID 必须要使用比较函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_equal</span><span class="params">(<span class="type">pthread_t</span> t1, <span class="type">pthread_t</span> t2)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    参数：</span></span><br><span class="line"><span class="comment">        t1 和 t2 是要比较的线程的线程 ID</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">        如果两个线程 ID 相等返回非 0 值，如果不相等返回 0</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://subingwen.cn/linux/thread/">https://subingwen.cn/linux/thread/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线程</div>
+      <div>http://example.com/2021/08/18/线程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>乘风的小站</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/20/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" title="线程同步">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线程同步</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/14/%E4%BF%A1%E5%8F%B7/" title="信号">
+                        <span class="hidden-mobile">信号</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2021/08/18/%E7%BA%BF%E7%A8%8B/';
+          this.page.identifier = '/2021/08/18/%E7%BA%BF%E7%A8%8B/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
