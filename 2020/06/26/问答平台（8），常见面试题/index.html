@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -307,7 +307,7 @@
 <h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><p>1.基于数据库实现分布式锁。<br>2.基于 Redis 实现分布式锁。<br>3.基于 Zookeeper 实现分布式锁。</p>
 <h4 id="Redis-实现分布式锁的原则"><a href="#Redis-实现分布式锁的原则" class="headerlink" title="Redis 实现分布式锁的原则"></a>Redis 实现分布式锁的原则</h4><p>1.安全属性：独享。在任一时刻，只有一个客户端持有锁。<br>2.活性A：无死锁。即使持有锁的客户端崩溃或网络被分裂，锁仍然可以被获取。<br>3.活性B：容错。只要大部分 Redis 节点都活着，客户端就可以获取和释放锁。</p>
 <h4 id="单-Redis-实例实现分布式锁"><a href="#单-Redis-实例实现分布式锁" class="headerlink" title="单 Redis 实例实现分布式锁"></a>单 Redis 实例实现分布式锁</h4><p>1.获取锁使用命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-keyword">SET</span> resource_name <span class="hljs-comment">my_random_value NX PX 30000</span><br></code></pre></td></tr></table></figure>
 <p>NX: 仅在 key 不存在时才执行成功。<br>PX: 设置锁的自动过期时间。<br>2.通过 Lua 脚本释放锁，可以避免删除别的客户端获取成功的锁：<br>A加锁 -&gt; A阻塞 -&gt; 因超时释放锁 -&gt; B加锁 -&gt; A恢复 -&gt; 释放锁</p>
 <h4 id="多-Redis-实例实现分布式锁"><a href="#多-Redis-实例实现分布式锁" class="headerlink" title="多 Redis 实例实现分布式锁"></a>多 Redis 实例实现分布式锁</h4><p>Redlock 算法，该算法有现成的实现，Java版本的库为 Redisson。<br>算法流程：<br>1.获取当前 Unix 时间，以毫秒为单位。<br>2.依次尝试 N 个实例，使用相同的 key 和随机值获取锁，并设置响应超时时间。如果服务器没有在规定时间内响应，客户端应该尽快尝试另一个 Redis 实例。<br>3.客户端使用当前时间减去开始获取锁的时间，得到获取锁使用的时间。仅当大多数的 Redis 节点都取到锁，并且使用的时间小于锁失效的时间，锁才算取得成功。<br>4.如果取到了锁，key 的真正有效时间等于有效时间减去获取锁使用的时间。<br>5.如果获取锁失败，客户端应该在所有的 Redis 实例上进行解锁。</p>
 <hr>
@@ -525,7 +525,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br> <div>给时光以生命, 与君共勉~</div> 
     </div>
   
   
