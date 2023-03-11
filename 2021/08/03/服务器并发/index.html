@@ -19,18 +19,18 @@
     <meta name="description" content="单进程&#x2F;线程TCP 通信过程中，服务器端启动之后可以同时和多个客户端建立连接，并进行网络通信。先看一下之前的服务器代码的处理思路，再来分析代码中的不足： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758&#x2F;&#x2F; server.c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="服务器并发">
-<meta property="og:url" content="http://example.com/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:url" content="https://lcf163.github.io/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/index.html">
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="单进程&#x2F;线程TCP 通信过程中，服务器端启动之后可以同时和多个客户端建立连接，并进行网络通信。先看一下之前的服务器代码的处理思路，再来分析代码中的不足： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758&#x2F;&#x2F; server.c">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%B9%B6%E5%8F%91.png">
-<meta property="og:image" content="http://example.com/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91.png">
+<meta property="og:image" content="https://lcf163.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%B9%B6%E5%8F%91.png">
+<meta property="og:image" content="https://lcf163.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91.png">
 <meta property="article:published_time" content="2021-08-03T07:35:51.000Z">
 <meta property="article:modified_time" content="2021-09-08T12:57:57.584Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="网络编程">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%B9%B6%E5%8F%91.png">
+<meta name="twitter:image" content="https://lcf163.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%B9%B6%E5%8F%91.png">
   
   
   
@@ -72,7 +72,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"lcf163.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -325,7 +325,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>服务器并发</div>
-      <div>http://example.com/2021/08/03/服务器并发/</div>
+      <div>https://lcf163.github.io/2021/08/03/服务器并发/</div>
     </div>
     <div class="license-meta">
       

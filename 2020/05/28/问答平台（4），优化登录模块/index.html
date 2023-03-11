@@ -19,7 +19,7 @@
     <meta name="description" content="Redis 存储验证码123- 验证码需要频繁地访问与刷新，对性能要求较高。- 验证码不需要永久保存，通常在很短的时间后就会失效。- 分布式部署时，存在 Session 共享的问题。 工具类 RedisKeyUtil：增加内容123456private static final String PREFIX_KAPTCHA &#x3D; &quot;kaptcha&quot;;&#x2F;&#x2F; 登录验证码public s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="问答平台（4），优化登录模块">
-<meta property="og:url" content="http://example.com/2020/05/28/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E4%BC%98%E5%8C%96%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:url" content="https://lcf163.github.io/2020/05/28/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E4%BC%98%E5%8C%96%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/index.html">
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="Redis 存储验证码123- 验证码需要频繁地访问与刷新，对性能要求较高。- 验证码不需要永久保存，通常在很短的时间后就会失效。- 分布式部署时，存在 Session 共享的问题。 工具类 RedisKeyUtil：增加内容123456private static final String PREFIX_KAPTCHA &#x3D; &quot;kaptcha&quot;;&#x2F;&#x2F; 登录验证码public s">
 <meta property="og:locale" content="zh_CN">
@@ -69,7 +69,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"lcf163.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -325,7 +325,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>问答平台（4），优化登录模块</div>
-      <div>http://example.com/2020/05/28/问答平台（4），优化登录模块/</div>
+      <div>https://lcf163.github.io/2020/05/28/问答平台（4），优化登录模块/</div>
     </div>
     <div class="license-meta">
       

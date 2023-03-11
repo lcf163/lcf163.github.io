@@ -19,25 +19,25 @@
     <meta name="description" content="HTTP基本性质123- 简单的；- 可扩展的；- 无状态，有会话的。   Cookie12- 是服务器发送到浏览器，并存储在浏览器端的一小块数据。- 浏览器下次访问该服务器时，会自动携带该块数据，将其发送给服务器。 ### 表现层1234567891011121314151617181920212223&#x2F;&#x2F; AlphaController.java&#x2F;&#x2F; cookie示例@RequestMappi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="问答平台（2），会话管理">
-<meta property="og:url" content="http://example.com/2020/04/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:url" content="https://lcf163.github.io/2020/04/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="HTTP基本性质123- 简单的；- 可扩展的；- 无状态，有会话的。   Cookie12- 是服务器发送到浏览器，并存储在浏览器端的一小块数据。- 浏览器下次访问该服务器时，会自动携带该块数据，将其发送给服务器。 ### 表现层1234567891011121314151617181920212223&#x2F;&#x2F; AlphaController.java&#x2F;&#x2F; cookie示例@RequestMappi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/HTTP.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Cookie%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Cookie%E5%93%8D%E5%BA%94%E6%9F%A5%E7%9C%8B.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Cookie%E8%AF%B7%E6%B1%82%E6%9F%A5%E7%9C%8B.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Session%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Session%E5%93%8D%E5%BA%94%E6%9F%A5%E7%9C%8B.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Session%E8%AF%B7%E6%B1%82%E6%9F%A5%E7%9C%8B.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2%E4%B8%8B%E7%9A%84Session.png">
-<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/%E5%85%B1%E4%BA%ABSession.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/HTTP.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Cookie%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Cookie%E5%93%8D%E5%BA%94%E6%9F%A5%E7%9C%8B.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Cookie%E8%AF%B7%E6%B1%82%E6%9F%A5%E7%9C%8B.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Session%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Session%E5%93%8D%E5%BA%94%E6%9F%A5%E7%9C%8B.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/Session%E8%AF%B7%E6%B1%82%E6%9F%A5%E7%9C%8B.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2%E4%B8%8B%E7%9A%84Session.png">
+<meta property="og:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/%E5%85%B1%E4%BA%ABSession.png">
 <meta property="article:published_time" content="2020-04-24T03:24:17.000Z">
 <meta property="article:modified_time" content="2021-04-10T04:41:20.638Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="问答平台">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/HTTP.png">
+<meta name="twitter:image" content="https://lcf163.github.io/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/HTTP.png">
   
   
   
@@ -79,7 +79,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"lcf163.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -316,7 +316,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>问答平台（2），会话管理</div>
-      <div>http://example.com/2020/04/24/问答平台（2），会话管理/</div>
+      <div>https://lcf163.github.io/2020/04/24/问答平台（2），会话管理/</div>
     </div>
     <div class="license-meta">
       

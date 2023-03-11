@@ -19,7 +19,7 @@
     <meta name="description" content="在 C++ 中没有垃圾回收机制，必须自己释放分配的内存，否则会造成内存泄露。解决这个问题最有效的方法是使用智能指针 smart pointer。智能指针是存储了指向动态分配（堆内存）对象指针的类，用于生存期的控制，能够确保在离开指针所在作用域时自动地销毁动态分配的对象，防止内存泄露。智能指针的实现技术是引用计数，每使用一次内部引用计数加 1，每析构一次内部的引用计数减 1，减为 0 时删除所指向的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="弱引用智能指针">
-<meta property="og:url" content="http://example.com/2021/09/18/%E5%BC%B1%E5%BC%95%E7%94%A8%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/index.html">
+<meta property="og:url" content="https://lcf163.github.io/2021/09/18/%E5%BC%B1%E5%BC%95%E7%94%A8%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/index.html">
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="在 C++ 中没有垃圾回收机制，必须自己释放分配的内存，否则会造成内存泄露。解决这个问题最有效的方法是使用智能指针 smart pointer。智能指针是存储了指向动态分配（堆内存）对象指针的类，用于生存期的控制，能够确保在离开指针所在作用域时自动地销毁动态分配的对象，防止内存泄露。智能指针的实现技术是引用计数，每使用一次内部引用计数加 1，每析构一次内部的引用计数减 1，减为 0 时删除所指向的">
 <meta property="og:locale" content="zh_CN">
@@ -69,7 +69,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"lcf163.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -343,7 +343,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>弱引用智能指针</div>
-      <div>http://example.com/2021/09/18/弱引用智能指针/</div>
+      <div>https://lcf163.github.io/2021/09/18/弱引用智能指针/</div>
     </div>
     <div class="license-meta">
       
