@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="重构点赞功能12- 以用户为key，记录点赞数量- increment(key)、decrement(key)  开发个人主页1- 以用户为key，查询点赞数量工具类 RedisKeyUtil：增加内容123456private static final String PREFIX_USER_LIKE &#x3D; &quot;like:user&quot;;&#x2F;&#x2F; 某个用户的赞&#x2F;&#x2F; like:user:us">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/.com//%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E.png">
 <meta property="article:published_time" content="2020-05-25T07:04:02.000Z">
 <meta property="article:modified_time" content="2021-04-10T04:43:54.254Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="问答平台">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/.com//%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E.png">
+<meta name="twitter:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E.png">
   
   
   
@@ -278,7 +278,7 @@
                 
                 <h2 id="重构点赞功能"><a href="#重构点赞功能" class="headerlink" title="重构点赞功能"></a>重构点赞功能</h2><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scss">- 以用户为key，记录点赞数量<br>- <span class="hljs-built_in">increment</span>(key)、<span class="hljs-built_in">decrement</span>(key)<br></code></pre></td></tr></table></figure>
 <hr>
-<h2 id="开发个人主页"><a href="#开发个人主页" class="headerlink" title="开发个人主页"></a>开发个人主页</h2><h2 id><a href="#" class="headerlink" title></a><img src="/.com//%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E.png" srcset="/img/loading.gif" lazyload alt="收到的赞-图示"><br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">- </span>以用户为key，查询点赞数量<br></code></pre></td></tr></table></figure></h2><h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><ul>
+<h2 id="开发个人主页"><a href="#开发个人主页" class="headerlink" title="开发个人主页"></a>开发个人主页</h2><h2 id><a href="#" class="headerlink" title></a><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%884%EF%BC%89%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E/%E6%94%B6%E5%88%B0%E7%9A%84%E8%B5%9E.png" srcset="/img/loading.gif" lazyload alt="收到的赞-图示"><br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">- </span>以用户为key，查询点赞数量<br></code></pre></td></tr></table></figure></h2><h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><ul>
 <li>RedisKeyUtil：增加内容<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">PREFIX_USER_LIKE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;like:user&quot;</span>;<br><span class="hljs-comment">// 某个用户的赞</span><br><span class="hljs-comment">// like:user:userId -&gt; int</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">getUserLikeKey</span><span class="hljs-params">(<span class="hljs-type">int</span> userId)</span> &#123;<br>    <span class="hljs-keyword">return</span> PREFIX_USER_LIKE + SPLIT + userId;<br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <hr>

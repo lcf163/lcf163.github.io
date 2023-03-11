@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。  因为管道数据是通过队列来维护的，分析一个管道中数据的特点：（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。（2）管道分为两部分：读端和">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/.com//%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png">
+<meta property="og:image" content="http://example.com/%E7%AE%A1%E9%81%93/%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png">
 <meta property="article:published_time" content="2021-08-05T08:54:00.000Z">
 <meta property="article:modified_time" content="2021-09-16T10:07:26.779Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="进程">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/.com//%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png">
+<meta name="twitter:image" content="http://example.com/%E7%AE%A1%E9%81%93/%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png">
   
   
   
@@ -277,7 +277,7 @@
               <div class="markdown-body">
                 
                 <p>管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。</p>
-<p><img src="/.com//%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png" srcset="/img/loading.gif" lazyload alt="循环队列"></p>
+<p><img src="/%E7%AE%A1%E9%81%93/%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97.png" srcset="/img/loading.gif" lazyload alt="循环队列"></p>
 <p>因为管道数据是通过队列来维护的，分析一个管道中数据的特点：<br>（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。<br>（2）管道分为两部分：读端和写端（队列的两端），数据从写端进入管道，从读端流出管道。<br>（3）管道中的数据只能读一次，做一次读操作之后数据就没有了（读数据相当于出队列）。<br>（4）管道是单工的：数据只能单向流动，数据从写端流向读端。<br>（5）对管道的操作（读、写）默认是阻塞的。<br>读管道：管道中没有数据，读操作被阻塞，当管道中有数据之后才解除阻塞。<br>写管道：管道被写满了，写数据的操作被阻塞，当管道变为不满的状态，写阻塞解除。</p>
 <p>管道在内核中，不能直接对其进行操作，通过什么方式去读写管道呢？<br>管道操作就是文件 IO 操作，内核中管道的两端分别对应两个文件描述符，通过写端的文件描述符把数据写入到管道中，通过读端的文件描述符将数据从管道中读出来。读写管道的函数就是 Linux 中的文件 IO 函数，函数原型如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 读管道</span><br><span class="hljs-function"><span class="hljs-type">ssize_t</span> <span class="hljs-title">read</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> count)</span></span>;<br><span class="hljs-comment">// 写管道的函数</span><br><span class="hljs-function"><span class="hljs-type">ssize_t</span> <span class="hljs-title">write</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> count)</span></span>;<br></code></pre></td></tr></table></figure>

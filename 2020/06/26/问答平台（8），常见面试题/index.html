@@ -23,19 +23,19 @@
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="MySQL存储引擎MyISAM、Memory、InnoDB、Archive和NDB。InnoDB 和 NDB 支持事务，但 NDB 支持集群。 事务事务的特性（ACID）原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。 事务的隔离性并发异常：第一类丢失更新、第二类丢失更新、脏读、不可重复读、幻读隔离级别：Read Unc">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/.com//B+Tree.png">
-<meta property="og:image" content="http://example.com/.com//Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
-<meta property="og:image" content="http://example.com/.com//LRU%E7%AE%97%E6%B3%95.png">
-<meta property="og:image" content="http://example.com/.com//%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
-<meta property="og:image" content="http://example.com/.com//SpringIoC.png">
-<meta property="og:image" content="http://example.com/.com//SpringAOP.png">
-<meta property="og:image" content="http://example.com/.com//SpringMVC.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/B+Tree.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/LRU%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringIoC.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringAOP.png">
+<meta property="og:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringMVC.png">
 <meta property="article:published_time" content="2020-06-26T09:27:05.000Z">
 <meta property="article:modified_time" content="2021-04-10T04:45:41.663Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="问答平台">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/.com//B+Tree.png">
+<meta name="twitter:image" content="http://example.com/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/B+Tree.png">
   
   
   
@@ -290,12 +290,12 @@
 <h4 id="加锁"><a href="#加锁" class="headerlink" title="加锁"></a>加锁</h4><p>增加行级锁之前，InnoDB 会自动给表加意向锁。<br>执行 DML 语句时，InnoDB 会自动给数据加排他锁。<br>执行 DQL 语句时：<br>共享锁（S）：SELECT … FROM … WHERE … LOCK IN SHARE MODE;<br>排他锁（X）：SELECT … FROM … WHERE … FOR UPDATE;<br>间隙锁（NK）：上述 SQL 采用范围条件时，InnoDB 对不存在的记录自动加间隙锁。</p>
 <h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>解决方案：<br>1.InnoDB 会自动检测到，并使一个事务回滚，另一个事务继续。<br>2.设置超时等待参数: innodb_lock_wait_timeout。<br>避免死锁：<br>1.不同的业务并发访问多个表时，约定以相同的顺序来访问这些表。<br>2.以批量的方式处理数据时，事先对数据排序，保证线程按固定的顺序来处据。<br>3.在事务中，如果要更新记录，直接申请足够级别的锁，即排他锁。</p>
 <h4 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h4><p>悲观锁（数据库）：针对更新数据频繁的情况。<br>乐观锁（自定义）：针对查询数据频繁的情况（版本号机制、CAS 算法）。</p>
-<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h4 id="B-Tree-InnoDB"><a href="#B-Tree-InnoDB" class="headerlink" title="B+Tree(InnoDB)"></a>B+Tree(InnoDB)</h4><p>数据分块存储，每一块称为一页。<br>所有的值按顺序存储，每一个叶子到根的距离相同。<br>非叶节点存储数据的边界，叶子节点存储指向数据行的指针。<br>通过边界缩小数据的范围，避免全表扫描，加快查找的速度。<br><img src="/.com//B+Tree.png" srcset="/img/loading.gif" lazyload alt="B+Tree-图示"></p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h4 id="B-Tree-InnoDB"><a href="#B-Tree-InnoDB" class="headerlink" title="B+Tree(InnoDB)"></a>B+Tree(InnoDB)</h4><p>数据分块存储，每一块称为一页。<br>所有的值按顺序存储，每一个叶子到根的距离相同。<br>非叶节点存储数据的边界，叶子节点存储指向数据行的指针。<br>通过边界缩小数据的范围，避免全表扫描，加快查找的速度。<br><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/B+Tree.png" srcset="/img/loading.gif" lazyload alt="B+Tree-图示"></p>
 <hr>
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><img src="/.com//Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" srcset="/img/loading.gif" lazyload alt="Redis数据类型-图示"></p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" srcset="/img/loading.gif" lazyload alt="Redis数据类型-图示"></p>
 <h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><p>Redis 会把设置了过期时间的 key 放入一个独立的字典里，在 key 过期时不会立刻删除它。<br>Redis 通过如下两种策略，来删除过期的 key：<br>1.惰性删除：客户端访问某个 key 时，Redis 会检查该 key 是否过期，若过期则删除。<br>2.定期扫描：Redis 默认每秒执行10次过期扫描（配置hz选项），扫描策略如下<br>（1）从过期字典中随机选择20个 key；<br>（2）删除这20个key中已过期的 key；<br>（3）如果过期的 key 的比例超过25%，则重复步骤（1）。</p>
-<h3 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h3><p>当 Redis 占用内存超出最大限制（maxmemory）时，让 Redis 淘汰一些数据，腾出空间继续提供读写服务，可采用如下策略（maxmemory-policy）：<br>volatile-ttl: 在设置了过期时间的 key 中，选择剩余寿命（TTL）最短的 key，将其淘汰。<br>volatile-lru: 在设置了过期时间的 key 中，选择最少使用的 key(LRU)，将其淘汰。<br>volatile-random: 在设置了过期时间的 key 中，随机选择一些 key，将其淘汰。<br>allkeys-lru: 在所有的 key 中，选择最少使用的 key(LRU)，将其淘汰。<br>allkeys-random: 在所有的 key 中，随机选择一些 key，将其淘汰。<br>no-eviction: 禁⽌驱逐数据，当内存不⾜以容纳新写⼊数据时，新写⼊操作会报错。对可能导致增大内存的命令返回错误。<br><img src="/.com//LRU%E7%AE%97%E6%B3%95.png" srcset="/img/loading.gif" lazyload alt="LRU算法-图示"></p>
-<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p><img src="/.com//%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" srcset="/img/loading.gif" lazyload alt="缓存穿透-图示"></p>
+<h3 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h3><p>当 Redis 占用内存超出最大限制（maxmemory）时，让 Redis 淘汰一些数据，腾出空间继续提供读写服务，可采用如下策略（maxmemory-policy）：<br>volatile-ttl: 在设置了过期时间的 key 中，选择剩余寿命（TTL）最短的 key，将其淘汰。<br>volatile-lru: 在设置了过期时间的 key 中，选择最少使用的 key(LRU)，将其淘汰。<br>volatile-random: 在设置了过期时间的 key 中，随机选择一些 key，将其淘汰。<br>allkeys-lru: 在所有的 key 中，选择最少使用的 key(LRU)，将其淘汰。<br>allkeys-random: 在所有的 key 中，随机选择一些 key，将其淘汰。<br>no-eviction: 禁⽌驱逐数据，当内存不⾜以容纳新写⼊数据时，新写⼊操作会报错。对可能导致增大内存的命令返回错误。<br><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/LRU%E7%AE%97%E6%B3%95.png" srcset="/img/loading.gif" lazyload alt="LRU算法-图示"></p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" srcset="/img/loading.gif" lazyload alt="缓存穿透-图示"></p>
 <h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><p>查询不存在的数据，使请求直达存储层，导致负载过大，甚至宕机。</p>
 <h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>1.缓存空对象。存储层未命中后，仍然将空值存入缓存层。再次访问该数据时，缓存层会直接返回空值。<br>2.布隆过滤器。将所有存在的 key 提前存入布隆过滤器，在访问缓存层之前，先通过过滤器拦截，若请求的是不存在的 key，直接返回空值。</p>
 <h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h4 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h4><p>热点数据，它的访问量非常大。在其缓存失效瞬间，大量请求直达存储层，导致服务崩溃。</p>
@@ -311,9 +311,9 @@
 <p>NX: 仅在 key 不存在时才执行成功。<br>PX: 设置锁的自动过期时间。<br>2.通过 Lua 脚本释放锁，可以避免删除别的客户端获取成功的锁：<br>A加锁 -&gt; A阻塞 -&gt; 因超时释放锁 -&gt; B加锁 -&gt; A恢复 -&gt; 释放锁</p>
 <h4 id="多-Redis-实例实现分布式锁"><a href="#多-Redis-实例实现分布式锁" class="headerlink" title="多 Redis 实例实现分布式锁"></a>多 Redis 实例实现分布式锁</h4><p>Redlock 算法，该算法有现成的实现，Java版本的库为 Redisson。<br>算法流程：<br>1.获取当前 Unix 时间，以毫秒为单位。<br>2.依次尝试 N 个实例，使用相同的 key 和随机值获取锁，并设置响应超时时间。如果服务器没有在规定时间内响应，客户端应该尽快尝试另一个 Redis 实例。<br>3.客户端使用当前时间减去开始获取锁的时间，得到获取锁使用的时间。仅当大多数的 Redis 节点都取到锁，并且使用的时间小于锁失效的时间，锁才算取得成功。<br>4.如果取到了锁，key 的真正有效时间等于有效时间减去获取锁使用的时间。<br>5.如果获取锁失败，客户端应该在所有的 Redis 实例上进行解锁。</p>
 <hr>
-<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h3><p><img src="/.com//SpringIoC.png" srcset="/img/loading.gif" lazyload alt="SpringIoC-图示"></p>
-<h3 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h3><p><img src="/.com//SpringAOP.png" srcset="/img/loading.gif" lazyload alt="SpringAOP-图示"></p>
-<h3 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h3><p>Spring MVC 处理请求的过程<br><img src="/.com//SpringMVC.png" srcset="/img/loading.gif" lazyload alt="SpringMVC-图示"></p>
+<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h3><p><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringIoC.png" srcset="/img/loading.gif" lazyload alt="SpringIoC-图示"></p>
+<h3 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h3><p><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringAOP.png" srcset="/img/loading.gif" lazyload alt="SpringAOP-图示"></p>
+<h3 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h3><p>Spring MVC 处理请求的过程<br><img src="/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%888%EF%BC%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/SpringMVC.png" srcset="/img/loading.gif" lazyload alt="SpringMVC-图示"></p>
 
                 
               </div>
