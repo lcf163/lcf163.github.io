@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="lcf Blog">
 <meta property="og:description" content="共享内存不同于内存映射区，它不属于任何进程，并且不受进程生命周期的影响，通过调用 Linux 提供的系统函数可以得到这块共享内存。使用之前需要让进程和共享内存进行关联，得到共享内存的起始地址之后就可以直接进行读写操作；进程也可以和这块共享内存解除关联，解除关联之后就不能操作这块共享内存了。在所有进程间通信的方式中，共享内存的效率是最高的。 共享内存操作默认不阻塞，如果多个进程同时读写共享内存，可能">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://lcf163.github.io/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png">
+<meta property="og:image" content="https://lcf163.github.io/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png">
 <meta property="article:published_time" content="2021-08-10T14:21:30.000Z">
-<meta property="article:modified_time" content="2023-01-25T08:32:31.252Z">
+<meta property="article:modified_time" content="2023-03-12T02:52:36.196Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="进程">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://lcf163.github.io/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png">
+<meta name="twitter:image" content="https://lcf163.github.io/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png">
   
   
   
@@ -311,7 +311,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># key == shmget 的第一个参数</span><br>$ ipcrm -M shmkey  <br><br><span class="hljs-comment"># id == shmget 的返回值</span><br>$ ipcrm -m shmid<br></code></pre></td></tr></table></figure>
 
 <p>通过 <code>shmctl()</code> 可知：共享内存的信息是存储到一个 <code>struct shmid_ds</code> 的结构体中，其中有一个重要的成员叫做 <code>shm_nattch</code>，在这个成员变量里边记录着当前共享内存关联的进程的个数，一般将其称之为引用计数。当共享内存被标记为删除状态，并且这个引用计数变为 0 之后共享内存才会被真正的被删除掉。</p>
-<p>当共享内存被标记为删除状态之后，共享内存的状态也会发生变化，共享内存内部维护的 <code>key</code> 从一个正整数变为 0，其属性从公共的变为私有的。私有是指只有已经关联成功的进程才允许继续访问共享内存，不再允许新的进程和这块共享内存进行关联了。下图表示了共享内存的状态变化：<br><img src="/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/./%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png" srcset="/img/loading.gif" lazyload alt="共享内存的状态"></p>
+<p>当共享内存被标记为删除状态之后，共享内存的状态也会发生变化，共享内存内部维护的 <code>key</code> 从一个正整数变为 0，其属性从公共的变为私有的。私有是指只有已经关联成功的进程才允许继续访问共享内存，不再允许新的进程和这块共享内存进行关联了。下图表示了共享内存的状态变化：<br><img src="/2021/08/10/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E7%9A%84%E7%8A%B6%E6%80%81.png" srcset="/img/loading.gif" lazyload alt="共享内存的状态"></p>
 <h2 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h2><p>使用共享内存实现进程间通信的操作流程：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-number">1.</span>调用 Linux 的系统 API 创建一块共享内存<br>    这块内存不属于任何进程，默认进程不能对其进行操作。<br>    <br><span class="hljs-number">2.</span>准备好进程 A 和进程 B，这两个进程需要和创建的共享内存进行关联<br>    关联操作: 调用 Linux 的 api<br>    关联成功之后，得到了这块共享内存的起始地址<br>        <br><span class="hljs-number">3.</span>在进程 A 或者进程 B 中对共享内存进行读写操作<br>    读内存: <span class="hljs-built_in">printf</span>() 等;<br>	写内存: <span class="hljs-built_in">memcpy</span>() 等;<br><br><span class="hljs-number">4.</span>通信完成，可以让进程 A 和 B 和共享内存解除关联<br>    解除成功，进程 A 和 B 不能再操作共享内存<br>    共享内存不受进程生命周期的影响的<br>    <br><span class="hljs-number">5.</span>共享内存不在使用之后，将其删除<br>    调用 Linux 的 api 函数，删除之后这块内存被内核回收<br></code></pre></td></tr></table></figure>
 
