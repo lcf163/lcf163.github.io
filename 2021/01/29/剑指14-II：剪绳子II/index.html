@@ -16,15 +16,15 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="传送门leetcode 题目描述给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），每段绳子的长度记为 k[1], …, k[m]。k[1]*…*k[m] 可能的最大乘积是多少？例如，当绳子的长度是 8 时，我们把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。答案需要取模 1e9+7（1000000007），">
+    <meta name="description" content="传送门leetcode 题目描述给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），每段绳子的长度记为 k[1], …, k[m]。k[1]*…*k[m] 可能的最大乘积是多少？例如，当绳子的长度是 8 时，把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。答案需要取模 1e9+7（1000000007），如计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="剑指14-II：剪绳子II">
 <meta property="og:url" content="https://lcf163.github.io/2021/01/29/%E5%89%91%E6%8C%8714-II%EF%BC%9A%E5%89%AA%E7%BB%B3%E5%AD%90II/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="传送门leetcode 题目描述给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），每段绳子的长度记为 k[1], …, k[m]。k[1]*…*k[m] 可能的最大乘积是多少？例如，当绳子的长度是 8 时，我们把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。答案需要取模 1e9+7（1000000007），">
+<meta property="og:description" content="传送门leetcode 题目描述给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），每段绳子的长度记为 k[1], …, k[m]。k[1]*…*k[m] 可能的最大乘积是多少？例如，当绳子的长度是 8 时，把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。答案需要取模 1e9+7（1000000007），如计">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-29T08:49:00.000Z">
-<meta property="article:modified_time" content="2021-01-29T08:57:37.810Z">
+<meta property="article:modified_time" content="2023-03-23T15:38:01.859Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="剑指">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          503 字
+          460 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          5 分钟
+          4 分钟
         
       </span>
     
@@ -263,8 +263,8 @@
               <div class="markdown-body">
                 
                 <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jian-sheng-zi-ii-lcof/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），<br>每段绳子的长度记为 k[1], …, k[m]。k[1]*…*k[m] 可能的最大乘积是多少？<br>例如，当绳子的长度是 8 时，我们把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。<br>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">cuttingRope</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> n<span class="hljs-number">-1</span>;<br>        <span class="hljs-type">long</span> res = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">4</span>) &#123;<br>            <span class="hljs-comment">// 3最优</span><br>            res *= <span class="hljs-number">3</span>;<br>            res %= MOD;<br>            n -= <span class="hljs-number">3</span>;<br>        &#125;<br>        <span class="hljs-comment">// 循环结束 n只剩下1, 2 ,3,4</span><br>        <span class="hljs-comment">// 1不能再分</span><br>        <span class="hljs-comment">// 2，3再分会标小</span><br>        <span class="hljs-comment">// 4 可以分成1 * 3  2 * 2,所以还是4最优</span><br>        <span class="hljs-comment">// 所以 剩下的1 2 3 4 都不能再分了</span><br>        <span class="hljs-keyword">return</span> (res * n) % MOD;<br>    &#125;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> MOD = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（m、n 都是整数，n &gt; 1 并且 m &gt; 1），<br>每段绳子的长度记为 k[1], …, k[m]。k[1]*…*k[m] 可能的最大乘积是多少？<br>例如，当绳子的长度是 8 时，把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。<br>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> MOD = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">cuttingRope</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> n - <span class="hljs-number">1</span>;<br><br>        <span class="hljs-type">long</span> res = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">4</span>) &#123;<br>            res *= <span class="hljs-number">3</span>; <span class="hljs-comment">// 3最优</span><br>            res %= MOD;<br>            n -= <span class="hljs-number">3</span>;<br>        &#125;<br>        <span class="hljs-comment">// 循环结束，n 只剩下 1,2,3,4</span><br>        <span class="hljs-comment">// 4最优，可以分成 1 * 3 or 2 * 2</span><br>        <span class="hljs-keyword">return</span> (res * n) % MOD;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
