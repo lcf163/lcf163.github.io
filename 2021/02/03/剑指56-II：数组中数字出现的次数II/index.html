@@ -16,15 +16,15 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="传送门leetcode 题目描述在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。 C++ 代码1234567891011121314151617181920&#x2F;*    如果某个数字出现 3 次，那么这 3 个数字的和肯定能被 3 整除，则其对应二进制位的每一位的和也能被 3 整除。    统计数组中每个数字的二进制中每一位的和，判断该和是否能被">
+    <meta name="description" content="传送门leetcode 题目描述在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。 C++ 代码 - leetcode123456789101112131415161718192021222324&#x2F;*    如果某个数字出现 3 次，这 3 个数字的和肯定能被 3 整除，则其对应二进制位的每一位的和也能被 3 整除。    统计数组中每个数字的二进">
 <meta property="og:type" content="article">
 <meta property="og:title" content="剑指56-II：数组中数字出现的次数II">
 <meta property="og:url" content="https://lcf163.github.io/2021/02/03/%E5%89%91%E6%8C%8756-II%EF%BC%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E6%95%B0%E5%AD%97%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0II/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="传送门leetcode 题目描述在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。 C++ 代码1234567891011121314151617181920&#x2F;*    如果某个数字出现 3 次，那么这 3 个数字的和肯定能被 3 整除，则其对应二进制位的每一位的和也能被 3 整除。    统计数组中每个数字的二进制中每一位的和，判断该和是否能被">
+<meta property="og:description" content="传送门leetcode 题目描述在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。 C++ 代码 - leetcode123456789101112131415161718192021222324&#x2F;*    如果某个数字出现 3 次，这 3 个数字的和肯定能被 3 整除，则其对应二进制位的每一位的和也能被 3 整除。    统计数组中每个数字的二进">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-03T12:41:20.000Z">
-<meta property="article:modified_time" content="2021-02-03T12:52:16.175Z">
+<meta property="article:modified_time" content="2023-06-06T15:24:54.807Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="剑指">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          458 字
+          497 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          4 分钟
+          5 分钟
         
       </span>
     
@@ -264,7 +264,7 @@
                 
                 <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/">leetcode</a></p>
 <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。<br>请找出那个只出现一次的数字。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    如果某个数字出现 3 次，那么这 3 个数字的和肯定能被 3 整除，则其对应二进制位的每一位的和也能被 3 整除。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    统计数组中每个数字的二进制中每一位的和，判断该和是否能被 3 整除。</span><br><span class="hljs-comment">    若可以，则只出现一次的数字的二进制数中那一位为 0；否则，二进制数中那一位为 1。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">singleNumber</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;<br>            <span class="hljs-type">int</span> cnt = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> n : nums) &#123;<br>                <span class="hljs-keyword">if</span> (n &amp; (<span class="hljs-number">1</span> &lt;&lt; i)) cnt++;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (cnt % <span class="hljs-number">3</span> == <span class="hljs-number">1</span>) ans ^= (<span class="hljs-number">1</span> &lt;&lt; i);<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    如果某个数字出现 3 次，这 3 个数字的和肯定能被 3 整除，则其对应二进制位的每一位的和也能被 3 整除。</span><br><span class="hljs-comment">    统计数组中每个数字的二进制中每一位的和，判断该和是否能被 3 整除。</span><br><span class="hljs-comment">    若可以，则只出现一次的数字的二进制数中那一位为 0；否则，二进制数中那一位为 1。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">singleNumber</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i ++) &#123;<br>            <span class="hljs-type">int</span> cnt = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> x : nums) &#123;<br>                <span class="hljs-keyword">if</span> (x &amp; (<span class="hljs-number">1</span> &lt;&lt; i)) &#123;<br>                    cnt ++;<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (cnt % <span class="hljs-number">3</span> == <span class="hljs-number">1</span>) &#123;<br>                res ^= (<span class="hljs-number">1</span> &lt;&lt; i);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
