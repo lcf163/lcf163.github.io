@@ -16,15 +16,15 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="传送门牛客网leetcode 题目描述写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、&#x2F;四则运算符号。 C++ 代码123456789101112131415161718&#x2F;*    1.两个数异或：相当于每一位相加，而不考虑进位。    2.两个数相与，并左移一位：相当于求得进位。    3.将上述两步的结果相加。    递归会终止的原因：        (a &amp;">
+    <meta name="description" content="传送门牛客网leetcode 题目描述写一个函数，求两个整数之和，要求在函数体内不得使用 +、-、*、&#x2F;四则运算符号。 C++ 代码 - nowcoder123456789101112131415161718192021&#x2F;*    1.两个数异或：相当于每一位相加，而不考虑进位。    2.两个数相与，并左移一位：相当于求得进位。    3.将上述两步的结果相加。    递归会终止的原因：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="剑指65：不用加减乘除做加法">
 <meta property="og:url" content="https://lcf163.github.io/2021/02/03/%E5%89%91%E6%8C%8765%EF%BC%9A%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="传送门牛客网leetcode 题目描述写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、&#x2F;四则运算符号。 C++ 代码123456789101112131415161718&#x2F;*    1.两个数异或：相当于每一位相加，而不考虑进位。    2.两个数相与，并左移一位：相当于求得进位。    3.将上述两步的结果相加。    递归会终止的原因：        (a &amp;">
+<meta property="og:description" content="传送门牛客网leetcode 题目描述写一个函数，求两个整数之和，要求在函数体内不得使用 +、-、*、&#x2F;四则运算符号。 C++ 代码 - nowcoder123456789101112131415161718192021&#x2F;*    1.两个数异或：相当于每一位相加，而不考虑进位。    2.两个数相与，并左移一位：相当于求得进位。    3.将上述两步的结果相加。    递归会终止的原因：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-03T14:49:26.000Z">
-<meta property="article:modified_time" content="2021-02-03T14:55:45.929Z">
+<meta property="article:modified_time" content="2023-07-10T15:47:17.383Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="剑指">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          364 字
+          840 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          4 分钟
+          8 分钟
         
       </span>
     
@@ -262,9 +262,11 @@
             
               <div class="markdown-body">
                 
-                <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/practice/59ac416b4b944300b617d4f7f111b215?tpId=13">牛客网</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、&#x2F;四则运算符号。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    1.两个数异或：相当于每一位相加，而不考虑进位。</span><br><span class="hljs-comment">    2.两个数相与，并左移一位：相当于求得进位。</span><br><span class="hljs-comment">    3.将上述两步的结果相加。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    递归会终止的原因：</span><br><span class="hljs-comment">        (a &amp; b) &lt;&lt; 1 最右边会多一个 0，那么继续递归，</span><br><span class="hljs-comment">        0 会慢慢增多，最后进位会变为 0，递归终止。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-type">int</span> num1, <span class="hljs-type">int</span> num2)</span></span>&#123;<br>    <span class="hljs-keyword">while</span> (num2 != <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-type">int</span> sum = num1 ^ num2;<br>        <span class="hljs-type">int</span> carry = (num1 &amp; num2) &lt;&lt; <span class="hljs-number">1</span>;<br>        num1 = sum;<br>        num2 = carry;<br>    &#125;<br>    <span class="hljs-keyword">return</span> num1;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/practice/59ac416b4b944300b617d4f7f111b215">牛客网</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>写一个函数，求两个整数之和，要求在函数体内不得使用 <code>+、-、*、/</code>四则运算符号。</p>
+<h2 id="C-代码-nowcoder"><a href="#C-代码-nowcoder" class="headerlink" title="C++ 代码 - nowcoder"></a>C++ 代码 - nowcoder</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    1.两个数异或：相当于每一位相加，而不考虑进位。</span><br><span class="hljs-comment">    2.两个数相与，并左移一位：相当于求得进位。</span><br><span class="hljs-comment">    3.将上述两步的结果相加。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    递归会终止的原因：</span><br><span class="hljs-comment">        (a &amp; b) &lt;&lt; 1 最右边会多一个 0，那么继续递归，</span><br><span class="hljs-comment">        0 慢慢增多，最后进位变为 0，递归终止。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-type">int</span> num1, <span class="hljs-type">int</span> num2)</span> </span>&#123;<br>        <span class="hljs-keyword">while</span> (num2 != <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-type">int</span> sum = num1 ^ num2;<br>            <span class="hljs-type">int</span> carry = (num1 &amp; num2) &lt;&lt; <span class="hljs-number">1</span>;<br>            num1 = sum;<br>            num2 = carry;<br>        &#125;<br>        <span class="hljs-keyword">return</span> num1;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    十进制加法中先把每一位对齐，然后每一位相加，和大于等于 10 则下一位进一。</span><br><span class="hljs-comment">    二进制的加法运算和十进制类似，也是每一位相加，和大于等于 2 则进一，</span><br><span class="hljs-comment">    只不过二进制数求和及进位的操作是用位运算来实现的。</span><br><span class="hljs-comment">    </span><br><span class="hljs-comment">    异或运算 ^ 的结果可以理解为对应位相加，</span><br><span class="hljs-comment">    运算 &amp; 的结果左移一位可以理解为进位的结果。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (a == <span class="hljs-number">0</span> || b == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">return</span> a == <span class="hljs-number">0</span> ? b : a;<br>        &#125;<br>        <span class="hljs-comment">// 设 a = 1001</span><br>        <span class="hljs-comment">// 设 b = 0101</span><br>        <span class="hljs-comment">// 求和 1100</span><br>        <span class="hljs-type">int</span> sum = a ^ b;<br>        <span class="hljs-comment">// 进位 0001 &lt;&lt; 1 = 0010</span><br>        <span class="hljs-type">int</span> carry = (<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>) (a &amp; b) &lt;&lt; <span class="hljs-number">1</span>;<br>        <span class="hljs-comment">// add(1100, 0010)</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">add</span>(sum, carry);<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
