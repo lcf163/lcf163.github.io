@@ -16,15 +16,15 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="传送门牛客网leetcode 题目描述请实现一个函数，将一个字符串中的每个空格替换成 %20。例如，当字符串为 We Are Happy，经过替换之后的字符串为 We%20Are%20Happy。 C++ 代码 - nowcoder12345678910111213141516171819202122232425262728&#x2F;*    首先统计出长度，然后从后向前替换。    时间复杂度：O(n)">
+    <meta name="description" content="传送门nowcoderleetcode 题目描述请实现一个函数，将一个字符串中的每个空格替换成 %20。例如，当字符串为 We Are Happy，经过替换之后的字符串为 We%20Are%20Happy。 C++ 代码 - nowcoder12345678910111213141516171819202122232425262728&#x2F;*    首先统计出长度，然后从后向前替换。    时间复杂度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="剑指5：替换空格">
 <meta property="og:url" content="https://lcf163.github.io/2021/01/29/%E5%89%91%E6%8C%875%EF%BC%9A%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="传送门牛客网leetcode 题目描述请实现一个函数，将一个字符串中的每个空格替换成 %20。例如，当字符串为 We Are Happy，经过替换之后的字符串为 We%20Are%20Happy。 C++ 代码 - nowcoder12345678910111213141516171819202122232425262728&#x2F;*    首先统计出长度，然后从后向前替换。    时间复杂度：O(n)">
+<meta property="og:description" content="传送门nowcoderleetcode 题目描述请实现一个函数，将一个字符串中的每个空格替换成 %20。例如，当字符串为 We Are Happy，经过替换之后的字符串为 We%20Are%20Happy。 C++ 代码 - nowcoder12345678910111213141516171819202122232425262728&#x2F;*    首先统计出长度，然后从后向前替换。    时间复杂度">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-29T06:00:50.000Z">
-<meta property="article:modified_time" content="2023-08-05T09:11:43.545Z">
+<meta property="article:modified_time" content="2023-08-07T12:42:14.103Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="剑指">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
         
         
         
-          10 分钟
+          11 分钟
         
       </span>
     
@@ -262,7 +262,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/practice/0e26e5551f2b489b9f58bc83aa4b6c68">牛客网</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">leetcode</a></p>
+                <h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/practice/0e26e5551f2b489b9f58bc83aa4b6c68">nowcoder</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">leetcode</a></p>
 <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>请实现一个函数，将一个字符串中的每个空格替换成 %20。<br>例如，当字符串为 We Are Happy，经过替换之后的字符串为 We%20Are%20Happy。</p>
 <h2 id="C-代码-nowcoder"><a href="#C-代码-nowcoder" class="headerlink" title="C++ 代码 - nowcoder"></a>C++ 代码 - nowcoder</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    首先统计出长度，然后从后向前替换。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">string <span class="hljs-title">replaceSpace</span><span class="hljs-params">(string str)</span> </span>&#123;<br>        <span class="hljs-type">int</span> length = str.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-type">int</span> spaceCount = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i ++) &#123;<br>            <span class="hljs-keyword">if</span> (str[i] == <span class="hljs-string">&#x27; &#x27;</span>) spaceCount ++;<br>        &#125;<br><br>        <span class="hljs-type">int</span> newLength = length + spaceCount * <span class="hljs-number">2</span>;<br>        str.<span class="hljs-built_in">resize</span>(newLength);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span> &amp;&amp; newLength != i; i --) &#123;<br>            <span class="hljs-comment">// i = newLen，说明前面已经没有空格了</span><br>            <span class="hljs-keyword">if</span> (str[i] != <span class="hljs-string">&#x27; &#x27;</span>) str[--newLength] = str[i];<br>            <span class="hljs-keyword">else</span> &#123;<br>                str[--newLength] = <span class="hljs-string">&#x27;0&#x27;</span>;<br>                str[--newLength] = <span class="hljs-string">&#x27;2&#x27;</span>;<br>                str[--newLength] = <span class="hljs-string">&#x27;%&#x27;</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> str;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
