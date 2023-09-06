@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述给你两个非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储一位数字。 请你将两个数相加，并以相同形式返回一个表示和的链表。你可以假设除了数字 0 之外，这两个数都不会以 0 开头。 C++ 代码 - leetcode1234567891011121314151617181920212223242526272829303">
+    <meta name="description" content="题目链接leetcode 题目描述给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i !&#x3D; j、i !&#x3D; k 且 j !&#x3D; k ，同时还满足 nums[i] + nums[j] + nums[k] &#x3D;&#x3D; 0 。请你返回所有和为 0 且不重复的三元组。注意：答案中不可以包含重复的三元组。 C++ 代码 -">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode2.两数相加">
-<meta property="og:url" content="https://lcf163.github.io/2023/08/07/leetcode2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/index.html">
+<meta property="og:title" content="leetcode15.三数之和">
+<meta property="og:url" content="https://lcf163.github.io/2023/09/06/leetcode15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述给你两个非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储一位数字。 请你将两个数相加，并以相同形式返回一个表示和的链表。你可以假设除了数字 0 之外，这两个数都不会以 0 开头。 C++ 代码 - leetcode1234567891011121314151617181920212223242526272829303">
+<meta property="og:description" content="题目链接leetcode 题目描述给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i !&#x3D; j、i !&#x3D; k 且 j !&#x3D; k ，同时还满足 nums[i] + nums[j] + nums[k] &#x3D;&#x3D; 0 。请你返回所有和为 0 且不重复的三元组。注意：答案中不可以包含重复的三元组。 C++ 代码 -">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-07T14:28:07.000Z">
-<meta property="article:modified_time" content="2023-09-06T15:15:24.538Z">
+<meta property="article:published_time" content="2023-09-06T15:13:43.000Z">
+<meta property="article:modified_time" content="2023-09-06T15:33:39.564Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode2.两数相加 - lcf Blog</title>
+  <title>leetcode15.三数之和 - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode2.两数相加"></span>
+            <span id="subtitle" data-typed-text="leetcode15.三数之和"></span>
           
         </div>
 
@@ -196,8 +196,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-08-07 22:28" pubdate>
-          2023年8月7日 晚上
+        <time datetime="2023-09-06 23:13" pubdate>
+          2023年9月6日 晚上
         </time>
       </span>
     
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          963 字
+          1.5k 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          9 分钟
+          13 分钟
         
       </span>
     
@@ -257,15 +257,15 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode2.两数相加</h1>
+            <h1 style="display: none">leetcode15.三数之和</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/add-two-numbers/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你两个非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储一位数字。</p>
-<p>请你将两个数相加，并以相同形式返回一个表示和的链表。<br>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
-<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">	逆序存储很友好了，直接遍历链表就是从个位开始的，符合我们计算加法的习惯顺序。</span><br><span class="hljs-comment">	如果是正序存储，需要翻转链表或者使用栈来辅助。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    主要考察链表双指针技巧 和加法运算过程中对进位的处理。</span><br><span class="hljs-comment">    注意这个 carry 变量的处理，在我们手动模拟加法过程的时候会经常用到。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">	代码中还用到一个链表的算法题中是很常见的「虚拟头结点」技巧，也就是 dummy 节点。</span><br><span class="hljs-comment">	如果不使用 dummy 虚拟节点，代码会稍显复杂；有了 dummy 节点这个占位符，可以避免处理初始的空指针情况，降低代码的复杂性。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">ListNode* <span class="hljs-title">addTwoNumbers</span><span class="hljs-params">(ListNode* l1, ListNode* l2)</span> </span>&#123;<br>        <span class="hljs-comment">// 虚拟头结点</span><br>        ListNode *dummy = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>(<span class="hljs-number">-1</span>);<br>        <span class="hljs-comment">// 指针 p 负责构建新链表</span><br>        ListNode *p = dummy;<br>        <span class="hljs-comment">// 在两条链表上的指针</span><br>        ListNode *p1 = l1, *p2 = l2;<br>        <span class="hljs-comment">// 记录进位</span><br>        <span class="hljs-type">int</span> carry = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span> (p1 != <span class="hljs-literal">nullptr</span> || p2 != <span class="hljs-literal">nullptr</span> || carry &gt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// 先加上次的进位</span><br>            <span class="hljs-type">int</span> val = carry;<br>            <span class="hljs-keyword">if</span> (p1 != <span class="hljs-literal">nullptr</span>) &#123;<br>                val += p1-&gt;val;<br>                p1 = p1-&gt;next;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (p2 != <span class="hljs-literal">nullptr</span>) &#123;<br>                val += p2-&gt;val;<br>                p2 = p2-&gt;next;<br>            &#125;<br>            <span class="hljs-comment">// 处理进位</span><br>            carry = val / <span class="hljs-number">10</span>;<br>            val = val % <span class="hljs-number">10</span>;<br>            <span class="hljs-comment">// 构建新节点</span><br>            p-&gt;next = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>(val);<br>            p = p-&gt;next;<br>        &#125;<br>        <span class="hljs-comment">// 返回结果链表的头结点（去除虚拟头结点）</span><br>        <span class="hljs-keyword">return</span> dummy-&gt;next;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/3sum/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i !&#x3D; j、i !&#x3D; k 且 j !&#x3D; k ，同时还满足 <code>nums[i] + nums[j] + nums[k] == 0</code> 。<br>请你返回所有和为 0 且不重复的三元组。<br>注意：答案中不可以包含重复的三元组。</p>
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">	nSum 系列问题的核心思路：排序 + 双指针。</span><br><span class="hljs-comment">	数组从小到大排序，然后双指针 lo 和 hi 分别在数组开头和结尾，控制 nums[lo] 和 nums[hi] 之和的大小。</span><br><span class="hljs-comment">	需要和变大，lo++；需要和变小，hi--。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">threeSum</span>(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">sort</span>(nums.<span class="hljs-built_in">begin</span>(), nums.<span class="hljs-built_in">end</span>());<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">nSumTarget</span>(nums, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    &#125;<br><br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">nSumTarget</span>(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> n, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> target) &#123;<br>        vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; res;<br>        <span class="hljs-type">int</span> length = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-comment">// 至少是 2Sum，并且数组大小不应该小于 n</span><br>        <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">2</span> || length &lt; n) <span class="hljs-keyword">return</span> res;<br>        <span class="hljs-comment">// base case：2Sum</span><br>        <span class="hljs-keyword">if</span> (n == <span class="hljs-number">2</span>) &#123;<br>            <span class="hljs-type">int</span> l = start, r = length - <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">while</span> (l &lt; r) &#123;<br>                <span class="hljs-type">int</span> sum = nums[l] + nums[r];<br>                <span class="hljs-type">int</span> left = nums[l], right = nums[r];<br>                <span class="hljs-keyword">if</span> (sum &lt; target) &#123;<br>                    <span class="hljs-keyword">while</span> (l &lt; r &amp;&amp; nums[l] == left) l ++;<br>                &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sum &gt; target) &#123;<br>                    <span class="hljs-keyword">while</span> (l &lt; r &amp;&amp; nums[r] == right) r --;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    res.<span class="hljs-built_in">push_back</span>(&#123;left, right&#125;);<br>                    <span class="hljs-keyword">while</span> (l &lt; r &amp;&amp; nums[l] == left) l ++;<br>                    <span class="hljs-keyword">while</span> (l &lt; r &amp;&amp; nums[r] == right) r --;<br>                &#125;<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">// n &gt; 2 时，递归计算 (n-1)Sum 的结果</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = start; i &lt; length; i ++) &#123;<br>                vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; sub = <span class="hljs-built_in">nSumTarget</span>(nums, n - <span class="hljs-number">1</span>, i + <span class="hljs-number">1</span>, target - nums[i]);<br>                <span class="hljs-keyword">for</span> (vector&lt;<span class="hljs-type">int</span>&gt;&amp; arr : sub) &#123;<br>                    arr.<span class="hljs-built_in">push_back</span>(nums[i]);<br>                    <span class="hljs-built_in">sort</span>(arr.<span class="hljs-built_in">begin</span>(), arr.<span class="hljs-built_in">end</span>());<br>                    res.<span class="hljs-built_in">push_back</span>(arr);<br>                &#125;<br>                <span class="hljs-keyword">while</span> (i &lt; length - <span class="hljs-number">1</span> &amp;&amp; nums[i] == nums[i + <span class="hljs-number">1</span>]) i ++;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -290,8 +290,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode2.两数相加</div>
-      <div>https://lcf163.github.io/2023/08/07/leetcode2-两数相加/</div>
+      <div>leetcode15.三数之和</div>
+      <div>https://lcf163.github.io/2023/09/06/leetcode15-三数之和/</div>
     </div>
     <div class="license-meta">
       
@@ -303,7 +303,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年8月7日</div>
+          <div>2023年9月6日</div>
         </div>
       
       
@@ -335,18 +335,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/08/08/leetcode3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" title="leetcode3.无重复字符的最长子串">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode3.无重复字符的最长子串</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/07/leetcode1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="leetcode1.两数之和">
-                        <span class="hidden-mobile">leetcode1.两数之和</span>
+                      <a href="/2023/08/18/leetcode11-%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E7%9A%84%E5%AE%B9%E5%99%A8/" title="leetcode11.盛最多水的容器">
+                        <span class="hidden-mobile">leetcode11.盛最多水的容器</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
