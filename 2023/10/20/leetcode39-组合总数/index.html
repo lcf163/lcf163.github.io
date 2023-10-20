@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述整数数组 nums 按升序排列，数组中的值互不相同 。在传递给函数之前，nums 在预先未知的某个下标 k（0 &lt;&#x3D; k &lt; nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]（下标 从 0 开始 计数）。例如，">
+    <meta name="description" content="题目链接leetcode 题目描述给一个无重复元素的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有不同组合 ，并以列表形式返回。你可以按任意顺序返回这些组合。candidates 中的同一个数字可以无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。  对于给定的输入，保证和为 targ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode33.搜索旋转排序数组">
-<meta property="og:url" content="https://lcf163.github.io/2023/10/17/leetcode33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:title" content="leetcode39.组合总数">
+<meta property="og:url" content="https://lcf163.github.io/2023/10/20/leetcode39-%E7%BB%84%E5%90%88%E6%80%BB%E6%95%B0/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述整数数组 nums 按升序排列，数组中的值互不相同 。在传递给函数之前，nums 在预先未知的某个下标 k（0 &lt;&#x3D; k &lt; nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]（下标 从 0 开始 计数）。例如，">
+<meta property="og:description" content="题目链接leetcode 题目描述给一个无重复元素的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有不同组合 ，并以列表形式返回。你可以按任意顺序返回这些组合。candidates 中的同一个数字可以无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。  对于给定的输入，保证和为 targ">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-17T00:09:07.000Z">
-<meta property="article:modified_time" content="2023-10-20T14:53:19.054Z">
+<meta property="article:published_time" content="2023-10-20T15:22:35.000Z">
+<meta property="article:modified_time" content="2023-10-20T15:36:48.471Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode33.搜索旋转排序数组 - lcf Blog</title>
+  <title>leetcode39.组合总数 - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode33.搜索旋转排序数组"></span>
+            <span id="subtitle" data-typed-text="leetcode39.组合总数"></span>
           
         </div>
 
@@ -196,8 +196,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-17 08:09" pubdate>
-          2023年10月17日 早上
+        <time datetime="2023-10-20 23:22" pubdate>
+          2023年10月20日 晚上
         </time>
       </span>
     
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          1.6k 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          13 分钟
+          14 分钟
         
       </span>
     
@@ -257,14 +257,15 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode33.搜索旋转排序数组</h1>
+            <h1 style="display: none">leetcode39.组合总数</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-in-rotated-sorted-array/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>整数数组 <code>nums</code> 按升序排列，数组中的值互不相同 。<br>在传递给函数之前，<code>nums</code> 在预先未知的某个下标 <code>k（0 &lt;= k &lt; nums.length）</code>上进行了 旋转，使数组变为 <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code>（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 在下标 3 处经旋转后可能变为 [4,5,6,7,0,1,2] 。<br>给你旋转后的数组 <code>nums</code> 和一个整数 <code>target</code> ，如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回它的下标；否则，返回 <code>-1 </code>。<br>设计一个时间复杂度为 <code>O(log n)</code> 的算法解决此问题。</p>
-<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    二分法，本质：分段性，而不是单调性</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(logn)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">search</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (nums.<span class="hljs-built_in">empty</span>()) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br><br>        <span class="hljs-comment">// 二分找pivot。当找到边界时, 它是最后一个比nums[0]大的数</span><br>        <span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (l &lt; r) &#123;<br>            <span class="hljs-type">int</span> mid = l + r + <span class="hljs-number">1</span> &gt;&gt; <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] &gt;= nums[<span class="hljs-number">0</span>]) l = mid;<br>            <span class="hljs-keyword">else</span> r = mid - <span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 确定target在哪一段</span><br>        <span class="hljs-keyword">if</span> (target &gt;=  nums[<span class="hljs-number">0</span>]) l = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">else</span> l = r + <span class="hljs-number">1</span>, r = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br><br>        <span class="hljs-comment">// 二分找target</span><br>        <span class="hljs-keyword">while</span> (l &lt; r) &#123;<br>            <span class="hljs-type">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] &gt;= target) r = mid;<br>            <span class="hljs-keyword">else</span> l = mid + <span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 当数组只有一个元素时，二分查找的代码没有执行，l在上面被+1，这时候会越界</span><br>        <span class="hljs-comment">// r是length-1，不会产生越界</span><br>        <span class="hljs-keyword">if</span> (nums[r] == target) <span class="hljs-keyword">return</span> r;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    二分法</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">search</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-type">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">if</span> (n == <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>] == target ? <span class="hljs-number">0</span> : <span class="hljs-number">-1</span>;<br><br>        <span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = n - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (l &lt;= r) &#123;<br>            <span class="hljs-type">int</span> mid = l + (r - l) / <span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] == target) <span class="hljs-keyword">return</span> mid;<br>            <span class="hljs-keyword">if</span> (nums[l] &lt;= nums[mid]) &#123;<br>                <span class="hljs-keyword">if</span> (target &gt;= nums[l] &amp;&amp; target &lt; nums[mid]) &#123;<br>                    r = mid - <span class="hljs-number">1</span>;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    l = mid + <span class="hljs-number">1</span>;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">if</span> (target &gt; nums[mid] &amp;&amp; target &lt;= nums[r]) &#123;<br>                    l = mid + <span class="hljs-number">1</span>;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    r = mid - <span class="hljs-number">1</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给一个无重复元素的整数数组 <code>candidates</code> 和一个目标整数 <code>target</code> ，找出 <code>candidates</code> 中可以使数字和为目标数 <code>target</code> 的 所有不同组合 ，并以列表形式返回。<br>你可以按任意顺序返回这些组合。<code>candidates</code> 中的同一个数字可以无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。 </p>
+<p>对于给定的输入，保证和为 <code>target</code> 的不同组合数少于 <code>150</code> 个。</p>
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    暴力搜索</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">combinationSum</span>(vector&lt;<span class="hljs-type">int</span>&gt;&amp; candidates, <span class="hljs-type">int</span> target) &#123;<br>        <span class="hljs-built_in">dfs</span>(candidates, target, <span class="hljs-number">0</span>);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; c, <span class="hljs-type">int</span> target, <span class="hljs-type">int</span> start)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (target == <span class="hljs-number">0</span>) &#123;<br>            res.<span class="hljs-built_in">push_back</span>(path);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (start == c.<span class="hljs-built_in">size</span>()) <span class="hljs-keyword">return</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = start; i &lt; c.<span class="hljs-built_in">size</span>(); i ++) &#123;<br>            <span class="hljs-keyword">if</span> (c[i] &lt;= target) &#123;<br>                path.<span class="hljs-built_in">push_back</span>(c[i]);<br>                <span class="hljs-built_in">dfs</span>(c, target - c[i], i); <span class="hljs-comment">// 因为可以重复使用，所以还是 i</span><br>                path.<span class="hljs-built_in">pop_back</span>();<br>            &#125;<br>        &#125;<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-type">int</span>&gt; path;<br>&#125;;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">	思路同上</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">combinationSum</span>(vector&lt;<span class="hljs-type">int</span>&gt;&amp; candidates, <span class="hljs-type">int</span> target) &#123;<br>        <span class="hljs-keyword">if</span> (candidates.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> res;<br>        <span class="hljs-built_in">dfs</span>(candidates, <span class="hljs-number">0</span>, target, <span class="hljs-number">0</span>);<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; candidates, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> target, <span class="hljs-type">int</span> sum)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (sum == target) &#123;<br>            <span class="hljs-comment">// 找到目标和</span><br>            res.<span class="hljs-built_in">push_back</span>(path);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (sum &gt; target) &#123;<br>            <span class="hljs-comment">// 超过目标和，直接结束</span><br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 回溯算法框架</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = start; i &lt; candidates.<span class="hljs-built_in">size</span>(); i ++) &#123;<br>            <span class="hljs-comment">// 选择 candidates[i]</span><br>            path.<span class="hljs-built_in">push_back</span>(candidates[i]);<br>            sum += candidates[i];<br>            <span class="hljs-comment">// 递归遍历下一层回溯树</span><br>            <span class="hljs-built_in">dfs</span>(candidates, i, target, sum);<br>            <span class="hljs-comment">// 撤销选择 candidates[i]</span><br>            sum -= candidates[i];<br>            path.<span class="hljs-built_in">pop_back</span>();<br>        &#125;<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-type">int</span>&gt; path;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -289,8 +290,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode33.搜索旋转排序数组</div>
-      <div>https://lcf163.github.io/2023/10/17/leetcode33-搜索旋转排序数组/</div>
+      <div>leetcode39.组合总数</div>
+      <div>https://lcf163.github.io/2023/10/20/leetcode39-组合总数/</div>
     </div>
     <div class="license-meta">
       
@@ -302,7 +303,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年10月17日</div>
+          <div>2023年10月20日</div>
         </div>
       
       
@@ -334,18 +335,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/20/leetcode34-%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E8%AF%A2%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/" title="leetcode34.在排序数组中查询元素的第一个和最后一个位置">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode34.在排序数组中查询元素的第一个和最后一个位置</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/05/leetcode32-%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/" title="leetcode32.最长有效括号">
-                        <span class="hidden-mobile">leetcode32.最长有效括号</span>
+                      <a href="/2023/10/20/leetcode34-%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E8%AF%A2%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/" title="leetcode34.在排序数组中查询元素的第一个和最后一个位置">
+                        <span class="hidden-mobile">leetcode34.在排序数组中查询元素的第一个和最后一个位置</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
