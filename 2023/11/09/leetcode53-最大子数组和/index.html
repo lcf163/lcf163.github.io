@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述给你一个字符串数组，请你将字母异位词组合在一起。可以按任意顺序返回结果列表。字母异位词是由重新排列源单词的所有字母得到的一个新单词。 C++ 代码 - leetcode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354">
+    <meta name="description" content="题目链接leetcode 题目描述一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。子数组是数组中的一个连续部分。 C++ 代码 - leetcode1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950&#x2F;*    状态">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode49.字母异位词分组">
-<meta property="og:url" content="https://lcf163.github.io/2023/11/05/leetcode49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/index.html">
+<meta property="og:title" content="leetcode53.最大子数组和">
+<meta property="og:url" content="https://lcf163.github.io/2023/11/09/leetcode53-%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述给你一个字符串数组，请你将字母异位词组合在一起。可以按任意顺序返回结果列表。字母异位词是由重新排列源单词的所有字母得到的一个新单词。 C++ 代码 - leetcode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354">
+<meta property="og:description" content="题目链接leetcode 题目描述一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。子数组是数组中的一个连续部分。 C++ 代码 - leetcode1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950&#x2F;*    状态">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-11-05T13:26:48.000Z">
-<meta property="article:modified_time" content="2023-11-05T13:50:05.741Z">
+<meta property="article:published_time" content="2023-11-09T15:41:24.000Z">
+<meta property="article:modified_time" content="2023-11-09T15:53:27.355Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode49.字母异位词分组 - lcf Blog</title>
+  <title>leetcode53.最大子数组和 - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode49.字母异位词分组"></span>
+            <span id="subtitle" data-typed-text="leetcode53.最大子数组和"></span>
           
         </div>
 
@@ -196,8 +196,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-11-05 21:26" pubdate>
-          2023年11月5日 晚上
+        <time datetime="2023-11-09 23:41" pubdate>
+          2023年11月9日 晚上
         </time>
       </span>
     
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          875 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          14 分钟
+          8 分钟
         
       </span>
     
@@ -257,14 +257,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode49.字母异位词分组</h1>
+            <h1 style="display: none">leetcode53.最大子数组和</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/rotate-image/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个字符串数组，请你将<code>字母异位词</code>组合在一起。可以按任意顺序返回结果列表。<br><code>字母异位词</code>是由重新排列源单词的所有字母得到的一个新单词。</p>
-<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    哈希表</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    将每个字符串的所有字符从小到大排序，</span><br><span class="hljs-comment">    将排好序的字符串作为 key，然后将原字符串放入 key 对应的 value。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(NLlogL)</span><br><span class="hljs-comment">        N 是字符串个数，L 是字符串平均长度。</span><br><span class="hljs-comment">        对于每个字符串，哈希表和vector的插入操作复杂度都是 O(1)，排序复杂度是 O(LlogL)。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    move() 的逻辑：</span><br><span class="hljs-comment">        如果不使用 move，vector 的下一个位置新建一个 char* 数组，然后把原字符串复制过去；</span><br><span class="hljs-comment">        如果使用了 move，vector 的下一个位置的 char* 直接把原字符串的指针拿过来。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;string&gt;&gt; <span class="hljs-built_in">groupAnagrams</span>(vector&lt;string&gt;&amp; strs) &#123;<br>        unordered_map&lt;string, vector&lt;string&gt;&gt; dict;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; str : strs) &#123;<br>            string key = str;<br>            <span class="hljs-built_in">sort</span>(key.<span class="hljs-built_in">begin</span>(), key.<span class="hljs-built_in">end</span>());<br>            <span class="hljs-comment">// dict[key].push_back(str);</span><br>            dict[key].<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">move</span>(str));<br>        &#125;<br><br>        vector&lt;vector&lt;string&gt;&gt; res;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> it = dict.<span class="hljs-built_in">begin</span>(); it != dict.<span class="hljs-built_in">end</span>(); it ++) &#123;<br>            <span class="hljs-comment">// res.push_back(it-&gt;second);</span><br>            res.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">move</span>(it-&gt;second));<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    异位词的编码问题，对字符串排序可以是一种编码方案。</span><br><span class="hljs-comment">    如果是异位词，排序后变成一样的，但是这样时间复杂度略高，而去会修改原始数据。</span><br><span class="hljs-comment">    更好的方案：利用每个字符的出现次数进行编码。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;string&gt;&gt; <span class="hljs-built_in">groupAnagrams</span>(vector&lt;string&gt;&amp; strs) &#123;<br>        <span class="hljs-comment">// 编码到分组的映射</span><br>        unordered_map&lt;string, vector&lt;string&gt;&gt; codeToGroup;<br>        <span class="hljs-keyword">for</span> (string s : strs) &#123;<br>            <span class="hljs-comment">// 对字符串进行编码</span><br>            string code = <span class="hljs-built_in">encode</span>(s);<br>            <span class="hljs-comment">// 把编码相同的字符串放在一起</span><br>            codeToGroup[code].<span class="hljs-built_in">push_back</span>(s);<br>        &#125;<br><br>        <span class="hljs-comment">// 获取结果</span><br>        vector&lt;vector&lt;string&gt;&gt; res;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> group : codeToGroup) &#123;<br>            res.<span class="hljs-built_in">push_back</span>(group.second);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-comment">// 编码方法：每个字母的出现次数</span><br>    <span class="hljs-function">string <span class="hljs-title">encode</span><span class="hljs-params">(string s)</span> </span>&#123;<br>        <span class="hljs-function">vector&lt;<span class="hljs-type">char</span>&gt; <span class="hljs-title">count</span><span class="hljs-params">(<span class="hljs-number">26</span>, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : s) &#123;<br>            <span class="hljs-type">int</span> delta = c - <span class="hljs-string">&#x27;a&#x27;</span>;<br>            count[delta] ++;<br>        &#125;<br>        <span class="hljs-function">string <span class="hljs-title">code</span><span class="hljs-params">(count.begin(), count.end())</span></span>;<br>        <span class="hljs-keyword">return</span> code;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-subarray/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个整数数组 <code>nums</code> ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。<br><code>子数组</code>是数组中的一个连续部分。</p>
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    状态表示：</span><br><span class="hljs-comment">        f[i] 表示以第 i 个数字为结尾的连续子数组的总和，取 max。</span><br><span class="hljs-comment">    状态计算：</span><br><span class="hljs-comment">        f[i] = max(f[i - 1] + nums[i], nums[i])</span><br><span class="hljs-comment">        当前有两种决策：</span><br><span class="hljs-comment">            一种是将第 i 个数字和前边的数字拼接起来；</span><br><span class="hljs-comment">            另一种是第 i 个数字单独作为一个新的子数组的开始。</span><br><span class="hljs-comment">    答案：</span><br><span class="hljs-comment">    	res = max(f[k]), 0 &lt;= k &lt; n</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">        状态数为 O(n)，转移时间为 O(1)</span><br><span class="hljs-comment">    空间复杂度：O(n)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-type">int</span> n = nums.<span class="hljs-built_in">size</span>();<br><br>        <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">f</span><span class="hljs-params">(n + <span class="hljs-number">1</span>)</span></span>;<br>        f[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> res = INT_MIN;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) &#123;<br>            f[i] = <span class="hljs-built_in">max</span>(f[i - <span class="hljs-number">1</span>] + nums[i - <span class="hljs-number">1</span>], nums[i - <span class="hljs-number">1</span>]);<br>            res = <span class="hljs-built_in">max</span>(res, f[i]);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    思路同上，优化空间</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">    空间复杂度：O(1)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-type">int</span> res = INT_MIN;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>, last = <span class="hljs-number">0</span>; i &lt; nums.<span class="hljs-built_in">size</span>(); i ++) &#123;<br>            last = <span class="hljs-built_in">max</span>(last + nums[i], nums[i]);<br>            res = <span class="hljs-built_in">max</span>(res, last);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -289,8 +289,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode49.字母异位词分组</div>
-      <div>https://lcf163.github.io/2023/11/05/leetcode49-字母异位词分组/</div>
+      <div>leetcode53.最大子数组和</div>
+      <div>https://lcf163.github.io/2023/11/09/leetcode53-最大子数组和/</div>
     </div>
     <div class="license-meta">
       
@@ -302,7 +302,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年11月5日</div>
+          <div>2023年11月9日</div>
         </div>
       
       
@@ -334,18 +334,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/11/09/leetcode53-%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/" title="leetcode53.最大子数组和">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode53.最大子数组和</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/11/02/leetcode48-%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/" title="leetcode48.旋转图像">
-                        <span class="hidden-mobile">leetcode48.旋转图像</span>
+                      <a href="/2023/11/05/leetcode49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="leetcode49.字母异位词分组">
+                        <span class="hidden-mobile">leetcode49.字母异位词分组</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
