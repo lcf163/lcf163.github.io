@@ -212,6 +212,46 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
+          C++线程同步
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
+        <div>
+          线程同步进行多线程编程，如果多个线程需要对同一块内存进行操作，比如：同时读、同时写、同时读写。对于后两种情况来说，如果不做任何的人为干涉就会出现各种各样的错误数据。这是因为线程在运行的时候需要先得到 CPU 时间片，时间片用完之后需要放弃已获得的 CPU 资源，线程频繁地在就绪态和运行态之间切换，更复杂一点还可以在就绪态、运行态、挂起态之间切换，这样就会导致线程的执行顺序并不是有序的，而是随机的、
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-27 20:05" pubdate>
+              2021-08-27
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/08/25/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4this-thread/" target="_self">
           命名空间this_thread
         </a>
@@ -559,46 +599,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/" target="_self">
-          服务器并发
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/" target="_self">
-        <div>
-          单进程&#x2F;线程TCP 通信过程中，服务器端启动之后可以同时和多个客户端建立连接，并进行网络通信。先看一下之前的服务器代码的处理思路，再来分析代码中的不足： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758// server.c
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-03 15:35" pubdate>
-              2021-08-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
             
           </div>
         
