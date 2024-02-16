@@ -212,6 +212,46 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" target="_self">
+          C++原子变量
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" target="_self">
+        <div>
+          C++11 提供了一个原子类型 std::atomic&lt;T&gt;，通过这个原子类型管理的内部变量就可以称为原子变量，可以给原子类型指定任意的类型作为模板参数，因此原子变量可以是任意的类型。 C++11 内置了整形的原子变量，这样就可以更方便地使用原子变量。在多线程操作中，使用原子变量之后就不需要再使用互斥量来保护该变量，使用起来更简洁。因为对原子变量进行的操作只能是一个原子操作 atomi
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-28 08:55" pubdate>
+              2021-08-28
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
           C++线程同步
         </a>
@@ -550,46 +590,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2021-08-08 20:21" pubdate>
               2021-08-08
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/05/%E7%AE%A1%E9%81%93/" target="_self">
-          管道
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/05/%E7%AE%A1%E9%81%93/" target="_self">
-        <div>
-          管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。  因为管道数据是通过队列来维护的，分析一个管道中数据的特点：（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。（2）管道分为两部分：读端和
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-05 16:54" pubdate>
-              2021-08-05
             </time>
           </div>
         
