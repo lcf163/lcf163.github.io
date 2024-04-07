@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述给定一个按照非递减顺序排列的整数数组 nums 和一个目标值 target。请找出给定目标值在数组中的开始位置和结束位置。如果数组中不存在目标值 target，返回 [-1, -1]。设计并实现时间复杂度为 O(log n) 的算法解决此问题。 C++ 代码 - leetcode1234567891011121314151617181920212223242526">
+    <meta name="description" content="题目链接leetcode 题目描述给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。设计并实现线性时间复杂度 O(n) 的算法来解决此问题，且该算法只使用常量额外空间 O(1)。 C++ 代码 - leetcode12345678910111213141516171819&#x2F;*    任何数和 0 做异或运算，结果仍然是原来的数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode34.在排序数组中查询元素的第一个和最后一个位置">
-<meta property="og:url" content="https://lcf163.github.io/2023/10/20/leetcode34-%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E8%AF%A2%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/index.html">
+<meta property="og:title" content="leetcode136.只出现一次的数字">
+<meta property="og:url" content="https://lcf163.github.io/2024/04/07/leetcode136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述给定一个按照非递减顺序排列的整数数组 nums 和一个目标值 target。请找出给定目标值在数组中的开始位置和结束位置。如果数组中不存在目标值 target，返回 [-1, -1]。设计并实现时间复杂度为 O(log n) 的算法解决此问题。 C++ 代码 - leetcode1234567891011121314151617181920212223242526">
+<meta property="og:description" content="题目链接leetcode 题目描述给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。设计并实现线性时间复杂度 O(n) 的算法来解决此问题，且该算法只使用常量额外空间 O(1)。 C++ 代码 - leetcode12345678910111213141516171819&#x2F;*    任何数和 0 做异或运算，结果仍然是原来的数。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-20T14:52:30.000Z">
-<meta property="article:modified_time" content="2024-04-07T15:54:47.562Z">
+<meta property="article:published_time" content="2024-04-07T15:24:01.000Z">
+<meta property="article:modified_time" content="2024-04-07T15:28:49.707Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode34.在排序数组中查询元素的第一个和最后一个位置 - lcf Blog</title>
+  <title>leetcode136.只出现一次的数字 - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode34.在排序数组中查询元素的第一个和最后一个位置"></span>
+            <span id="subtitle" data-typed-text="leetcode136.只出现一次的数字"></span>
           
         </div>
 
@@ -196,8 +196,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-20 22:52" pubdate>
-          2023年10月20日 晚上
+        <time datetime="2024-04-07 23:24" pubdate>
+          2024年4月7日 晚上
         </time>
       </span>
     
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          405 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          16 分钟
+          4 分钟
         
       </span>
     
@@ -257,14 +257,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode34.在排序数组中查询元素的第一个和最后一个位置</h1>
+            <h1 style="display: none">leetcode136.只出现一次的数字</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个按照非递减顺序排列的整数数组 <code>nums</code> 和一个目标值 <code>target</code>。请找出给定目标值在数组中的开始位置和结束位置。<br>如果数组中不存在目标值 <code>target</code>，返回 <code>[-1, -1]</code>。<br>设计并实现时间复杂度为 <code>O(log n)</code> 的算法解决此问题。</p>
-<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    两次二分</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    第一次二分：</span><br><span class="hljs-comment">        寻找第一个大于等于 target 的元素。</span><br><span class="hljs-comment">    第二次二分：</span><br><span class="hljs-comment">        寻找最后一个小于等于 target 的元素。</span><br><span class="hljs-comment">    注意：需要特判边界。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(logn)</span><br><span class="hljs-comment">        二分的时间复杂度为 O(logn)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">searchRange</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (nums.<span class="hljs-built_in">empty</span>()) <span class="hljs-keyword">return</span> &#123; <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span> &#125;;<br><br>        <span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (l &lt; r) &#123;<br>            <span class="hljs-type">int</span> mid = (l + r) &gt;&gt; <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] &gt;= target) r = mid;<br>            <span class="hljs-keyword">else</span> l = mid + <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (nums[r] != target) <span class="hljs-keyword">return</span> &#123; <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span> &#125;;<br><br>        <span class="hljs-type">int</span> L = r;<br>        l = <span class="hljs-number">0</span>, r = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (l &lt; r) &#123;<br>            <span class="hljs-type">int</span> mid = (l + r + <span class="hljs-number">1</span>) &gt;&gt; <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] &lt;= target) l = mid;<br>            <span class="hljs-keyword">else</span> r = mid - <span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> &#123; L, r &#125;;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 思路同上</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">searchRange</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-type">int</span> left = <span class="hljs-built_in">leftBound</span>(nums, target);<br>        <span class="hljs-type">int</span> right = <span class="hljs-built_in">rightBound</span>(nums, target);<br>        <span class="hljs-keyword">return</span> &#123; left, right &#125;;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">leftBound</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-type">int</span> left = <span class="hljs-number">0</span>, right = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (left &lt;= right) &#123;<br>            <span class="hljs-type">int</span> mid = (left + right) / <span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] &lt; target) &#123;<br>                left = mid + <span class="hljs-number">1</span>;  <span class="hljs-comment">// 搜索区间变为 [mid + 1, right]</span><br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] &gt; target) &#123;<br>                right = mid - <span class="hljs-number">1</span>; <span class="hljs-comment">// 搜索区间变为 [left, mid - 1]</span><br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] == target) &#123;<br>                right = mid - <span class="hljs-number">1</span>; <span class="hljs-comment">// 收缩右侧边界</span><br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// 检查 left 是否越界</span><br>        <span class="hljs-keyword">if</span> (left &gt;= nums.<span class="hljs-built_in">size</span>() || nums[left] != target) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> left;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">rightBound</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-type">int</span> left = <span class="hljs-number">0</span>, right = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (left &lt;= right) &#123;<br>            <span class="hljs-type">int</span> mid = (left + right) / <span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span> (nums[mid] &lt; target) &#123;<br>                left = mid + <span class="hljs-number">1</span>;  <span class="hljs-comment">// 搜索区间变为 [mid + 1, right]</span><br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] &gt; target) &#123;<br>                right = mid - <span class="hljs-number">1</span>; <span class="hljs-comment">// 搜索区间变为 [left, mid - 1]</span><br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] == target) &#123;<br>                left = mid + <span class="hljs-number">1</span>;  <span class="hljs-comment">// 收缩左侧边界</span><br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// 检查 right 是否越界</span><br>        <span class="hljs-keyword">if</span> (right &lt; <span class="hljs-number">0</span> || nums[right] != target) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> right;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/single-number/description/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个 <strong>非空</strong> 整数数组 <code>nums</code> ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。<br>设计并实现线性时间复杂度 <code>O(n)</code> 的算法来解决此问题，且该算法只使用常量额外空间 <code>O(1)</code>。</p>
+<h2 id="C-代码-leetcode"><a href="#C-代码-leetcode" class="headerlink" title="C++ 代码 - leetcode"></a>C++ 代码 - leetcode</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    任何数和 0 做异或运算，结果仍然是原来的数。</span><br><span class="hljs-comment">    任何数和其自身做异或运算，结果是 0。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">        只需要对数组遍历一次，其中 n 是数组长度。</span><br><span class="hljs-comment">    空间复杂度：O(1)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">singleNumber</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; nums.<span class="hljs-built_in">size</span>(); i ++) &#123;<br>            res ^= nums[i];<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -289,8 +289,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode34.在排序数组中查询元素的第一个和最后一个位置</div>
-      <div>https://lcf163.github.io/2023/10/20/leetcode34-在排序数组中查询元素的第一个和最后一个位置/</div>
+      <div>leetcode136.只出现一次的数字</div>
+      <div>https://lcf163.github.io/2024/04/07/leetcode136-只出现一次的数字/</div>
     </div>
     <div class="license-meta">
       
@@ -302,7 +302,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年10月20日</div>
+          <div>2024年4月7日</div>
         </div>
       
       
@@ -334,18 +334,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/20/leetcode39-%E7%BB%84%E5%90%88%E6%80%BB%E6%95%B0/" title="leetcode39.组合总数">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode39.组合总数</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/17/leetcode33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/" title="leetcode33.搜索旋转排序数组">
-                        <span class="hidden-mobile">leetcode33.搜索旋转排序数组</span>
+                      <a href="/2024/04/07/leetcode128-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="leetcode128.最长连续序列">
+                        <span class="hidden-mobile">leetcode128.最长连续序列</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
