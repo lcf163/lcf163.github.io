@@ -212,6 +212,86 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/09/17/%E8%BD%AC%E7%A7%BB%E5%92%8C%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91/" target="_self">
+          转移和完美转发
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/17/%E8%BD%AC%E7%A7%BB%E5%92%8C%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91/" target="_self">
+        <div>
+          move在 C++11 添加了右值引用，并且不能使用左值初始化右值引用，如果想要使用左值初始化一个右值引用需要借助 std::move() 函数将左值转换为右值。使用这个函数和移动构造函数一样都具有移动语义，将对象的状态或者所有权从一个对象转移到另一个对象，只是转移，没有内存拷贝。 从实现上讲，std::move 基本等同于一个类型转换：static_cast&lt;T&amp;&amp;&gt;
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-17 23:08" pubdate>
+              2021-09-17
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/17/%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%E5%8C%85%E8%A3%85%E5%99%A8%E3%80%81%E7%BB%91%E5%AE%9A%E5%99%A8/" target="_self">
+          可调用对象包装器、绑定器
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/17/%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%E5%8C%85%E8%A3%85%E5%99%A8%E3%80%81%E7%BB%91%E5%AE%9A%E5%99%A8/" target="_self">
+        <div>
+          可调用对象在 C++ 中存在 “可调用对象” 这个概念。可调用对象有如下几种定义：（1）是一个函数指针 12345678int print(int a, double b)&#123;    cout &lt;&lt; a &lt;&lt; &quot;, &quot; &lt;&lt; b &lt;&lt; endl;    return 0;&#125;// 定义函数指针int (*func)
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-17 21:53" pubdate>
+              2021-09-17
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/09/17/%E5%9F%BA%E4%BA%8E%E8%8C%83%E5%9B%B4%E7%9A%84for%E5%BE%AA%E7%8E%AF/" target="_self">
           基于范围的for循环
         </a>
@@ -510,86 +590,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2021-09-14 16:55" pubdate>
               2021-09-14
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C-11/">#C++11</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/14/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
-          lambda 表达式
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/14/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
-        <div>
-          基本用法lambda 表达式是 C++11 最常用的特性之一，这是现代编程语言的一个特点，lambda 表达式的优点：（1）声明式的编程风格：匿名定义目标函数或函数对象，不需要额外写一个命名函数或函数对象。（2）简洁：避免了代码膨胀和功能分散，让开发更加高效。（3）在需要的时间和地点实现功能闭包，使程序更加灵活。lambda 表达式定义了一个匿名函数，并且可以捕获一定范围内的变量。 lambda
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-14 11:53" pubdate>
-              2021-09-14
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C-11/">#C++11</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/13/constexpr/" target="_self">
-          constexpr
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/13/constexpr/" target="_self">
-        <div>
-          const在 C++11 之前只有 const 关键字，从功能上来说这个关键字有双重语义：变量只读，修饰常量。示例如下： 12345678910111213void func(const int num)&#123;    const int count = 24;    // int array[num];          // error，num 是一个只读变量，不是常量    int ar
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-13 11:00" pubdate>
-              2021-09-13
             </time>
           </div>
         
