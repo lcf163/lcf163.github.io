@@ -212,6 +212,86 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/09/16/%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_self">
+          列表初始化
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/16/%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_self">
+        <div>
+          关于 C++ 中的变量、数组、对象等都有不同的初始化方法，这些繁琐的初始化方法中没有任何一种方式适用于所有的情况。为了统一初始化方式，并且让初始化行为具有确定的效果，在 C++11 中提出了列表初始化的概念。 统一的初始化在 C++98&#x2F;03 中，对应普通数组可以直接进行内存拷贝 memcpy() 的对象，可以使用列表初始化来初始化数据。 12345678910// 数组的初始化int
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-16 21:55" pubdate>
+              2021-09-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/16/%E5%A7%94%E6%89%98%E6%9E%84%E9%80%A0%E5%92%8C%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0/" target="_self">
+          委托构造和继承构造
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/16/%E5%A7%94%E6%89%98%E6%9E%84%E9%80%A0%E5%92%8C%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0/" target="_self">
+        <div>
+          委托构造函数委托构造函数允许使用同一个类中的一个构造函数调用其它的构造函数，简化相关变量的初始化。示例代码如下： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;class Test&#123;public:    Te
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-16 20:54" pubdate>
+              2021-09-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/09/16/using/" target="_self">
           using
         </a>
@@ -526,91 +606,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/12/nullptr/" target="_self">
-          nullptr
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/12/nullptr/" target="_self">
-        <div>
-          指针空值类型 nullptr在 C++ 程序开发中，为了提高程序的健壮性，一般会在定义指针的同时完成初始化操作，或者在指针的指向尚未明确的情况下，都会给指针初始化为 NULL，避免产生野指针（没有明确指向的指针，操作这种指针可能导致程序发生异常）。C++98/03 标准中，将一个指针初始化为空指针的方式有两种： 12char *ptr = 0;char *ptr = NULL; 底层源码中 NUL
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-12 16:47" pubdate>
-              2021-09-12
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C-11/">#C++11</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/12/%E5%8E%9F%E5%A7%8B%E5%AD%97%E9%9D%A2%E9%87%8F/" target="_self">
-          原始字面量
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/12/%E5%8E%9F%E5%A7%8B%E5%AD%97%E9%9D%A2%E9%87%8F/" target="_self">
-        <div>
-          原始字面量在 C++11 中添加了定义原始字符串的字面量，定义方式为：R &quot;xxx(原始字符串)xxx&quot;，()两边的字符串可以省略。原始字面量 R 可以直接表示字符串的实际含义，而不需要额外对字符串做转译等操作。 在编程过程中，使用的字符串中常带有一些特殊字符，对于这些字符往往要做的处理，使用了原始字面量可以轻松的解决这个问题，比如打印路径： 12345678910111213
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-12 11:45" pubdate>
-              2021-09-12
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C-11/">#C++11</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/7/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/#board">9</a><a class="page-number" href="/page/10/#board">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/#board">27</a><a class="extend next" rel="next" href="/page/9/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/7/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/#board">9</a><a class="page-number" href="/page/10/#board">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/#board">28</a><a class="extend next" rel="next" href="/page/9/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
