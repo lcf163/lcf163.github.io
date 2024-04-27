@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。 C++ 代码12345678910111213141516171819202122232425262728293031323334353637383940">
+    <meta name="description" content="题目链接leetcode 题目描述在一个由 &#39;0&#39; 和 &#39;1&#39; 组成的二维矩阵内，找到只包含 &#39;1&#39; 的最大正方形，并返回其面积。 C++ 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546&#x2F;*     状态表示：        d">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode215.数组中的第K个最大元素">
-<meta property="og:url" content="https://lcf163.github.io/2024/04/24/leetcode215-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E7%AC%ACK%E4%B8%AA%E6%9C%80%E5%A4%A7%E5%85%83%E7%B4%A0/index.html">
+<meta property="og:title" content="leetcode221.最大正方形">
+<meta property="og:url" content="https://lcf163.github.io/2024/04/27/leetcode221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。 C++ 代码12345678910111213141516171819202122232425262728293031323334353637383940">
+<meta property="og:description" content="题目链接leetcode 题目描述在一个由 &#39;0&#39; 和 &#39;1&#39; 组成的二维矩阵内，找到只包含 &#39;1&#39; 的最大正方形，并返回其面积。 C++ 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546&#x2F;*     状态表示：        d">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-24T14:22:03.000Z">
-<meta property="article:modified_time" content="2024-04-24T14:47:37.761Z">
+<meta property="article:published_time" content="2024-04-27T11:08:13.000Z">
+<meta property="article:modified_time" content="2024-04-27T11:31:08.573Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode215.数组中的第K个最大元素 - lcf Blog</title>
+  <title>leetcode221.最大正方形 - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode215.数组中的第K个最大元素"></span>
+            <span id="subtitle" data-typed-text="leetcode221.最大正方形"></span>
           
         </div>
 
@@ -196,8 +196,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-24 22:22" pubdate>
-          2024年4月24日 晚上
+        <time datetime="2024-04-27 19:08" pubdate>
+          2024年4月27日 晚上
         </time>
       </span>
     
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.1k 字
         
       </span>
     
@@ -257,14 +257,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode215.数组中的第K个最大元素</h1>
+            <h1 style="display: none">leetcode221.最大正方形</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/kth-largest-element-in-an-array/description/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code>k</code> 个最大的元素。<br>请注意，你需要找的是数组排序后的第 <code>k</code> 个最大的元素，而不是第 <code>k</code> 个不同的元素。<br>你必须设计并实现时间复杂度为 <code>O(n)</code> 的算法解决此问题。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    小根堆：堆的大小为 K，堆顶保存第 K 大的元素</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(KlogK)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">findKthLargest</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> k)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> x : nums) &#123;<br>            <span class="hljs-comment">// 每个元素都要过一遍二叉堆</span><br>            pq.<span class="hljs-built_in">push</span>(x);<br>            <span class="hljs-comment">// 堆中元素多于 k 个时，删除堆顶元素</span><br>            <span class="hljs-keyword">if</span> (pq.<span class="hljs-built_in">size</span>() &gt; k) &#123;<br>                pq.<span class="hljs-built_in">pop</span>();<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-comment">// 堆顶是最小的那个，即第 k 个最大元素</span><br>        <span class="hljs-keyword">return</span> pq.<span class="hljs-built_in">top</span>();<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    priority_queue&lt;<span class="hljs-type">int</span>, vector&lt;<span class="hljs-type">int</span>&gt;, greater&lt;<span class="hljs-type">int</span>&gt;&gt; pq; <span class="hljs-comment">// 小根堆</span><br>&#125;;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    改造快速排序算法</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    每次划分数组后，判断中轴值 pivot 在划分后的位置。 </span><br><span class="hljs-comment">        若位置正好等于 k ，则直接返回 pivot;</span><br><span class="hljs-comment">        否则，判断 pivot 在左边还是右边，继续寻找第 k 个最大元素。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">        递归时，每层时间复杂度为 O(n)，但并不是都进入左右两部分递归。</span><br><span class="hljs-comment">        仅进入一侧递归在平均情况下数组长度会减半，故时间复杂度为 n + n/2 + n/4 + ... + 1 = O(n)。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">findKthLargest</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> k)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">quickSort</span>(nums, <span class="hljs-number">0</span>, nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>, k - <span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> k)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (l == r) <span class="hljs-keyword">return</span> nums[l];<br>        <br>        <span class="hljs-type">int</span> x = nums[l], i = l - <span class="hljs-number">1</span>, j = r + <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>            <span class="hljs-keyword">while</span> (nums[++ i] &gt; x);<br>            <span class="hljs-keyword">while</span> (nums[-- j] &lt; x);<br>            <span class="hljs-keyword">if</span> (i &lt; j) <span class="hljs-built_in">swap</span>(nums[i], nums[j]);<br>        &#125;<br>        <span class="hljs-keyword">if</span> (k &lt;= j) <span class="hljs-keyword">return</span> <span class="hljs-built_in">quickSort</span>(nums, l, j, k);<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">quickSort</span>(nums, j + <span class="hljs-number">1</span>, r, k);<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximal-square/description/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>在一个由 <code>&#39;0&#39;</code> 和 <code>&#39;1&#39;</code> 组成的二维矩阵内，找到只包含 <code>&#39;1&#39;</code> 的最大正方形，并返回其面积。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/* </span><br><span class="hljs-comment">    状态表示：</span><br><span class="hljs-comment">        dp(i,j) 表示以 (i,j) 为右下角，并且只包含 1 的正方形的边长最大值。</span><br><span class="hljs-comment">    状态计算：</span><br><span class="hljs-comment">        对于每个位置 (i,j)，检查该位置的值：</span><br><span class="hljs-comment">            1.若值为 0</span><br><span class="hljs-comment">                dp(i,j) = 0，因为当前位置不可能在由 1 组成的正方形中。</span><br><span class="hljs-comment">            2.若值为 1</span><br><span class="hljs-comment">                dp(i,j) = min(dp(i−1, j), dp(i−1, j−1), dp(i, j−1)) + 1，</span><br><span class="hljs-comment">                dp(i,j) 的值由其上方、左方和左上方的三个相邻位置的值决定。</span><br><span class="hljs-comment">    边界条件：</span><br><span class="hljs-comment">        若 i 和 j 中至少有一个为 0，则以位置 (i,j) 为右下角的最大正方形的边长只能是 1，</span><br><span class="hljs-comment">        因此 dp(i,j) = 1。</span><br><span class="hljs-comment">    遍历顺序：</span><br><span class="hljs-comment">        从前向后，两层循环</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(mn)</span><br><span class="hljs-comment">        其中 m 和 n 是矩阵的行数和列数。</span><br><span class="hljs-comment">    空间复杂度：O(mn)</span><br><span class="hljs-comment">        其中 m 和 n 是矩阵的行数和列数，创建了一个和原始矩阵大小相同的矩阵 dp。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">maximalSquare</span><span class="hljs-params">(vector&lt;vector&lt;<span class="hljs-type">char</span>&gt;&gt;&amp; matrix)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (matrix.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span> || matrix[<span class="hljs-number">0</span>].<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-type">int</span> maxSide = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> rows = matrix.<span class="hljs-built_in">size</span>(), cols = matrix[<span class="hljs-number">0</span>].<span class="hljs-built_in">size</span>();<br>        vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">f</span>(rows, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt;(cols));<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; rows; i ++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cols; j ++) &#123;<br>                <span class="hljs-keyword">if</span> (matrix[i][j] == <span class="hljs-string">&#x27;1&#x27;</span>) &#123;<br>                    <span class="hljs-keyword">if</span> (i == <span class="hljs-number">0</span> || j == <span class="hljs-number">0</span>) &#123;<br>                        f[i][j] = <span class="hljs-number">1</span>;<br>                    &#125; <span class="hljs-keyword">else</span> &#123;<br>                        <span class="hljs-type">int</span> t = <span class="hljs-built_in">min</span>(f[i - <span class="hljs-number">1</span>][j], f[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]);<br>                        f[i][j] = <span class="hljs-built_in">min</span>(t, f[i][j - <span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>;<br>                    &#125;<br>                    maxSide = <span class="hljs-built_in">max</span>(maxSide, f[i][j]);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-type">int</span> maxSquare = maxSide * maxSide;<br>        <span class="hljs-keyword">return</span> maxSquare;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -289,8 +289,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode215.数组中的第K个最大元素</div>
-      <div>https://lcf163.github.io/2024/04/24/leetcode215-数组中的第K个最大元素/</div>
+      <div>leetcode221.最大正方形</div>
+      <div>https://lcf163.github.io/2024/04/27/leetcode221-最大正方形/</div>
     </div>
     <div class="license-meta">
       
@@ -302,7 +302,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月24日</div>
+          <div>2024年4月27日</div>
         </div>
       
       
@@ -334,9 +334,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/27/leetcode221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/" title="leetcode221.最大正方形">
+                      <a href="/2024/04/27/leetcode226-%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/" title="leetcode226.翻转二叉树">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode221.最大正方形</span>
+                        <span class="hidden-mobile">leetcode226.翻转二叉树</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -344,8 +344,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/24/leetcode208-%E5%AE%9E%E7%8E%B0Trie/" title="leetcode208.实现Trie">
-                        <span class="hidden-mobile">leetcode208.实现Trie</span>
+                      <a href="/2024/04/24/leetcode215-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E7%AC%ACK%E4%B8%AA%E6%9C%80%E5%A4%A7%E5%85%83%E7%B4%A0/" title="leetcode215.数组中的第K个最大元素">
+                        <span class="hidden-mobile">leetcode215.数组中的第K个最大元素</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
