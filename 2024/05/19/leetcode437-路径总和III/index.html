@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。 C++ 代码1234567891011121314151617181920212223242526272829303132333435363738394041424344&#x2F;*    对于该问题，先对集合求和得出 sum，然后把问题转化为背包问题">
+    <meta name="description" content="题目链接leetcode 题目描述给定一个二叉树的根节点 root 和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的路径的数目。路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。 C++ 代码12345678910111213141516171819202122232425262728293031323334353">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode416.分割等和子集">
-<meta property="og:url" content="https://lcf163.github.io/2024/05/19/leetcode416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/index.html">
+<meta property="og:title" content="leetcode437.路径总和III">
+<meta property="og:url" content="https://lcf163.github.io/2024/05/19/leetcode437-%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CIII/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。 C++ 代码1234567891011121314151617181920212223242526272829303132333435363738394041424344&#x2F;*    对于该问题，先对集合求和得出 sum，然后把问题转化为背包问题">
+<meta property="og:description" content="题目链接leetcode 题目描述给定一个二叉树的根节点 root 和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的路径的数目。路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。 C++ 代码12345678910111213141516171819202122232425262728293031323334353">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-19T13:43:53.000Z">
-<meta property="article:modified_time" content="2024-05-19T13:58:23.615Z">
+<meta property="article:published_time" content="2024-05-19T14:25:28.000Z">
+<meta property="article:modified_time" content="2024-05-19T15:21:05.900Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode416.分割等和子集 - lcf Blog</title>
+  <title>leetcode437.路径总和III - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode416.分割等和子集"></span>
+            <span id="subtitle" data-typed-text="leetcode437.路径总和III"></span>
           
         </div>
 
@@ -196,7 +196,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-19 21:43" pubdate>
+        <time datetime="2024-05-19 22:25" pubdate>
           2024年5月19日 晚上
         </time>
       </span>
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          942 字
+          1.5k 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          8 分钟
+          13 分钟
         
       </span>
     
@@ -257,14 +257,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode416.分割等和子集</h1>
+            <h1 style="display: none">leetcode437.路径总和III</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/partition-equal-subset-sum/description/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个 <strong>只包含正整数</strong> 的 <strong>非空</strong> 数组 <code>nums</code> 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    对于该问题，先对集合求和得出 sum，然后把问题转化为背包问题。</span><br><span class="hljs-comment">    给一个可装载容量为 sum / 2 的背包和 N 个物品，每个物品的容量为 nums[i]。</span><br><span class="hljs-comment">    现在要装物品，是否存在一种方法，可以恰好将背包装满？</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    状态定义：</span><br><span class="hljs-comment">        dp[i][j] 表示前 i 个物品，使用 j 容量的背包是否可以恰好装满。</span><br><span class="hljs-comment">    状态转移：</span><br><span class="hljs-comment">        第 i 个物品不装入背包，dp[i][j] = dp[i-1][j]</span><br><span class="hljs-comment">        第 i 个物品装入了背包，dp[i][j] = dp[i-1][j-nums[i-1]]</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n*m)</span><br><span class="hljs-comment">        n 表示数组的长度，m 表示容量大小。</span><br><span class="hljs-comment">    空间复杂度：O(n*m)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">canPartition</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num : nums) sum += num;<br>        <span class="hljs-comment">// 特判：和为奇数时，一定不能划分为两个等和子集</span><br>        <span class="hljs-keyword">if</span> (sum % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br><br>        <span class="hljs-type">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        sum = sum / <span class="hljs-number">2</span>;<br>        vector&lt;vector&lt;<span class="hljs-type">bool</span>&gt;&gt; <span class="hljs-built_in">f</span>(n + <span class="hljs-number">1</span>, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">bool</span>&gt;(sum + <span class="hljs-number">1</span>, <span class="hljs-literal">false</span>));<br>        <span class="hljs-comment">// base case</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= n; i ++)<br>            f[i][<span class="hljs-number">0</span>] = <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= sum; j ++) &#123;<br>                <span class="hljs-keyword">if</span> (j - nums[i - <span class="hljs-number">1</span>] &lt; <span class="hljs-number">0</span>) &#123;<br>                    <span class="hljs-comment">// 背包容量不足，不能装入该物品</span><br>                    f[i][j] = f[i - <span class="hljs-number">1</span>][j];<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-comment">// 不装入或装入背包</span><br>                    f[i][j] = f[i - <span class="hljs-number">1</span>][j] || f[i - <span class="hljs-number">1</span>][j - nums[i - <span class="hljs-number">1</span>]];<br>                &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> f[n][sum];<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum-iii/description/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个二叉树的根节点 <code>root</code> 和一个整数 <code>targetSum</code> ，求该二叉树里节点值之和等于 <code>targetSum</code> 的<strong>路径</strong>的数目。<br><strong>路径</strong>不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    深度优先搜索</span><br><span class="hljs-comment">    穷举所有可能，访问每一个节点 node，检测以 node 为起始节点且向下的路径有多少种。</span><br><span class="hljs-comment">    递归遍历每一个节点所有可能的路径，然后将这些路径数目相加即为结果。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    递归函数定义：</span><br><span class="hljs-comment">        返回以节点 p 为起点向下且满足路径总和为 val 的路径数目。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n^2)</span><br><span class="hljs-comment">        其中 n 为该二叉树节点的个数。</span><br><span class="hljs-comment">    空间复杂度：O(n)</span><br><span class="hljs-comment">        递归需要在栈上开辟空间。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pathSum</span><span class="hljs-params">(TreeNode* root, <span class="hljs-type">int</span> targetSum)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-type">long</span> <span class="hljs-type">long</span> res = <span class="hljs-built_in">dfs</span>(root, targetSum);<br>        res += <span class="hljs-built_in">pathSum</span>(root-&gt;left, targetSum);<br>        res += <span class="hljs-built_in">pathSum</span>(root-&gt;right, targetSum);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dfs</span><span class="hljs-params">(TreeNode* node, <span class="hljs-type">long</span> <span class="hljs-type">long</span> targetSum)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (!node) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-type">long</span> <span class="hljs-type">long</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">if</span> (node-&gt;val == targetSum) res ++;<br>        res += <span class="hljs-built_in">dfs</span>(node-&gt;left, targetSum - node-&gt;val);<br>        res += <span class="hljs-built_in">dfs</span>(node-&gt;right, targetSum - node-&gt;val);<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    前缀和</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    节点前缀和的定义：由根结点到当前结点的路径上所有节点的和。</span><br><span class="hljs-comment">    根据先序遍历二叉树，记录下根节点 root 到当前节点 p 的路径上除当前节点以外所有节点的前缀和，</span><br><span class="hljs-comment">    在已保存的路径前缀和中查找，是否存在前缀和等于当前节点到根节点的前缀和 cur - targetSum。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">    空间复杂度：O(n)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pathSum</span><span class="hljs-params">(TreeNode* root, <span class="hljs-type">int</span> targetSum)</span> </span>&#123;<br>        sum2cnt[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>; <span class="hljs-comment">// 初始化</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">dfs</span>(root, targetSum, <span class="hljs-number">0</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dfs</span><span class="hljs-params">(TreeNode* root, <span class="hljs-type">int</span> targetSum, <span class="hljs-type">long</span> <span class="hljs-type">long</span> cur)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;<br>        cur += root-&gt;val;<br>        <span class="hljs-keyword">if</span> (sum2cnt.<span class="hljs-built_in">count</span>(cur - targetSum)) &#123;<br>            res = sum2cnt[cur - targetSum];<br>        &#125;<br>        sum2cnt[cur] ++;<br>        res += <span class="hljs-built_in">dfs</span>(root-&gt;left, targetSum, cur);<br>        res += <span class="hljs-built_in">dfs</span>(root-&gt;right, targetSum, cur);<br>        sum2cnt[cur] --;<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    unordered_map&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>, <span class="hljs-type">int</span>&gt; sum2cnt;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -289,8 +289,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode416.分割等和子集</div>
-      <div>https://lcf163.github.io/2024/05/19/leetcode416-分割等和子集/</div>
+      <div>leetcode437.路径总和III</div>
+      <div>https://lcf163.github.io/2024/05/19/leetcode437-路径总和III/</div>
     </div>
     <div class="license-meta">
       
@@ -334,18 +334,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/19/leetcode437-%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CIII/" title="leetcode437.路径总和III">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode437.路径总和III</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/18/leetcode394-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A3%E7%A0%81/" title="leetcode394.字符串解码">
-                        <span class="hidden-mobile">leetcode394.字符串解码</span>
+                      <a href="/2024/05/19/leetcode416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/" title="leetcode416.分割等和子集">
+                        <span class="hidden-mobile">leetcode416.分割等和子集</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
