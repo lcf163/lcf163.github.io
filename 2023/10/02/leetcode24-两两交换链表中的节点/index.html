@@ -16,22 +16,22 @@
   <meta name="author" content="乘风的小站">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目链接leetcode 题目描述给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的所有 不同组合，并以列表形式返回。你可以按 任意顺序 返回这些组合。candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。对于给定的输入，保证和为">
+    <meta name="description" content="题目链接leetcode 题目描述给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。 C++ 代码123456789101112131415161718192021222324252627&#x2F;*    模拟        时间复杂度：O(n)*&#x2F;class Solution &amp;#123;public:    ListNode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode39.组合总数">
-<meta property="og:url" content="https://lcf163.github.io/2023/10/20/leetcode39-%E7%BB%84%E5%90%88%E6%80%BB%E6%95%B0/index.html">
+<meta property="og:title" content="leetcode24.两两交换链表中的节点">
+<meta property="og:url" content="https://lcf163.github.io/2023/10/02/leetcode24-%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/index.html">
 <meta property="og:site_name" content="lcf Blog">
-<meta property="og:description" content="题目链接leetcode 题目描述给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的所有 不同组合，并以列表形式返回。你可以按 任意顺序 返回这些组合。candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。对于给定的输入，保证和为">
+<meta property="og:description" content="题目链接leetcode 题目描述给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。 C++ 代码123456789101112131415161718192021222324252627&#x2F;*    模拟        时间复杂度：O(n)*&#x2F;class Solution &amp;#123;public:    ListNode">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-20T15:22:35.000Z">
-<meta property="article:modified_time" content="2024-04-09T14:49:07.052Z">
+<meta property="article:published_time" content="2023-10-02T14:30:00.000Z">
+<meta property="article:modified_time" content="2024-05-21T15:06:14.373Z">
 <meta property="article:author" content="乘风的小站">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>leetcode39.组合总数 - lcf Blog</title>
+  <title>leetcode24.两两交换链表中的节点 - lcf Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +185,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="leetcode39.组合总数"></span>
+            <span id="subtitle" data-typed-text="leetcode24.两两交换链表中的节点"></span>
           
         </div>
 
@@ -196,8 +196,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-20 23:22" pubdate>
-          2023年10月20日 晚上
+        <time datetime="2023-10-02 22:30" pubdate>
+          2023年10月2日 晚上
         </time>
       </span>
     
@@ -208,7 +208,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          988 字
+          536 字
         
       </span>
     
@@ -219,7 +219,7 @@
         
         
         
-          9 分钟
+          5 分钟
         
       </span>
     
@@ -257,14 +257,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">leetcode39.组合总数</h1>
+            <h1 style="display: none">leetcode24.两两交换链表中的节点</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum/description/">leetcode</a></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个 <strong>无重复元素</strong> 的整数数组 <code>candidates</code> 和一个目标整数 <code>target</code> ，找出 <code>candidates</code> 中可以使数字和为目标数 <code>target</code> 的所有 <strong>不同组合</strong>，并以列表形式返回。你可以按 <strong>任意顺序</strong> 返回这些组合。<br><code>candidates</code> 中的 <strong>同一个</strong> 数字可以 <strong>无限制重复被选取</strong> 。如果至少一个数字的被选数量不同，则两种组合是不同的。<br>对于给定的输入，保证和为 <code>target</code> 的不同组合数少于 <code>150</code> 个。</p>
-<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">	回溯算法的运用</span><br><span class="hljs-comment">	这道题的关键在于 candidates 中的元素可以重复使用。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">combinationSum</span>(vector&lt;<span class="hljs-type">int</span>&gt;&amp; candidates, <span class="hljs-type">int</span> target) &#123;<br>        <span class="hljs-keyword">if</span> (candidates.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> res;<br>        <span class="hljs-built_in">dfs</span>(candidates, <span class="hljs-number">0</span>, target);<br><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; candidates, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (target == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// 找到目标和</span><br>            res.<span class="hljs-built_in">push_back</span>(path);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (target &lt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// 超过目标和，直接结束</span><br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 回溯算法框架</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = start; i &lt; candidates.<span class="hljs-built_in">size</span>(); i++) &#123;<br>            <span class="hljs-comment">// 选择 candidates[i]</span><br>            path.<span class="hljs-built_in">push_back</span>(candidates[i]);<br>            target -= candidates[i];<br>            <span class="hljs-comment">// 递归遍历下一层回溯树</span><br>            <span class="hljs-built_in">dfs</span>(candidates, i, target);<br>            <span class="hljs-comment">// 撤销选择 candidates[i]</span><br>            target += candidates[i];<br>            path.<span class="hljs-built_in">pop_back</span>();<br>        &#125;<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-type">int</span>&gt; path;<br>&#125;;<br></code></pre></td></tr></table></figure>
+                <h2 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/swap-nodes-in-pairs/description/">leetcode</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。<br>在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。</p>
+<h2 id="C-代码"><a href="#C-代码" class="headerlink" title="C++ 代码"></a>C++ 代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    模拟</span><br><span class="hljs-comment">    </span><br><span class="hljs-comment">    时间复杂度：O(n)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">ListNode* <span class="hljs-title">swapPairs</span><span class="hljs-params">(ListNode* head)</span> </span>&#123;<br>        ListNode* dummy = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>(<span class="hljs-number">-1</span>);<br>        dummy-&gt;next = head;<br>        ListNode* cur = dummy;<br><br>        <span class="hljs-keyword">while</span> (cur != <span class="hljs-literal">nullptr</span>) &#123;<br>            ListNode* first = cur-&gt;next;<br>            <span class="hljs-keyword">if</span> (first == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">break</span>;<br>            ListNode* second = first-&gt;next;<br>            <span class="hljs-keyword">if</span> (second == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">break</span>;<br><br>            cur-&gt;next = second;<br>            first-&gt;next = second-&gt;next;<br>            second-&gt;next = first;<br>            cur = first;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> dummy-&gt;next;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -289,8 +289,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>leetcode39.组合总数</div>
-      <div>https://lcf163.github.io/2023/10/20/leetcode39-组合总数/</div>
+      <div>leetcode24.两两交换链表中的节点</div>
+      <div>https://lcf163.github.io/2023/10/02/leetcode24-两两交换链表中的节点/</div>
     </div>
     <div class="license-meta">
       
@@ -302,7 +302,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年10月20日</div>
+          <div>2023年10月2日</div>
         </div>
       
       
@@ -334,9 +334,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/23/leetcode42-%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="leetcode42.接雨水">
+                      <a href="/2023/10/02/leetcode25-K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="leetcode25.K个一组翻转链表">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">leetcode42.接雨水</span>
+                        <span class="hidden-mobile">leetcode25.K个一组翻转链表</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -344,8 +344,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/20/leetcode34-%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E8%AF%A2%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/" title="leetcode34.在排序数组中查询元素的第一个和最后一个位置">
-                        <span class="hidden-mobile">leetcode34.在排序数组中查询元素的第一个和最后一个位置</span>
+                      <a href="/2023/10/02/leetcode23-%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="leetcode23.合并K个升序链表">
+                        <span class="hidden-mobile">leetcode23.合并K个升序链表</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

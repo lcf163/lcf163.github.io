@@ -212,6 +212,326 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/04/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF/" target="_self">
+          问答平台（2），显示登录信息
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/30/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%98%BE%E7%A4%BA%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF/" target="_self">
+        <div>
+          问题背景每个页面头部都要显示用户头像。如果用户没有登录，页面最上方显示的是登录按钮；如果用户登录，显示的是头像、消息等按钮。根据是否登录，调整页面内容。 拦截器的好处如果每个页面都调用相同的方法来显示用户信息，耦合度高。利用Spring拦截器来解决问题：拦截浏览器访问请求，在请求的开始和结束部分插入，批量解决多个请求共有的业务，低耦合度。 拦截器的示例定义拦截器实现 HandlerIntercep
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-30 19:58" pubdate>
+              2020-04-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/28/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA/" target="_self">
+          问答平台（2），登录和退出
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/28/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA/" target="_self">
+        <div>
+          登录123- 验证账号、密码、验证码。- 成功时，生成登录凭证，发放给客户端。- 失败时，跳转回登录页面。 LoginTicket123- login_ticket表保存用户的状态，核心字段为ticket。- 登陆成功时，服务器将ticket字段发送给客户端。- 客户端访问时，将ticket字段发送给服务器，然后服务器根据这个字段查询用户信息（id、用户状态、过期时间等）。  退出12- 将登录凭
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-28 16:38" pubdate>
+              2020-04-28
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/26/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/" target="_self">
+          问答平台（2），生成验证码
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/26/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/" target="_self">
+        <div>
+          Kaptcha123- 导入jar包；- 编写Kaptcha配置类；- 生成随机字符，生成图片。  Kaptcha 配置类123456789101112131415161718192021// KaptchaConfig.java@Configurationpublic class KaptchaConfig &#123;    @Bean    public Producer kaptchaPr
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-26 16:01" pubdate>
+              2020-04-26
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/" target="_self">
+          问答平台（2），会话管理
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/24/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/" target="_self">
+        <div>
+          HTTP基本性质123- 简单的；- 可扩展的；- 无状态，有会话的。  Cookie12- 是服务器发送到浏览器，并存储在浏览器端的一小块数据。- 浏览器下次访问该服务器时，会自动携带该块数据，将其发送给服务器。  表现层1234567891011121314151617181920212223// AlphaController.java// cookie示例@RequestMapping(p
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-24 11:24" pubdate>
+              2020-04-24
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD/" target="_self">
+          问答平台（2），注册功能
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/22/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD/" target="_self">
+        <div>
+          访问注册页面1- 点击顶部区域内的链接，打开注册页面。  提交注册数据123- 通过表单提交数据；- 服务端验证账号是否已经存在，邮箱是否已经注册；- 服务端发送激活邮件。  激活注册账号1- 点击邮件中的链接，访问服务端的激活服务。  工具类123456789101112131415161718// CommunityUtil.javapublic class CommunityUtil &#1
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-22 09:47" pubdate>
+              2020-04-22
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" target="_self">
+          问答平台（2），发送邮件
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/20/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%882%EF%BC%89%EF%BC%8C%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" target="_self">
+        <div>
+          邮箱设置1- 启动客户端SMTP服务 示意图  Spring Email 导入jar包12345&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;    &lt;ve
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-20 09:40" pubdate>
+              2020-04-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" target="_self">
+          问答平台（1），版本控制
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/16/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" target="_self">
+        <div>
+          版本控制12345678- 认识Git    - Git简介    - Git的安装与配置- Git常用命令    - 将代码提交至本地仓库    - 将代码上传至远程仓库- IDEA集成Git     - 在IDEA中配置并使用Git  命令123456789101112131415161718192021# 账号配置git config --listgit config --global us
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-16 08:08" pubdate>
+              2020-04-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/04/15/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E9%A1%B9%E7%9B%AE%E8%B0%83%E8%AF%95/" target="_self">
+          问答平台（1），项目调试
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/15/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E9%A1%B9%E7%9B%AE%E8%B0%83%E8%AF%95/" target="_self">
+        <div>
+          响应状态码的含义123456状态代码有三位数字组成，第一个数字定义了响应的类别，分为五类:    1xx：指示信息--表示请求已接收，继续处理    2xx：成功--表示请求已被成功接收    3xx：重定向--要完成请求必须进行更进一步的操作    4xx：客户端错误--请求有语法错误或请求无法实现    5xx：服务器端错误--服务器未能实现合法的请求  服务端断点调试idea调试常用快捷键
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-15 09:36" pubdate>
+              2020-04-15
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/04/14/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%A4%BE%E5%8C%BA%E9%A6%96%E9%A1%B5/" target="_self">
           问答平台（1），开发社区首页
         </a>
@@ -286,291 +606,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8CSpringMVC%E5%85%A5%E9%97%A8/" target="_self">
-          问答平台（1），SpringMVC入门
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/12/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8CSpringMVC%E5%85%A5%E9%97%A8/" target="_self">
-        <div>
-          HTTP123- HyperText Transfer Protocol - 用于传输 HTML 等内容的应用层协议- 规定了浏览器和服务器之间如何通信，以及通信时的数据格式。  Spring MVC123456789- 三层架构    - 表现层、业务层、数据访问层    - 分层目的：解耦- MVC    - Model：模型层    - View：视图层    - Controller：控制
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-12 16:32" pubdate>
-              2020-04-12
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8CSpirng%E5%85%A5%E9%97%A8/" target="_self">
-          问答平台（1），Spirng入门
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/11/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8CSpirng%E5%85%A5%E9%97%A8/" target="_self">
-        <div>
-          Spring 全家桶1234- Spring Framework(Spring的基石)- Spring Boot(构建项目，方便开发)- Spring Cloud(微服务，大项目拆分成若干个子项目再集成)- Spring Cloud Data Flow  Spring Framework12345678- Spring Core    - IoC、AOP- Spring Data Access
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-11 15:00" pubdate>
-              2020-04-11
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" target="_self">
-          问答平台（1），开发环境
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/04/10/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0%EF%BC%881%EF%BC%89%EF%BC%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" target="_self">
-        <div>
-          Apache Maven12345- 构建项目、管理项目中的jar包- Maven仓库：存放构件的位置    - 本地仓库：默认是 ~/.m2/repository    - 远程仓库：中央仓库、镜像仓库、私服仓库- 示例：安装、配置、常用命令 配置&#x2F;conf&#x2F;settings.xml 12345678&lt;mirrors&gt;    &lt;mirror&gt;
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-10 15:00" pubdate>
-              2020-04-10
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%97%AE%E7%AD%94%E5%B9%B3%E5%8F%B0/">#问答平台</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/31/Hexo%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%AB%99%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/" target="_self">
-          Hexo，添加网站运行时间
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/03/31/Hexo%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%BD%91%E7%AB%99%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/" target="_self">
-        <div>
-          添加网站运行时间添加位置：如果有统计量（如不蒜子统计量），放在不蒜子后面灵活配置（推荐）：设置成可以直接在配置文件中进行开启和关闭的形式 1.修改/themes/yilia/_config.yml添加内容如下： 12345# 网站运行时间，格式形如：“本站已运行 100 天 10 小时 10 分 10 秒”# Runing Timerunning_time: enable: true create
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-31 11:00" pubdate>
-              2020-03-31
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Hexo%E5%8D%9A%E5%AE%A2/">#Hexo博客</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/31/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0%E5%BD%92%E6%A1%A3/" target="_self">
-          Hexo + yilia主题，添加归档
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/03/31/Hexo-yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%B7%BB%E5%8A%A0%E5%BD%92%E6%A1%A3/" target="_self">
-        <div>
-          1.添加archives页面/blog目录下，输入hexo new page &quot;archives&quot;；/blog/source目录下，生成archives文件夹，如下图所示： 修改/blog/source/archives/index.md，内容如下： 1234title: archivesdate: xxxtype: &quot;archives&quot;  2.添加arch
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-31 10:22" pubdate>
-              2020-03-31
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Hexo%E5%8D%9A%E5%AE%A2/">#Hexo博客</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/30/Hexo%EF%BC%8C%E8%B8%A9%E5%9D%91/" target="_self">
-          Hexo，踩坑
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/03/30/Hexo%EF%BC%8C%E8%B8%A9%E5%9D%91/" target="_self">
-        <div>
-          本地图片不显示1.修改文件_config.yml，post_asset_folder: 设置为true。 2.输入hexo n &quot;md文件名&quot;，生成一个与md文件同名的文件夹。 3.安装hexo-asset-image，可以上传本地图片的插件，输入npm install https://github.com/CodeFalling/hexo-asset-image --save
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-30 14:57" pubdate>
-              2020-03-30
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Hexo%E5%8D%9A%E5%AE%A2/">#Hexo博客</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/30/Hexo%EF%BC%8C%E6%90%AD%E5%BB%BA/" target="_self">
-          Hexo，搭建
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/03/30/Hexo%EF%BC%8C%E6%90%AD%E5%BB%BA/" target="_self">
-        <div>
-          1.安装Node.js官网链接：https://nodejs.org/，如下图所示： 2.安装Git官网链接：https://git-scm.com/downloads，选择windows版本，下一步安装。Git Bash相当于Linux中的终端窗口，用来打开终端。 3.安装Hexo新建文件夹blog，打开Git Bash测试node、npm是否安装成功，如下图所示： 安装cnpm，提高下载速度终
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-30 14:13" pubdate>
-              2020-03-30
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Hexo%E5%8D%9A%E5%AE%A2/">#Hexo博客</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/28/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="page-number current">29</span>
+      <a class="extend prev" rel="prev" href="/page/28/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/#board">30</a><a class="extend next" rel="next" href="/page/30/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

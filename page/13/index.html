@@ -212,6 +212,326 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/08/08/%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84/" target="_self">
+          内存映射
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/08/%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84/" target="_self">
+        <div>
+          创建内存映射区如果要实现进程间通信，可以通过函数创建一块内存映射区，和管道不同的是管道对应的内存空间在内核中，而内存映射区对应的内存空间在进程的用户区（用于加载动态库的那个区域），也就是说进程间通信使用的内存映射区不是一块，而是在每个进程内部都有一块。由于每个进程的地址空间是独立的，各个进程之间也不能直接访问对方的内存映射区，需要通信的进程需要将各自的内存映射区和同一个磁盘文件进行映射，这样进程之
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-08 20:21" pubdate>
+              2021-08-08
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/05/%E7%AE%A1%E9%81%93/" target="_self">
+          管道
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/05/%E7%AE%A1%E9%81%93/" target="_self">
+        <div>
+          管道的是进程间通信（IPC, InterProcess Communication）的一种方式，管道其实就是内核中的一块内存（内核缓冲区），这块缓冲区中的数据存储在一个环形队列中，因为管道在内核里边，因此不能直接对其进行操作。  因为管道数据是通过队列来维护的，分析一个管道中数据的特点：（1）管道对应的内核缓冲区大小是固定的，默认为 4k（队列最大能存储 4k 数据）。（2）管道分为两部分：读端和
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-05 16:54" pubdate>
+              2021-08-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/" target="_self">
+          服务器并发
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/03/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91/" target="_self">
+        <div>
+          单进程&#x2F;线程TCP 通信过程中，服务器端启动之后可以同时和多个客户端建立连接，并进行网络通信。先看一下之前的服务器代码的处理思路，再来分析代码中的不足： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758// server.c
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-03 15:35" pubdate>
+              2021-08-03
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/02/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" target="_self">
+          进程控制
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/02/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" target="_self">
+        <div>
+          进程的概念程序和进程是两个不同的概念，它们的状态、占用的系统资源都是不同的。程序：就是磁盘上的可执行文件文件，并且只占用磁盘上的空间，是一个静态的概念。进程：被执行之后的程序叫做进程，不占用磁盘空间，需要消耗系统的内存、CPU资源。每个运行的进程的都对应一个属于自己的虚拟地址空间，这是一个动态的概念。 并行与并发（1）CPU 时间片CPU 在某个时间点只能处理一个任务，但是操作系统都支持多任务的。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-02 20:17" pubdate>
+              2021-08-02
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/01/%E5%A5%97%E6%8E%A5%E5%AD%97%E9%80%9A%E4%BF%A1/" target="_self">
+          套接字通信
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/01/%E5%A5%97%E6%8E%A5%E5%AD%97%E9%80%9A%E4%BF%A1/" target="_self">
+        <div>
+          socket编程字节序在各种计算机体系结构中，对于字节、字等的存储机制有所不同，因而引发了计算机通信领域中一个很重要的问题，即通信双方交流的信息单元（比特、字节、字、双字等等）应该以什么样的顺序进行传送。如果不达成一致的规则，通信双方将无法进行正确的编&#x2F;译码从而导致通信失败。 字节序，就是大于一个字节类型的数据在内存中的存放顺序。对于单字符来说是没有字节序问题的，字符串是单字符的集合，因
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-01 18:34" pubdate>
+              2021-08-01
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/24/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
+          线程池
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/07/24/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
+        <div>
+          线程池线程池的思想 线程池的流程图 简单版本的线程池 主线程添加任务；子线程执行任务和销毁线程池   threadpoolsimple.h12345678910111213141516171819202122232425262728293031323334353637383940#ifndef _THREADPOOL_H#define _THREADPOOL_H#include &lt;stdio
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-24 15:10" pubdate>
+              2021-07-24
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/05/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-%E6%9C%AC%E5%9C%B0socket%E9%80%9A%E4%BF%A1/" target="_self">
+          Linux网络编程-本地socket通信
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/05/05/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-%E6%9C%AC%E5%9C%B0socket%E9%80%9A%E4%BF%A1/" target="_self">
+        <div>
+          本地socket通信服务端 unix_server.c12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-05 19:02" pubdate>
+              2021-05-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/01/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-UDP/" target="_self">
+          Linux网络编程-UDP
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/05/01/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-UDP/" target="_self">
+        <div>
+          UDP通信服务端 udp_server.c1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071/*服务端的开发流程：    1.创建socket        udp_socket =
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-01 18:12" pubdate>
+              2021-05-01
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/10/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" target="_self">
           Linux网络编程
         </a>
@@ -286,331 +606,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/04/08/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E8%BF%9B%E7%A8%8B/" target="_self">
-          Linux系统编程-进程
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/04/08/Linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B-%E8%BF%9B%E7%A8%8B/" target="_self">
-        <div>
-          概念程序 程序是包含一系列信息的文件，这些信息描述了如何在运行时创建一个进程：   二进制格式标识：每个程序文件都包含用于描述可执行文件格式的元信息。内核利用此信息来解释文件中的其他信息。（ELF可执行连接格式） 机器语言指令：对程序算法进行编码。 程序入口地址：标识程序开始执行时的起始指令位置。 数据：程序文件包含的变量初始值和程序使用的字面量值（比如字符串）。 符号表及重定位表：描述程序中函数
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-04-08 21:00" pubdate>
-              2021-04-08
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%BF%9B%E7%A8%8B/">#进程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/04/%E5%89%91%E6%8C%87offer-%E9%A2%98%E8%A7%A3%E6%B1%87%E6%80%BB/" target="_self">
-          剑指offer 题解汇总
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/04/%E5%89%91%E6%8C%87offer-%E9%A2%98%E8%A7%A3%E6%B1%87%E6%80%BB/" target="_self">
-        <div>
-          说明12按照《剑指 offer》目录的顺序，整理每一题的代码。刷题系统：以牛客网为主，leetcode 补充部分题目。  传送门牛客网leetcode 题目汇总剑指3：数组中重复的数字剑指4：二维数组中的查找剑指5：替换空格剑指6：从尾到头打印链表剑指7：重建二叉树剑指8：二叉树的下一个节点剑指9：用两个栈实现队列剑指10：斐波那契数列剑指10-II：跳台阶剑指10-III：变态跳台阶剑指11：旋
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-04 09:33" pubdate>
-              2021-02-04
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/04/%E5%89%91%E6%8C%8768-II%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-          剑指68-II：二叉树的最近公共祖先
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/04/%E5%89%91%E6%8C%8768-II%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-        <div>
-          传送门leetcode 题目描述普通二叉树，在左右子树中查找是否存在 p 或者 q，如果 p 和 q 分别在两个子树中，那么说明根节点就是最近公共祖先。 C++ 代码 - leetcode12345678910111213141516171819202122232425262728293031323334/*    经典问题，递归函数的定义：输入三个参数 root，p，q，它会返回一个节点。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-04 08:41" pubdate>
-              2021-02-04
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/04/%E5%89%91%E6%8C%8768%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-          剑指68：二叉搜索树的最近公共祖先
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/04/%E5%89%91%E6%8C%8768%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-        <div>
-          传送门nowcoderleetcode 题目描述给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。 C++ 代码 - nowcoder123456789101112131415161718192021222324252627282930class Solution &#123;public:    int lowestCommonAncestor(TreeNode* root, int
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-04 08:33" pubdate>
-              2021-02-04
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/03/%E5%89%91%E6%8C%8767%EF%BC%9A%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/" target="_self">
-          剑指67：把字符串转换成整数
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/03/%E5%89%91%E6%8C%8767%EF%BC%9A%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/" target="_self">
-        <div>
-          传送门nowcoderleetcode 题目描述将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。数值为 0 或字符串不是一个合法的数值，则返回 0 。 数据范围：字符串长度满足 0 &lt;= n &lt;=100要求：空间复杂度 O(1)，时间复杂度 O(n) C++ 代码 - nowcoder12345678910111213141516171819202122232425/*
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-03 23:03" pubdate>
-              2021-02-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/03/%E5%89%91%E6%8C%8766%EF%BC%9A%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/" target="_self">
-          剑指66：构建乘积数组
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/03/%E5%89%91%E6%8C%8766%EF%BC%9A%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/" target="_self">
-        <div>
-          传送门nowcoderleetcode 题目描述给定一个数组 A[0,1,…,n-1]，请构建一个数组 B[0,1,…,n-1]，其中 B[i] = A[0]A[1]...A[i-1]*A[i+1]...*A[n-1]，不能使用除法。规定： B[0] = A[1]A[2]*...*A[n-1], B[n-1] = A[0]A[1]*...*A[n-2] C++ 代码 - nowcoder12345
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-03 22:56" pubdate>
-              2021-02-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/03/%E5%89%91%E6%8C%8765%EF%BC%9A%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" target="_self">
-          剑指65：不用加减乘除做加法
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/03/%E5%89%91%E6%8C%8765%EF%BC%9A%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" target="_self">
-        <div>
-          传送门nowcoderleetcode 题目描述写一个函数，求两个整数之和，要求在函数体内不得使用 +、-、*、/四则运算符号。 C++ 代码 - nowcoder1234567891011121314151617181920212223/*    1.两个数异或：等价于每一位相加，而不考虑进位。    2.两个数相与，并左移一位：等价于求出进位。    3.将上述两步的结果相加。    递归会终
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-03 22:49" pubdate>
-              2021-02-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821+2+...+n/" target="_self">
-          剑指64：求1+2+...+n
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/03/%E5%89%91%E6%8C%8764%EF%BC%9A%E6%B1%821+2+...+n/" target="_self">
-        <div>
-          传送门nowcoderleetcode 题目描述求 1 + 2 + 3 + … + n，要求：不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句。 C++ 代码 - nowcoder12345678910111213141516171819202122232425/*    逻辑与的短路特性，实现递归终止    当 n == 0 时，(n &gt;
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-03 22:46" pubdate>
-              2021-02-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">#剑指</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/12/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="page-number" href="/page/12/#board">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/#board">14</a><a class="page-number" href="/page/15/#board">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/#board">29</a><a class="extend next" rel="next" href="/page/14/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/12/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="page-number" href="/page/12/#board">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/#board">14</a><a class="page-number" href="/page/15/#board">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/#board">30</a><a class="extend next" rel="next" href="/page/14/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
