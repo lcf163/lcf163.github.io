@@ -212,6 +212,366 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/09/16/%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_self">
+          列表初始化
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/16/%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_self">
+        <div>
+          关于 C++ 中的变量、数组、对象等都有不同的初始化方法，这些繁琐的初始化方法中没有任何一种方式适用于所有的情况。为了统一初始化方式，并且让初始化行为具有确定的效果，在 C++11 中提出了列表初始化的概念。 统一的初始化在 C++98&#x2F;03 中，对应普通数组可以直接进行内存拷贝 memcpy() 的对象，可以使用列表初始化来初始化数据。 12345678910// 数组的初始化int
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-16 21:55" pubdate>
+              2021-09-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/16/%E5%A7%94%E6%89%98%E6%9E%84%E9%80%A0%E5%92%8C%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0/" target="_self">
+          委托构造和继承构造
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/16/%E5%A7%94%E6%89%98%E6%9E%84%E9%80%A0%E5%92%8C%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0/" target="_self">
+        <div>
+          委托构造函数委托构造函数允许使用同一个类中的一个构造函数调用其它的构造函数，简化相关变量的初始化。示例代码如下： 123456789101112131415161718192021222324252627282930313233343536373839#include &lt;iostream&gt;using namespace std;class Test&#123;public:    Te
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-16 20:54" pubdate>
+              2021-09-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/16/using/" target="_self">
+          using
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/16/using/" target="_self">
+        <div>
+          在 C++ 中 using 用于声明命名空间，使用命名空间也可以防止命名冲突。在程序中声明了命名空间之后，就可以直接使用命名空间中的定义的类。在 C++11 中赋予了 using 新的功能，让 C++ 变得更灵活。 定义别名在 C++ 中可以通过 typedef 重定义一个类型，语法格式如下： 12// typedef 旧的类型名 新的类型名;typedef unsigned int uint_t
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-16 20:11" pubdate>
+              2021-09-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/15/%E6%A8%A1%E6%9D%BF%E7%9A%84%E4%BC%98%E5%8C%96/" target="_self">
+          模板的优化
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/15/%E6%A8%A1%E6%9D%BF%E7%9A%84%E4%BC%98%E5%8C%96/" target="_self">
+        <div>
+          模板的右尖括号在泛型编程中，模板实例化有一个非常繁琐的地方，那就是连续的两个右尖括号 &gt;&gt; 会被编译器解析成右移操作符，而不是模板参数表的结束。先看一段关于容器遍历的代码，在创建的类模板 Base 中提供了遍历容器的操作函数 traversal() 12345678910111213141516171819202122232425262728#include &lt;iostream&
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-15 18:29" pubdate>
+              2021-09-15
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/15/%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/" target="_self">
+          自动类型推导
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/15/%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/" target="_self">
+        <div>
+          在 C++11 中增加了很多新的特性，可以使用 auto 自动推导变量的类型，还能够结合 decltype 来表示函数的返回值。使用新的特性可以让我们写出更加简洁，更加现代的代码。在 C++11 之前 auto 和 static 是对应的，表示变量是自动存储的，但是非 static 的局部变量默认都是自动存储的，因此这个关键字变得非常鸡肋，在 C++11 中赋予了新的含义，使用这个关键字能够像别的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-15 16:51" pubdate>
+              2021-09-15
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/15/final%E5%92%8Coverride/" target="_self">
+          final和override
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/15/final%E5%92%8Coverride/" target="_self">
+        <div>
+          finalC++ 中增加了 final 关键字来限制某个类不能被继承，或者某个虚函数不能被重写。如果使用 final 修饰函数，只能修饰虚函数，并且要把 final 关键字放到类或者函数的后面。 修饰函数如果使用 final 修饰函数，只能修饰虚函数，这样就能阻止子类重写父类的这个函数： 123456789101112131415161718192021222324252627class Base
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-15 10:17" pubdate>
+              2021-09-15
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/14/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" target="_self">
+          右值引用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/14/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" target="_self">
+        <div>
+          右值C++11 增加了一个新的类型，称为右值引用（R-value reference），标记为 &amp;&amp;。介绍右值引用类型之前，先了解什么是左值和右值：（1）左值 lvalue(loactor value)是指存储在内存中、有明确存储地址的数据（可以取地址）。（2）右值 rvalue(read value)是指可以提供数据值的数据（不可以取地址）。 区分左值与右值的便捷方法：（1）对表
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-14 16:55" pubdate>
+              2021-09-14
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/14/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
+          lambda 表达式
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/14/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
+        <div>
+          基本用法lambda 表达式是 C++11 最常用的特性之一，这是现代编程语言的一个特点，lambda 表达式的优点：（1）声明式的编程风格：匿名定义目标函数或函数对象，不需要额外写一个命名函数或函数对象。（2）简洁：避免了代码膨胀和功能分散，让开发更加高效。（3）在需要的时间和地点实现功能闭包，使程序更加灵活。lambda 表达式定义了一个匿名函数，并且可以捕获一定范围内的变量。 lambda
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-14 11:53" pubdate>
+              2021-09-14
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/13/constexpr/" target="_self">
+          constexpr
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/13/constexpr/" target="_self">
+        <div>
+          const在 C++11 之前只有 const 关键字，从功能上来说这个关键字有双重语义：变量只读，修饰常量。示例如下： 12345678910111213void func(const int num)&#123;    const int count = 24;    // int array[num];          // error，num 是一个只读变量，不是常量    int ar
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-13 11:00" pubdate>
+              2021-09-13
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/09/12/Cpp11/" target="_self">
           C++11
         </a>
@@ -246,371 +606,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/12/nullptr/" target="_self">
-          nullptr
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/12/nullptr/" target="_self">
-        <div>
-          指针空值类型 nullptr在 C++ 程序开发中，为了提高程序的健壮性，一般会在定义指针的同时完成初始化操作，或者在指针的指向尚未明确的情况下，都会给指针初始化为 NULL，避免产生野指针（没有明确指向的指针，操作这种指针可能导致程序发生异常）。C++98/03 标准中，将一个指针初始化为空指针的方式有两种： 12char *ptr = 0;char *ptr = NULL; 底层源码中 NUL
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-12 16:47" pubdate>
-              2021-09-12
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C-11/">#C++11</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/12/%E5%8E%9F%E5%A7%8B%E5%AD%97%E9%9D%A2%E9%87%8F/" target="_self">
-          原始字面量
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/12/%E5%8E%9F%E5%A7%8B%E5%AD%97%E9%9D%A2%E9%87%8F/" target="_self">
-        <div>
-          原始字面量在 C++11 中添加了定义原始字符串的字面量，定义方式为：R &quot;xxx(原始字符串)xxx&quot;，()两边的字符串可以省略。原始字面量 R 可以直接表示字符串的实际含义，而不需要额外对字符串做转译等操作。 在编程过程中，使用的字符串中常带有一些特殊字符，对于这些字符往往要做的处理，使用了原始字面量可以轻松的解决这个问题，比如打印路径： 12345678910111213
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-12 11:45" pubdate>
-              2021-09-12
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C-11/">#C++11</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/09/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" target="_self">
-          IO多路复用
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/09/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" target="_self">
-        <div>
-          IO 多路复用的介绍IO 多路转接也称为 IO 多路复用，它是一种网络通信的手段（机制），通过这种方式可以同时监测多个文件描述符并且这个过程是阻塞的，一旦检测到有文件描述符就绪（读数据&#x2F;写数据）程序的阻塞就会被解除，之后就可以基于这些（一个或多个）就绪的文件描述符进行通信。通过这种方式在单进程&#x2F;线程的场景下也可以在服务器端实现并发。常见的 IO 多路转接方式有：select、p
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-09 08:55" pubdate>
-              2021-09-09
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/31/%E6%89%8B%E5%86%99%E7%BA%BF%E7%A8%8B%E6%B1%A0-Cpp%E7%89%88/" target="_self">
-          手写线程池-C++版
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/31/%E6%89%8B%E5%86%99%E7%BA%BF%E7%A8%8B%E6%B1%A0-Cpp%E7%89%88/" target="_self">
-        <div>
-          重写C++版C 语言版的线程池改为 C++ 版，这样代码从使用和感观上都会更简洁一些。从 C 到 C++ 的迁移主要用到了 C++ 三大特性中的封装。线程池按照面向对象的思想进行拆分可以分为两部分：（1）任务队列类（2）线程池类 任务队列类声明，TaskQueue.hTask 是任务类，有两个成员分别是两个指针 void(*)(void*) 和 void*TaskQueue 是任务队列，提供了添加
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-31 23:00" pubdate>
-              2021-08-31
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/31/%E6%89%8B%E5%86%99%E7%BA%BF%E7%A8%8B%E6%B1%A0-C%E8%AF%AD%E8%A8%80%E7%89%88/" target="_self">
-          手写线程池-C语言版
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/31/%E6%89%8B%E5%86%99%E7%BA%BF%E7%A8%8B%E6%B1%A0-C%E8%AF%AD%E8%A8%80%E7%89%88/" target="_self">
-        <div>
-          线程池原理使用线程的时候就去创建一个线程，这样实现起来非常简便，但是就会有一个问题：如果并发的线程数量很多，并且每个线程都是执行一个时间很短的任务就结束了，这样频繁创建线程就会大大降低系统的效率，因为创建线程和销毁线程需要时间。 有没有一种办法使得线程可以复用，就是执行完一个任务，并不被销毁，而是继续执行其他的任务呢？线程池是一种多线程处理形式，处理过程中将任务添加到队列，然后在创建线程后自动启动
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-31 22:05" pubdate>
-              2021-08-31
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" target="_self">
-          C++原子变量
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" target="_self">
-        <div>
-          C++11 提供了一个原子类型 std::atomic&lt;T&gt;，通过这个原子类型管理的内部变量就可以称为原子变量，可以给原子类型指定任意的类型作为模板参数，因此原子变量可以是任意的类型。 C++11 内置了整形的原子变量，这样就可以更方便地使用原子变量。在多线程操作中，使用原子变量之后就不需要再使用互斥量来保护该变量，使用起来更简洁。因为对原子变量进行的操作只能是一个原子操作 atomi
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-28 08:55" pubdate>
-              2021-08-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-          C++线程同步
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-        <div>
-          线程同步进行多线程编程，如果多个线程需要对同一块内存进行操作，比如：同时读、同时写、同时读写。对于后两种情况来说，如果不做任何的人为干涉就会出现各种各样的错误数据。这是因为线程在运行的时候需要先得到 CPU 时间片，时间片用完之后需要放弃已获得的 CPU 资源，线程频繁地在就绪态和运行态之间切换，更复杂一点还可以在就绪态、运行态、挂起态之间切换，这样就会导致线程的执行顺序并不是有序的，而是随机的、
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-27 20:05" pubdate>
-              2021-08-27
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/25/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4this-thread/" target="_self">
-          命名空间this_thread
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/25/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4this-thread/" target="_self">
-        <div>
-          在 C++11 中不仅添加了线程类，还添加了一个关于线程的命名空间 std::this_thread，在这个命名空间中提供了四个公共的成员函数，通过这些成员函数就可以对当前线程进行相关的操作。 get_id()调用命名空间 std::this_thread 中的 get_id() 方法可以得到当前线程的线程 ID，函数原型如下： 1thread::id get_id() noexcept;  示例
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-25 19:07" pubdate>
-              2021-08-25
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/24/Cpp%E7%BA%BF%E7%A8%8B/" target="_self">
-          C++线程
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/24/Cpp%E7%BA%BF%E7%A8%8B/" target="_self">
-        <div>
-          线程C++11 之前，C++ 语言没有对并发编程提供语言级别的支持，在编写可移植的并发程序时存在诸多的不便。现在 C++11 中增加了线程以及线程相关的类，很方便地支持了并发编程，使得编写的多线程程序的可移植性得到了很大的提高。 C++11 中提供的线程类叫做 std::thread，基于这个类创建一个新的线程非常的简单，只需要提供线程函数或者函数对象，并且可以同时指定线程函数的参数。首先了解一下
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-24 08:26" pubdate>
-              2021-08-24
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/11/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="page-number" href="/page/11/#board">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/#board">13</a><a class="page-number" href="/page/14/#board">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/#board">31</a><a class="extend next" rel="next" href="/page/13/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/11/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="page-number" href="/page/11/#board">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/#board">13</a><a class="page-number" href="/page/14/#board">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/#board">32</a><a class="extend next" rel="next" href="/page/13/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
