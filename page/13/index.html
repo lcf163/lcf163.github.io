@@ -212,6 +212,206 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/09/15/final%E5%92%8Coverride/" target="_self">
+          final和override
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/15/final%E5%92%8Coverride/" target="_self">
+        <div>
+          finalC++ 中增加了 final 关键字来限制某个类不能被继承，或者某个虚函数不能被重写。如果使用 final 修饰函数，只能修饰虚函数，并且要把 final 关键字放到类或者函数的后面。 修饰函数如果使用 final 修饰函数，只能修饰虚函数，这样就能阻止子类重写父类的这个函数： 123456789101112131415161718192021222324252627class Base
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-15 10:17" pubdate>
+              2021-09-15
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/14/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" target="_self">
+          右值引用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/14/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" target="_self">
+        <div>
+          右值C++11 增加了一个新的类型，称为右值引用（R-value reference），标记为 &amp;&amp;。介绍右值引用类型之前，先了解什么是左值和右值：（1）左值 lvalue(loactor value)是指存储在内存中、有明确存储地址的数据（可以取地址）。（2）右值 rvalue(read value)是指可以提供数据值的数据（不可以取地址）。 区分左值与右值的便捷方法：（1）对表
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-14 16:55" pubdate>
+              2021-09-14
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/14/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
+          lambda 表达式
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/14/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
+        <div>
+          基本用法lambda 表达式是 C++11 最常用的特性之一，这是现代编程语言的一个特点，lambda 表达式的优点：（1）声明式的编程风格：匿名定义目标函数或函数对象，不需要额外写一个命名函数或函数对象。（2）简洁：避免了代码膨胀和功能分散，让开发更加高效。（3）在需要的时间和地点实现功能闭包，使程序更加灵活。lambda 表达式定义了一个匿名函数，并且可以捕获一定范围内的变量。 lambda
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-14 11:53" pubdate>
+              2021-09-14
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/13/constexpr/" target="_self">
+          constexpr
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/13/constexpr/" target="_self">
+        <div>
+          const在 C++11 之前只有 const 关键字，从功能上来说这个关键字有双重语义：变量只读，修饰常量。示例如下： 12345678910111213void func(const int num)&#123;    const int count = 24;    // int array[num];          // error，num 是一个只读变量，不是常量    int ar
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-13 11:00" pubdate>
+              2021-09-13
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C-11/">#C++11</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/12/Cpp11/" target="_self">
+          C++11
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/09/12/Cpp11/" target="_self">
+        <div>
+          原始字面量 nullptr constexpr 自动类型推导 final和override 模板的优化 using 委托构造和继承构造 列表初始化 基于范围的 for 循环 可调用对象包装器、绑定器 lambda表达式 右值引用 转移和完美转发 共享智能指针 独占智能指针 弱引用智能指针 参考资料https://subingwen.cn/cplusplus/https://subingwen.cn
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-12 18:46" pubdate>
+              2021-09-12
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%80%BB%E7%BB%93/">#总结</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/09/12/nullptr/" target="_self">
           nullptr
         </a>
@@ -390,206 +590,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2021-08-31 22:05" pubdate>
               2021-08-31
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" target="_self">
-          C++原子变量
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/28/Cpp%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" target="_self">
-        <div>
-          C++11 提供了一个原子类型 std::atomic&lt;T&gt;，通过这个原子类型管理的内部变量就可以称为原子变量，可以给原子类型指定任意的类型作为模板参数，因此原子变量可以是任意的类型。 C++11 内置了整形的原子变量，这样就可以更方便地使用原子变量。在多线程操作中，使用原子变量之后就不需要再使用互斥量来保护该变量，使用起来更简洁。因为对原子变量进行的操作只能是一个原子操作 atomi
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-28 08:55" pubdate>
-              2021-08-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-          C++线程同步
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/27/Cpp%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-        <div>
-          线程同步进行多线程编程，如果多个线程需要对同一块内存进行操作，比如：同时读、同时写、同时读写。对于后两种情况来说，如果不做任何的人为干涉就会出现各种各样的错误数据。这是因为线程在运行的时候需要先得到 CPU 时间片，时间片用完之后需要放弃已获得的 CPU 资源，线程频繁地在就绪态和运行态之间切换，更复杂一点还可以在就绪态、运行态、挂起态之间切换，这样就会导致线程的执行顺序并不是有序的，而是随机的、
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-27 20:05" pubdate>
-              2021-08-27
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/25/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4this-thread/" target="_self">
-          命名空间this_thread
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/25/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4this-thread/" target="_self">
-        <div>
-          在 C++11 中不仅添加了线程类，还添加了一个关于线程的命名空间 std::this_thread，在这个命名空间中提供了四个公共的成员函数，通过这些成员函数就可以对当前线程进行相关的操作。 get_id()调用命名空间 std::this_thread 中的 get_id() 方法可以得到当前线程的线程 ID，函数原型如下： 1thread::id get_id() noexcept;  示例
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-25 19:07" pubdate>
-              2021-08-25
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/24/Cpp%E7%BA%BF%E7%A8%8B/" target="_self">
-          C++线程
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/24/Cpp%E7%BA%BF%E7%A8%8B/" target="_self">
-        <div>
-          线程C++11 之前，C++ 语言没有对并发编程提供语言级别的支持，在编写可移植的并发程序时存在诸多的不便。现在 C++11 中增加了线程以及线程相关的类，很方便地支持了并发编程，使得编写的多线程程序的可移植性得到了很大的提高。 C++11 中提供的线程类叫做 std::thread，基于这个类创建一个新的线程非常的简单，只需要提供线程函数或者函数对象，并且可以同时指定线程函数的参数。首先了解一下
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-24 08:26" pubdate>
-              2021-08-24
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/20/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-          线程同步
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/08/20/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" target="_self">
-        <div>
-          线程同步的概念假设有 4 个线程 A、B、C、D，当前一个线程 A 对内存中的共享资源进行访问的时候，其他线程 B、C、D 都不可以对这块内存进行操作，直到线程 A 对这块内存访问完毕为止，B、C、D 中的一个才能访问这块内存，剩余的两个需要继续阻塞等待，以此类推，直至所有的线程都对这块内存操作完毕。线程对内存的这种访问方式就称之为线程同步，所谓的同步并不是多个线程同时对内存进行访问，而是按照先后
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-20 13:54" pubdate>
-              2021-08-20
             </time>
           </div>
         
